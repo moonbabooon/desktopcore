@@ -738,6 +738,104 @@
             font-size: 11px;
         }
 
+        /* Boot Screen */
+        .boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: none;
+        }
+
+        .boot-screen.hidden {
+            display: none;
+        }
+
+        .boot-logo {
+            font-size: 48px;
+            font-weight: bold;
+            color: #aaa;
+            text-shadow: 2px 2px 0 #555;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+        }
+
+        .boot-logo .version {
+            font-size: 24px;
+            color: #666;
+            vertical-align: super;
+        }
+
+        .boot-logo .tm {
+            font-size: 10px;
+            vertical-align: super;
+            margin-left: 2px;
+        }
+
+        .boot-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #aaa;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .boot-progress {
+            width: 300px;
+            height: 20px;
+            border: 2px solid #aaa;
+            margin-top: 30px;
+            position: relative;
+            background: #000;
+        }
+
+        .boot-progress-bar {
+            height: 100%;
+            background: #aaa;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .boot-message {
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 1.8;
+            min-height: 60px;
+        }
+
+        .boot-message .dots {
+            display: inline-block;
+            width: 20px;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .boot-logo {
+                font-size: 32px;
+            }
+            .boot-progress {
+                width: 80%;
+            }
+            .boot-message {
+                font-size: 10px;
+                padding: 0 20px;
+            }
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .desktop {
@@ -779,6 +877,21 @@
     </style>
 </head>
 <body>
+    <!-- Boot Screen -->
+    <div class="boot-screen" id="boot-screen">
+        <div class="boot-logo">
+            PARSA<span class="version">97</span><span class="tm">™</span>
+        </div>
+        <div class="boot-progress">
+            <div class="boot-progress-bar" id="boot-progress-bar"></div>
+        </div>
+        <div class="boot-message" id="boot-message">
+            Parsa Navidi Systems<br>
+            Copyright (c) 1997 Parsa Navidi Corp.<span class="dots">...</span>
+        </div>
+        <div class="boot-cursor"></div>
+    </div>
+
     <div class="desktop">
         <div class="wallpaper"></div>
         
@@ -1348,10 +1461,53 @@
             window.location.href = `mailto:parsanavidi@hotmail.ca?subject=Portfolio Contact from ${name}&body=${encodeURIComponent(message)}%0A%0AFrom: ${name} (${email})`;
         });
 
+        // Boot Animation
+        (function() {
+            const bootScreen = document.getElementById('boot-screen');
+            const progressBar = document.getElementById('boot-progress-bar');
+            const bootMessage = document.getElementById('boot-message');
+
+            const messages = [
+                'Detecting hardware...',
+                'Loading memory manager...',
+                'Initializing display drivers...',
+                'Starting Windows subsystem...',
+                'Loading system configuration...',
+                'Building desktop environment...',
+                'Starting system services...',
+                'Loading user preferences...',
+                'Launching applications...'
+            ];
+
+            let progress = 0;
+            let messageIndex = 0;
+            let dots = 0;
+
+            const bootInterval = setInterval(() => {
+                progress += Math.random() * 8 + 2;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = progress + '%';
+
+                if (progress > (messageIndex + 1) * 10 && messageIndex < messages.length) {
+                    dots = 0;
+                    bootMessage.innerHTML = messages[messageIndex] + '<span class="dots">...</span>';
+                    messageIndex++;
+                }
+
+                if (progress >= 100) {
+                    clearInterval(bootInterval);
+                    setTimeout(() => {
+                        bootScreen.classList.add('hidden');
+                    }, 800);
+                }
+            }, 150);
+        })();
+
         // Open about window by default
         setTimeout(() => {
             openWindow('about');
-        }, 500);
+        }, 4500);
     </script>
 </body>
 </html>
