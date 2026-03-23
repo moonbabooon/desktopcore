@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Computer - Parsa Navidi</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23c0c0c0' width='16' height='16'/><rect fill='%230055df' x='1' y='1' width='14' height='9'/><rect fill='%23808080' x='1' y='10' width='14' height='5'/></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Tahoma, Verdana, Segoe UI, sans-serif;
+            font-size: 11px;
+            overflow: hidden;
+            user-select: none;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Desktop */
+        .desktop {
+            width: 100%;
+            height: calc(100% - 32px);
+            background: linear-gradient(180deg, #3C7DD2 0%, #1D5CAB 50%, #0D3C73 100%);
+            position: relative;
+            padding: 10px;
+        }
+
+        /* Bliss Wallpaper Effect */
+        .wallpaper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(135, 206, 235, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(34, 139, 34, 0.2) 0%, transparent 40%),
+                linear-gradient(180deg, #5B9BD5 0%, #417EC9 40%, #2E6BA8 70%, #1B4F72 100%);
+            pointer-events: none;
+        }
+
+
+
+        .branding-header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .branding-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00a8e8 0%, #007ea7 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 20px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .branding-text h1 {
+            font-family: 'Georgia', serif;
+            font-size: 22px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        .branding-text p {
+            font-family: 'Trebuchet MS', sans-serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.85);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-top: 2px;
+        }
+
+        .branding-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+
+        /* Desktop Icons */
+        .desktop-icons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 75px;
+            padding: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .desktop-icon:hover, .desktop-icon.selected {
+            background: rgba(0, 102, 204, 0.5);
+            border: 1px dotted #fff;
+        }
+
+        .desktop-icon img {
+            width: 48px;
+            height: 48px;
+            image-rendering: pixelated;
+        }
+
+        .desktop-icon span {
+            color: #fff;
+            text-align: center;
+            margin-top: 2px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+            font-size: 11px;
+            word-wrap: break-word;
+            max-width: 70px;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 32px;
+            background: linear-gradient(180deg, #0c0c0c 0%, #c0c0c0 1%, #c0c0c0 100%);
+            display: flex;
+            align-items: center;
+            padding: 2px 4px;
+            z-index: 9999;
+            border-top: 1px solid #fff;
+        }
+
+        .start-button {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 6px;
+            background: linear-gradient(180deg, #fff 0%, #d4d4d4 50%, #b8b8b8 100%);
+            border: 1px solid;
+            border-color: #fff #808080 #808080 #fff;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 11px;
+            height: 24px;
+            margin-right: 4px;
+        }
+
+        .start-button:active {
+            background: linear-gradient(180deg, #b8b8b8 0%, #d4d4d4 50%, #fff 100%);
+            border-color: #808080 #fff #fff #808080;
+        }
+
+        .start-button img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .start-button span {
+            background: linear-gradient(180deg, #002060 0%, #0055DF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .taskbar-items {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .taskbar-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            height: 24px;
+            min-width: 120px;
+            max-width: 200px;
+            background: linear-gradient(180deg, #e0e0e0 0%, #c8c8c8 100%);
+            border: 1px solid;
+            border-color: #fff #707070 #707070 #fff;
+            cursor: pointer;
+            font-size: 11px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .taskbar-item.active {
+            background: linear-gradient(180deg, #fff 0%, #e0e0e0 100%);
+            border-color: #707070 #fff #fff #707070;
+        }
+
+        .taskbar-item img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .system-tray {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            height: 24px;
+            background: linear-gradient(180deg, #d4d4d4 0%, #c0c0c0 100%);
+            border: 1px solid;
+            border-color: #fff #606060 #606060 #fff;
+        }
+
+        .system-tray img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .clock {
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 8px;
+        }
+
+        /* Start Menu */
+        .start-menu {
+            position: fixed;
+            bottom: 32px;
+            left: 0;
+            width: 360px;
+            background: linear-gradient(180deg, #0055df 0%, #0046c8 100%);
+            border: 2px solid;
+            border-color: #0d47a1 #001a4d #001a4d #0d47a1;
+            display: none;
+            z-index: 10000;
+        }
+
+        .start-menu.open {
+            display: block;
+        }
+
+        .start-menu-sidebar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 24px;
+            background: linear-gradient(180deg, #003399 0%, #001a4d 100%);
+            border-right: 1px solid #00003d;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 4px;
+        }
+
+        .start-menu-sidebar span {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .start-menu-items {
+            margin-left: 24px;
+            padding: 4px 0;
+        }
+
+        .start-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .start-menu-item:hover {
+            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+        }
+
+        .start-menu-item img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .start-menu-item span {
+            font-size: 11px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+        }
+
+        .start-menu-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            margin: 4px 8px;
+        }
+
+        /* Windows */
+        .window {
+            position: absolute;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #606060 #606060 #fff;
+            box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
+            min-width: 200px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .window.minimized {
+            display: none;
+        }
+
+        .window.maximized {
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: calc(100% - 32px) !important;
+        }
+
+        .window-titlebar {
+            display: flex;
+            align-items: center;
+            padding: 2px 4px;
+            background: linear-gradient(180deg, #0a246a 0%, #a6caf0 100%);
+            cursor: move;
+        }
+
+        .window-titlebar.inactive {
+            background: linear-gradient(180deg, #808080 0%, #c0c0c0 100%);
+        }
+
+        .window-titlebar img {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+
+        .window-titlebar span {
+            flex: 1;
+            color: #fff;
+            font-weight: bold;
+            font-size: 11px;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .window-titlebar.inactive span {
+            color: #000;
+            text-shadow: none;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .window-btn {
+            width: 16px;
+            height: 14px;
+            background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%);
+            border: 1px solid;
+            border-color: #fff #606060 #606060 #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 0;
+            font-family: 'Marlett', sans-serif;
+        }
+
+        .window-btn:hover {
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+        }
+
+        .window-btn:active {
+            background: linear-gradient(180deg, #a0a0a0 0%, #c0c0c0 100%);
+            border-color: #606060 #fff #fff #606060;
+        }
+
+        .window-btn.close {
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: #fff;
+            text-shadow: none;
+        }
+
+        .window-content {
+            flex: 1;
+            background: #fff;
+            margin: 4px;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            overflow: auto;
+            padding: 12px;
+        }
+
+        /* Window Styles */
+        .about-window .window-content {
+            display: flex;
+            gap: 20px;
+            background: #c0c0c0;
+        }
+
+        .about-left {
+            width: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-left img {
+            width: 96px;
+            height: 96px;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            background: #fff;
+            padding: 4px;
+        }
+
+        .about-right {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .about-right h2 {
+            font-size: 18px;
+            color: #00004a;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #808080;
+            padding-bottom: 8px;
+        }
+
+        .about-right h3 {
+            font-size: 12px;
+            color: #000;
+            margin: 16px 0 8px 0;
+        }
+
+        .about-right p {
+            font-size: 11px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .about-right ul {
+            margin-left: 20px;
+            font-size: 11px;
+        }
+
+        .about-right li {
+            margin-bottom: 4px;
+        }
+
+        /* Projects Window */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .project-card {
+            background: #fff;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            padding: 8px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .project-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #0055DF 0%, #003399 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .project-info h4 {
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .project-info p {
+            font-size: 10px;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .project-info a {
+            font-size: 10px;
+            color: #0000ff;
+        }
+
+        /* Skills Window */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .skill-item {
+            background: #fff;
+            border: 1px solid;
+            border-color: #808080 #fff #fff #808080;
+            padding: 6px 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .skill-name {
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: #fff;
+            border: 1px solid;
+            border-color: #808080 #fff #fff #808080;
+            flex: 1;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(180deg, #0055DF 0%, #003399 100%);
+        }
+
+        /* Contact Window */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-row label {
+            width: 80px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .form-row input, .form-row textarea {
+            flex: 1;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            padding: 4px;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        .form-row textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        .btn {
+            padding: 6px 16px;
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+            border: 2px solid;
+            border-color: #fff #606060 #606060 #fff;
+            font-family: inherit;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%);
+        }
+
+        .btn:active {
+            border-color: #606060 #fff #fff #606060;
+        }
+
+        .contact-info {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #808080;
+        }
+
+        .contact-info p {
+            margin-bottom: 4px;
+        }
+
+        .contact-info a {
+            color: #0000ff;
+        }
+
+        /* Recycle Bin */
+        .recycle-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .recycle-content img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 12px;
+        }
+
+        .recycle-content p {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* My Documents */
+        .documents-list {
+            padding: 8px;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+
+        .document-item:hover {
+            background: #0055DF;
+            color: #fff;
+        }
+
+        .document-item img {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* IE Browser */
+        .browser-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 4px;
+            background: #d4d4d4;
+            border-bottom: 1px solid #808080;
+        }
+
+        .browser-toolbar button {
+            padding: 2px 8px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #606060 #606060 #fff;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .browser-toolbar button:hover {
+            background: #d8d8d8;
+        }
+
+        .browser-toolbar button:active {
+            border-color: #606060 #fff #fff #606060;
+        }
+
+        .browser-toolbar .address-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .browser-toolbar .address-bar input {
+            flex: 1;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            padding: 2px 4px;
+            font-size: 11px;
+        }
+
+        .browser-content {
+            background: #fff;
+            padding: 16px;
+            height: calc(100% - 30px);
+            overflow: auto;
+        }
+
+        .browser-content h1 {
+            font-size: 18px;
+            color: #0055DF;
+            margin-bottom: 12px;
+        }
+
+        .browser-content h2 {
+            font-size: 14px;
+            color: #333;
+            margin: 16px 0 8px 0;
+        }
+
+        .browser-content p {
+            font-size: 11px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .browser-content ul {
+            margin-left: 20px;
+            font-size: 11px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .desktop {
+                height: calc(100% - 40px);
+            }
+            
+            .taskbar {
+                height: 40px;
+            }
+            
+            .start-menu {
+                width: 280px;
+            }
+            
+            .desktop-icons {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 4px;
+            }
+            
+            .desktop-icon {
+                width: 100%;
+            }
+            
+            .projects-grid, .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-window .window-content {
+                flex-direction: column;
+            }
+            
+            .about-left {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        <div class="wallpaper"></div>
+        
+        <!-- Desktop Icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" data-window="about">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%23fff' x='4' y='4' width='40' height='40'/%3E%3Crect fill='%230055df' x='8' y='8' width='32' height='24'/%3E%3Ccircle fill='%230055df' cx='24' cy='28' r='8'/%3E%3C/svg%3E" alt="My Info">
+                <span>My Info</span>
+            </div>
+            <div class="desktop-icon" data-window="projects">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%23ffeb3b' x='4' y='8' width='18' height='14'/%3E%3Crect fill='%234caf50' x='26' y='8' width='18' height='14'/%3E%3Crect fill='%23f44336' x='4' y='26' width='18' height='14'/%3E%3Crect fill='%232196f3' x='26' y='26' width='18' height='14'/%3E%3C/svg%3E" alt="Projects">
+                <span>Projects</span>
+            </div>
+            <div class="desktop-icon" data-window="skills">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%23e91e63' x='8' y='8' width='32' height='32' rx='4'/%3E%3Ctext x='24' y='30' text-anchor='middle' fill='%23fff' font-size='16' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E" alt="Skills">
+                <span>Skills</span>
+            </div>
+            <div class="desktop-icon" data-window="contact">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%230055df' x='4' y='12' width='40' height='28' rx='2'/%3E%3Cpolygon fill='%23fff' points='24,24 8,36 40,36'/%3E%3C/svg%3E" alt="Contact">
+                <span>Contact</span>
+            </div>
+            <div class="desktop-icon" data-window="resume">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%23fff' x='8' y='4' width='32' height='40' rx='1'/%3E%3Crect fill='%23f44336' x='12' y='4' width='8' height='4'/%3E%3Cline x1='12' y1='14' x2='36' y2='14' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='12' y1='20' x2='36' y2='20' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='12' y1='26' x2='28' y2='26' stroke='%23ccc' stroke-width='2'/%3E%3C/svg%3E" alt="Resume">
+                <span>Resume</span>
+            </div>
+            <div class="desktop-icon" data-action="recycle">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Cpath fill='%23708090' d='M12,16 L14,40 L34,40 L36,16 Z M18,16 L18,12 L30,12 L30,16 M16,12 L32,12 L32,8 L16,8 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
+                <span>Recycle Bin</span>
+            </div>
+        </div>
+
+        <!-- Windows -->
+        <div class="window about-window" id="window-about" style="top: 60px; left: 150px; width: 520px; height: 380px;">
+            <div class="window-titlebar" data-window="about">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23f5f5f5' width='16' height='16' rx='3'/%3E%3Ccircle fill='none' stroke='%23007ea7' stroke-width='1' cx='8' cy='6' r='3'/%3E%3Cpath fill='%23007ea7' d='M5 12 C5 10, 11 10, 11 12 L11 13 L5 13 Z'/%3E%3C/svg%3E">
+                <span>About Me - Parsa Navidi</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="about">_</button>
+                    <button class="window-btn maximize-btn" data-window="about">▢</button>
+                    <button class="window-btn close-btn" data-window="about">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="about-left">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect fill='%23333' width='96' height='96'/%3E%3Ccircle fill='%23ffd93d' cx='48' cy='36' r='20'/%3E%3Cellipse fill='%23333' cx='48' cy='90' rx='32' ry='24'/%3E%3C/svg%3E" alt="Profile">
+                    <span style="font-size: 10px; color: #000;">Creative Strategist</span>
+                </div>
+                <div class="about-right">
+                    <h2>Parsa Navidi</h2>
+                    <h3>Creative Strategist // Content Designer</h3>
+                    <p>I'm a multi-disciplinary marketing professional based in Toronto, Canada. From York University's Cinema and Media Arts to the front lines of digital marketing, my journey has been defined by one obsession: the power of story.</p>
+                    <p>Today, I help brands find their voice. Whether it's a landing page that needs to convert, a blog that demands attention, or a brand that needs to stand for something — I'm the guy who figures out what to say and how to say it.</p>
+                    <h3>Currently</h3>
+                    <ul>
+                        <li>Writer at <strong>Yardi</strong></li>
+                        <li>Freelance Copywriter & Creative Strategist</li>
+                    </ul>
+                    <h3>Education</h3>
+                    <ul>
+                        <li>Bachelor's Degree, Film and Media Arts — York University</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="window projects-window minimized" id="window-projects" style="top: 100px; left: 200px; width: 580px; height: 420px;">
+            <div class="window-titlebar inactive" data-window="projects">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23ffeb3b' x='1' y='1' width='6' height='6'/%3E%3Crect fill='%234caf50' x='9' y='1' width='6' height='6'/%3E%3Crect fill='%23f44336' x='1' y='9' width='6' height='6'/%3E%3Crect fill='%232196f3' x='9' y='9' width='6' height='6'/%3E%3C/svg%3E">
+                <span>My Projects</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="projects">_</button>
+                    <button class="window-btn maximize-btn" data-window="projects">▢</button>
+                    <button class="window-btn close-btn" data-window="projects">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-icon">📊</div>
+                        <div class="project-info">
+                            <h4>Yardi Canada Market Reports</h4>
+                            <p>Complete redesign of Canadian multifamily market reports — transforming complex data into actionable insights.</p>
+                            <a href="https://info.yardi.com/multifamily-market-reports-for-canada" target="_blank">View Project →</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">🎙️</div>
+                        <div class="project-info">
+                            <h4>Jas Takhar Podcast</h4>
+                            <p>Strategic content design for Canadian real estate thought leadership.</p>
+                            <a href="https://meetjastakhar.com/" target="_blank">View Podcast →</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">🔧</div>
+                        <div class="project-info">
+                            <h4>Plumb Wize</h4>
+                            <p>Conversion-focused service pages for Canadian plumbing brand.</p>
+                            <a href="https://www.plumbwize.ca/drain-services/drain-repair/" target="_blank">View Project →</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">☀️</div>
+                        <div class="project-info">
+                            <h4>My Solar Group</h4>
+                            <p>Brand voice and web copy for sustainable energy company.</p>
+                            <a href="https://www.mysolargroup.ca/" target="_blank">View Project →</a>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 16px; font-size: 12px; color: #0055DF;">Published Articles</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+                    <a href="https://blog.shoplazza.com/what-is-buyer-persona" target="_blank" style="background: #e8e8e8; padding: 4px 8px; font-size: 10px; color: #000;">Shopify — Buyer Personas</a>
+                    <a href="https://www.yardibreeze.ca/blog/2025/02/women-in-tech-parisa/" target="_blank" style="background: #e8e8e8; padding: 4px 8px; font-size: 10px; color: #000;">Yardi — Women in Tech</a>
+                    <a href="https://www.yardi.com/blog/yasc-canada-2025/" target="_blank" style="background: #e8e8e8; padding: 4px 8px; font-size: 10px; color: #000;">Yardi — YASC Canada</a>
+                    <a href="https://www.reccanada.com/blog/28doors" target="_blank" style="background: #e8e8e8; padding: 4px 8px; font-size: 10px; color: #000;">REC Canada — 28 Doors</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="window skills-window minimized" id="window-skills" style="top: 140px; left: 250px; width: 400px; height: 360px;">
+            <div class="window-titlebar inactive" data-window="skills">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23e91e63' x='1' y='1' width='14' height='14' rx='2'/%3E%3Ctext x='8' y='12' text-anchor='middle' fill='%23fff' font-size='10' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+                <span>Skills & Expertise</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="skills">_</button>
+                    <button class="window-btn maximize-btn" data-window="skills">▢</button>
+                    <button class="window-btn close-btn" data-window="skills">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <span class="skill-name">Copywriting</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Content Strategy</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Creative Direction</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">SEO</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Brand Storytelling</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 92%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Social Media</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 78%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Email Marketing</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 75%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Project Management</span>
+                        <div class="skill-bar"><div class="skill-fill" style="width: 82%;"></div></div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 16px; font-size: 12px;">Tools & Platforms</h3>
+                <p style="font-size: 11px; margin-top: 8px;">Salesforce, HubSpot, WordPress, Webflow, Klaviyo, Hootsuite, Google Analytics, Adobe Creative Suite, Figma, Notion</p>
+            </div>
+        </div>
+
+        <div class="window contact-window minimized" id="window-contact" style="top: 180px; left: 300px; width: 450px; height: 400px;">
+            <div class="window-titlebar inactive" data-window="contact">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%230055df' x='1' y='4' width='14' height='10' rx='1'/%3E%3Cpolygon fill='%23fff' points='8,7 2,13 14,13'/%3E%3C/svg%3E">
+                <span>Contact Me</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="contact">_</button>
+                    <button class="window-btn maximize-btn" data-window="contact">▢</button>
+                    <button class="window-btn close-btn" data-window="contact">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="contact-form">
+                    <div class="form-row">
+                        <label>Name:</label>
+                        <input type="text" placeholder="Your name">
+                    </div>
+                    <div class="form-row">
+                        <label>Email:</label>
+                        <input type="email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-row">
+                        <label>Message:</label>
+                        <textarea placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <div class="form-row" style="justify-content: flex-end;">
+                        <button class="btn">Send Message</button>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> <a href="mailto:parsanavidi@hotmail.ca">parsanavidi@hotmail.ca</a></p>
+                    <p><strong>LinkedIn:</strong> <a href="https://ca.linkedin.com/in/parsanavidi" target="_blank">linkedin.com/in/parsanavidi</a></p>
+                    <p><strong>Location:</strong> Toronto, Canada</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="window resume-window minimized" id="window-resume" style="top: 120px; left: 180px; width: 500px; height: 450px;">
+            <div class="window-titlebar inactive" data-window="resume">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23fff' x='1' y='1' width='14' height='14' rx='1'/%3E%3Crect fill='%23f44336' x='3' y='1' width='4' height='2'/%3E%3C/svg%3E">
+                <span>Resume - Parsa Navidi.pdf</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="resume">_</button>
+                    <button class="window-btn maximize-btn" data-window="resume">▢</button>
+                    <button class="window-btn close-btn" data-window="resume">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2 style="color: #0055DF; font-size: 16px; margin-bottom: 12px;">PARSA NAVIDI</h2>
+                <p style="font-size: 11px; color: #666; margin-bottom: 12px;">Creative Strategist | Content Designer | Copywriter<br>Toronto, Canada | parsanavidi@hotmail.ca</p>
+                
+                <h3 style="font-size: 12px; border-bottom: 1px solid #808080; padding-bottom: 4px; margin-bottom: 8px;">EXPERIENCE</h3>
+                <div style="margin-bottom: 12px;">
+                    <p style="font-weight: bold; font-size: 11px;">Writer — Yardi</p>
+                    <p style="font-size: 10px; color: #666;">2024 - Present</p>
+                    <p style="font-size: 11px;">Multi-disciplinary marketing professional creating content for brand awareness and digital presence.</p>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <p style="font-weight: bold; font-size: 11px;">Freelance Copywriter & Creative Strategist</p>
+                    <p style="font-size: 10px; color: #666;">2021 - Present</p>
+                    <p style="font-size: 11px;">Helping brands find their voice through compelling copy, content strategy, and creative direction.</p>
+                </div>
+                
+                <h3 style="font-size: 12px; border-bottom: 1px solid #808080; padding-bottom: 4px; margin-bottom: 8px;">EDUCATION</h3>
+                <p style="font-weight: bold; font-size: 11px;">Bachelor's Degree, Film and Media Arts — York University</p>
+                <p style="font-size: 10px; color: #666; margin-bottom: 12px;">2017 - 2021</p>
+                
+                <h3 style="font-size: 12px; border-bottom: 1px solid #808080; padding-bottom: 4px; margin-bottom: 8px;">SKILLS</h3>
+                <p style="font-size: 11px;">Copywriting, Content Strategy, Creative Direction, SEO, Brand Storytelling, Social Media Marketing, Email Marketing</p>
+            </div>
+        </div>
+
+        <div class="window recycle-window minimized" id="window-recycle" style="top: 80px; left: 220px; width: 300px; height: 220px;">
+            <div class="window-titlebar inactive" data-window="recycle">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/%3E%3C/svg%3E">
+                <span>Recycle Bin</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="recycle">_</button>
+                    <button class="window-btn maximize-btn" data-window="recycle">▢</button>
+                    <button class="window-btn close-btn" data-window="recycle">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="recycle-content">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23708090' d='M18,20 L22,52 L42,52 L46,20 Z M26,20 L26,16 L38,16 L38,20 M22,16 L42,16 L42,12 L22,12 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
+                    <p>Recycle Bin is empty</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <button class="start-button" id="start-button">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23ff0000' x='1' y='1' width='6' height='6'/%3E%3Crect fill='%2300ff00' x='9' y='1' width='6' height='6'/%3E%3Crect fill='%230000ff' x='1' y='9' width='6' height='6'/%3E%3Crect fill='%23ffff00' x='9' y='9' width='6' height='6'/%3E%3C/svg%3E">
+            <span>Start</span>
+        </button>
+        <div class="taskbar-items" id="taskbar-items"></div>
+        <div class="system-tray">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23808080' d='M2,14 L14,14 L14,12 L2,12 Z M3,11 L13,11 L13,8 L3,8 Z M4,7 L12,7 L12,5 L4,5 Z'/%3E%3C/svg%3E" alt="Volume">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' d='M1,8 L1,7 L4,4 L4,11 Z M5,6 L8,2 L8,13 Z M9,7 L15,3 L15,12 Z'/%3E%3C/svg%3E" alt="Network">
+        </div>
+        <div class="clock" id="clock">12:00 PM</div>
+    </div>
+
+    <!-- Start Menu -->
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-sidebar">
+            <span>Parsa</span>
+        </div>
+        <div class="start-menu-items">
+            <div class="start-menu-item" data-window="about">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23fff' x='2' y='2' width='28' height='28'/%3E%3Ccircle fill='%230055df' cx='16' cy='16' r='8'/%3E%3C/svg%3E">
+                <span>My Info</span>
+            </div>
+            <div class="start-menu-item" data-window="projects">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23ffeb3b' x='2' y='4' width='12' height='10'/%3E%3Crect fill='%234caf50' x='18' y='4' width='12' height='10'/%3E%3Crect fill='%23f44336' x='2' y='18' width='12' height='10'/%3E%3Crect fill='%232196f3' x='18' y='18' width='12' height='10'/%3E%3C/svg%3E">
+                <span>Projects</span>
+            </div>
+            <div class="start-menu-item" data-window="skills">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23e91e63' x='4' y='4' width='24' height='24' rx='4'/%3E%3Ctext x='16' y='22' text-anchor='middle' fill='%23fff' font-size='14' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+                <span>Skills</span>
+            </div>
+            <div class="start-menu-item" data-window="contact">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%230055df' x='2' y='8' width='28' height='18' rx='2'/%3E%3Cpolygon fill='%23fff' points='16,14 4,24 28,24'/%3E%3C/svg%3E">
+                <span>Contact</span>
+            </div>
+            <div class="start-menu-item" data-window="resume">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23fff' x='4' y='2' width='24' height='28' rx='1'/%3E%3Cline x1='8' y1='10' x2='24' y2='10' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='8' y1='16' x2='24' y2='16' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='8' y1='22' x2='20' y2='22' stroke='%23ccc' stroke-width='2'/%3E%3C/svg%3E">
+                <span>Resume</span>
+            </div>
+            <div class="start-menu-divider"></div>
+            <div class="start-menu-item" data-window="recycle">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Cpath fill='%23708090' d='M8,10 L10,26 L22,26 L24,10 Z M12,10 L12,6 L20,6 L20,10 M10,6 L22,6 L22,4 L10,4 Z'/%3E%3C/svg%3E">
+                <span>Recycle Bin</span>
+            </div>
+            <div class="start-menu-divider"></div>
+            <div class="start-menu-item" onclick="window.close()">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23fff' x='4' y='4' width='24' height='24' rx='1' stroke='%23f44336' stroke-width='2'/%3E%3Cline x1='10' y1='10' x2='22' y2='22' stroke='%23f44336' stroke-width='2'/%3E%3Cline x1='22' y1='10' x2='10' y2='22' stroke='%23f44336' stroke-width='2'/%3E%3C/svg%3E">
+                <span>Log Off</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Window management
+        let activeWindow = null;
+        let dragOffset = { x: 0, y: 0 };
+        let isDragging = false;
+        let windowZIndex = 100;
+        const openWindows = new Set(['about']);
+
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            document.getElementById('clock').textContent = `${hours}:${minutes} ${ampm}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Start menu
+        const startButton = document.getElementById('start-button');
+        const startMenu = document.getElementById('start-menu');
+
+        startButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            startMenu.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!startMenu.contains(e.target) && !startButton.contains(e.target)) {
+                startMenu.classList.remove('open');
+            }
+        });
+
+        // Open window
+        function openWindow(windowId) {
+            const window = document.getElementById('window-' + windowId);
+            if (!window) return;
+
+            window.classList.remove('minimized');
+            window.style.zIndex = ++windowZIndex;
+            startMenu.classList.remove('open');
+            
+            openWindows.add(windowId);
+            updateTaskbar();
+            updateTitleBarState(windowId, true);
+        }
+
+        // Close window
+        function closeWindow(windowId) {
+            const window = document.getElementById('window-' + windowId);
+            if (!window) return;
+
+            window.classList.add('minimized');
+            openWindows.delete(windowId);
+            updateTaskbar();
+        }
+
+        // Minimize window
+        function minimizeWindow(windowId) {
+            const window = document.getElementById('window-' + windowId);
+            if (!window) return;
+
+            window.classList.add('minimized');
+            window.classList.add('minimized');
+        }
+
+        // Maximize window
+        function maximizeWindow(windowId) {
+            const window = document.getElementById('window-' + windowId);
+            if (!window) return;
+
+            window.classList.toggle('maximized');
+        }
+
+        // Update taskbar
+        function updateTaskbar() {
+            const taskbarItems = document.getElementById('taskbar-items');
+            taskbarItems.innerHTML = '';
+
+            const windowIcons = {
+                'about': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle fill='%230055df' cx='8' cy='8' r='6'/><circle fill='%23fff' cx='6' cy='6' r='2'/></svg>`,
+                'projects': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23ffeb3b' x='1' y='1' width='6' height='6'/><rect fill='%234caf50' x='9' y='1' width='6' height='6'/><rect fill='%23f44336' x='1' y='9' width='6' height='6'/><rect fill='%232196f3' x='9' y='9' width='6' height='6'/></svg>`,
+                'skills': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23e91e63' x='1' y='1' width='14' height='14' rx='2'/><text x='8' y='12' text-anchor='middle' fill='%23fff' font-size='10' font-weight='bold'>S</text></svg>`,
+                'contact': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%230055df' x='1' y='4' width='14' height='10' rx='1'/><polygon fill='%23fff' points='8,7 2,13 14,13'/></svg>`,
+                'resume': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23fff' x='1' y='1' width='14' height='14' rx='1'/><line x1='4' y1='5' x2='12' y2='5' stroke='%23ccc' stroke-width='1'/><line x1='4' y1='8' x2='12' y2='8' stroke='%23ccc' stroke-width='1'/><line x1='4' y1='11' x2='10' y2='11' stroke='%23ccc' stroke-width='1'/></svg>`,
+                'recycle': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/></svg>`
+            };
+
+            const windowTitles = {
+                'about': 'About Me',
+                'projects': 'Projects',
+                'skills': 'Skills',
+                'contact': 'Contact',
+                'resume': 'Resume.pdf',
+                'recycle': 'Recycle Bin'
+            };
+
+            openWindows.forEach(windowId => {
+                const item = document.createElement('div');
+                item.className = 'taskbar-item active';
+                item.dataset.window = windowId;
+                item.innerHTML = windowIcons[windowId] + `<span>${windowTitles[windowId]}</span>`;
+                item.addEventListener('click', () => {
+                    const win = document.getElementById('window-' + windowId);
+                    if (win.classList.contains('minimized')) {
+                        win.classList.remove('minimized');
+                        win.style.zIndex = ++windowZIndex;
+                    } else if (activeWindow === windowId) {
+                        minimizeWindow(windowId);
+                    } else {
+                        win.style.zIndex = ++windowZIndex;
+                    }
+                    updateTitleBarState(windowId, true);
+                });
+                taskbarItems.appendChild(item);
+            });
+        }
+
+        // Update title bar state
+        function updateTitleBarState(windowId, active) {
+            const titlebar = document.querySelector(`.window-titlebar[data-window="${windowId}"]`);
+            if (titlebar) {
+                titlebar.classList.toggle('inactive', !active);
+            }
+        }
+
+        // Desktop icons click handler
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            icon.addEventListener('dblclick', () => {
+                const windowId = icon.dataset.window;
+                if (windowId) {
+                    openWindow(windowId);
+                }
+            });
+        });
+
+        // Start menu items click handler
+        document.querySelectorAll('.start-menu-item[data-window]').forEach(item => {
+            item.addEventListener('click', () => {
+                const windowId = item.dataset.window;
+                if (windowId) {
+                    openWindow(windowId);
+                }
+            });
+        });
+
+        // Window control buttons
+        document.querySelectorAll('.minimize-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                minimizeWindow(btn.dataset.window);
+            });
+        });
+
+        document.querySelectorAll('.maximize-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                maximizeWindow(btn.dataset.window);
+            });
+        });
+
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                closeWindow(btn.dataset.window);
+            });
+        });
+
+        // Window dragging
+        document.querySelectorAll('.window-titlebar').forEach(titlebar => {
+            titlebar.addEventListener('mousedown', (e) => {
+                if (e.target.classList.contains('window-btn')) return;
+                
+                const windowId = titlebar.dataset.window;
+                const window = document.getElementById('window-' + windowId);
+                if (!window || window.classList.contains('maximized')) return;
+
+                isDragging = true;
+                activeWindow = windowId;
+                window.style.zIndex = ++windowZIndex;
+
+                const rect = window.getBoundingClientRect();
+                dragOffset.x = e.clientX - rect.left;
+                dragOffset.y = e.clientY - rect.top;
+
+                updateTitleBarState(windowId, true);
+                openWindows.forEach(id => {
+                    if (id !== windowId) updateTitleBarState(id, false);
+                });
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging || !activeWindow) return;
+
+            const window = document.getElementById('window-' + activeWindow);
+            if (!window) return;
+
+            const desktop = document.querySelector('.desktop');
+            const desktopRect = desktop.getBoundingClientRect();
+
+            let newX = e.clientX - dragOffset.x;
+            let newY = e.clientY - dragOffset.y;
+
+            newX = Math.max(0, Math.min(newX, desktopRect.width - window.offsetWidth));
+            newY = Math.max(0, Math.min(newY, desktopRect.height - window.offsetHeight));
+
+            window.style.left = newX + 'px';
+            window.style.top = newY + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Desktop icon selection
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+                icon.classList.add('selected');
+            });
+        });
+
+        // Deselect on desktop click
+        document.querySelector('.desktop').addEventListener('click', (e) => {
+            if (e.target.classList.contains('desktop') || e.target.classList.contains('wallpaper')) {
+                document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+            }
+        });
+
+        // Click to focus window
+        document.querySelectorAll('.window').forEach(window => {
+            window.addEventListener('mousedown', () => {
+                const windowId = window.id.replace('window-', '');
+                window.style.zIndex = ++windowZIndex;
+                activeWindow = windowId;
+                updateTitleBarState(windowId, true);
+                openWindows.forEach(id => {
+                    if (id !== windowId) updateTitleBarState(id, false);
+                });
+            });
+        });
+
+        // Contact form
+        document.querySelector('.contact-form .btn').addEventListener('click', () => {
+            const name = document.querySelector('input[type="text"]').value;
+            const email = document.querySelector('input[type="email"]').value;
+            const message = document.querySelector('textarea').value;
+            
+            if (!name || !email || !message) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            window.location.href = `mailto:parsanavidi@hotmail.ca?subject=Portfolio Contact from ${name}&body=${encodeURIComponent(message)}%0A%0AFrom: ${name} (${email})`;
+        });
+
+        // Open about window by default
+        setTimeout(() => {
+            openWindow('about');
+        }, 500);
+    </script>
+</body>
+</html>
