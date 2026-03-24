@@ -838,40 +838,303 @@
 
         /* Mobile */
         @media (max-width: 768px) {
+            body {
+                font-size: 12px;
+                overflow: hidden;
+                touch-action: manipulation;
+            }
+            
             .desktop {
-                height: calc(100% - 40px);
+                height: calc(100% - 48px);
+                padding: 8px;
             }
             
-            .taskbar {
-                height: 40px;
+            .branding-header {
+                height: 50px;
+                padding: 0 12px;
             }
             
-            .start-menu {
-                width: 280px;
+            .branding-logo {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+            
+            .branding-text h1 {
+                font-size: 16px;
+            }
+            
+            .branding-text p {
+                font-size: 10px;
             }
             
             .desktop-icons {
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 4px;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+                top: 50px;
+                left: 8px;
+                right: 8px;
             }
             
             .desktop-icon {
                 width: 100%;
+                padding: 6px 2px;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .desktop-icon img {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .desktop-icon span {
+                font-size: 9px;
+                max-width: 60px;
+            }
+            
+            .taskbar {
+                height: 48px;
+                padding: 4px 6px;
+            }
+            
+            .start-button {
+                padding: 2px 8px;
+                font-size: 10px;
+            }
+            
+            .start-button span {
+                display: none;
+            }
+            
+            .taskbar-item {
+                min-width: 80px;
+                max-width: 120px;
+                padding: 2px 6px;
+                font-size: 10px;
+            }
+            
+            .taskbar-item span {
+                display: none;
+            }
+            
+            .taskbar-item img {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .system-tray {
+                padding: 2px 4px;
+            }
+            
+            .clock {
+                font-size: 10px;
+                padding: 0 4px;
+            }
+            
+            .start-menu {
+                width: 100%;
+                max-width: 320px;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+            }
+            
+            .start-menu-item {
+                padding: 10px 12px;
+            }
+            
+            .start-menu-item img {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .start-menu-item span {
+                font-size: 12px;
+            }
+            
+            .window {
+                position: fixed !important;
+                top: 50px !important;
+                left: 8px !important;
+                right: 8px !important;
+                width: auto !important;
+                max-width: none !important;
+                height: calc(100vh - 100px) !important;
+                min-width: 0 !important;
+                border-width: 1px;
+                font-size: 12px;
+            }
+            
+            .window.maximized {
+                top: 50px !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                height: calc(100vh - 98px) !important;
+            }
+            
+            .window-titlebar {
+                padding: 4px;
+                min-height: 28px;
+            }
+            
+            .window-titlebar img {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .window-titlebar span {
+                font-size: 10px;
+                max-width: 100px;
+            }
+            
+            .window-btn {
+                width: 20px;
+                height: 16px;
+                font-size: 10px;
+            }
+            
+            .window-content {
+                padding: 8px;
+                margin: 2px;
             }
             
             .projects-grid, .skills-grid {
                 grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .project-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .project-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
             }
             
             .about-window .window-content {
                 flex-direction: column;
+                gap: 12px;
             }
             
             .about-left {
                 width: 100%;
                 flex-direction: row;
                 justify-content: center;
+                gap: 12px;
+            }
+            
+            .about-left img {
+                width: 72px;
+                height: 72px;
+            }
+            
+            .about-left span {
+                display: none;
+            }
+            
+            .about-right h2 {
+                font-size: 14px;
+            }
+            
+            .about-right h3 {
+                font-size: 11px;
+                margin: 10px 0 6px 0;
+            }
+            
+            .about-right p {
+                font-size: 10px;
+            }
+            
+            .skill-item {
+                padding: 4px 6px;
+            }
+            
+            .skill-name {
+                font-size: 10px;
+                min-width: 80px;
+            }
+            
+            .contact-form .form-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .contact-form label {
+                width: 100%;
+                margin-bottom: 4px;
+            }
+            
+            .form-row input, .form-row textarea {
+                width: 100%;
+            }
+            
+            .browser-toolbar {
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            
+            .browser-toolbar button {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+            
+            .browser-toolbar .address-bar {
+                width: 100%;
+                order: 3;
+            }
+            
+            .resume-window .window-content {
+                padding: 8px;
+            }
+            
+            .resume-window h2 {
+                font-size: 14px;
+            }
+            
+            .resume-window h3 {
+                font-size: 11px;
+            }
+            
+            .resume-window p {
+                font-size: 10px;
+            }
+            
+            .boot-screen {
+                padding: 16px;
+            }
+            
+            .boot-logo {
+                font-size: 24px;
+            }
+            
+            .boot-logo .version {
+                font-size: 16px;
+            }
+            
+            .boot-progress {
+                width: 90%;
+            }
+            
+            .boot-message {
+                font-size: 10px;
+                padding: 0 16px;
+            }
+        }
+        
+        /* Touch optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .desktop-icon:active, 
+            .window-btn:active,
+            .start-button:active,
+            .taskbar-item:active,
+            .start-menu-item:active {
+                opacity: 0.8;
             }
         }
     </style>
