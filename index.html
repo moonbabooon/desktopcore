@@ -1617,6 +1617,16 @@
             });
         });
 
+        // Desktop icons click handler
+        document.querySelectorAll('.desktop-icon[data-window]').forEach(icon => {
+            icon.addEventListener('click', () => {
+                const windowId = icon.dataset.window;
+                if (windowId) {
+                    openWindow(windowId);
+                }
+            });
+        });
+
         // Window control buttons
         document.querySelectorAll('.minimize-btn').forEach(btn => {
             btn.addEventListener('click', () => {
