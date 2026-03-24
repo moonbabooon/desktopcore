@@ -1475,7 +1475,7 @@
         let dragOffset = { x: 0, y: 0 };
         let isDragging = false;
         let windowZIndex = 100;
-        const openWindows = new Set(['about']);
+        const openWindows = new Set();
 
         // Clock
         function updateClock() {
@@ -1778,10 +1778,6 @@
             }, 150);
         })();
 
-        // Open about window by default
-        setTimeout(() => {
-            openWindow('about');
-        }, 4500);
     </script>
 </body>
 </html>
