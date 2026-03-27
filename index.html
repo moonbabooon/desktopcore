@@ -1181,19 +1181,19 @@
             text-shadow: 0 0 20px currentColor;
         }
 
-        /* Clippy */
+        /* ── Clippy ─────────────────────────────────────────── */
         .clippy-wrap {
             position: fixed;
             bottom: 50px;
-            right: 16px;
+            left: 30px;
             z-index: 9995;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            gap: 6px;
+            align-items: center;
+            gap: 4px;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.5s, left 1.8s cubic-bezier(0.45,0,0.55,1), bottom 1.8s cubic-bezier(0.45,0,0.55,1);
         }
         .clippy-wrap.visible {
             opacity: 1;
@@ -1202,40 +1202,83 @@
         .clippy-bubble {
             background: #ffffe1;
             border: 1px solid #c8b400;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-            padding: 8px 12px;
-            max-width: 220px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+            padding: 8px 12px 8px 10px;
+            max-width: 210px;
             font-size: 11px;
             font-family: Tahoma, sans-serif;
             line-height: 1.5;
             position: relative;
             cursor: pointer;
+            transition: opacity 0.3s;
+            border-radius: 2px;
         }
         .clippy-bubble::after {
             content: '';
             position: absolute;
-            bottom: -8px;
-            right: 22px;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
             border: 5px solid transparent;
             border-top-color: #c8b400;
         }
         .clippy-bubble::before {
             content: '';
             position: absolute;
-            bottom: -6px;
-            right: 23px;
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
             border: 4px solid transparent;
             border-top-color: #ffffe1;
             z-index: 1;
         }
         .clippy-svg {
-            width: 58px;
-            height: 72px;
+            width: 72px;
+            height: 90px;
             cursor: pointer;
-            transition: transform 0.2s;
-            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3));
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
+            transform-origin: bottom center;
         }
-        .clippy-svg:hover { transform: rotate(-8deg) scale(1.08); }
+
+        /* Idle float */
+        @keyframes clippyFloat {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+        /* Excited bounce */
+        @keyframes clippyBounce {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            20%     { transform: translateY(-14px) rotate(-8deg); }
+            40%     { transform: translateY(-6px) rotate(6deg); }
+            60%     { transform: translateY(-10px) rotate(-4deg); }
+            80%     { transform: translateY(-4px) rotate(3deg); }
+        }
+        /* Wiggle */
+        @keyframes clippyWiggle {
+            0%,100% { transform: rotate(0deg); }
+            20%     { transform: rotate(-12deg); }
+            40%     { transform: rotate(10deg); }
+            60%     { transform: rotate(-8deg); }
+            80%     { transform: rotate(6deg); }
+        }
+        /* Wave */
+        @keyframes clippyWave {
+            0%,100% { transform: rotate(0deg) translateY(0); }
+            25%     { transform: rotate(-15deg) translateY(-8px); }
+            75%     { transform: rotate(15deg) translateY(-8px); }
+        }
+        /* Shock */
+        @keyframes clippyShock {
+            0%,100% { transform: scale(1); }
+            30%     { transform: scale(1.25) rotate(-5deg); }
+            60%     { transform: scale(0.9) rotate(3deg); }
+        }
+
+        .clippy-anim-float   { animation: clippyFloat   2.8s ease-in-out infinite; }
+        .clippy-anim-bounce  { animation: clippyBounce  0.7s ease-in-out; }
+        .clippy-anim-wiggle  { animation: clippyWiggle  0.6s ease-in-out; }
+        .clippy-anim-wave    { animation: clippyWave    0.9s ease-in-out; }
+        .clippy-anim-shock   { animation: clippyShock   0.5s ease-in-out; }
 
         /* CRT Mode */
         body.crt-mode .scanlines {
@@ -1683,19 +1726,49 @@
     <!-- Clippy -->
     <div class="clippy-wrap" id="clippy-wrap">
         <div class="clippy-bubble" id="clippy-bubble">It looks like you're viewing a portfolio. Would you like help finding the right section?</div>
-        <svg class="clippy-svg" id="clippy-svg" viewBox="0 0 58 72" xmlns="http://www.w3.org/2000/svg">
-            <!-- Paperclip body -->
-            <path d="M29 6 C20 6 14 12 14 21 L14 52 C14 62 20 68 29 68 C38 68 44 62 44 52 L44 19 C44 13 40 8 34 8 C28 8 24 13 24 19 L24 52 C24 56 26 58 29 58 C32 58 34 56 34 52 L34 21"
-                  fill="none" stroke="#b8a000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M29 6 C20 6 14 12 14 21 L14 52 C14 62 20 68 29 68 C38 68 44 62 44 52 L44 19 C44 13 40 8 34 8 C28 8 24 13 24 19 L24 52 C24 56 26 58 29 58 C32 58 34 56 34 52 L34 21"
-                  fill="none" stroke="#ffd600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Eyes -->
-            <circle fill="#1565c0" cx="24" cy="4" r="3.5"/>
-            <circle fill="white" cx="25" cy="3" r="1.2"/>
-            <circle fill="#1565c0" cx="34" cy="4" r="3.5"/>
-            <circle fill="white" cx="35" cy="3" r="1.2"/>
-            <!-- Smile -->
-            <path d="M23 9 Q29 13 35 9" fill="none" stroke="#b8a000" stroke-width="1.5" stroke-linecap="round"/>
+        <svg class="clippy-svg" id="clippy-svg" viewBox="0 0 80 110" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="cg" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0"   stop-color="#e6b800"/>
+                    <stop offset="0.4" stop-color="#ffe55c"/>
+                    <stop offset="1"   stop-color="#c09800"/>
+                </linearGradient>
+            </defs>
+            <!-- Shadow -->
+            <ellipse fill="rgba(0,0,0,0.18)" cx="40" cy="108" rx="22" ry="4"/>
+            <!-- Paperclip body outer (darker) -->
+            <path id="clip-outer"
+                  d="M40 32 C26 32 17 40 17 52 L17 80 C17 94 26 102 40 102 C54 102 63 94 63 80 L63 48 C63 39 57 32 49 32 C41 32 35 39 35 48 L35 80 C35 85 37 88 40 88 C43 88 45 85 45 80 L45 52"
+                  fill="none" stroke="#b8930a" stroke-width="11" stroke-linecap="round"/>
+            <!-- Paperclip body inner (bright) -->
+            <path id="clip-inner"
+                  d="M40 32 C26 32 17 40 17 52 L17 80 C17 94 26 102 40 102 C54 102 63 94 63 80 L63 48 C63 39 57 32 49 32 C41 32 35 39 35 48 L35 80 C35 85 37 88 40 88 C43 88 45 85 45 80 L45 52"
+                  fill="none" stroke="url(#cg)" stroke-width="7" stroke-linecap="round"/>
+            <!-- Highlight streak -->
+            <path d="M40 32 C26 32 17 40 17 52 L17 70"
+                  fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
+
+            <!-- Left eye white -->
+            <circle id="eye-l-white" fill="white" cx="28" cy="16" r="10" stroke="#555" stroke-width="1.5"/>
+            <!-- Right eye white -->
+            <circle id="eye-r-white" fill="white" cx="52" cy="16" r="10" stroke="#555" stroke-width="1.5"/>
+            <!-- Left pupil -->
+            <circle id="pupil-l" fill="#1a237e" cx="28" cy="16" r="5"/>
+            <circle fill="white" cx="29.5" cy="14.5" r="2"/>
+            <!-- Right pupil -->
+            <circle id="pupil-r" fill="#1a237e" cx="52" cy="16" r="5"/>
+            <circle fill="white" cx="53.5" cy="14.5" r="2"/>
+            <!-- Eyebrows -->
+            <path id="brow-l" d="M20 7 Q28 4 36 7" fill="none" stroke="#333" stroke-width="2.2" stroke-linecap="round"/>
+            <path id="brow-r" d="M44 7 Q52 4 60 7" fill="none" stroke="#333" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Eyelids (for blinking — start height 0, JS animates) -->
+            <rect id="lid-l" fill="white" x="18" y="6"  width="20" height="0" rx="9" stroke="#555" stroke-width="1"/>
+            <rect id="lid-r" fill="white" x="42" y="6"  width="20" height="0" rx="9" stroke="#555" stroke-width="1"/>
+            <!-- Mouth -->
+            <path id="mouth" d="M31 26 Q40 31 49 26" fill="none" stroke="#9a7800" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Rosy cheeks -->
+            <circle fill="rgba(255,100,100,0.25)" cx="20" cy="22" r="5"/>
+            <circle fill="rgba(255,100,100,0.25)" cx="60" cy="22" r="5"/>
         </svg>
     </div>
 
@@ -1901,6 +1974,7 @@
             openWindows.add(windowId);
             updateTaskbar();
             updateTitleBarState(windowId, true);
+            if (typeof window.clippyReact === 'function') window.clippyReact(windowId);
         }
 
         // Close window
@@ -2262,40 +2336,148 @@
 
         // ── Clippy ────────────────────────────────────────────────────
         (function () {
-            const wrap = document.getElementById('clippy-wrap');
-            const bubble = document.getElementById('clippy-bubble');
-            const svg = document.getElementById('clippy-svg');
-            const messages = [
-                "It looks like you're viewing a portfolio. Would you like help finding the right section?",
-                "It looks like you're hiring. Parsa specialises in copywriting & brand storytelling. Just saying! 😉",
-                "Did you know? Parsa has published articles for Yardi, Shopify, and REC Canada.",
-                "Tip: Right-click the desktop for quick navigation options!",
-                "Still here? Parsa is available for freelance work. Open the Contact window! 📬",
+            const wrap      = document.getElementById('clippy-wrap');
+            const bubble    = document.getElementById('clippy-bubble');
+            const svg       = document.getElementById('clippy-svg');
+            const pupilL    = document.getElementById('pupil-l');
+            const pupilR    = document.getElementById('pupil-r');
+            const lidL      = document.getElementById('lid-l');
+            const lidR      = document.getElementById('lid-r');
+            const mouth     = document.getElementById('mouth');
+            const browL     = document.getElementById('brow-l');
+            const browR     = document.getElementById('brow-r');
+
+            /* ── Messages per window ── */
+            const windowMsgs = {
+                about:    "Oh! Getting to know Parsa? Great choice — he's pretty impressive! 👀",
+                projects: "Whoa, look at all this work! Parsa really knows how to ship things. 🚀",
+                skills:   "Expert at Copywriting AND Brand Storytelling? This person means business! ⭐",
+                contact:  "Ooh, reaching out? Don't be shy — Parsa loves meeting new people! 📬",
+                resume:   "The résumé! A classic. (Spoiler: it's a really good one) 📄",
+                tools:    "Figma, Notion, Claude, Perplexity… this toolkit is no joke. 🛠️",
+                recycle:  "The Recycle Bin? Nothing here… just like Parsa's rejection pile. 😏",
+            };
+
+            const idleMsgs = [
+                "It looks like you're exploring a portfolio. Can I help? 😊",
+                "Did you know? Parsa has published articles for Yardi, Shopify & REC Canada.",
+                "Tip: Right-click the desktop for secret options! 🤫",
+                "Still here? Parsa is open for freelance work. Hit Contact! 📬",
+                "Fun fact: This whole site was built in one HTML file. Wild, right?",
             ];
-            let msgIdx = 0;
+            let idleIdx = 0;
 
-            // Appear 20s after boot
-            setTimeout(() => wrap.classList.add('visible'), 20000);
-
-            // Cycle messages every 10s
-            setInterval(() => {
-                msgIdx = (msgIdx + 1) % messages.length;
+            /* ── Helpers ── */
+            function setMsg(text) {
                 bubble.style.opacity = '0';
-                setTimeout(() => {
-                    bubble.textContent = messages[msgIdx];
-                    bubble.style.opacity = '1';
-                }, 300);
-            }, 10000);
+                setTimeout(() => { bubble.textContent = text; bubble.style.opacity = '1'; }, 250);
+            }
 
-            bubble.style.transition = 'opacity 0.3s';
+            function playAnim(name) {
+                svg.classList.remove('clippy-anim-float','clippy-anim-bounce','clippy-anim-wiggle','clippy-anim-wave','clippy-anim-shock');
+                void svg.offsetWidth; // reflow to restart animation
+                svg.classList.add('clippy-anim-' + name);
+                if (name !== 'float') {
+                    svg.addEventListener('animationend', () => {
+                        svg.classList.remove('clippy-anim-' + name);
+                        svg.classList.add('clippy-anim-float');
+                    }, { once: true });
+                }
+            }
 
-            // Click bubble to open contact
-            bubble.addEventListener('click', () => openWindow('contact'));
+            function setExpression(expr) {
+                // mouth
+                const mouths = { happy: 'M31 26 Q40 31 49 26', sad: 'M31 30 Q40 26 49 30', surprised: 'M34 26 Q40 33 46 26', neutral: 'M33 28 Q40 28 47 28' };
+                if (mouths[expr]) mouth.setAttribute('d', mouths[expr]);
+                // brows
+                if (expr === 'surprised') {
+                    browL.setAttribute('d', 'M20 5 Q28 1 36 5');
+                    browR.setAttribute('d', 'M44 5 Q52 1 60 5');
+                } else if (expr === 'sad') {
+                    browL.setAttribute('d', 'M20 9 Q28 6 36 9');
+                    browR.setAttribute('d', 'M44 9 Q52 6 60 9');
+                } else {
+                    browL.setAttribute('d', 'M20 7 Q28 4 36 7');
+                    browR.setAttribute('d', 'M44 7 Q52 4 60 7');
+                }
+            }
 
-            // Click SVG to dismiss/show bubble
-            svg.addEventListener('click', () => {
-                bubble.style.display = bubble.style.display === 'none' ? 'block' : 'none';
+            /* ── Eye cursor tracking ── */
+            document.addEventListener('mousemove', e => {
+                if (!wrap.classList.contains('visible')) return;
+                const r = svg.getBoundingClientRect();
+                const ex = r.left + r.width * 0.35;
+                const ey = r.top  + r.height * 0.18;
+                const dx = e.clientX - ex, dy = e.clientY - ey;
+                const angle = Math.atan2(dy, dx);
+                const dist  = Math.min(3.5, Math.hypot(dx, dy) / 30);
+                const ox = Math.cos(angle) * dist, oy = Math.sin(angle) * dist;
+                pupilL.setAttribute('cx', 28 + ox);
+                pupilL.setAttribute('cy', 16 + oy);
+                pupilR.setAttribute('cx', 52 + ox);
+                pupilR.setAttribute('cy', 16 + oy);
             });
+
+            /* ── Blinking ── */
+            function blink() {
+                [lidL, lidR].forEach(lid => {
+                    lid.setAttribute('height', '20');
+                    setTimeout(() => lid.setAttribute('height', '0'), 120);
+                });
+                setTimeout(blink, 2500 + Math.random() * 4000);
+            }
+            setTimeout(blink, 3000);
+
+            /* ── Wandering ── */
+            function wander() {
+                const pad  = 120;
+                const maxX = window.innerWidth  - pad;
+                const maxY = window.innerHeight - 200;
+                const newL = Math.max(20, Math.min(maxX, 80 + Math.random() * (maxX - 80)));
+                const newB = Math.max(50, Math.min(maxY, 50 + Math.random() * 300));
+                wrap.style.left   = newL + 'px';
+                wrap.style.bottom = newB + 'px';
+            }
+            const wanderInterval = setInterval(wander, 18000);
+
+            /* ── Window reactions (called from openWindow) ── */
+            window.clippyReact = function (windowId) {
+                if (!wrap.classList.contains('visible')) return;
+                const msg = windowMsgs[windowId];
+                if (!msg) return;
+                const anims = { about:'bounce', projects:'bounce', skills:'wave', contact:'wave', tools:'wiggle', recycle:'wiggle', resume:'bounce' };
+                setMsg(msg);
+                setExpression(windowId === 'contact' ? 'happy' : windowId === 'recycle' ? 'surprised' : 'happy');
+                playAnim(anims[windowId] || 'bounce');
+            };
+
+            /* ── Idle message cycling ── */
+            setInterval(() => {
+                if (!wrap.classList.contains('visible')) return;
+                idleIdx = (idleIdx + 1) % idleMsgs.length;
+                setMsg(idleMsgs[idleIdx]);
+                playAnim('wiggle');
+                setExpression('neutral');
+            }, 12000);
+
+            /* ── First appearance ── */
+            setTimeout(() => {
+                wrap.classList.add('visible');
+                playAnim('wave');
+                setExpression('happy');
+                setTimeout(() => playAnim('float'), 1000);
+            }, 20000);
+
+            /* ── Click interactions ── */
+            bubble.addEventListener('click', () => openWindow('contact'));
+            svg.addEventListener('click', () => {
+                const hidden = bubble.style.display === 'none';
+                bubble.style.display = hidden ? 'block' : 'none';
+                playAnim(hidden ? 'wave' : 'wiggle');
+                setExpression(hidden ? 'happy' : 'neutral');
+            });
+            svg.addEventListener('mouseenter', () => setExpression('happy'));
+            svg.addEventListener('mouseleave', () => setExpression('neutral'));
         })();
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
