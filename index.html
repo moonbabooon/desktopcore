@@ -1521,6 +1521,308 @@
         .exp-statusbar span { border-right: 1px solid #aca899; padding-right: 12px; }
         .exp-statusbar span:last-child { border-right: none; }
 
+        /* ── Outlook Express (Contact window) ── */
+        .contact-window .window-content {
+            padding: 0 !important;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .oe-menubar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #aca899;
+            padding: 2px 4px;
+            display: flex;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+        .oe-menubar span {
+            padding: 2px 8px;
+            cursor: default;
+            border: 1px solid transparent;
+        }
+        .oe-menubar span:hover { background: #316ac5; color: white; }
+        .oe-toolbar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #aca899;
+            padding: 3px 4px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+        .oe-tbtn {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 3px 8px;
+            font-size: 11px;
+            cursor: default;
+            font-family: Tahoma, sans-serif;
+            white-space: nowrap;
+        }
+        .oe-tbtn:not([disabled]):hover { border-color: #aca899; background: #e8e4d8; box-shadow: inset 1px 1px 0 #fff; }
+        .oe-tbtn[disabled] { opacity: 0.45; }
+        .oe-tbtn.oe-send-btn { font-weight: bold; }
+        .oe-tsep { width: 1px; height: 22px; background: #aca899; margin: 0 3px; }
+        .oe-fields {
+            background: white;
+            border-bottom: 2px inset #808080;
+            flex-shrink: 0;
+        }
+        .oe-field-row {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #d4d0c8;
+            min-height: 24px;
+        }
+        .oe-field-row:last-child { border-bottom: none; }
+        .oe-field-label {
+            width: 64px;
+            padding: 3px 8px;
+            font-size: 11px;
+            background: #e8e4dc;
+            border-right: 1px solid #aca899;
+            color: #000;
+            flex-shrink: 0;
+            font-family: Tahoma, sans-serif;
+        }
+        .oe-field-val {
+            flex: 1;
+            padding: 3px 6px;
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            color: #333;
+        }
+        .oe-field-input {
+            flex: 1;
+            border: none;
+            padding: 3px 6px;
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            outline: none;
+            background: white;
+        }
+        .oe-fmtbar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #aca899;
+            padding: 2px 4px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex-shrink: 0;
+        }
+        .oe-fmtbar select {
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            border: 1px solid #808080;
+            background: white;
+            padding: 1px 2px;
+        }
+        .oe-fmt {
+            background: transparent;
+            border: 1px solid transparent;
+            width: 22px;
+            height: 20px;
+            font-size: 11px;
+            cursor: default;
+            font-family: Tahoma, sans-serif;
+        }
+        .oe-fmt:hover { border-color: #aca899; background: #e8e4d8; }
+        .oe-body-text {
+            flex: 1;
+            border: none;
+            padding: 8px 10px;
+            font-size: 13px;
+            font-family: 'Times New Roman', serif;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+        }
+        .oe-statusbar {
+            background: #d4d0c8;
+            border-top: 1px solid #808080;
+            padding: 2px 8px;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        /* ── Word 97 (Resume window) ── */
+        .resume-window .window-content {
+            padding: 0 !important;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #808080;
+        }
+        .word-menubar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #aca899;
+            padding: 2px 4px;
+            display: flex;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+        .word-menubar span {
+            padding: 2px 8px;
+            cursor: default;
+            border: 1px solid transparent;
+        }
+        .word-menubar span:hover { background: #316ac5; color: white; }
+        .word-toolbar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #aca899;
+            padding: 2px 4px;
+            display: flex;
+            align-items: center;
+            gap: 1px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        .word-tbtn {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 2px 5px;
+            font-size: 11px;
+            cursor: default;
+            font-family: Tahoma, sans-serif;
+            min-width: 22px;
+            text-align: center;
+        }
+        .word-tbtn:hover { border-color: #aca899; background: #e8e4d8; }
+        .word-tbtn[disabled] { opacity: 0.4; }
+        .word-tsep { width: 1px; height: 18px; background: #aca899; margin: 0 2px; }
+        .word-fmtbar {
+            background: #d4d0c8;
+            border-bottom: 2px solid #808080;
+            padding: 2px 4px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex-shrink: 0;
+        }
+        .word-fmtbar select {
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            border: 1px solid #808080;
+            background: white;
+            padding: 1px 2px;
+        }
+        .word-fmtsel-style { width: 80px; }
+        .word-fmtsel-font  { width: 110px; }
+        .word-fmtsel-size  { width: 40px; }
+        .word-fmt {
+            background: transparent;
+            border: 1px solid transparent;
+            width: 22px;
+            height: 20px;
+            font-size: 12px;
+            cursor: default;
+            font-family: Tahoma, sans-serif;
+        }
+        .word-fmt:hover { border-color: #aca899; background: #e8e4d8; }
+        .word-ruler {
+            background: #d4d0c8;
+            border-bottom: 1px solid #808080;
+            height: 18px;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 6px;
+            font-size: 9px;
+            color: #444;
+            letter-spacing: 2px;
+            flex-shrink: 0;
+            user-select: none;
+            overflow: hidden;
+        }
+        .word-page-area {
+            flex: 1;
+            overflow-y: auto;
+            background: #808080;
+            padding: 14px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .word-page {
+            background: white;
+            width: 100%;
+            max-width: 520px;
+            min-height: 500px;
+            padding: 36px 44px;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.55);
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 11.5px;
+            line-height: 1.45;
+            color: #000;
+        }
+        .word-page h1 {
+            font-size: 17px;
+            font-family: 'Times New Roman', serif;
+            text-align: center;
+            margin: 0 0 2px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .word-page .wd-subtitle {
+            text-align: center;
+            font-size: 11px;
+            margin: 0 0 3px;
+            color: #222;
+        }
+        .word-page .wd-contact {
+            text-align: center;
+            font-size: 10.5px;
+            color: #444;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 8px;
+        }
+        .word-page h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+            margin: 12px 0 6px;
+            font-family: 'Times New Roman', serif;
+        }
+        .word-page .wd-job-title {
+            font-weight: bold;
+            font-size: 11.5px;
+            margin: 0;
+        }
+        .word-page .wd-job-meta {
+            font-style: italic;
+            font-size: 10.5px;
+            color: #444;
+            margin: 1px 0 3px;
+        }
+        .word-page .wd-job-desc {
+            margin: 0 0 8px;
+            font-size: 11px;
+        }
+        .word-page .wd-skills {
+            margin: 0;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .word-page .wd-dl-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        .word-statusbar {
+            background: #d4d0c8;
+            border-top: 1px solid #808080;
+            padding: 2px 8px;
+            font-size: 11px;
+            display: flex;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+        .word-statusbar span { border-right: 1px solid #aca899; padding-right: 12px; }
+        .word-statusbar span:last-child { border-right: none; }
+
         /* Toast notifications */
         .toast {
             position: fixed;
@@ -1980,10 +2282,10 @@
             </div>
         </div>
 
-        <div class="window contact-window minimized" id="window-contact" style="top: 180px; left: 300px; width: 450px; height: 400px;">
+        <div class="window contact-window minimized" id="window-contact" style="top: 160px; left: 220px; width: 560px; height: 460px;">
             <div class="window-titlebar inactive" data-window="contact">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%230055df' x='1' y='4' width='14' height='10' rx='1'/%3E%3Cpolygon fill='%23fff' points='8,7 2,13 14,13'/%3E%3C/svg%3E">
-                <span>Contact Me</span>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23d4d0c8' x='1' y='3' width='14' height='11' rx='1' stroke='%23808080' stroke-width='0.5'/%3E%3Cpolyline fill='%230a3dac' points='1,3 8,9 15,3'/%3E%3C/svg%3E">
+                <span>New Message — Outlook Express</span>
                 <div class="window-controls">
                     <button class="window-btn minimize-btn" data-window="contact">_</button>
                     <button class="window-btn maximize-btn" data-window="contact">▢</button>
@@ -1991,35 +2293,57 @@
                 </div>
             </div>
             <div class="window-content">
-                <div class="contact-form">
-                    <div class="form-row">
-                        <label>Name:</label>
-                        <input type="text" placeholder="Your name">
+                <div class="oe-menubar">
+                    <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Message</span><span>Help</span>
+                </div>
+                <div class="oe-toolbar">
+                    <button class="oe-tbtn oe-send-btn" id="oe-send">📤 Send</button>
+                    <div class="oe-tsep"></div>
+                    <button class="oe-tbtn" disabled>✂ Cut</button>
+                    <button class="oe-tbtn" disabled>📋 Copy</button>
+                    <button class="oe-tbtn" disabled>📌 Paste</button>
+                    <div class="oe-tsep"></div>
+                    <button class="oe-tbtn" disabled>↩ Undo</button>
+                    <div class="oe-tsep"></div>
+                    <button class="oe-tbtn" disabled>📎 Attach</button>
+                    <button class="oe-tbtn" disabled>🔏 Sign</button>
+                    <div class="oe-tsep"></div>
+                    <button class="oe-tbtn" disabled>🔌 Offline</button>
+                </div>
+                <div class="oe-fields">
+                    <div class="oe-field-row">
+                        <div class="oe-field-label">From:</div>
+                        <input class="oe-field-input" id="oe-from" type="email" placeholder="your@email.com">
                     </div>
-                    <div class="form-row">
-                        <label>Email:</label>
-                        <input type="email" placeholder="your@email.com">
+                    <div class="oe-field-row">
+                        <div class="oe-field-label">To:</div>
+                        <div class="oe-field-val">parsanavidi@hotmail.ca</div>
                     </div>
-                    <div class="form-row">
-                        <label>Message:</label>
-                        <textarea placeholder="Tell me about your project..."></textarea>
-                    </div>
-                    <div class="form-row" style="justify-content: flex-end;">
-                        <button class="btn">Send Message</button>
+                    <div class="oe-field-row">
+                        <div class="oe-field-label">Subject:</div>
+                        <input class="oe-field-input" id="oe-subject" type="text" placeholder="Reaching out from your portfolio!">
                     </div>
                 </div>
-                <div class="contact-info">
-                    <p><strong>Email:</strong> <a href="mailto:parsanavidi@hotmail.ca">parsanavidi@hotmail.ca</a></p>
-                    <p><strong>LinkedIn:</strong> <a href="https://ca.linkedin.com/in/parsanavidi" target="_blank">linkedin.com/in/parsanavidi</a></p>
-                    <p><strong>Location:</strong> Toronto, Canada</p>
+                <div class="oe-fmtbar">
+                    <select class="oe-font-sel"><option>Arial</option><option>Times New Roman</option><option>Courier New</option></select>
+                    <select class="oe-size-sel"><option>10</option><option>12</option><option selected>14</option></select>
+                    <div class="oe-tsep"></div>
+                    <button class="oe-fmt" disabled><b>B</b></button>
+                    <button class="oe-fmt" disabled><i>I</i></button>
+                    <button class="oe-fmt" disabled><u>U</u></button>
+                    <div class="oe-tsep"></div>
+                    <button class="oe-fmt" disabled>≡</button>
+                    <button class="oe-fmt" disabled>≡</button>
                 </div>
+                <textarea class="oe-body-text" id="oe-body" placeholder="Write your message here...&#10;&#10;Parsa loves hearing about new projects, collaborations, or just a friendly hello!"></textarea>
+                <div class="oe-statusbar" id="oe-status">Ready</div>
             </div>
         </div>
 
-        <div class="window resume-window minimized" id="window-resume" style="top: 120px; left: 180px; width: 500px; height: 450px;">
+        <div class="window resume-window minimized" id="window-resume" style="top: 80px; left: 150px; width: 590px; height: 530px;">
             <div class="window-titlebar inactive" data-window="resume">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23fff' x='1' y='1' width='14' height='14' rx='1'/%3E%3Crect fill='%23f44336' x='3' y='1' width='4' height='2'/%3E%3C/svg%3E">
-                <span>Resume - Parsa Navidi.pdf</span>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%231565c0' x='1' y='1' width='14' height='14' rx='1'/%3E%3Ctext x='8' y='12' text-anchor='middle' fill='white' font-size='11' font-weight='bold' font-family='serif'%3EW%3C/text%3E%3C/svg%3E">
+                <span>Parsa Navidi - Resume.doc — Microsoft Word</span>
                 <div class="window-controls">
                     <button class="window-btn minimize-btn" data-window="resume">_</button>
                     <button class="window-btn maximize-btn" data-window="resume">▢</button>
@@ -2027,27 +2351,100 @@
                 </div>
             </div>
             <div class="window-content">
-                <h2 style="color: #0055DF; font-size: 16px; margin-bottom: 12px;">PARSA NAVIDI</h2>
-                <p style="font-size: 11px; color: #666; margin-bottom: 12px;">Creative Strategist | Content Designer | Copywriter<br>Toronto, Canada | parsanavidi@hotmail.ca</p>
-                
-                <h3 style="font-size: 12px; border-bottom: 1px solid #808080; padding-bottom: 4px; margin-bottom: 8px;">EXPERIENCE</h3>
-                <div style="margin-bottom: 12px;">
-                    <p style="font-weight: bold; font-size: 11px;">Writer — Yardi</p>
-                    <p style="font-size: 10px; color: #666;">2024 - Present</p>
-                    <p style="font-size: 11px;">Multi-disciplinary marketing professional creating content for brand awareness and digital presence.</p>
+                <!-- Menu bar -->
+                <div class="word-menubar">
+                    <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Table</span><span>Window</span><span>Help</span>
                 </div>
-                <div style="margin-bottom: 12px;">
-                    <p style="font-weight: bold; font-size: 11px;">Freelance Copywriter & Creative Strategist</p>
-                    <p style="font-size: 10px; color: #666;">2021 - Present</p>
-                    <p style="font-size: 11px;">Helping brands find their voice through compelling copy, content strategy, and creative direction.</p>
+                <!-- Standard toolbar -->
+                <div class="word-toolbar">
+                    <button class="word-tbtn" disabled title="New">🗋</button>
+                    <button class="word-tbtn" disabled title="Open">📂</button>
+                    <button class="word-tbtn" disabled title="Save">💾</button>
+                    <div class="word-tsep"></div>
+                    <button class="word-tbtn" disabled title="Print">🖨</button>
+                    <button class="word-tbtn" disabled title="Print Preview">🔍</button>
+                    <div class="word-tsep"></div>
+                    <button class="word-tbtn" disabled title="Cut">✂</button>
+                    <button class="word-tbtn" disabled title="Copy">📋</button>
+                    <button class="word-tbtn" disabled title="Paste">📌</button>
+                    <div class="word-tsep"></div>
+                    <button class="word-tbtn" disabled title="Undo">↩</button>
+                    <button class="word-tbtn" disabled title="Redo">↪</button>
+                    <div class="word-tsep"></div>
+                    <button class="word-tbtn" disabled>100%</button>
                 </div>
-                
-                <h3 style="font-size: 12px; border-bottom: 1px solid #808080; padding-bottom: 4px; margin-bottom: 8px;">EDUCATION</h3>
-                <p style="font-weight: bold; font-size: 11px;">Bachelor's Degree, Film and Media Arts — York University</p>
-                <p style="font-size: 10px; color: #666; margin-bottom: 12px;">2017 - 2021</p>
-                
-                <h3 style="font-size: 12px; border-bottom: 1px solid #808080; padding-bottom: 4px; margin-bottom: 8px;">SKILLS</h3>
-                <p style="font-size: 11px;">Copywriting, Content Strategy, Creative Direction, SEO, Brand Storytelling, Social Media Marketing, Email Marketing</p>
+                <!-- Formatting toolbar -->
+                <div class="word-fmtbar">
+                    <select class="word-fmtsel-style"><option>Normal</option><option>Heading 1</option><option>Heading 2</option></select>
+                    <select class="word-fmtsel-font"><option>Times New Roman</option><option>Arial</option><option>Courier New</option></select>
+                    <select class="word-fmtsel-size"><option>10</option><option selected>12</option><option>14</option></select>
+                    <div class="word-tsep"></div>
+                    <button class="word-fmt" disabled><b>B</b></button>
+                    <button class="word-fmt" disabled><i>I</i></button>
+                    <button class="word-fmt" disabled><u>U</u></button>
+                    <div class="word-tsep"></div>
+                    <button class="word-fmt" disabled>≡</button>
+                    <button class="word-fmt" disabled>≡</button>
+                    <button class="word-fmt" disabled>≡</button>
+                </div>
+                <!-- Ruler -->
+                <div class="word-ruler" aria-hidden="true">
+                    &nbsp;|&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;|
+                </div>
+                <!-- Page area -->
+                <div class="word-page-area">
+                    <div class="word-page">
+                        <h1>Parsa Navidi</h1>
+                        <div class="wd-subtitle">Creative Strategist &nbsp;·&nbsp; Content Designer &nbsp;·&nbsp; Copywriter</div>
+                        <div class="wd-contact">
+                            Toronto, Canada &nbsp;|&nbsp; parsanavidi@hotmail.ca &nbsp;|&nbsp; <a href="https://ca.linkedin.com/in/parsanavidi" target="_blank" style="color:#000;">linkedin.com/in/parsanavidi</a>
+                        </div>
+
+                        <h2>Experience</h2>
+
+                        <div class="wd-dl-row">
+                            <p class="wd-job-title">Writer — Yardi</p>
+                            <span style="font-size:10.5px;color:#444;font-style:italic;">2024 – Present</span>
+                        </div>
+                        <p class="wd-job-desc">Multi-disciplinary marketing professional producing long-form content, market reports, thought leadership articles, and campaign copy to drive brand awareness across North American markets.</p>
+
+                        <div class="wd-dl-row">
+                            <p class="wd-job-title">Freelance Copywriter &amp; Creative Strategist</p>
+                            <span style="font-size:10.5px;color:#444;font-style:italic;">2021 – Present</span>
+                        </div>
+                        <p class="wd-job-desc">Partnered with brands across real estate, tech, and energy sectors to develop brand voice, web copy, podcast content, and conversion-focused service pages. Clients include Jas Takhar, Plumb Wize, and My Solar Group.</p>
+
+                        <div class="wd-dl-row">
+                            <p class="wd-job-title">Content Contributor — Shoplazza</p>
+                            <span style="font-size:10.5px;color:#444;font-style:italic;">2022</span>
+                        </div>
+                        <p class="wd-job-desc">Authored in-depth e-commerce guides on buyer psychology and persona development for a global merchant audience.</p>
+
+                        <h2>Education</h2>
+                        <div class="wd-dl-row">
+                            <p class="wd-job-title">Bachelor of Fine Arts — Film &amp; Media Arts</p>
+                            <span style="font-size:10.5px;color:#444;font-style:italic;">2017 – 2021</span>
+                        </div>
+                        <p class="wd-job-meta">York University, Toronto, Canada</p>
+
+                        <h2>Core Skills</h2>
+                        <p class="wd-skills">
+                            Copywriting &nbsp;·&nbsp; Brand Storytelling &nbsp;·&nbsp; Content Strategy &nbsp;·&nbsp; Creative Direction<br>
+                            SEO Writing &nbsp;·&nbsp; Social Media Marketing &nbsp;·&nbsp; Email Marketing &nbsp;·&nbsp; Market Research<br>
+                            Figma &nbsp;·&nbsp; Notion &nbsp;·&nbsp; HubSpot &nbsp;·&nbsp; WordPress &nbsp;·&nbsp; Adobe Creative Suite
+                        </p>
+
+                        <h2>Selected Publications</h2>
+                        <p class="wd-skills">
+                            Yardi Blog — YASC Canada 2025 &nbsp;·&nbsp; Yardi Breeze — Women in Tech<br>
+                            Shoplazza — Buyer Personas &nbsp;·&nbsp; REC Canada — 28 Doors
+                        </p>
+                    </div>
+                </div>
+                <!-- Status bar -->
+                <div class="word-statusbar">
+                    <span>Page 1</span><span>Sec 1</span><span>1/1</span><span>At 1"</span><span>Ln 1  Col 1</span><span>REC &nbsp; TRK &nbsp; EXT &nbsp; OVR</span>
+                </div>
             </div>
         </div>
 
@@ -3190,6 +3587,29 @@
             status.innerHTML = `<span>1 object(s) selected</span><span>${item.name}</span>`;
             SFX.click();
         }
+
+        // ── Outlook Express: Send button ──────────────────────────────
+        document.getElementById('oe-send').addEventListener('click', function () {
+            const from    = (document.getElementById('oe-from').value    || '').trim();
+            const subject = (document.getElementById('oe-subject').value || '').trim();
+            const body    = (document.getElementById('oe-body').value    || '').trim();
+            const status  = document.getElementById('oe-status');
+            if (!from) {
+                status.textContent = '⚠ Error: Please enter your email address in the From field.';
+                SFX.error();
+                return;
+            }
+            if (!body) {
+                status.textContent = '⚠ Error: Message body cannot be empty.';
+                SFX.error();
+                return;
+            }
+            const fullBody = `From: ${from}\n\n${body}`;
+            const mailto = `mailto:parsanavidi@hotmail.ca?subject=${encodeURIComponent(subject || 'Portfolio message')}&body=${encodeURIComponent(fullBody)}`;
+            window.location.href = mailto;
+            status.textContent = '✔ Message sent! Opening your email client…';
+            SFX.notify();
+        });
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
         document.getElementById('ctx-crt').addEventListener('click', () => {
