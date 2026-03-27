@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Computer - Parsa Navidi</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23c0c0c0' width='16' height='16'/><rect fill='%230055df' x='1' y='1' width='14' height='9'/><rect fill='%23808080' x='1' y='10' width='14' height='5'/></svg>">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%231565c0' width='16' height='16' rx='3'/%3E%3Ctext x='8' y='12' text-anchor='middle' fill='white' font-size='11' font-weight='bold' font-family='Arial'%3EP%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -1106,6 +1106,154 @@
             max-width: 68px;
             line-height: 1.2;
         }
+
+        /* Window open animation */
+        @keyframes windowOpen {
+            from { transform: scale(0.9); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        .window.opening {
+            animation: windowOpen 0.14s ease-out forwards;
+            transform-origin: center center;
+        }
+
+        /* Desktop icon hover lift */
+        .desktop-icon {
+            transition: transform 0.15s ease, filter 0.15s ease;
+        }
+        .desktop-icon:hover {
+            transform: translateY(-3px) scale(1.08);
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.55));
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 44px;
+            right: 4px;
+            width: 290px;
+            background: #ffffe1;
+            border: 1px solid #c8b400;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 11px;
+            z-index: 99990;
+            cursor: pointer;
+            animation: toastIn 0.25s ease;
+            pointer-events: all;
+        }
+        .toast-title {
+            background: linear-gradient(90deg, #0a246a 0%, #a6caf0 100%);
+            color: white;
+            font-weight: bold;
+            padding: 3px 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toast-body { padding: 8px 10px; color: #000; line-height: 1.5; }
+        .toast-x { cursor: pointer; font-weight: bold; opacity: 0.7; margin-left: 8px; }
+        .toast-x:hover { opacity: 1; }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Screensaver */
+        .screensaver {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 999999;
+            display: none;
+            cursor: none;
+            overflow: hidden;
+        }
+        .screensaver.active { display: block; }
+        .ss-text {
+            position: absolute;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            font-size: clamp(18px, 3vw, 28px);
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+            pointer-events: none;
+            text-shadow: 0 0 20px currentColor;
+        }
+
+        /* Clippy */
+        .clippy-wrap {
+            position: fixed;
+            bottom: 50px;
+            right: 16px;
+            z-index: 9995;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .clippy-wrap.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .clippy-bubble {
+            background: #ffffe1;
+            border: 1px solid #c8b400;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            padding: 8px 12px;
+            max-width: 220px;
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            line-height: 1.5;
+            position: relative;
+            cursor: pointer;
+        }
+        .clippy-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 22px;
+            border: 5px solid transparent;
+            border-top-color: #c8b400;
+        }
+        .clippy-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 23px;
+            border: 4px solid transparent;
+            border-top-color: #ffffe1;
+            z-index: 1;
+        }
+        .clippy-svg {
+            width: 58px;
+            height: 72px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3));
+        }
+        .clippy-svg:hover { transform: rotate(-8deg) scale(1.08); }
+
+        /* CRT Mode */
+        body.crt-mode .scanlines {
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.1) 0px,
+                rgba(0,0,0,0.1) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+        }
+        body.crt-mode {
+            animation: crtFlicker 0.12s infinite linear;
+        }
+        @keyframes crtFlicker {
+            0%, 100% { filter: brightness(1); }
+            50%       { filter: brightness(0.97); }
+        }
     </style>
 </head>
 <body>
@@ -1528,6 +1676,32 @@
         <div class="context-menu-item" id="ctx-contact">Get in Touch</div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" id="ctx-properties">System Properties</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" id="ctx-crt">Enable CRT Mode</div>
+    </div>
+
+    <!-- Clippy -->
+    <div class="clippy-wrap" id="clippy-wrap">
+        <div class="clippy-bubble" id="clippy-bubble">It looks like you're viewing a portfolio. Would you like help finding the right section?</div>
+        <svg class="clippy-svg" id="clippy-svg" viewBox="0 0 58 72" xmlns="http://www.w3.org/2000/svg">
+            <!-- Paperclip body -->
+            <path d="M29 6 C20 6 14 12 14 21 L14 52 C14 62 20 68 29 68 C38 68 44 62 44 52 L44 19 C44 13 40 8 34 8 C28 8 24 13 24 19 L24 52 C24 56 26 58 29 58 C32 58 34 56 34 52 L34 21"
+                  fill="none" stroke="#b8a000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M29 6 C20 6 14 12 14 21 L14 52 C14 62 20 68 29 68 C38 68 44 62 44 52 L44 19 C44 13 40 8 34 8 C28 8 24 13 24 19 L24 52 C24 56 26 58 29 58 C32 58 34 56 34 52 L34 21"
+                  fill="none" stroke="#ffd600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Eyes -->
+            <circle fill="#1565c0" cx="24" cy="4" r="3.5"/>
+            <circle fill="white" cx="25" cy="3" r="1.2"/>
+            <circle fill="#1565c0" cx="34" cy="4" r="3.5"/>
+            <circle fill="white" cx="35" cy="3" r="1.2"/>
+            <!-- Smile -->
+            <path d="M23 9 Q29 13 35 9" fill="none" stroke="#b8a000" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <!-- Screensaver -->
+    <div class="screensaver" id="screensaver">
+        <div class="ss-text" id="ss-text">PARSA NAVIDI</div>
     </div>
 
     <!-- Taskbar -->
@@ -1598,6 +1772,67 @@
             wrap.appendChild(tile);
         }
 
+        // Shared icon SVG strings (use literal # colours)
+        const ICONS = {
+            about: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <rect fill="#1565c0" width="48" height="48" rx="7"/>
+                <circle fill="white" cx="24" cy="18" r="9"/>
+                <path fill="white" d="M8 44 Q8 30 24 30 Q40 30 40 44Z"/>
+                <rect fill="rgba(255,255,255,0.18)" x="2" y="2" width="44" height="16" rx="6"/>
+            </svg>`,
+
+            projects: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <path fill="#e6a817" d="M4 17 L4 40 L44 40 L44 20 L22 20 L17 14 L4 14 Z"/>
+                <rect fill="#ffcc2a" x="4" y="20" width="40" height="20"/>
+                <rect fill="rgba(255,255,255,0.28)" x="4" y="20" width="40" height="6"/>
+                <rect fill="#1565c0" x="9" y="28" width="8" height="8" rx="1"/>
+                <rect fill="#c62828" x="21" y="28" width="8" height="8" rx="1"/>
+                <rect fill="#2e7d32" x="33" y="28" width="8" height="8" rx="1"/>
+            </svg>`,
+
+            skills: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <rect fill="#6a1b9a" width="48" height="48" rx="7"/>
+                <polygon fill="#ffd600" points="24,7 27.6,18 39,18 30,25.2 33.6,36.2 24,29 14.4,36.2 18,25.2 9,18 20.4,18"/>
+                <rect fill="rgba(255,255,255,0.15)" x="2" y="2" width="44" height="16" rx="6"/>
+            </svg>`,
+
+            contact: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <rect fill="#0d47a1" x="4" y="12" width="40" height="28" rx="3"/>
+                <polygon fill="#1565c0" points="4,12 24,27 44,12"/>
+                <polygon fill="#0a3d8f" points="4,40 19,27 4,12"/>
+                <polygon fill="#0a3d8f" points="44,40 29,27 44,12"/>
+                <rect fill="rgba(255,255,255,0.12)" x="4" y="12" width="40" height="10"/>
+            </svg>`,
+
+            resume: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <path fill="white" d="M7 4 L35 4 L42 11 L42 44 L7 44 Z"/>
+                <path fill="#d0d0d0" d="M35 4 L35 11 L42 11 Z"/>
+                <rect fill="#e53935" x="7" y="4" width="28" height="7"/>
+                <circle fill="#bdbdbd" cx="20" cy="18" r="5"/>
+                <rect fill="#e0e0e0" x="11" y="26" width="26" height="2.5" rx="1"/>
+                <rect fill="#e0e0e0" x="11" y="31" width="26" height="2.5" rx="1"/>
+                <rect fill="#e0e0e0" x="11" y="36" width="18" height="2.5" rx="1"/>
+            </svg>`,
+
+            tools: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <rect fill="#1a1a2e" width="48" height="48" rx="7"/>
+                <rect fill="#1565c0" x="5" y="5" width="17" height="17" rx="3"/>
+                <rect fill="#c62828" x="26" y="5" width="17" height="17" rx="3"/>
+                <rect fill="#e65100" x="5" y="26" width="17" height="17" rx="3"/>
+                <rect fill="#2e7d32" x="26" y="26" width="17" height="17" rx="3"/>
+                <rect fill="rgba(255,255,255,0.08)" x="2" y="2" width="44" height="18" rx="6"/>
+            </svg>`,
+
+            recycle: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <path fill="#78909c" d="M11 17 L14 42 L34 42 L37 17 Z"/>
+                <rect fill="#546e7a" x="8" y="13" width="32" height="5" rx="1"/>
+                <rect fill="#546e7a" x="16" y="9" width="16" height="5" rx="1"/>
+                <line x1="19" y1="21" x2="17" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
+                <line x1="24" y1="21" x2="24" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
+                <line x1="29" y1="21" x2="31" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
+            </svg>`
+        };
+
         // Window management
         let activeWindow = null;
         let dragOffset = { x: 0, y: 0 };
@@ -1641,6 +1876,8 @@
             if (!win) return;
 
             win.classList.remove('minimized');
+            win.classList.add('opening');
+            win.addEventListener('animationend', () => win.classList.remove('opening'), { once: true });
             win.style.zIndex = ++windowZIndex;
             startMenu.classList.remove('open');
 
@@ -1698,16 +1935,6 @@
             const taskbarItems = document.getElementById('taskbar-items');
             taskbarItems.innerHTML = '';
 
-            const windowIcons = {
-                'about': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle fill='%230055df' cx='8' cy='8' r='6'/><circle fill='%23fff' cx='6' cy='6' r='2'/></svg>`,
-                'projects': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23ffeb3b' x='1' y='1' width='6' height='6'/><rect fill='%234caf50' x='9' y='1' width='6' height='6'/><rect fill='%23f44336' x='1' y='9' width='6' height='6'/><rect fill='%232196f3' x='9' y='9' width='6' height='6'/></svg>`,
-                'skills': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23e91e63' x='1' y='1' width='14' height='14' rx='2'/><text x='8' y='12' text-anchor='middle' fill='%23fff' font-size='10' font-weight='bold'>S</text></svg>`,
-                'contact': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%230055df' x='1' y='4' width='14' height='10' rx='1'/><polygon fill='%23fff' points='8,7 2,13 14,13'/></svg>`,
-                'resume': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23fff' x='1' y='1' width='14' height='14' rx='1'/><line x1='4' y1='5' x2='12' y2='5' stroke='%23ccc' stroke-width='1'/><line x1='4' y1='8' x2='12' y2='8' stroke='%23ccc' stroke-width='1'/><line x1='4' y1='11' x2='10' y2='11' stroke='%23ccc' stroke-width='1'/></svg>`,
-                'recycle': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/></svg>`,
-                'tools': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%230055df' x='1' y='1' width='6' height='6'/><rect fill='%23e91e63' x='9' y='1' width='6' height='6'/><rect fill='%23ff9800' x='1' y='9' width='6' height='6'/><rect fill='%234caf50' x='9' y='9' width='6' height='6'/></svg>`
-            };
-
             const windowTitles = {
                 'about': 'About Me',
                 'projects': 'Projects',
@@ -1722,9 +1949,7 @@
                 const item = document.createElement('div');
                 item.className = 'taskbar-item active';
                 item.dataset.window = windowId;
-                // %23 is URL-encoded # — must be literal # for inline SVG colours to render
-                const iconSvg = (windowIcons[windowId] || '')
-                    .replace(/%23/g, '#')
+                const iconSvg = (ICONS[windowId] || '')
                     .replace('<svg ', '<svg width="16" height="16" ');
                 item.innerHTML = iconSvg + `<span>${windowTitles[windowId]}</span>`;
                 item.addEventListener('click', () => {
@@ -1867,71 +2092,11 @@
 
         // ── Stylish desktop icons ─────────────────────────────────────
         function applyStylishIcons() {
-            const icons = {
-                about: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <rect fill="#1565c0" width="48" height="48" rx="7"/>
-                    <circle fill="white" cx="24" cy="18" r="9"/>
-                    <path fill="white" d="M8 44 Q8 30 24 30 Q40 30 40 44Z"/>
-                    <rect fill="rgba(255,255,255,0.18)" x="2" y="2" width="44" height="16" rx="6"/>
-                </svg>`,
-
-                projects: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <path fill="#e6a817" d="M4 17 L4 40 L44 40 L44 20 L22 20 L17 14 L4 14 Z"/>
-                    <rect fill="#ffcc2a" x="4" y="20" width="40" height="20"/>
-                    <rect fill="rgba(255,255,255,0.28)" x="4" y="20" width="40" height="6"/>
-                    <rect fill="#1565c0" x="9" y="28" width="8" height="8" rx="1"/>
-                    <rect fill="#c62828" x="21" y="28" width="8" height="8" rx="1"/>
-                    <rect fill="#2e7d32" x="33" y="28" width="8" height="8" rx="1"/>
-                </svg>`,
-
-                skills: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <rect fill="#6a1b9a" width="48" height="48" rx="7"/>
-                    <polygon fill="#ffd600" points="24,7 27.6,18 39,18 30,25.2 33.6,36.2 24,29 14.4,36.2 18,25.2 9,18 20.4,18"/>
-                    <rect fill="rgba(255,255,255,0.15)" x="2" y="2" width="44" height="16" rx="6"/>
-                </svg>`,
-
-                contact: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <rect fill="#0d47a1" x="4" y="12" width="40" height="28" rx="3"/>
-                    <polygon fill="#1565c0" points="4,12 24,27 44,12"/>
-                    <polygon fill="#0a3d8f" points="4,40 19,27 4,12"/>
-                    <polygon fill="#0a3d8f" points="44,40 29,27 44,12"/>
-                    <rect fill="rgba(255,255,255,0.12)" x="4" y="12" width="40" height="10"/>
-                </svg>`,
-
-                resume: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <path fill="white" d="M7 4 L35 4 L42 11 L42 44 L7 44 Z"/>
-                    <path fill="#d0d0d0" d="M35 4 L35 11 L42 11 Z"/>
-                    <rect fill="#e53935" x="7" y="4" width="28" height="7"/>
-                    <circle fill="#bdbdbd" cx="20" cy="18" r="5"/>
-                    <rect fill="#e0e0e0" x="11" y="26" width="26" height="2.5" rx="1"/>
-                    <rect fill="#e0e0e0" x="11" y="31" width="26" height="2.5" rx="1"/>
-                    <rect fill="#e0e0e0" x="11" y="36" width="18" height="2.5" rx="1"/>
-                </svg>`,
-
-                tools: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <rect fill="#1a1a2e" width="48" height="48" rx="7"/>
-                    <rect fill="#1565c0" x="5" y="5" width="17" height="17" rx="3"/>
-                    <rect fill="#c62828" x="26" y="5" width="17" height="17" rx="3"/>
-                    <rect fill="#e65100" x="5" y="26" width="17" height="17" rx="3"/>
-                    <rect fill="#2e7d32" x="26" y="26" width="17" height="17" rx="3"/>
-                    <rect fill="rgba(255,255,255,0.08)" x="2" y="2" width="44" height="18" rx="6"/>
-                </svg>`,
-
-                recycle: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <path fill="#78909c" d="M11 17 L14 42 L34 42 L37 17 Z"/>
-                    <rect fill="#546e7a" x="8" y="13" width="32" height="5" rx="1"/>
-                    <rect fill="#546e7a" x="16" y="9" width="16" height="5" rx="1"/>
-                    <line x1="19" y1="21" x2="17" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
-                    <line x1="24" y1="21" x2="24" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
-                    <line x1="29" y1="21" x2="31" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
-                </svg>`
-            };
-
             document.querySelectorAll('.desktop-icon').forEach(icon => {
                 const id = icon.dataset.window || icon.dataset.action;
-                if (id && icons[id]) {
+                if (id && ICONS[id]) {
                     const img = icon.querySelector('img');
-                    if (img) img.src = 'data:image/svg+xml,' + encodeURIComponent(icons[id]);
+                    if (img) img.src = 'data:image/svg+xml,' + encodeURIComponent(ICONS[id]);
                 }
             });
         }
@@ -2024,10 +2189,121 @@
                     clearInterval(bootInterval);
                     setTimeout(() => {
                         bootScreen.classList.add('hidden');
+                        setTimeout(() => showToast('Parsa Navidi\u2122', '\uD83D\uDC4B Welcome! Double-click any icon to explore.'), 3500);
+                        setTimeout(() => showToast('\uD83D\uDCBC Available for Work', 'Open for freelance copywriting & creative strategy projects.'), 7000);
+                        setTimeout(() => showToast('\uD83D\uDCEC New Message', 'Parsa recently published on Yardi & REC Canada. Check Projects!'), 13000);
                     }, 800);
                 }
             }, 150);
         })();
+
+        // ── Toast notifications ───────────────────────────────────────
+        let activeToast = null;
+        function showToast(title, body, duration = 6000) {
+            if (activeToast) activeToast.remove();
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.innerHTML = `<div class="toast-title"><span>🔔 ${title}</span><span class="toast-x">✕</span></div><div class="toast-body">${body}</div>`;
+            document.body.appendChild(t);
+            activeToast = t;
+            t.querySelector('.toast-x').addEventListener('click', e => { e.stopPropagation(); t.remove(); });
+            t.addEventListener('click', () => t.remove());
+            setTimeout(() => { if (t.parentNode) t.remove(); }, duration);
+        }
+
+        // ── Screensaver ───────────────────────────────────────────────
+        (function () {
+            const ss = document.getElementById('screensaver');
+            const txt = document.getElementById('ss-text');
+            const IDLE_MS = 45000;
+            const colors = ['#d4af37','#4fc3f7','#e91e63','#4caf50','#ff9800','#ce93d8'];
+            let idleTimer, animFrame;
+            let x, y, vx, vy, colorIdx = 0;
+
+            function startSS() {
+                ss.classList.add('active');
+                const w = window.innerWidth, h = window.innerHeight;
+                x = Math.random() * (w * 0.6);
+                y = Math.random() * (h * 0.6);
+                vx = 1.8; vy = 1.4;
+                colorIdx = 0;
+                tick();
+            }
+
+            function stopSS() {
+                ss.classList.remove('active');
+                cancelAnimationFrame(animFrame);
+                resetIdle();
+            }
+
+            function tick() {
+                const tw = txt.offsetWidth, th = txt.offsetHeight;
+                const mw = window.innerWidth - tw, mh = window.innerHeight - th;
+                x += vx; y += vy;
+                if (x <= 0 || x >= mw) { vx *= -1; x = Math.max(0, Math.min(x, mw)); colorIdx = (colorIdx + 1) % colors.length; txt.style.color = colors[colorIdx]; }
+                if (y <= 0 || y >= mh) { vy *= -1; y = Math.max(0, Math.min(y, mh)); colorIdx = (colorIdx + 1) % colors.length; txt.style.color = colors[colorIdx]; }
+                txt.style.left = x + 'px';
+                txt.style.top = y + 'px';
+                animFrame = requestAnimationFrame(tick);
+            }
+
+            function resetIdle() {
+                clearTimeout(idleTimer);
+                idleTimer = setTimeout(startSS, IDLE_MS);
+            }
+
+            ['mousemove','keydown','click','touchstart'].forEach(ev =>
+                document.addEventListener(ev, () => { if (ss.classList.contains('active')) stopSS(); else resetIdle(); }, { passive: true })
+            );
+
+            ss.addEventListener('click', stopSS);
+            resetIdle();
+        })();
+
+        // ── Clippy ────────────────────────────────────────────────────
+        (function () {
+            const wrap = document.getElementById('clippy-wrap');
+            const bubble = document.getElementById('clippy-bubble');
+            const svg = document.getElementById('clippy-svg');
+            const messages = [
+                "It looks like you're viewing a portfolio. Would you like help finding the right section?",
+                "It looks like you're hiring. Parsa specialises in copywriting & brand storytelling. Just saying! 😉",
+                "Did you know? Parsa has published articles for Yardi, Shopify, and REC Canada.",
+                "Tip: Right-click the desktop for quick navigation options!",
+                "Still here? Parsa is available for freelance work. Open the Contact window! 📬",
+            ];
+            let msgIdx = 0;
+
+            // Appear 20s after boot
+            setTimeout(() => wrap.classList.add('visible'), 20000);
+
+            // Cycle messages every 10s
+            setInterval(() => {
+                msgIdx = (msgIdx + 1) % messages.length;
+                bubble.style.opacity = '0';
+                setTimeout(() => {
+                    bubble.textContent = messages[msgIdx];
+                    bubble.style.opacity = '1';
+                }, 300);
+            }, 10000);
+
+            bubble.style.transition = 'opacity 0.3s';
+
+            // Click bubble to open contact
+            bubble.addEventListener('click', () => openWindow('contact'));
+
+            // Click SVG to dismiss/show bubble
+            svg.addEventListener('click', () => {
+                bubble.style.display = bubble.style.display === 'none' ? 'block' : 'none';
+            });
+        })();
+
+        // ── CRT mode (wired into context menu IIFE above) ─────────────
+        document.getElementById('ctx-crt').addEventListener('click', () => {
+            document.getElementById('context-menu').classList.remove('visible');
+            const on = document.body.classList.toggle('crt-mode');
+            document.getElementById('ctx-crt').textContent = on ? 'Disable CRT Mode' : 'Enable CRT Mode';
+        });
     </script>
 </body>
 </html>
