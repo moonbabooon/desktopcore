@@ -1667,7 +1667,11 @@
                 const item = document.createElement('div');
                 item.className = 'taskbar-item active';
                 item.dataset.window = windowId;
-                item.innerHTML = windowIcons[windowId] + `<span>${windowTitles[windowId]}</span>`;
+                // %23 is URL-encoded # — must be literal # for inline SVG colours to render
+                const iconSvg = (windowIcons[windowId] || '')
+                    .replace(/%23/g, '#')
+                    .replace('<svg ', '<svg width="16" height="16" ');
+                item.innerHTML = iconSvg + `<span>${windowTitles[windowId]}</span>`;
                 item.addEventListener('click', () => {
                     const win = document.getElementById('window-' + windowId);
                     if (win.classList.contains('minimized')) {
