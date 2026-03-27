@@ -2977,8 +2977,9 @@
                     const safeX = spaceRight > spaceLeft
                         ? Math.min(sw - 110, wr.right + 20)
                         : Math.max(20, wr.left - 110);
+                    const midBottom = Math.round((window.innerHeight - 180) / 2);
                     wrap.style.left   = safeX + 'px';
-                    wrap.style.bottom = '55px';
+                    wrap.style.bottom = midBottom + 'px';
                 });
             }
 
@@ -3014,9 +3015,9 @@
                 setExpression('neutral');
             }, 12000);
 
-            /* ── Initial position: bottom-right ── */
-            wrap.style.left   = (window.innerWidth  - 110) + 'px';
-            wrap.style.bottom = '55px';
+            /* ── Initial position: right-middle ── */
+            wrap.style.left   = (window.innerWidth  - 115) + 'px';
+            wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
 
             /* ── First appearance ── */
             setTimeout(() => {
