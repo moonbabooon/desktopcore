@@ -3133,19 +3133,6 @@
             observer.observe(aboutWin, { attributes: true, attributeFilter: ['class'] });
         })();
 
-        // Contact form
-        document.querySelector('.contact-form .btn').addEventListener('click', () => {
-            const name = document.querySelector('input[type="text"]').value;
-            const email = document.querySelector('input[type="email"]').value;
-            const message = document.querySelector('textarea').value;
-            
-            if (!name || !email || !message) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            window.location.href = `mailto:parsanavidi@hotmail.ca?subject=Portfolio Contact from ${name}&body=${encodeURIComponent(message)}%0A%0AFrom: ${name} (${email})`;
-        });
 
         // Boot Animation
         (function() {
