@@ -841,38 +841,226 @@
             .desktop {
                 height: calc(100% - 40px);
             }
-            
+
             .taskbar {
                 height: 40px;
             }
-            
+
             .start-menu {
-                width: 280px;
+                width: 260px;
             }
-            
+
+            /* All open windows fill the viewport */
+            .window:not(.minimized) {
+                top: 8px !important;
+                left: 8px !important;
+                width: calc(100vw - 16px) !important;
+                height: calc(100vh - 58px) !important;
+            }
+
+            /* Scrollable window content */
+            .window-content {
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Bigger touch targets for title bar buttons */
+            .window-btn {
+                width: 26px !important;
+                height: 24px !important;
+                font-size: 13px !important;
+            }
+
+            /* No drag cursor on mobile */
+            .window-titlebar {
+                cursor: default !important;
+            }
+
+            /* Desktop icon grid */
             .desktop-icons {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                gap: 4px;
+                gap: 6px;
+                padding: 8px;
             }
-            
+
             .desktop-icon {
                 width: 100%;
+                padding: 6px 4px;
             }
-            
-            .projects-grid, .skills-grid {
+
+            .desktop-icon img {
+                width: 40px !important;
+                height: 40px !important;
+            }
+
+            /* Single-column content grids */
+            .projects-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .skills-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .about-window .window-content {
-                flex-direction: column;
+
+            /* Tools icon grid — more columns on mobile */
+            .tools-icons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
             }
-            
+
+            /* About window */
+            .about-window .window-content {
+                flex-direction: column !important;
+            }
+
             .about-left {
-                width: 100%;
+                width: 100% !important;
                 flex-direction: row;
                 justify-content: center;
             }
+
+            /* Skill chips wrap nicely */
+            .skill-chips {
+                gap: 6px;
+            }
+
+            .skill-chip {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+        }
+
+        /* Skill Category Groups */
+        .skill-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .skill-category {
+            padding: 6px 8px;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            background: #f5f5f5;
+        }
+
+        .skill-level-header {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .level-indicator {
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .skill-level-header.expert .level-indicator { background: #228B22; }
+        .skill-level-header.expert { color: #004d00; }
+        .skill-level-header.advanced .level-indicator { background: #0055DF; }
+        .skill-level-header.advanced { color: #003399; }
+        .skill-level-header.proficient .level-indicator { background: #996600; }
+        .skill-level-header.proficient { color: #664400; }
+
+        .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .skill-chip {
+            font-size: 10px;
+            padding: 2px 8px;
+            border: 1px solid;
+            cursor: default;
+        }
+
+        .skill-chip.expert {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #1b5e20;
+        }
+
+        .skill-chip.advanced {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .skill-chip.proficient {
+            background: #fff8e1;
+            border-color: #ffc107;
+            color: #5d4037;
+        }
+
+        /* Tools Window */
+        .explorer-address {
+            padding: 3px 6px;
+            background: #d4d4d4;
+            border-bottom: 1px solid #808080;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .tools-window .window-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .tools-icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+            gap: 2px;
+            padding: 8px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .tool-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 4px 6px;
+            gap: 5px;
+            cursor: default;
+            border: 1px solid transparent;
+        }
+
+        .tool-item:hover {
+            background: rgba(0, 85, 223, 0.12);
+            border: 1px dotted #0055DF;
+        }
+
+        .tool-icon-wrap {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-icon-wrap img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .tool-item span {
+            font-size: 10px;
+            text-align: center;
+            word-break: break-word;
+            max-width: 68px;
+            line-height: 1.2;
         }
     </style>
 </head>
@@ -917,6 +1105,10 @@
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%23fff' x='8' y='4' width='32' height='40' rx='1'/%3E%3Crect fill='%23f44336' x='12' y='4' width='8' height='4'/%3E%3Cline x1='12' y1='14' x2='36' y2='14' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='12' y1='20' x2='36' y2='20' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='12' y1='26' x2='28' y2='26' stroke='%23ccc' stroke-width='2'/%3E%3C/svg%3E" alt="Resume">
                 <span>Resume</span>
             </div>
+            <div class="desktop-icon" data-window="tools">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%230055df' x='6' y='6' width='16' height='16'/%3E%3Crect fill='%23e91e63' x='26' y='6' width='16' height='16'/%3E%3Crect fill='%23ff9800' x='6' y='26' width='16' height='16'/%3E%3Crect fill='%234caf50' x='26' y='26' width='16' height='16'/%3E%3C/svg%3E" alt="My Tools">
+                <span>My Tools</span>
+            </div>
             <div class="desktop-icon" data-action="recycle">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Cpath fill='%23708090' d='M12,16 L14,40 L34,40 L36,16 Z M18,16 L18,12 L30,12 L30,16 M16,12 L32,12 L32,8 L16,8 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
                 <span>Recycle Bin</span>
@@ -924,7 +1116,7 @@
         </div>
 
         <!-- Windows -->
-        <div class="window about-window" id="window-about" style="top: 60px; left: 150px; width: 520px; height: 380px;">
+        <div class="window about-window minimized" id="window-about" style="top: 60px; left: 150px; width: 520px; height: 380px;">
             <div class="window-titlebar" data-window="about">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23f5f5f5' width='16' height='16' rx='3'/%3E%3Ccircle fill='none' stroke='%23007ea7' stroke-width='1' cx='8' cy='6' r='3'/%3E%3Cpath fill='%23007ea7' d='M5 12 C5 10, 11 10, 11 12 L11 13 L5 13 Z'/%3E%3C/svg%3E">
                 <span>About Me - Parsa Navidi</span>
@@ -1022,43 +1214,39 @@
                     <button class="window-btn close-btn" data-window="skills">×</button>
                 </div>
             </div>
-            <div class="window-content">
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <span class="skill-name">Copywriting</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 95%;"></div></div>
+            <div class="window-content" style="padding: 10px;">
+                <div class="skill-categories">
+                    <div class="skill-category">
+                        <div class="skill-level-header expert">
+                            <span class="level-indicator"></span>Expert
+                        </div>
+                        <div class="skill-chips">
+                            <span class="skill-chip expert">Copywriting</span>
+                            <span class="skill-chip expert">Brand Storytelling</span>
+                            <span class="skill-chip expert">Content Strategy</span>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Content Strategy</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+                    <div class="skill-category">
+                        <div class="skill-level-header advanced">
+                            <span class="level-indicator"></span>Advanced
+                        </div>
+                        <div class="skill-chips">
+                            <span class="skill-chip advanced">Creative Direction</span>
+                            <span class="skill-chip advanced">SEO</span>
+                            <span class="skill-chip advanced">Project Management</span>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Creative Direction</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">SEO</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 80%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Brand Storytelling</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 92%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Social Media</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 78%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Email Marketing</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 75%;"></div></div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Project Management</span>
-                        <div class="skill-bar"><div class="skill-fill" style="width: 82%;"></div></div>
+                    <div class="skill-category">
+                        <div class="skill-level-header proficient">
+                            <span class="level-indicator"></span>Proficient
+                        </div>
+                        <div class="skill-chips">
+                            <span class="skill-chip proficient">Social Media Marketing</span>
+                            <span class="skill-chip proficient">Email Marketing</span>
+                        </div>
                     </div>
                 </div>
-                <h3 style="margin-top: 16px; font-size: 12px;">Tools & Platforms</h3>
-                <p style="font-size: 11px; margin-top: 8px;">Figma, Webflow, HubSpot, Google Analytics 4, Google Search Console, WordPress, Canva, Notion, ChatGPT, Claude, Perplexity, Midjourney, Runway, Cvent, Confluence, Vercel, Adobe Creative Suite, Google Workspace, Microsoft Office</p>
+                <p style="font-size: 10px; color: #666; margin-top: 12px; font-style: italic;">Double-click "My Tools" on the desktop to explore tools &amp; platforms</p>
             </div>
         </div>
 
@@ -1152,6 +1340,139 @@
         </div>
     </div>
 
+        <div class="window tools-window minimized" id="window-tools" style="top: 80px; left: 170px; width: 560px; height: 400px;">
+            <div class="window-titlebar inactive" data-window="tools">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%230055df' x='1' y='1' width='6' height='6'/%3E%3Crect fill='%23e91e63' x='9' y='1' width='6' height='6'/%3E%3Crect fill='%23ff9800' x='1' y='9' width='6' height='6'/%3E%3Crect fill='%234caf50' x='9' y='9' width='6' height='6'/%3E%3C/svg%3E">
+                <span>My Tools — C:\Parsa\Tools &amp; Platforms\</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="tools">_</button>
+                    <button class="window-btn maximize-btn" data-window="tools">▢</button>
+                    <button class="window-btn close-btn" data-window="tools">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="explorer-address">
+                    <strong>Address:</strong> C:\Parsa\Tools &amp; Platforms\
+                </div>
+                <div class="tools-icons-grid">
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/figma" alt="Figma" onerror="toolImgErr(this,'F','#F24E1E')">
+                        </div>
+                        <span>Figma</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/webflow" alt="Webflow" onerror="toolImgErr(this,'Wf','#4353FF')">
+                        </div>
+                        <span>Webflow</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/hubspot" alt="HubSpot" onerror="toolImgErr(this,'H','#FF7A59')">
+                        </div>
+                        <span>HubSpot</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/googleanalytics" alt="GA4" onerror="toolImgErr(this,'GA','#E37400')">
+                        </div>
+                        <span>GA4</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/googlesearchconsole" alt="Search Console" onerror="toolImgErr(this,'SC','#4285F4')">
+                        </div>
+                        <span>Search Console</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/wordpress" alt="WordPress" onerror="toolImgErr(this,'Wp','#21759B')">
+                        </div>
+                        <span>WordPress</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/canva" alt="Canva" onerror="toolImgErr(this,'C','#00C4CC')">
+                        </div>
+                        <span>Canva</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/notion" alt="Notion" onerror="toolImgErr(this,'N','#000000')">
+                        </div>
+                        <span>Notion</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/openai" alt="ChatGPT" onerror="toolImgErr(this,'AI','#000000')">
+                        </div>
+                        <span>ChatGPT</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/anthropic" alt="Claude" onerror="toolImgErr(this,'Cl','#CC785C')">
+                        </div>
+                        <span>Claude</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/perplexity" alt="Perplexity" onerror="toolImgErr(this,'Px','#1FB8CD')">
+                        </div>
+                        <span>Perplexity</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/midjourney" alt="Midjourney" onerror="toolImgErr(this,'MJ','#000000')">
+                        </div>
+                        <span>Midjourney</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <div style="width:32px;height:32px;background:#111111;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:11px;font-family:Arial">Rw</div>
+                        </div>
+                        <span>Runway</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <div style="width:32px;height:32px;background:#0073C6;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:11px;font-family:Arial">Cv</div>
+                        </div>
+                        <span>Cvent</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/confluence" alt="Confluence" onerror="toolImgErr(this,'Cf','#172B4D')">
+                        </div>
+                        <span>Confluence</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/vercel" alt="Vercel" onerror="toolImgErr(this,'▲','#000000')">
+                        </div>
+                        <span>Vercel</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/adobecreativecloud" alt="Adobe CC" onerror="toolImgErr(this,'Ac','#DA1F26')">
+                        </div>
+                        <span>Adobe CC</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/googleworkspace" alt="Google WS" onerror="toolImgErr(this,'GW','#4285F4')">
+                        </div>
+                        <span>Google WS</span>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon-wrap">
+                            <img src="https://cdn.simpleicons.org/microsoftoffice" alt="MS Office" onerror="toolImgErr(this,'Ms','#D83B01')">
+                        </div>
+                        <span>MS Office</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- Taskbar -->
     <div class="taskbar">
         <button class="start-button" id="start-button">
@@ -1192,6 +1513,10 @@
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23fff' x='4' y='2' width='24' height='28' rx='1'/%3E%3Cline x1='8' y1='10' x2='24' y2='10' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='8' y1='16' x2='24' y2='16' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='8' y1='22' x2='20' y2='22' stroke='%23ccc' stroke-width='2'/%3E%3C/svg%3E">
                 <span>Resume</span>
             </div>
+            <div class="start-menu-item" data-window="tools">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%230055df' x='4' y='4' width='10' height='10'/%3E%3Crect fill='%23e91e63' x='18' y='4' width='10' height='10'/%3E%3Crect fill='%23ff9800' x='4' y='18' width='10' height='10'/%3E%3Crect fill='%234caf50' x='18' y='18' width='10' height='10'/%3E%3C/svg%3E">
+                <span>My Tools</span>
+            </div>
             <div class="start-menu-divider"></div>
             <div class="start-menu-item" data-window="recycle">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Cpath fill='%23708090' d='M8,10 L10,26 L22,26 L24,10 Z M12,10 L12,6 L20,6 L20,10 M10,6 L22,6 L22,4 L10,4 Z'/%3E%3C/svg%3E">
@@ -1206,12 +1531,25 @@
     </div>
 
     <script>
+        // Tool logo fallback
+        function toolImgErr(img, letter, bg) {
+            const wrap = img.parentElement;
+            img.remove();
+            const tile = document.createElement('div');
+            tile.style.cssText = `width:32px;height:32px;background:${bg};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:11px;font-family:Arial`;
+            tile.textContent = letter;
+            wrap.appendChild(tile);
+        }
+
         // Window management
         let activeWindow = null;
         let dragOffset = { x: 0, y: 0 };
         let isDragging = false;
         let windowZIndex = 100;
-        const openWindows = new Set(['about']);
+        const openWindows = new Set();
+        const positionedWindows = new Set();
+        let cascadeIndex = 0;
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
         // Clock
         function updateClock() {
@@ -1242,13 +1580,30 @@
 
         // Open window
         function openWindow(windowId) {
-            const window = document.getElementById('window-' + windowId);
-            if (!window) return;
+            const win = document.getElementById('window-' + windowId);
+            if (!win) return;
 
-            window.classList.remove('minimized');
-            window.style.zIndex = ++windowZIndex;
+            win.classList.remove('minimized');
+            win.style.zIndex = ++windowZIndex;
             startMenu.classList.remove('open');
-            
+
+            // On desktop: center + cascade windows on first open
+            if (!isTouchDevice && window.innerWidth > 768 && !positionedWindows.has(windowId)) {
+                positionedWindows.add(windowId);
+                const offset = (cascadeIndex % 7) * 26;
+                cascadeIndex++;
+                const desktop = document.querySelector('.desktop');
+                const dW = desktop.offsetWidth;
+                const dH = desktop.offsetHeight;
+                const wW = win.offsetWidth || 500;
+                const wH = win.offsetHeight || 400;
+                // Keep clear of the icon column (~110px) and center in remaining space
+                const x = Math.max(110, Math.round((dW - wW) / 2 + offset));
+                const y = Math.max(10, Math.round((dH - wH) / 2 - 20 + offset));
+                win.style.left = x + 'px';
+                win.style.top = y + 'px';
+            }
+
             openWindows.add(windowId);
             updateTaskbar();
             updateTitleBarState(windowId, true);
@@ -1292,7 +1647,8 @@
                 'skills': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23e91e63' x='1' y='1' width='14' height='14' rx='2'/><text x='8' y='12' text-anchor='middle' fill='%23fff' font-size='10' font-weight='bold'>S</text></svg>`,
                 'contact': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%230055df' x='1' y='4' width='14' height='10' rx='1'/><polygon fill='%23fff' points='8,7 2,13 14,13'/></svg>`,
                 'resume': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23fff' x='1' y='1' width='14' height='14' rx='1'/><line x1='4' y1='5' x2='12' y2='5' stroke='%23ccc' stroke-width='1'/><line x1='4' y1='8' x2='12' y2='8' stroke='%23ccc' stroke-width='1'/><line x1='4' y1='11' x2='10' y2='11' stroke='%23ccc' stroke-width='1'/></svg>`,
-                'recycle': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/></svg>`
+                'recycle': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/></svg>`,
+                'tools': `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%230055df' x='1' y='1' width='6' height='6'/><rect fill='%23e91e63' x='9' y='1' width='6' height='6'/><rect fill='%23ff9800' x='1' y='9' width='6' height='6'/><rect fill='%234caf50' x='9' y='9' width='6' height='6'/></svg>`
             };
 
             const windowTitles = {
@@ -1301,7 +1657,8 @@
                 'skills': 'Skills',
                 'contact': 'Contact',
                 'resume': 'Resume.pdf',
-                'recycle': 'Recycle Bin'
+                'recycle': 'Recycle Bin',
+                'tools': 'My Tools'
             };
 
             openWindows.forEach(windowId => {
@@ -1333,9 +1690,9 @@
             }
         }
 
-        // Desktop icons click handler
+        // Desktop icons — single tap on touch devices, double-click on desktop
         document.querySelectorAll('.desktop-icon').forEach(icon => {
-            icon.addEventListener('dblclick', () => {
+            icon.addEventListener(isTouchDevice ? 'click' : 'dblclick', () => {
                 const windowId = icon.dataset.window;
                 if (windowId) {
                     openWindow(windowId);
@@ -1503,11 +1860,6 @@
                 }
             }, 150);
         })();
-
-        // Open about window by default
-        setTimeout(() => {
-            openWindow('about');
-        }, 4500);
     </script>
 </body>
 </html>
