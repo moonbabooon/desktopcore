@@ -3134,6 +3134,75 @@
         })();
 
 
+        // ── Sound effects (Web Audio API) ─────────────────────────────
+        const SFX = (function () {
+            let ctx = null;
+            function ac() {
+                if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+                return ctx;
+            }
+            function tone(freq, dur, type = 'sine', vol = 0.22, delay = 0) {
+                try {
+                    const c = ac();
+                    const osc = c.createOscillator();
+                    const g   = c.createGain();
+                    osc.connect(g); g.connect(c.destination);
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, c.currentTime + delay);
+                    g.gain.setValueAtTime(vol, c.currentTime + delay);
+                    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + delay + dur);
+                    osc.start(c.currentTime + delay);
+                    osc.stop(c.currentTime + delay + dur);
+                } catch(e) {}
+            }
+            return {
+                startup() {
+                    [[523,0],[659,0.14],[784,0.28],[1047,0.44],[880,0.62]].forEach(([f,d]) => tone(f, 0.45, 'sine', 0.18, d));
+                },
+                open() {
+                    tone(880, 0.07, 'sine', 0.18);
+                    tone(1200, 0.1, 'sine', 0.13, 0.06);
+                },
+                close() {
+                    tone(800, 0.07, 'sine', 0.18);
+                    tone(500, 0.13, 'sine', 0.13, 0.06);
+                },
+                minimize() {
+                    tone(660, 0.07, 'sine', 0.15);
+                    tone(440, 0.1,  'sine', 0.10, 0.06);
+                },
+                restore() {
+                    tone(440, 0.07, 'sine', 0.15);
+                    tone(660, 0.1,  'sine', 0.10, 0.06);
+                },
+                error() {
+                    tone(220, 0.22, 'square', 0.20);
+                    tone(185, 0.30, 'square', 0.20, 0.20);
+                },
+                notify() {
+                    tone(1047, 0.13, 'sine', 0.18);
+                    tone(1319, 0.22, 'sine', 0.14, 0.11);
+                },
+                clippy() {
+                    try {
+                        const c = ac();
+                        const osc = c.createOscillator();
+                        const g   = c.createGain();
+                        osc.connect(g); g.connect(c.destination);
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(550, c.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(1100, c.currentTime + 0.14);
+                        osc.frequency.exponentialRampToValueAtTime(880,  c.currentTime + 0.28);
+                        g.gain.setValueAtTime(0.18, c.currentTime);
+                        g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.38);
+                        osc.start(c.currentTime);
+                        osc.stop(c.currentTime + 0.40);
+                    } catch(e) {}
+                },
+                click() { tone(900, 0.04, 'sine', 0.10); }
+            };
+        })();
+
         // Boot Animation
         (function() {
             const bootScreen = document.getElementById('boot-screen');
@@ -3422,76 +3491,6 @@
             });
             svg.addEventListener('mouseenter', () => setExpression('happy'));
             svg.addEventListener('mouseleave', () => setExpression('neutral'));
-        })();
-
-        // ── Sound effects (Web Audio API) ─────────────────────────────
-        const SFX = (function () {
-            let ctx = null;
-            function ac() {
-                if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-                return ctx;
-            }
-            function tone(freq, dur, type = 'sine', vol = 0.22, delay = 0) {
-                try {
-                    const c = ac();
-                    const osc = c.createOscillator();
-                    const g   = c.createGain();
-                    osc.connect(g); g.connect(c.destination);
-                    osc.type = type;
-                    osc.frequency.setValueAtTime(freq, c.currentTime + delay);
-                    g.gain.setValueAtTime(vol, c.currentTime + delay);
-                    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + delay + dur);
-                    osc.start(c.currentTime + delay);
-                    osc.stop(c.currentTime + delay + dur);
-                } catch(e) {}
-            }
-            return {
-                startup() {
-                    // Warm ascending chime — evokes Windows 95/98 startup
-                    [[523,0],[659,0.14],[784,0.28],[1047,0.44],[880,0.62]].forEach(([f,d]) => tone(f, 0.45, 'sine', 0.18, d));
-                },
-                open() {
-                    tone(880, 0.07, 'sine', 0.18);
-                    tone(1200, 0.1, 'sine', 0.13, 0.06);
-                },
-                close() {
-                    tone(800, 0.07, 'sine', 0.18);
-                    tone(500, 0.13, 'sine', 0.13, 0.06);
-                },
-                minimize() {
-                    tone(660, 0.07, 'sine', 0.15);
-                    tone(440, 0.1,  'sine', 0.10, 0.06);
-                },
-                restore() {
-                    tone(440, 0.07, 'sine', 0.15);
-                    tone(660, 0.1,  'sine', 0.10, 0.06);
-                },
-                error() {
-                    tone(220, 0.22, 'square', 0.20);
-                    tone(185, 0.30, 'square', 0.20, 0.20);
-                },
-                notify() {
-                    tone(1047, 0.13, 'sine', 0.18);
-                    tone(1319, 0.22, 'sine', 0.14, 0.11);
-                },
-                clippy() {
-                    try {
-                        const c = ac();
-                        const osc = c.createOscillator();
-                        const g   = c.createGain();
-                        osc.connect(g); g.connect(c.destination);
-                        osc.type = 'sine';
-                        osc.frequency.setValueAtTime(550, c.currentTime);
-                        osc.frequency.exponentialRampToValueAtTime(1100, c.currentTime + 0.14);
-                        osc.frequency.exponentialRampToValueAtTime(880,  c.currentTime + 0.28);
-                        g.gain.setValueAtTime(0.18, c.currentTime);
-                        g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.38);
-                        osc.start(c.currentTime);
-                        osc.stop(c.currentTime + 0.40);
-                    } catch(e) {}
-                },
-                click() { tone(900, 0.04, 'sine', 0.10); }
-            };
         })();
 
         // ── Windows Explorer: Projects window logic ────────────────────
