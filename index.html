@@ -974,6 +974,253 @@
             margin: 3px 4px;
         }
 
+        /* ── Internet Explorer About Window ─────────────────── */
+        .ie-window-content {
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            background: #d4d4d4 !important;
+            overflow: hidden !important;
+            gap: 0 !important;
+        }
+
+        .ie-menubar {
+            display: flex;
+            background: #d4d4d4;
+            border-bottom: 1px solid #a0a0a0;
+            padding: 1px 4px;
+            gap: 0;
+            flex-shrink: 0;
+        }
+        .ie-menubar span {
+            padding: 2px 8px;
+            font-size: 11px;
+            cursor: default;
+            color: #000;
+        }
+        .ie-menubar span:hover {
+            background: #0055df;
+            color: #fff;
+        }
+
+        .ie-toolbar {
+            display: flex;
+            align-items: center;
+            background: #d4d4d4;
+            border-bottom: 1px solid #a0a0a0;
+            padding: 2px 4px;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+        .ie-btn {
+            padding: 2px 7px;
+            background: linear-gradient(180deg,#f0f0f0,#d4d4d4);
+            border: 1px solid;
+            border-color: #fff #808080 #808080 #fff;
+            font-size: 10px;
+            font-family: Tahoma, sans-serif;
+            cursor: pointer;
+            white-space: nowrap;
+            height: 22px;
+        }
+        .ie-btn:disabled { color: #999; cursor: default; background: #d4d4d4; }
+        .ie-btn:hover:not(:disabled) { background: linear-gradient(180deg,#fff,#e0e0e0); }
+        .ie-btn:active:not(:disabled) { border-color: #808080 #fff #fff #808080; }
+        .ie-sep { width: 1px; height: 18px; background: #808080; margin: 0 3px; border-right: 1px solid #fff; }
+        .ie-throbber-wrap { margin-left: auto; padding-right: 4px; }
+        .ie-throbber {
+            width: 20px; height: 20px;
+            border: 2px solid #1565c0;
+            border-top-color: transparent;
+            border-radius: 50%;
+            display: none;
+        }
+        .ie-throbber.spinning { display: block; animation: ieSpin 0.7s linear infinite; }
+        @keyframes ieSpin { to { transform: rotate(360deg); } }
+
+        .ie-addressbar {
+            display: flex;
+            align-items: center;
+            background: #d4d4d4;
+            border-bottom: 2px solid #a0a0a0;
+            padding: 2px 4px;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .ie-addr-label { font-size: 11px; font-weight: bold; white-space: nowrap; }
+        .ie-addr-input {
+            flex: 1;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            padding: 1px 4px;
+            font-size: 11px;
+            background: #fff;
+        }
+        .ie-go-btn { font-size: 10px; }
+
+        .ie-page {
+            flex: 1;
+            overflow-y: auto;
+            background: #fff;
+            -webkit-overflow-scrolling: touch;
+            min-height: 0;
+        }
+
+        /* Page content styles */
+        .ie-banner {
+            background: linear-gradient(135deg, #000066 0%, #000099 50%, #000066 100%);
+            padding: 10px 16px;
+            text-align: center;
+            border-bottom: 3px solid #ffd700;
+        }
+        .ie-banner-title {
+            color: #ffd700;
+            font-family: 'Comic Sans MS', 'Trebuchet MS', cursive;
+            font-size: 15px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+        .ie-banner-sub {
+            color: #87ceeb;
+            font-size: 10px;
+            margin-top: 3px;
+            font-family: Tahoma, sans-serif;
+        }
+        .ie-counterbar {
+            background: #000033;
+            padding: 3px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-family: 'Courier New', monospace;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .ie-counter-green  { color: #00ff00; }
+        .ie-counter-orange { color: #ff6600; }
+        .ie-counter-cyan   { color: #00ffff; font-size: 9px; }
+
+        .ie-layout-table { width: 100%; background: #eeeef8; border-collapse: separate; border-spacing: 4px; }
+        .ie-sidebar {
+            width: 140px;
+            background: #e0e0f0;
+            border-right: 2px solid #ccccdd;
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            vertical-align: top;
+        }
+        .ie-profile-pic-wrap { text-align: center; }
+        .ie-profile-pic {
+            width: 100px; height: 100px;
+            object-fit: cover;
+            border: 3px ridge #9999cc;
+            display: block;
+            margin: 0 auto;
+        }
+        .ie-profile-name {
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 10px;
+            color: #333;
+            margin-top: 4px;
+            text-align: center;
+        }
+        .ie-online-badge {
+            background: #000066;
+            color: #00ff00;
+            padding: 3px 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            text-align: center;
+            margin: 4px 0;
+        }
+        .ie-sidebar-facts { font-size: 11px; line-height: 1.6; }
+        .ie-construction {
+            text-align: center;
+            padding: 3px 4px;
+            background: repeating-linear-gradient(45deg,#ff6600,#ff6600 5px,#ffcc00 5px,#ffcc00 10px);
+            font-weight: bold;
+            color: #000;
+            font-size: 9px;
+            border: 1px solid #333;
+            font-family: Tahoma, sans-serif;
+        }
+        .ie-sidebar-btn {
+            display: block;
+            text-align: center;
+            padding: 4px 8px;
+            font-size: 10px;
+            text-decoration: none;
+            font-family: Tahoma, sans-serif;
+            border: 1px outset #888;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+        .ie-sidebar-btn-blue { background: #000066; }
+        .ie-sidebar-btn-blue:hover { background: #0000aa; }
+        .ie-sidebar-btn-red { background: #660000; }
+        .ie-sidebar-btn-red:hover { background: #880000; }
+
+        .ie-main { background: #fff; font-family: Tahoma, sans-serif; vertical-align: top; }
+        .ie-main-h2 {
+            font-family: 'Times New Roman', serif;
+            color: #000066;
+            border-bottom: 2px solid #9999cc;
+            padding-bottom: 4px;
+            margin-top: 0;
+            font-size: 16px;
+        }
+        .ie-name-red { color: #cc0000; }
+        .ie-main-h3 { font-family: 'Times New Roman', serif; color: #000066; font-size: 13px; margin-bottom: 6px; }
+        .ie-main-p  { color: #333; line-height: 1.6; font-size: 11px; margin-bottom: 8px; }
+        .ie-main-ul { color: #333; line-height: 1.9; font-size: 11px; padding-left: 20px; }
+        .ie-link { color: #0000cc; }
+        .ie-link:visited { color: #551a8b; }
+        .ie-hr { border: none; border-top: 1px solid #9999cc; margin: 8px 0; }
+        @keyframes ieBlink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+        .ie-blink-text {
+            text-align: center;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            color: #666;
+            animation: ieBlink 1.2s step-end infinite;
+        }
+
+        .ie-footer {
+            background: #000033;
+            color: #888;
+            text-align: center;
+            padding: 6px;
+            font-size: 9px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+
+        .ie-statusbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1px 6px;
+            background: #d4d4d4;
+            border-top: 1px solid #a0a0a0;
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            flex-shrink: 0;
+        }
+        .ie-statusbar-right { display: flex; gap: 8px; align-items: center; }
+        .ie-statusbar-right span {
+            padding: 0 8px;
+            border-left: 1px solid #a0a0a0;
+            font-size: 10px;
+        }
+
+        /* Mobile: collapse sidebar */
+        @media (max-width: 768px) {
+            .ie-sidebar { display: none; }
+            .ie-counterbar { flex-direction: column; align-items: flex-start; }
+        }
+
         /* Skill Category Groups */
         .skill-categories {
             display: flex;
@@ -1351,35 +1598,112 @@
         </div>
 
         <!-- Windows -->
-        <div class="window about-window minimized" id="window-about" style="top: 60px; left: 150px; width: 520px; height: 380px;">
+        <div class="window about-window minimized" id="window-about" style="top: 50px; left: 120px; width: 660px; height: 520px;">
             <div class="window-titlebar" data-window="about">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23f5f5f5' width='16' height='16' rx='3'/%3E%3Ccircle fill='none' stroke='%23007ea7' stroke-width='1' cx='8' cy='6' r='3'/%3E%3Cpath fill='%23007ea7' d='M5 12 C5 10, 11 10, 11 12 L11 13 L5 13 Z'/%3E%3C/svg%3E">
-                <span>About Me - Parsa Navidi</span>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle fill='%231a73e8' cx='8' cy='8' r='7'/%3E%3Cpath fill='white' d='M11 7H7.5C7.2 7 7 7.2 7 7.5S7.2 8 7.5 8H10.8C10.5 9.1 9.5 10 8 10c-1.7 0-3-1.3-3-3s1.3-3 3-3c.9 0 1.7.4 2.2 1l1.1-1.1C10.5 3.3 9.3 3 8 3 5.2 3 3 5.2 3 8s2.2 5 5 5 5-2.2 5-5v-.5c0-.3-.2-.5-.5-.5H11z'/%3E%3C/svg%3E">
+                <span>Parsa Navidi — Personal Homepage - Microsoft Internet Explorer</span>
                 <div class="window-controls">
                     <button class="window-btn minimize-btn" data-window="about">_</button>
                     <button class="window-btn maximize-btn" data-window="about">▢</button>
                     <button class="window-btn close-btn" data-window="about">×</button>
                 </div>
             </div>
-            <div class="window-content">
-                <div class="about-left">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect fill='%23333' width='96' height='96'/%3E%3Ccircle fill='%23ffd93d' cx='48' cy='36' r='20'/%3E%3Cellipse fill='%23333' cx='48' cy='90' rx='32' ry='24'/%3E%3C/svg%3E" alt="Profile">
-                    <span style="font-size: 10px; color: #000;">Creative Strategist</span>
+            <div class="window-content ie-window-content">
+                <!-- IE Menu bar -->
+                <div class="ie-menubar">
+                    <span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span>
                 </div>
-                <div class="about-right">
-                    <h2>Parsa Navidi</h2>
-                    <h3>Creative Strategist // Content Designer</h3>
-                    <p>I'm a multi-disciplinary marketing professional based in Toronto, Canada. From York University's Cinema and Media Arts to the front lines of digital marketing, my journey has been defined by one obsession: the power of story.</p>
-                    <p>Today, I help brands find their voice. Whether it's a landing page that needs to convert, a blog that demands attention, or a brand that needs to stand for something — I'm the guy who figures out what to say and how to say it.</p>
-                    <h3>Currently</h3>
-                    <ul>
-                        <li>Writer at <strong>Yardi</strong></li>
-                        <li>Freelance Copywriter & Creative Strategist</li>
-                    </ul>
-                    <h3>Education</h3>
-                    <ul>
-                        <li>Bachelor's Degree, Film and Media Arts — York University</li>
-                    </ul>
+                <!-- IE Button toolbar -->
+                <div class="ie-toolbar">
+                    <button class="ie-btn" disabled>&#9664; Back</button>
+                    <button class="ie-btn" disabled>Fwd &#9654;</button>
+                    <button class="ie-btn" onclick="document.getElementById('ie-page').scrollTop=0">&#10006; Stop</button>
+                    <button class="ie-btn" onclick="document.getElementById('ie-page').scrollTop=0">&#8635; Refresh</button>
+                    <div class="ie-sep"></div>
+                    <button class="ie-btn">&#127968; Home</button>
+                    <div class="ie-throbber-wrap">
+                        <div class="ie-throbber" id="ie-throbber"></div>
+                    </div>
+                </div>
+                <!-- IE Address bar -->
+                <div class="ie-addressbar">
+                    <span class="ie-addr-label">Address</span>
+                    <input class="ie-addr-input" id="ie-addr" value="http://www.parsanavidi.com/about-me.html" readonly>
+                    <button class="ie-btn ie-go-btn">Go &#9654;</button>
+                </div>
+                <!-- IE Page area -->
+                <div class="ie-page" id="ie-page">
+                    <!-- Banner -->
+                    <div class="ie-banner">
+                        <div class="ie-banner-title">&#10022;&#9733;&#10022; Welcome to Parsa's Corner of the Internet! &#10022;&#9733;&#10022;</div>
+                        <div class="ie-banner-sub">Est. 2021 &nbsp;&bull;&nbsp; Toronto, Canada &nbsp;&bull;&nbsp; Best viewed in 800&times;600</div>
+                    </div>
+                    <!-- Counter bar -->
+                    <div class="ie-counterbar">
+                        <span class="ie-counter-green">VISITORS: <b>001,338</b></span>
+                        <span class="ie-counter-orange">&#128293; You are visitor #1,339!</span>
+                        <span class="ie-counter-cyan">&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9617;&#9617; 80%&nbsp;loaded</span>
+                    </div>
+                    <!-- Two-column table layout (classic old web) -->
+                    <table class="ie-layout-table" cellpadding="8" cellspacing="4">
+                        <tr valign="top">
+                            <!-- Sidebar -->
+                            <td class="ie-sidebar">
+                                <div class="ie-profile-pic-wrap">
+                                    <img src="images/portrait1.png" class="ie-profile-pic" onerror="this.style.display='none'">
+                                    <div class="ie-profile-name">~*~ Parsa ~*~</div>
+                                </div>
+                                <hr class="ie-hr">
+                                <div class="ie-online-badge">&#9679; STATUS: ONLINE</div>
+                                <div class="ie-sidebar-facts">
+                                    <b>&#127758; Location:</b><br>Toronto, Canada<br><br>
+                                    <b>&#128188; Status:</b><br><span style="color:#006600;font-weight:bold">Available for hire!</span><br><br>
+                                    <b>&#127891; Degree:</b><br>Film &amp; Media Arts<br>York University
+                                </div>
+                                <hr class="ie-hr">
+                                <div class="ie-construction">
+                                    &#128679; ALWAYS BUILDING &#128679;
+                                </div>
+                                <hr class="ie-hr">
+                                <a href="#" class="ie-sidebar-btn ie-sidebar-btn-blue" onclick="openWindow('contact');return false;">&#128231; Email Me!</a>
+                                <a href="#" class="ie-sidebar-btn ie-sidebar-btn-red" onclick="openWindow('contact');return false;">&#9997;&#65039; Sign Guestbook</a>
+                            </td>
+                            <!-- Main content -->
+                            <td class="ie-main">
+                                <h2 class="ie-main-h2">Hi there! I'm <span class="ie-name-red">Parsa Navidi</span> &#128075;</h2>
+                                <p class="ie-main-p">Welcome to my little corner of the internet! I'm a <b>Creative Strategist</b> and <b>Content Designer</b> based in Toronto, Canada. From York University's Cinema and Media Arts to the front lines of digital marketing, my journey has been defined by one obsession: <i>the power of story</i>.</p>
+                                <p class="ie-main-p">Today, I help brands find their voice. Whether it's a landing page that needs to convert, a blog that demands attention, or a brand that needs to stand for something — I'm the guy who figures out <b>what to say and how to say it</b>.</p>
+                                <hr class="ie-hr">
+                                <h3 class="ie-main-h3">&#9889; What I'm Up To</h3>
+                                <ul class="ie-main-ul">
+                                    <li>&#9997;&#65039; Writer at <b><a href="https://www.yardi.com/blog/" target="_blank" class="ie-link">Yardi</a></b></li>
+                                    <li>&#127919; Freelance Copywriter &amp; Creative Strategist</li>
+                                    <li>&#128218; Always reading, always learning</li>
+                                </ul>
+                                <hr class="ie-hr">
+                                <h3 class="ie-main-h3">&#127775; Fun Facts</h3>
+                                <ul class="ie-main-ul">
+                                    <li>&#127916; Cinema &amp; Media Arts @ York University</li>
+                                    <li>&#128240; Published on Yardi, Shopify &amp; REC Canada</li>
+                                    <li>&#127961;&#65039; Based in Toronto &#127809;</li>
+                                    <li>&#128161; Believes great copy can change the world</li>
+                                </ul>
+                                <div class="ie-blink-text">&#9733; Thanks for visiting! Don't forget to sign the guestbook! &#9733;</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- Footer -->
+                    <div class="ie-footer">
+                        &copy; 2025 Parsa Navidi Productions&#8482; &nbsp;|&nbsp; Best viewed in Internet Explorer 4.0+ &nbsp;|&nbsp; 800&times;600 resolution<br>
+                        <span style="color:#00ff88">&#128154; This page has been visited by real humans since 2021 &#128154;</span>
+                    </div>
+                </div>
+                <!-- IE Status bar -->
+                <div class="ie-statusbar">
+                    <span id="ie-status">Done</span>
+                    <div class="ie-statusbar-right">
+                        <span>&#127760; Internet</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2211,6 +2535,32 @@
             });
         })();
 
+        // ── IE loading effect when About window opens ────────────
+        const _origOpen = openWindow;
+        // (hook already exists via clippyReact; add status bar logic)
+        document.getElementById('window-about').addEventListener('mousedown', () => {
+            // bring throbber/status alive for a moment on any interaction
+        });
+        // Patch: trigger IE loading bar when about window is opened
+        (function patchIELoad() {
+            const aboutWin = document.getElementById('window-about');
+            if (!aboutWin) return;
+            const observer = new MutationObserver(() => {
+                if (!aboutWin.classList.contains('minimized')) {
+                    const throbber = document.getElementById('ie-throbber');
+                    const status   = document.getElementById('ie-status');
+                    if (!throbber || !status) return;
+                    throbber.classList.add('spinning');
+                    status.textContent = 'Opening http://www.parsanavidi.com/about-me.html ...';
+                    setTimeout(() => {
+                        throbber.classList.remove('spinning');
+                        status.textContent = 'Done';
+                    }, 1600);
+                }
+            });
+            observer.observe(aboutWin, { attributes: true, attributeFilter: ['class'] });
+        })();
+
         // Contact form
         document.querySelector('.contact-form .btn').addEventListener('click', () => {
             const name = document.querySelector('input[type="text"]').value;
@@ -2428,13 +2778,39 @@
             }
             setTimeout(blink, 3000);
 
+            /* ── Dodge: move Clippy away from an open window ── */
+            function dodgeWindow(windowId) {
+                const win = document.getElementById('window-' + windowId);
+                if (!win || win.classList.contains('minimized')) return;
+                // Give the window a frame to paint before measuring
+                requestAnimationFrame(() => {
+                    const wr  = win.getBoundingClientRect();
+                    const cr  = wrap.getBoundingClientRect();
+                    const sw  = window.innerWidth;
+                    const sh  = window.innerHeight;
+                    // Check overlap (with 20px cushion)
+                    const overlap = !(cr.right  < wr.left  - 20 ||
+                                      cr.left   > wr.right + 20 ||
+                                      cr.bottom < wr.top   - 20 ||
+                                      cr.top    > wr.bottom + 20);
+                    if (!overlap) return;
+                    // Move to the side of the screen with more space
+                    const spaceRight = sw - wr.right;
+                    const spaceLeft  = wr.left;
+                    const safeX = spaceRight > spaceLeft
+                        ? Math.min(sw - 110, wr.right + 20)
+                        : Math.max(20, wr.left - 110);
+                    wrap.style.left   = safeX + 'px';
+                    wrap.style.bottom = '55px';
+                });
+            }
+
             /* ── Wandering ── */
             function wander() {
                 const pad  = 120;
                 const maxX = window.innerWidth  - pad;
-                const maxY = window.innerHeight - 200;
                 const newL = Math.max(20, Math.min(maxX, 80 + Math.random() * (maxX - 80)));
-                const newB = Math.max(50, Math.min(maxY, 50 + Math.random() * 300));
+                const newB = Math.max(55, 55 + Math.random() * Math.min(250, window.innerHeight - 250));
                 wrap.style.left   = newL + 'px';
                 wrap.style.bottom = newB + 'px';
             }
@@ -2449,6 +2825,7 @@
                 setMsg(msg);
                 setExpression(windowId === 'contact' ? 'happy' : windowId === 'recycle' ? 'surprised' : 'happy');
                 playAnim(anims[windowId] || 'bounce');
+                dodgeWindow(windowId);
             };
 
             /* ── Idle message cycling ── */
@@ -2460,13 +2837,17 @@
                 setExpression('neutral');
             }, 12000);
 
+            /* ── Initial position: bottom-right ── */
+            wrap.style.left   = (window.innerWidth  - 110) + 'px';
+            wrap.style.bottom = '55px';
+
             /* ── First appearance ── */
             setTimeout(() => {
                 wrap.classList.add('visible');
                 playAnim('wave');
                 setExpression('happy');
                 setTimeout(() => playAnim('float'), 1000);
-            }, 20000);
+            }, 6000);
 
             /* ── Click interactions ── */
             bubble.addEventListener('click', () => openWindow('contact'));
