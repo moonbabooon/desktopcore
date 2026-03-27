@@ -1756,60 +1756,93 @@
             color: #000;
         }
         .word-page h1 {
-            font-size: 17px;
+            font-size: 18px;
             font-family: 'Times New Roman', serif;
             text-align: center;
-            margin: 0 0 2px;
-            letter-spacing: 2px;
+            margin: 0 0 3px;
+            letter-spacing: 3px;
             text-transform: uppercase;
+            color: #000;
         }
         .word-page .wd-subtitle {
             text-align: center;
             font-size: 11px;
-            margin: 0 0 3px;
-            color: #222;
+            margin: 0 0 4px;
+            color: #000;
+            letter-spacing: 0.5px;
         }
         .word-page .wd-contact {
             text-align: center;
             font-size: 10.5px;
-            color: #444;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #000;
+            color: #000;
+            margin-bottom: 0;
             padding-bottom: 8px;
         }
+        .word-page .wd-contact a { color: #000; text-decoration: none; }
+        .word-page .wd-hr {
+            border: none;
+            border-top: 1.5px solid #000;
+            margin: 6px 0 10px;
+        }
         .word-page h2 {
-            font-size: 12px;
+            font-size: 11.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             border-bottom: 1px solid #000;
             padding-bottom: 2px;
-            margin: 12px 0 6px;
+            margin: 11px 0 5px;
             font-family: 'Times New Roman', serif;
+            color: #000;
         }
         .word-page .wd-job-title {
             font-weight: bold;
             font-size: 11.5px;
             margin: 0;
+            color: #000;
+        }
+        .word-page .wd-date {
+            font-size: 10.5px;
+            color: #000;
+            font-style: italic;
+            white-space: nowrap;
         }
         .word-page .wd-job-meta {
             font-style: italic;
             font-size: 10.5px;
-            color: #444;
-            margin: 1px 0 3px;
+            color: #000;
+            margin: 1px 0 4px;
         }
-        .word-page .wd-job-desc {
-            margin: 0 0 8px;
+        .word-page .wd-bullets {
+            margin: 3px 0 7px 16px;
+            padding: 0;
             font-size: 11px;
+            line-height: 1.5;
+            color: #000;
         }
+        .word-page .wd-bullets li { margin-bottom: 2px; }
         .word-page .wd-skills {
             margin: 0;
             font-size: 11px;
             line-height: 1.6;
+            color: #000;
         }
+        .word-page .wd-skills-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin: 3px 0 0;
+            color: #000;
+        }
+        .word-page .wd-skills-table td {
+            padding: 1px 4px 1px 0;
+            width: 33%;
+        }
+        .word-page .wd-skills-table td::before { content: "• "; }
         .word-page .wd-dl-row {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
+            margin-top: 6px;
         }
         .word-statusbar {
             background: #d4d0c8;
@@ -2340,7 +2373,7 @@
             </div>
         </div>
 
-        <div class="window resume-window minimized" id="window-resume" style="top: 80px; left: 150px; width: 590px; height: 530px;">
+        <div class="window resume-window minimized" id="window-resume" style="top: 60px; left: 130px; width: 600px; height: 560px;">
             <div class="window-titlebar inactive" data-window="resume">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%231565c0' x='1' y='1' width='14' height='14' rx='1'/%3E%3Ctext x='8' y='12' text-anchor='middle' fill='white' font-size='11' font-weight='bold' font-family='serif'%3EW%3C/text%3E%3C/svg%3E">
                 <span>Parsa Navidi - Resume.doc — Microsoft Word</span>
@@ -2355,21 +2388,23 @@
                 <div class="word-menubar">
                     <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Table</span><span>Window</span><span>Help</span>
                 </div>
-                <!-- Standard toolbar -->
+                <!-- Standard toolbar — text labels, no emoji -->
                 <div class="word-toolbar">
-                    <button class="word-tbtn" disabled title="New">🗋</button>
-                    <button class="word-tbtn" disabled title="Open">📂</button>
-                    <button class="word-tbtn" disabled title="Save">💾</button>
+                    <button class="word-tbtn" disabled>New</button>
+                    <button class="word-tbtn" disabled>Open</button>
+                    <button class="word-tbtn" disabled>Save</button>
                     <div class="word-tsep"></div>
-                    <button class="word-tbtn" disabled title="Print">🖨</button>
-                    <button class="word-tbtn" disabled title="Print Preview">🔍</button>
+                    <button class="word-tbtn" disabled>Print</button>
+                    <button class="word-tbtn" disabled>Preview</button>
                     <div class="word-tsep"></div>
-                    <button class="word-tbtn" disabled title="Cut">✂</button>
-                    <button class="word-tbtn" disabled title="Copy">📋</button>
-                    <button class="word-tbtn" disabled title="Paste">📌</button>
+                    <button class="word-tbtn" disabled>Cut</button>
+                    <button class="word-tbtn" disabled>Copy</button>
+                    <button class="word-tbtn" disabled>Paste</button>
                     <div class="word-tsep"></div>
-                    <button class="word-tbtn" disabled title="Undo">↩</button>
-                    <button class="word-tbtn" disabled title="Redo">↪</button>
+                    <button class="word-tbtn" disabled>Undo</button>
+                    <button class="word-tbtn" disabled>Redo</button>
+                    <div class="word-tsep"></div>
+                    <button class="word-tbtn" disabled>Spelling</button>
                     <div class="word-tsep"></div>
                     <button class="word-tbtn" disabled>100%</button>
                 </div>
@@ -2383,62 +2418,92 @@
                     <button class="word-fmt" disabled><i>I</i></button>
                     <button class="word-fmt" disabled><u>U</u></button>
                     <div class="word-tsep"></div>
-                    <button class="word-fmt" disabled>≡</button>
-                    <button class="word-fmt" disabled>≡</button>
-                    <button class="word-fmt" disabled>≡</button>
+                    <button class="word-fmt" disabled style="font-size:10px;">≡</button>
+                    <button class="word-fmt" disabled style="font-size:10px;">≡</button>
+                    <button class="word-fmt" disabled style="font-size:10px;">≡</button>
+                    <div class="word-tsep"></div>
+                    <button class="word-fmt" disabled style="font-size:10px;">☰</button>
                 </div>
                 <!-- Ruler -->
                 <div class="word-ruler" aria-hidden="true">
-                    &nbsp;|&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;|
+                    &nbsp;&nbsp;▐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▌
                 </div>
                 <!-- Page area -->
                 <div class="word-page-area">
                     <div class="word-page">
                         <h1>Parsa Navidi</h1>
-                        <div class="wd-subtitle">Creative Strategist &nbsp;·&nbsp; Content Designer &nbsp;·&nbsp; Copywriter</div>
+                        <div class="wd-subtitle">Creative Strategist &nbsp;&nbsp;·&nbsp;&nbsp; Content Designer &nbsp;&nbsp;·&nbsp;&nbsp; Copywriter</div>
                         <div class="wd-contact">
-                            Toronto, Canada &nbsp;|&nbsp; parsanavidi@hotmail.ca &nbsp;|&nbsp; <a href="https://ca.linkedin.com/in/parsanavidi" target="_blank" style="color:#000;">linkedin.com/in/parsanavidi</a>
+                            Toronto, Canada &nbsp;|&nbsp; parsanavidi@hotmail.ca &nbsp;|&nbsp; <a href="https://ca.linkedin.com/in/parsanavidi" target="_blank">linkedin.com/in/parsanavidi</a>
                         </div>
+                        <hr class="wd-hr">
 
                         <h2>Experience</h2>
 
                         <div class="wd-dl-row">
                             <p class="wd-job-title">Writer — Yardi</p>
-                            <span style="font-size:10.5px;color:#444;font-style:italic;">2024 – Present</span>
+                            <span class="wd-date">2024 – Present</span>
                         </div>
-                        <p class="wd-job-desc">Multi-disciplinary marketing professional producing long-form content, market reports, thought leadership articles, and campaign copy to drive brand awareness across North American markets.</p>
+                        <ul class="wd-bullets">
+                            <li>Produce long-form content, market reports, and thought leadership articles for North American property management audiences</li>
+                            <li>Write campaign copy, blog posts, and event coverage to drive brand awareness and reader engagement</li>
+                            <li>Featured in Yardi Breeze Women in Tech series; authored YASC Canada 2025 conference recap</li>
+                        </ul>
 
                         <div class="wd-dl-row">
                             <p class="wd-job-title">Freelance Copywriter &amp; Creative Strategist</p>
-                            <span style="font-size:10.5px;color:#444;font-style:italic;">2021 – Present</span>
+                            <span class="wd-date">2021 – Present</span>
                         </div>
-                        <p class="wd-job-desc">Partnered with brands across real estate, tech, and energy sectors to develop brand voice, web copy, podcast content, and conversion-focused service pages. Clients include Jas Takhar, Plumb Wize, and My Solar Group.</p>
+                        <ul class="wd-bullets">
+                            <li>Develop brand voice, web copy, and content strategy for clients across real estate, energy, and home services</li>
+                            <li>Produced podcast scripts and thought leadership content for Jas Takhar, a leading Canadian real estate figure</li>
+                            <li>Wrote conversion-focused service pages for Plumb Wize and brand storytelling copy for My Solar Group</li>
+                        </ul>
 
                         <div class="wd-dl-row">
                             <p class="wd-job-title">Content Contributor — Shoplazza</p>
-                            <span style="font-size:10.5px;color:#444;font-style:italic;">2022</span>
+                            <span class="wd-date">2022</span>
                         </div>
-                        <p class="wd-job-desc">Authored in-depth e-commerce guides on buyer psychology and persona development for a global merchant audience.</p>
+                        <ul class="wd-bullets">
+                            <li>Authored guide on buyer psychology and persona development for a global e-commerce merchant audience</li>
+                        </ul>
 
                         <h2>Education</h2>
                         <div class="wd-dl-row">
                             <p class="wd-job-title">Bachelor of Fine Arts — Film &amp; Media Arts</p>
-                            <span style="font-size:10.5px;color:#444;font-style:italic;">2017 – 2021</span>
+                            <span class="wd-date">2017 – 2021</span>
                         </div>
-                        <p class="wd-job-meta">York University, Toronto, Canada</p>
+                        <p class="wd-job-meta">York University &nbsp;·&nbsp; Toronto, Canada</p>
 
                         <h2>Core Skills</h2>
-                        <p class="wd-skills">
-                            Copywriting &nbsp;·&nbsp; Brand Storytelling &nbsp;·&nbsp; Content Strategy &nbsp;·&nbsp; Creative Direction<br>
-                            SEO Writing &nbsp;·&nbsp; Social Media Marketing &nbsp;·&nbsp; Email Marketing &nbsp;·&nbsp; Market Research<br>
-                            Figma &nbsp;·&nbsp; Notion &nbsp;·&nbsp; HubSpot &nbsp;·&nbsp; WordPress &nbsp;·&nbsp; Adobe Creative Suite
-                        </p>
+                        <table class="wd-skills-table">
+                            <tr>
+                                <td>Copywriting</td>
+                                <td>Brand Storytelling</td>
+                                <td>Content Strategy</td>
+                            </tr>
+                            <tr>
+                                <td>Creative Direction</td>
+                                <td>SEO Writing</td>
+                                <td>Email Marketing</td>
+                            </tr>
+                            <tr>
+                                <td>Social Media</td>
+                                <td>Market Research</td>
+                                <td>Campaign Development</td>
+                            </tr>
+                        </table>
+
+                        <h2>Tools &amp; Platforms</h2>
+                        <p class="wd-skills">Figma &nbsp;·&nbsp; Notion &nbsp;·&nbsp; HubSpot &nbsp;·&nbsp; WordPress &nbsp;·&nbsp; Adobe Creative Suite &nbsp;·&nbsp; Claude AI &nbsp;·&nbsp; Perplexity</p>
 
                         <h2>Selected Publications</h2>
-                        <p class="wd-skills">
-                            Yardi Blog — YASC Canada 2025 &nbsp;·&nbsp; Yardi Breeze — Women in Tech<br>
-                            Shoplazza — Buyer Personas &nbsp;·&nbsp; REC Canada — 28 Doors
-                        </p>
+                        <ul class="wd-bullets">
+                            <li>Yardi Blog — YASC Canada 2025 Conference Coverage</li>
+                            <li>Yardi Breeze — Women in Tech Feature</li>
+                            <li>Shoplazza Blog — What Is a Buyer Persona?</li>
+                            <li>REC Canada — 28 Doors Investment Story</li>
+                        </ul>
                     </div>
                 </div>
                 <!-- Status bar -->
