@@ -24,23 +24,43 @@
         /* Desktop */
         .desktop {
             width: 100%;
-            height: calc(100% - 32px);
-            background: linear-gradient(180deg, #3C7DD2 0%, #1D5CAB 50%, #0D3C73 100%);
+            height: calc(100% - 38px);
+            background: #1e6bc4;
             position: relative;
             padding: 10px;
         }
 
-        /* Bliss Wallpaper Effect */
+        /* Bliss Wallpaper */
         .wallpaper {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse at 30% 20%, rgba(135, 206, 235, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(34, 139, 34, 0.2) 0%, transparent 40%),
-                linear-gradient(180deg, #5B9BD5 0%, #417EC9 40%, #2E6BA8 70%, #1B4F72 100%);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                /* Clouds */
+                radial-gradient(ellipse 140px 58px at 17% 21%, rgba(255,255,255,0.93) 0%, transparent 70%),
+                radial-gradient(ellipse 95px 48px at 22% 18%, rgba(255,255,255,0.85) 0%, transparent 70%),
+                radial-gradient(ellipse 115px 52px at 57% 14%, rgba(255,255,255,0.90) 0%, transparent 70%),
+                radial-gradient(ellipse 78px 40px at 62% 11%, rgba(255,255,255,0.80) 0%, transparent 70%),
+                radial-gradient(ellipse 165px 68px at 80% 19%, rgba(255,255,255,0.88) 0%, transparent 70%),
+                radial-gradient(ellipse 105px 47px at 84% 16%, rgba(255,255,255,0.72) 0%, transparent 70%),
+                radial-gradient(ellipse 80px 38px at 42% 26%, rgba(255,255,255,0.55) 0%, transparent 70%),
+                /* Sky */
+                linear-gradient(180deg,
+                    #1a55a0 0%,
+                    #2870cc 12%,
+                    #4a90e2 28%,
+                    #6aaee8 45%,
+                    #90c8f4 60%,
+                    #b8dcf8 72%,
+                    #d4eeff 82%,
+                    #e4f4ff 100%
+                );
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .wallpaper-svg {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 65%;
             pointer-events: none;
         }
 
@@ -138,52 +158,81 @@
             max-width: 70px;
         }
 
-        /* Taskbar */
+        /* Taskbar — Windows XP style */
         .taskbar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 32px;
-            background: linear-gradient(180deg, #0c0c0c 0%, #c0c0c0 1%, #c0c0c0 100%);
+            height: 38px;
+            background: linear-gradient(180deg,
+                #245edb 0%,
+                #3b80f0 6%,
+                #2e72e8 50%,
+                #1c5ed4 51%,
+                #1454c8 100%
+            );
             display: flex;
             align-items: center;
             padding: 2px 4px;
             z-index: 9999;
-            border-top: 1px solid #fff;
+            border-top: 2px solid #1040a8;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
         }
 
         .start-button {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 2px 6px;
-            background: linear-gradient(180deg, #fff 0%, #d4d4d4 50%, #b8b8b8 100%);
-            border: 1px solid;
-            border-color: #fff #808080 #808080 #fff;
+            gap: 5px;
+            padding: 3px 12px 3px 8px;
+            background: linear-gradient(180deg,
+                #5dba3d 0%,
+                #4cac2c 40%,
+                #3a9a1c 41%,
+                #2d8810 100%
+            );
+            border: 1px solid #1a6010;
+            border-radius: 0 14px 14px 0;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 1px 0 3px rgba(0,0,0,0.4);
             cursor: pointer;
             font-weight: bold;
-            font-size: 11px;
-            height: 24px;
-            margin-right: 4px;
+            font-size: 13px;
+            height: 30px;
+            margin-right: 6px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+            letter-spacing: 0.5px;
+        }
+
+        .start-button:hover {
+            background: linear-gradient(180deg,
+                #72d450 0%,
+                #5ec03c 40%,
+                #4aae28 41%,
+                #389a18 100%
+            );
         }
 
         .start-button:active {
-            background: linear-gradient(180deg, #b8b8b8 0%, #d4d4d4 50%, #fff 100%);
-            border-color: #808080 #fff #fff #808080;
+            background: linear-gradient(180deg,
+                #2d8810 0%,
+                #3a9a1c 59%,
+                #4cac2c 60%,
+                #5dba3d 100%
+            );
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .start-button img {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
         }
 
         .start-button span {
-            background: linear-gradient(180deg, #002060 0%, #0055DF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: white;
             font-weight: bold;
+            -webkit-text-fill-color: white;
         }
 
         .taskbar-items {
@@ -196,53 +245,86 @@
         .taskbar-item {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            height: 24px;
-            min-width: 120px;
+            gap: 5px;
+            padding: 2px 10px;
+            height: 26px;
+            min-width: 130px;
             max-width: 200px;
-            background: linear-gradient(180deg, #e0e0e0 0%, #c8c8c8 100%);
+            background: linear-gradient(180deg,
+                #4878d8 0%,
+                #3868cc 50%,
+                #2c5ac0 51%,
+                #2050b4 100%
+            );
             border: 1px solid;
-            border-color: #fff #707070 #707070 #fff;
+            border-color: #7aaae8 #1a3d9a #1a3d9a #7aaae8;
+            border-radius: 3px;
             cursor: pointer;
             font-size: 11px;
+            color: white;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+        }
+
+        .taskbar-item:hover {
+            background: linear-gradient(180deg,
+                #5888e8 0%,
+                #4878d8 50%,
+                #3a68cc 51%,
+                #2e5abf 100%
+            );
         }
 
         .taskbar-item.active {
-            background: linear-gradient(180deg, #fff 0%, #e0e0e0 100%);
-            border-color: #707070 #fff #fff #707070;
+            background: linear-gradient(180deg,
+                #1a50b8 0%,
+                #2260c8 50%,
+                #2c6cd4 51%,
+                #3878e0 100%
+            );
+            border-color: #1a3d9a #7aaae8 #7aaae8 #1a3d9a;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .taskbar-item img {
             width: 16px;
             height: 16px;
+            flex-shrink: 0;
         }
 
         .system-tray {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            height: 24px;
-            background: linear-gradient(180deg, #d4d4d4 0%, #c0c0c0 100%);
-            border: 1px solid;
-            border-color: #fff #606060 #606060 #fff;
+            gap: 6px;
+            padding: 2px 10px;
+            height: 26px;
+            background: linear-gradient(180deg,
+                #1a52c0 0%,
+                #1448b0 100%
+            );
+            border: 1px solid #1040a0;
+            border-radius: 2px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
         }
 
         .system-tray img {
             width: 16px;
             height: 16px;
+            filter: brightness(1.8) saturate(0.5);
         }
 
         .clock {
             font-size: 11px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 0 8px;
+            padding: 0 4px;
+            font-weight: bold;
         }
 
         /* Start Menu */
@@ -341,7 +423,7 @@
             top: 0 !important;
             left: 0 !important;
             width: 100% !important;
-            height: calc(100% - 32px) !important;
+            height: calc(100% - 38px) !important;
         }
 
         .window-titlebar {
@@ -1945,8 +2027,8 @@
             .sticky-note { display: none; }
         }
 
-        /* ── Winamp Player ── */
-        .winamp {
+        /* ── Winamp Player (removed) ── */
+        .winamp-removed {
             position: absolute;
             left: 100px;
             bottom: 10px;
@@ -2352,7 +2434,22 @@
     </div>
 
     <div class="desktop">
-        <div class="wallpaper"></div>
+        <div class="wallpaper">
+            <svg class="wallpaper-svg" viewBox="0 0 1440 480" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                <!-- Distant lighter hills -->
+                <path fill="#5aaf36" opacity="0.55" d="M0 480 C200 340 420 370 660 330 C900 290 1100 350 1440 310 L1440 480 Z"/>
+                <!-- Main dark green base -->
+                <path fill="#3a8c1e" d="M-10 480 C150 370 350 310 640 345 C930 380 1140 305 1450 330 L1450 480 Z"/>
+                <!-- Mid bright green hill -->
+                <path fill="#52aa2a" d="M-10 480 C140 385 340 325 620 355 C900 385 1130 315 1450 340 L1450 480 Z"/>
+                <!-- Bright highlight sweep — the Bliss signature -->
+                <path fill="#74d040" opacity="0.75" d="M80 480 C260 400 460 360 700 368 C940 376 1120 340 1340 358 L1440 370 L1440 480 Z"/>
+                <!-- Very bright top highlight -->
+                <path fill="#96e84a" opacity="0.45" d="M280 480 C420 428 560 400 720 402 C880 404 1020 428 1200 418 L1200 480 Z"/>
+                <!-- Subtle shadow at very bottom -->
+                <path fill="#2a7010" opacity="0.5" d="M0 480 L1440 480 L1440 465 C1100 472 800 478 400 475 Z"/>
+            </svg>
+        </div>
 
         <!-- Sticky Notes -->
         <div class="sticky-note" style="right: 24px; top: 55px; transform: rotate(-1.2deg);">
@@ -2387,61 +2484,6 @@
                 <div class="sticky-note-line">3. Eyes Wide Shut</div>
                 <div class="sticky-note-line">4. Mulholland Drive</div>
                 <div class="sticky-note-line">5. The Master</div>
-            </div>
-        </div>
-
-        <!-- Winamp Player -->
-        <div class="winamp" id="winamp">
-            <div class="wa-titlebar" id="wa-titlebar">
-                <span class="wa-logo">WINAMP</span>
-                <div class="wa-winctrls">
-                    <button onclick="document.getElementById('winamp').style.display='none'" title="Close">×</button>
-                </div>
-            </div>
-            <div class="wa-main">
-                <div class="wa-lcd">
-                    <div class="wa-lcd-row1">
-                        <div class="wa-lcd-status">
-                            <span class="wa-dot" id="wa-dot"></span>
-                            <span class="wa-status-lbl" id="wa-stat">STOPPED</span>
-                        </div>
-                        <span class="wa-time-disp" id="wa-time">0:00</span>
-                    </div>
-                    <div class="wa-track-row">
-                        <span class="wa-ticker" id="wa-ticker">Childish Gambino — Redbone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    </div>
-                </div>
-                <div class="wa-viz" id="wa-viz">
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div>
-                </div>
-                <div class="wa-seekbar" id="wa-seekbar">
-                    <div class="wa-seek-fill" id="wa-seek-fill"></div>
-                </div>
-                <div class="wa-btns">
-                    <button class="wa-btn" id="wa-prev" title="Previous">⏮</button>
-                    <button class="wa-btn" id="wa-rew" title="Rewind">◀◀</button>
-                    <button class="wa-btn wa-playbtn" id="wa-play" title="Play/Pause">▶</button>
-                    <button class="wa-btn" id="wa-stop" title="Stop">■</button>
-                    <button class="wa-btn" id="wa-fwd" title="Fast Forward">▶▶</button>
-                    <button class="wa-btn" id="wa-next" title="Next">⏭</button>
-                </div>
-                <div class="wa-vol">
-                    <span class="wa-vol-lbl">VOL</span>
-                    <div class="wa-vol-track"><div class="wa-vol-fill" style="width:78%"></div></div>
-                    <span class="wa-vol-lbl">BAL</span>
-                    <div class="wa-vol-track"><div class="wa-vol-fill" style="width:50%"></div></div>
-                </div>
-                <div class="wa-badges">
-                    <span class="wa-badge" id="wa-eq">EQ</span>
-                    <span class="wa-badge" id="wa-pl">PL</span>
-                    <span class="wa-badge active" id="wa-shf">SHF</span>
-                    <span class="wa-badge active" id="wa-rep">REP</span>
-                </div>
             </div>
         </div>
 
@@ -3802,122 +3844,6 @@
 
             ss.addEventListener('click', stopSS);
             resetIdle();
-        })();
-
-        // ── Winamp Player ────────────────────────────────────────────
-        (function () {
-            const playlist = [
-                { title: 'Childish Gambino — Redbone',          dur: 205 },
-                { title: 'Childish Gambino — This Is America',  dur: 224 },
-                { title: 'Childish Gambino — 3005',             dur: 283 },
-                { title: 'Childish Gambino — Heartbeat',        dur: 242 },
-                { title: 'Childish Gambino — Sober',            dur: 211 },
-                { title: 'Childish Gambino — Camp',             dur: 273 },
-            ];
-            let idx = 0, elapsed = 0, running = false, tickT = null;
-
-            const playBtn  = document.getElementById('wa-play');
-            const stopBtn  = document.getElementById('wa-stop');
-            const prevBtn  = document.getElementById('wa-prev');
-            const nextBtn  = document.getElementById('wa-next');
-            const rewBtn   = document.getElementById('wa-rew');
-            const fwdBtn   = document.getElementById('wa-fwd');
-            const timeEl   = document.getElementById('wa-time');
-            const tickerEl = document.getElementById('wa-ticker');
-            const seekFill = document.getElementById('wa-seek-fill');
-            const dotEl    = document.getElementById('wa-dot');
-            const statEl   = document.getElementById('wa-stat');
-            const bars     = document.querySelectorAll('.wa-bar');
-
-            function fmt(s) { return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'); }
-
-            function load(i) {
-                idx = i; elapsed = 0;
-                const t = playlist[i];
-                tickerEl.textContent = t.title + '     •     ' + t.title + '     •     ' + t.title + '     ';
-                timeEl.textContent = '0:00';
-                seekFill.style.width = '0%';
-            }
-
-            function setRunning(on) {
-                running = on;
-                clearInterval(tickT);
-                if (on) {
-                    playBtn.textContent = '⏸';
-                    dotEl.className = 'wa-dot playing';
-                    statEl.textContent = 'PLAYING';
-                    tickerEl.classList.add('running');
-                    bars.forEach(b => b.classList.add('running'));
-                    tickT = setInterval(() => {
-                        elapsed++;
-                        if (elapsed >= playlist[idx].dur) { load((idx + 1) % playlist.length); }
-                        timeEl.textContent = fmt(elapsed);
-                        seekFill.style.width = (elapsed / playlist[idx].dur * 100).toFixed(2) + '%';
-                    }, 1000);
-                } else {
-                    playBtn.textContent = '▶';
-                    dotEl.className = 'wa-dot paused';
-                    statEl.textContent = 'PAUSED';
-                    tickerEl.classList.remove('running');
-                    bars.forEach(b => b.classList.remove('running'));
-                }
-            }
-
-            function stop() {
-                clearInterval(tickT);
-                running = false;
-                elapsed = 0;
-                playBtn.textContent = '▶';
-                dotEl.className = 'wa-dot';
-                statEl.textContent = 'STOPPED';
-                tickerEl.classList.remove('running');
-                bars.forEach(b => b.classList.remove('running'));
-                timeEl.textContent = '0:00';
-                seekFill.style.width = '0%';
-            }
-
-            playBtn.addEventListener('click', () => { running ? setRunning(false) : setRunning(true); });
-            stopBtn.addEventListener('click', stop);
-            prevBtn.addEventListener('click', () => { load((idx - 1 + playlist.length) % playlist.length); if (running) setRunning(true); });
-            nextBtn.addEventListener('click', () => { load((idx + 1) % playlist.length); if (running) setRunning(true); });
-            rewBtn.addEventListener('click',  () => { elapsed = Math.max(0, elapsed - 15); timeEl.textContent = fmt(elapsed); seekFill.style.width = (elapsed/playlist[idx].dur*100).toFixed(2)+'%'; });
-            fwdBtn.addEventListener('click',  () => { elapsed = Math.min(playlist[idx].dur-1, elapsed+15); timeEl.textContent = fmt(elapsed); seekFill.style.width = (elapsed/playlist[idx].dur*100).toFixed(2)+'%'; });
-
-            document.getElementById('wa-seekbar').addEventListener('click', function(e) {
-                const pct = (e.clientX - this.getBoundingClientRect().left) / this.offsetWidth;
-                elapsed = Math.floor(pct * playlist[idx].dur);
-                timeEl.textContent = fmt(elapsed);
-                seekFill.style.width = (pct * 100).toFixed(2) + '%';
-            });
-
-            ['wa-eq','wa-pl','wa-shf','wa-rep'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.addEventListener('click', () => el.classList.toggle('active'));
-            });
-
-            // Winamp drag
-            (function () {
-                const wa = document.getElementById('winamp');
-                const tb = document.getElementById('wa-titlebar');
-                let drag = false, ox = 0, oy = 0;
-                tb.addEventListener('mousedown', e => {
-                    if (e.target.tagName === 'BUTTON') return;
-                    drag = true;
-                    ox = e.clientX - wa.offsetLeft;
-                    oy = e.clientY - (wa.offsetTop || (wa.parentElement.offsetHeight - wa.offsetHeight - parseInt(wa.style.bottom || 10)));
-                    wa.style.top    = wa.getBoundingClientRect().top - wa.parentElement.getBoundingClientRect().top + 'px';
-                    wa.style.bottom = 'auto';
-                    e.preventDefault();
-                });
-                document.addEventListener('mousemove', e => {
-                    if (!drag) return;
-                    wa.style.left = Math.max(0, e.clientX - ox) + 'px';
-                    wa.style.top  = Math.max(0, e.clientY - oy) + 'px';
-                });
-                document.addEventListener('mouseup', () => { drag = false; });
-            })();
-
-            load(0);
         })();
 
         // ── Clippy ────────────────────────────────────────────────────
