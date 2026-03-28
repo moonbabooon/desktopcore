@@ -1945,6 +1945,223 @@
             .sticky-note { display: none; }
         }
 
+        /* ── Winamp Player ── */
+        .winamp {
+            position: absolute;
+            left: 100px;
+            bottom: 10px;
+            width: 278px;
+            background: #232323;
+            border: 2px solid;
+            border-color: #686868 #1a1a1a #1a1a1a #686868;
+            box-shadow: 4px 4px 14px rgba(0,0,0,0.85), inset 1px 1px 0 #4a4a4a;
+            z-index: 5;
+            user-select: none;
+            cursor: default;
+        }
+        .wa-titlebar {
+            background: linear-gradient(180deg, #3e3e3e 0%, #1c1c1c 100%);
+            padding: 3px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+            border-bottom: 1px solid #000;
+        }
+        .wa-logo {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #75b2dd;
+            text-shadow: 0 0 8px rgba(117,178,221,0.55);
+        }
+        .wa-winctrls { display: flex; gap: 3px; }
+        .wa-winctrls button {
+            background: linear-gradient(180deg, #555 0%, #333 100%);
+            border: 1px solid;
+            border-color: #888 #333 #333 #888;
+            color: #ccc;
+            font-size: 9px;
+            width: 14px;
+            height: 12px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            text-align: center;
+            font-family: monospace;
+        }
+        .wa-winctrls button:hover { background: #666; color: #fff; }
+        .wa-main { padding: 6px; }
+        /* LCD */
+        .wa-lcd {
+            background: #000;
+            border: 1px solid #0a4a0a;
+            box-shadow: inset 0 0 10px rgba(11,255,11,0.07);
+            padding: 5px 7px;
+            margin-bottom: 5px;
+        }
+        .wa-lcd-row1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+        .wa-lcd-status { display: flex; align-items: center; gap: 5px; }
+        .wa-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #444; box-shadow: none;
+            display: inline-block; transition: background 0.2s, box-shadow 0.2s;
+        }
+        .wa-dot.playing  { background: #0bff0b; box-shadow: 0 0 5px #0bff0b; }
+        .wa-dot.paused   { background: #ff9900; box-shadow: 0 0 5px #ff9900; }
+        .wa-status-lbl {
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            color: #0bff0b;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        .wa-time-disp {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #0bff0b;
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px rgba(11,255,11,0.5);
+        }
+        .wa-track-row { overflow: hidden; white-space: nowrap; position: relative; }
+        .wa-ticker {
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            color: #0bff0b;
+            text-shadow: 0 0 5px rgba(11,255,11,0.4);
+            animation: waTick 16s linear infinite;
+            animation-play-state: paused;
+        }
+        .wa-ticker.running { animation-play-state: running; }
+        @keyframes waTick {
+            0%   { transform: translateX(278px); }
+            100% { transform: translateX(-100%); }
+        }
+        /* Visualizer */
+        .wa-viz {
+            background: #000;
+            border: 1px solid #0a4a0a;
+            height: 30px;
+            display: flex;
+            align-items: flex-end;
+            padding: 2px 3px 1px;
+            gap: 2px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+        .wa-bar {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(180deg, #5fff5f 0%, #0bff0b 60%, #006600 100%);
+            animation: waBar 0.45s ease-in-out infinite alternate;
+            animation-play-state: paused;
+        }
+        .wa-bar.running { animation-play-state: running; }
+        @keyframes waBar { 0%{height:2px} 100%{height:24px} }
+        .wa-bar:nth-child(1)  { animation-duration:0.33s; animation-delay:0.00s; }
+        .wa-bar:nth-child(2)  { animation-duration:0.41s; animation-delay:0.07s; }
+        .wa-bar:nth-child(3)  { animation-duration:0.28s; animation-delay:0.14s; }
+        .wa-bar:nth-child(4)  { animation-duration:0.52s; animation-delay:0.03s; }
+        .wa-bar:nth-child(5)  { animation-duration:0.37s; animation-delay:0.11s; }
+        .wa-bar:nth-child(6)  { animation-duration:0.45s; animation-delay:0.18s; }
+        .wa-bar:nth-child(7)  { animation-duration:0.31s; animation-delay:0.05s; }
+        .wa-bar:nth-child(8)  { animation-duration:0.48s; animation-delay:0.09s; }
+        .wa-bar:nth-child(9)  { animation-duration:0.36s; animation-delay:0.16s; }
+        .wa-bar:nth-child(10) { animation-duration:0.43s; animation-delay:0.02s; }
+        .wa-bar:nth-child(11) { animation-duration:0.29s; animation-delay:0.13s; }
+        .wa-bar:nth-child(12) { animation-duration:0.55s; animation-delay:0.08s; }
+        .wa-bar:nth-child(13) { animation-duration:0.38s; animation-delay:0.19s; }
+        .wa-bar:nth-child(14) { animation-duration:0.47s; animation-delay:0.04s; }
+        .wa-bar:nth-child(15) { animation-duration:0.32s; animation-delay:0.12s; }
+        .wa-bar:nth-child(16) { animation-duration:0.42s; animation-delay:0.17s; }
+        /* Seekbar */
+        .wa-seekbar {
+            background: #000;
+            border: 1px solid #0a4a0a;
+            height: 8px;
+            position: relative;
+            margin-bottom: 5px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .wa-seek-fill {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            background: linear-gradient(90deg, #0bff0b, #007700);
+            width: 0%;
+            transition: width 0.5s linear;
+        }
+        /* Controls */
+        .wa-btns {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            margin-bottom: 5px;
+        }
+        .wa-btn {
+            background: linear-gradient(180deg, #4c4c4c 0%, #2c2c2c 100%);
+            border: 1px solid;
+            border-color: #7a7a7a #111 #111 #7a7a7a;
+            color: #bbb;
+            font-size: 11px;
+            padding: 3px 7px;
+            cursor: pointer;
+            min-width: 30px;
+            text-align: center;
+            font-family: monospace;
+            line-height: 1.4;
+        }
+        .wa-btn:hover { background: linear-gradient(180deg, #5c5c5c 0%, #3c3c3c 100%); color: #fff; }
+        .wa-btn:active { border-color: #111 #7a7a7a #7a7a7a #111; }
+        .wa-btn.wa-playbtn { color: #0bff0b; font-size: 13px; min-width: 36px; }
+        /* Volume row */
+        .wa-vol {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 4px;
+        }
+        .wa-vol-lbl {
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            color: #555;
+            letter-spacing: 1px;
+            min-width: 22px;
+        }
+        .wa-vol-track {
+            flex: 1;
+            height: 5px;
+            background: #111;
+            border: 1px inset #333;
+            overflow: hidden;
+        }
+        .wa-vol-fill { height: 100%; background: linear-gradient(90deg, #0bff0b, #007700); }
+        /* Badges */
+        .wa-badges {
+            display: flex;
+            gap: 3px;
+            justify-content: flex-end;
+        }
+        .wa-badge {
+            font-family: 'Courier New', monospace;
+            font-size: 8px;
+            color: #444;
+            border: 1px solid #2a2a2a;
+            padding: 1px 5px;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+        .wa-badge.active { color: #0bff0b; border-color: #0a5a0a; background: rgba(11,255,11,0.07); }
+        @media (max-width: 768px) { .winamp { display: none; } }
+
         /* Toast notifications */
         .toast {
             position: fixed;
@@ -2170,6 +2387,61 @@
                 <div class="sticky-note-line">3. Eyes Wide Shut</div>
                 <div class="sticky-note-line">4. Mulholland Drive</div>
                 <div class="sticky-note-line">5. The Master</div>
+            </div>
+        </div>
+
+        <!-- Winamp Player -->
+        <div class="winamp" id="winamp">
+            <div class="wa-titlebar" id="wa-titlebar">
+                <span class="wa-logo">WINAMP</span>
+                <div class="wa-winctrls">
+                    <button onclick="document.getElementById('winamp').style.display='none'" title="Close">×</button>
+                </div>
+            </div>
+            <div class="wa-main">
+                <div class="wa-lcd">
+                    <div class="wa-lcd-row1">
+                        <div class="wa-lcd-status">
+                            <span class="wa-dot" id="wa-dot"></span>
+                            <span class="wa-status-lbl" id="wa-stat">STOPPED</span>
+                        </div>
+                        <span class="wa-time-disp" id="wa-time">0:00</span>
+                    </div>
+                    <div class="wa-track-row">
+                        <span class="wa-ticker" id="wa-ticker">Childish Gambino — Redbone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                </div>
+                <div class="wa-viz" id="wa-viz">
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div>
+                </div>
+                <div class="wa-seekbar" id="wa-seekbar">
+                    <div class="wa-seek-fill" id="wa-seek-fill"></div>
+                </div>
+                <div class="wa-btns">
+                    <button class="wa-btn" id="wa-prev" title="Previous">⏮</button>
+                    <button class="wa-btn" id="wa-rew" title="Rewind">◀◀</button>
+                    <button class="wa-btn wa-playbtn" id="wa-play" title="Play/Pause">▶</button>
+                    <button class="wa-btn" id="wa-stop" title="Stop">■</button>
+                    <button class="wa-btn" id="wa-fwd" title="Fast Forward">▶▶</button>
+                    <button class="wa-btn" id="wa-next" title="Next">⏭</button>
+                </div>
+                <div class="wa-vol">
+                    <span class="wa-vol-lbl">VOL</span>
+                    <div class="wa-vol-track"><div class="wa-vol-fill" style="width:78%"></div></div>
+                    <span class="wa-vol-lbl">BAL</span>
+                    <div class="wa-vol-track"><div class="wa-vol-fill" style="width:50%"></div></div>
+                </div>
+                <div class="wa-badges">
+                    <span class="wa-badge" id="wa-eq">EQ</span>
+                    <span class="wa-badge" id="wa-pl">PL</span>
+                    <span class="wa-badge active" id="wa-shf">SHF</span>
+                    <span class="wa-badge active" id="wa-rep">REP</span>
+                </div>
             </div>
         </div>
 
@@ -3532,6 +3804,122 @@
             resetIdle();
         })();
 
+        // ── Winamp Player ────────────────────────────────────────────
+        (function () {
+            const playlist = [
+                { title: 'Childish Gambino — Redbone',          dur: 205 },
+                { title: 'Childish Gambino — This Is America',  dur: 224 },
+                { title: 'Childish Gambino — 3005',             dur: 283 },
+                { title: 'Childish Gambino — Heartbeat',        dur: 242 },
+                { title: 'Childish Gambino — Sober',            dur: 211 },
+                { title: 'Childish Gambino — Camp',             dur: 273 },
+            ];
+            let idx = 0, elapsed = 0, running = false, tickT = null;
+
+            const playBtn  = document.getElementById('wa-play');
+            const stopBtn  = document.getElementById('wa-stop');
+            const prevBtn  = document.getElementById('wa-prev');
+            const nextBtn  = document.getElementById('wa-next');
+            const rewBtn   = document.getElementById('wa-rew');
+            const fwdBtn   = document.getElementById('wa-fwd');
+            const timeEl   = document.getElementById('wa-time');
+            const tickerEl = document.getElementById('wa-ticker');
+            const seekFill = document.getElementById('wa-seek-fill');
+            const dotEl    = document.getElementById('wa-dot');
+            const statEl   = document.getElementById('wa-stat');
+            const bars     = document.querySelectorAll('.wa-bar');
+
+            function fmt(s) { return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'); }
+
+            function load(i) {
+                idx = i; elapsed = 0;
+                const t = playlist[i];
+                tickerEl.textContent = t.title + '     •     ' + t.title + '     •     ' + t.title + '     ';
+                timeEl.textContent = '0:00';
+                seekFill.style.width = '0%';
+            }
+
+            function setRunning(on) {
+                running = on;
+                clearInterval(tickT);
+                if (on) {
+                    playBtn.textContent = '⏸';
+                    dotEl.className = 'wa-dot playing';
+                    statEl.textContent = 'PLAYING';
+                    tickerEl.classList.add('running');
+                    bars.forEach(b => b.classList.add('running'));
+                    tickT = setInterval(() => {
+                        elapsed++;
+                        if (elapsed >= playlist[idx].dur) { load((idx + 1) % playlist.length); }
+                        timeEl.textContent = fmt(elapsed);
+                        seekFill.style.width = (elapsed / playlist[idx].dur * 100).toFixed(2) + '%';
+                    }, 1000);
+                } else {
+                    playBtn.textContent = '▶';
+                    dotEl.className = 'wa-dot paused';
+                    statEl.textContent = 'PAUSED';
+                    tickerEl.classList.remove('running');
+                    bars.forEach(b => b.classList.remove('running'));
+                }
+            }
+
+            function stop() {
+                clearInterval(tickT);
+                running = false;
+                elapsed = 0;
+                playBtn.textContent = '▶';
+                dotEl.className = 'wa-dot';
+                statEl.textContent = 'STOPPED';
+                tickerEl.classList.remove('running');
+                bars.forEach(b => b.classList.remove('running'));
+                timeEl.textContent = '0:00';
+                seekFill.style.width = '0%';
+            }
+
+            playBtn.addEventListener('click', () => { running ? setRunning(false) : setRunning(true); });
+            stopBtn.addEventListener('click', stop);
+            prevBtn.addEventListener('click', () => { load((idx - 1 + playlist.length) % playlist.length); if (running) setRunning(true); });
+            nextBtn.addEventListener('click', () => { load((idx + 1) % playlist.length); if (running) setRunning(true); });
+            rewBtn.addEventListener('click',  () => { elapsed = Math.max(0, elapsed - 15); timeEl.textContent = fmt(elapsed); seekFill.style.width = (elapsed/playlist[idx].dur*100).toFixed(2)+'%'; });
+            fwdBtn.addEventListener('click',  () => { elapsed = Math.min(playlist[idx].dur-1, elapsed+15); timeEl.textContent = fmt(elapsed); seekFill.style.width = (elapsed/playlist[idx].dur*100).toFixed(2)+'%'; });
+
+            document.getElementById('wa-seekbar').addEventListener('click', function(e) {
+                const pct = (e.clientX - this.getBoundingClientRect().left) / this.offsetWidth;
+                elapsed = Math.floor(pct * playlist[idx].dur);
+                timeEl.textContent = fmt(elapsed);
+                seekFill.style.width = (pct * 100).toFixed(2) + '%';
+            });
+
+            ['wa-eq','wa-pl','wa-shf','wa-rep'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('click', () => el.classList.toggle('active'));
+            });
+
+            // Winamp drag
+            (function () {
+                const wa = document.getElementById('winamp');
+                const tb = document.getElementById('wa-titlebar');
+                let drag = false, ox = 0, oy = 0;
+                tb.addEventListener('mousedown', e => {
+                    if (e.target.tagName === 'BUTTON') return;
+                    drag = true;
+                    ox = e.clientX - wa.offsetLeft;
+                    oy = e.clientY - (wa.offsetTop || (wa.parentElement.offsetHeight - wa.offsetHeight - parseInt(wa.style.bottom || 10)));
+                    wa.style.top    = wa.getBoundingClientRect().top - wa.parentElement.getBoundingClientRect().top + 'px';
+                    wa.style.bottom = 'auto';
+                    e.preventDefault();
+                });
+                document.addEventListener('mousemove', e => {
+                    if (!drag) return;
+                    wa.style.left = Math.max(0, e.clientX - ox) + 'px';
+                    wa.style.top  = Math.max(0, e.clientY - oy) + 'px';
+                });
+                document.addEventListener('mouseup', () => { drag = false; });
+            })();
+
+            load(0);
+        })();
+
         // ── Clippy ────────────────────────────────────────────────────
         (function () {
             const wrap      = document.getElementById('clippy-wrap');
@@ -3716,37 +4104,61 @@
             {
                 icon: '📊',
                 name: 'Yardi Canada Market Reports',
-                desc: 'Complete redesign of Canadian multifamily market reports — transforming complex data into actionable insights for property managers.',
+                desc: 'Wrote and redesigned quarterly multifamily market reports for Canada\'s largest property management software company. Complex housing data transformed into narrative intelligence consumed by thousands of property managers coast-to-coast.',
                 url:  'https://info.yardi.com/multifamily-market-reports-for-canada',
-                link: 'View Project →'
+                link: 'View Reports →'
             },
             {
                 icon: '🎙️',
                 name: 'Jas Takhar Podcast',
-                desc: 'Strategic content design and copywriting for a Canadian real estate thought leadership podcast.',
+                desc: 'Scripted and produced episodic content for Jas Takhar — one of Canada\'s most-followed real estate voices. Developed interview frameworks, show notes, and cross-channel promotional copy for email, LinkedIn, and social.',
                 url:  'https://meetjastakhar.com/',
                 link: 'View Podcast →'
             },
             {
                 icon: '🔧',
                 name: 'Plumb Wize',
-                desc: 'Conversion-focused service page copy for a Canadian plumbing brand, improving SEO and lead generation.',
+                desc: 'Rewrote service pages for a leading GTA plumbing company with one goal: rank and convert. Drain repair page now sits on page one for multiple local search terms, generating steady inbound leads without paid ads.',
                 url:  'https://www.plumbwize.ca/drain-services/drain-repair/',
                 link: 'View Project →'
             },
             {
                 icon: '☀️',
                 name: 'My Solar Group',
-                desc: 'Brand voice development and web copy for a sustainable energy company expanding across Canada.',
+                desc: 'Built the brand voice, website copy, and core messaging framework for a Canadian clean energy company scaling to new markets. First formal brand document the company had — built from scratch using customer research and competitive audit.',
                 url:  'https://www.mysolargroup.ca/',
                 link: 'View Project →'
             }
         ];
         const expArticles = [
-            { icon: '📝', name: 'Shoplazza — Buyer Personas', desc: 'A deep-dive guide on building buyer personas for e-commerce stores, published on the Shoplazza blog.', url: 'https://blog.shoplazza.com/what-is-buyer-persona', link: 'Read Article →' },
-            { icon: '📝', name: 'Yardi — Women in Tech', desc: 'Featured profile piece highlighting women in PropTech, published on Yardi Breeze Canada.', url: 'https://www.yardibreeze.ca/blog/2025/02/women-in-tech-parisa/', link: 'Read Article →' },
-            { icon: '📝', name: 'Yardi — YASC Canada 2025', desc: 'Event coverage and recap article for the Yardi Advanced Solutions Conference in Canada.', url: 'https://www.yardi.com/blog/yasc-canada-2025/', link: 'Read Article →' },
-            { icon: '📝', name: 'REC Canada — 28 Doors', desc: 'Editorial content for REC Canada covering real estate investment storytelling.', url: 'https://www.reccanada.com/blog/28doors', link: 'Read Article →' }
+            {
+                icon: '📝',
+                name: 'Shoplazza — Buyer Personas',
+                desc: 'In-depth marketing guide on how e-commerce merchants can use buyer personas to increase conversions and reduce churn. Published to support Shoplazza\'s merchant education and North American acquisition push.',
+                url:  'https://blog.shoplazza.com/what-is-buyer-persona',
+                link: 'Read Article →'
+            },
+            {
+                icon: '📝',
+                name: 'Yardi — Women in Tech',
+                desc: 'Feature piece profiling women in property technology — researched, interviewed, and written for Yardi Breeze Canada. Part of an ongoing content initiative to spotlight underrepresented voices in PropTech.',
+                url:  'https://www.yardibreeze.ca/blog/2025/02/women-in-tech-parisa/',
+                link: 'Read Article →'
+            },
+            {
+                icon: '📝',
+                name: 'Yardi — YASC Canada 2025',
+                desc: 'Full-day event coverage and recap article for the Yardi Advanced Solutions Conference in Canada. Captured keynote insights, industry trends, and on-the-ground moments for an audience of property management professionals.',
+                url:  'https://www.yardi.com/blog/yasc-canada-2025/',
+                link: 'Read Article →'
+            },
+            {
+                icon: '📝',
+                name: 'REC Canada — 28 Doors',
+                desc: 'Long-form editorial storytelling for REC Canada, chronicling a real estate investor\'s journey acquiring 28 doors. Blended data, personal narrative, and market context into a compelling piece that drove strong social engagement.',
+                url:  'https://www.reccanada.com/blog/28doors',
+                link: 'Read Article →'
+            }
         ];
 
         let expCurrentSection = 'projects';
