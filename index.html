@@ -1903,6 +1903,48 @@
         .word-statusbar span { border-right: 1px solid #aca899; padding-right: 12px; }
         .word-statusbar span:last-child { border-right: none; }
 
+        /* ── Desktop Sticky Notes ── */
+        .sticky-note {
+            position: absolute;
+            width: 162px;
+            background: #feff9c;
+            box-shadow: 3px 4px 10px rgba(0,0,0,0.28), inset 0 -2px 0 rgba(0,0,0,0.08);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 10.5px;
+            line-height: 1.55;
+            cursor: default;
+            z-index: 4;
+            user-select: none;
+        }
+        .sticky-note-2 { background: #c8f7c5; }
+        .sticky-note-3 { background: #c5e8f7; }
+        .sticky-note-header {
+            background: rgba(0,0,0,0.10);
+            padding: 4px 8px;
+            font-weight: bold;
+            font-size: 10.5px;
+            border-bottom: 1px solid rgba(0,0,0,0.12);
+            letter-spacing: 0.3px;
+        }
+        .sticky-note-body {
+            padding: 6px 8px 8px;
+            color: #222;
+        }
+        .sticky-note-body hr {
+            border: none;
+            border-top: 1px dashed rgba(0,0,0,0.2);
+            margin: 4px 0;
+        }
+        .sticky-note-line {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 1px;
+        }
+        @media (max-width: 768px) {
+            .sticky-note { display: none; }
+        }
+
         /* Toast notifications */
         .toast {
             position: fixed;
@@ -2094,7 +2136,45 @@
 
     <div class="desktop">
         <div class="wallpaper"></div>
-        
+
+        <!-- Sticky Notes -->
+        <div class="sticky-note" style="right: 24px; top: 55px; transform: rotate(-1.2deg);">
+            <div class="sticky-note-header">🟢 Available for Work</div>
+            <div class="sticky-note-body">
+                <div class="sticky-note-line">📍 Toronto, ON</div>
+                <div class="sticky-note-line">&nbsp;&nbsp;&nbsp;(Remote-friendly ✓)</div>
+                <hr>
+                <div class="sticky-note-line">Full-time &amp; Freelance</div>
+                <div class="sticky-note-line">Content · Copy · Strategy</div>
+                <hr>
+                <div class="sticky-note-line">✉️ parsanavidi</div>
+                <div class="sticky-note-line">&nbsp;&nbsp;&nbsp;@hotmail.ca</div>
+            </div>
+        </div>
+
+        <div class="sticky-note sticky-note-2" style="right: 204px; top: 90px; transform: rotate(1.4deg);">
+            <div class="sticky-note-header">📋 Recent Work</div>
+            <div class="sticky-note-body">
+                <div class="sticky-note-line">→ Yardi Market Reports</div>
+                <div class="sticky-note-line">→ Jas Takhar Podcast</div>
+                <div class="sticky-note-line">→ YASC Canada 2025</div>
+                <div class="sticky-note-line">→ REC Canada</div>
+                <div class="sticky-note-line">→ Plumb Wize</div>
+                <div class="sticky-note-line">→ My Solar Group</div>
+            </div>
+        </div>
+
+        <div class="sticky-note sticky-note-3" style="right: 30px; top: 280px; transform: rotate(-0.6deg);">
+            <div class="sticky-note-header">💡 Fun Fact</div>
+            <div class="sticky-note-body">
+                <div class="sticky-note-line">Film school grad turned</div>
+                <div class="sticky-note-line">content strategist.</div>
+                <hr>
+                <div class="sticky-note-line">Words are just another</div>
+                <div class="sticky-note-line">medium. 🎬 → ✍️</div>
+            </div>
+        </div>
+
         <!-- Desktop Icons -->
         <div class="desktop-icons">
             <div class="desktop-icon" data-window="about">
@@ -3727,25 +3807,25 @@
                 icon: '✍️',
                 title: 'Writing & Content',
                 desc: 'Words that earn attention, build trust, and move people to act',
-                tags: ['Copywriting','Long-form Content','Brand Voice','Technical Writing','Email Copy','Thought Leadership','Ghostwriting']
+                tags: ['Copywriting','Long-form Content','Brand Voice','Technical Writing','Email Copy','Thought Leadership','Ghostwriting','Case Studies','White Papers','Scriptwriting','UX Writing','Product Descriptions','Press Releases']
             },
             {
                 icon: '🗂️',
                 title: 'Content Strategy',
                 desc: 'Editorial systems built to scale — from brief to publish to measure',
-                tags: ['Content Planning','SEO Strategy','Campaign Development','Market Research','Editorial Calendars','Audience Research']
+                tags: ['Content Planning','SEO Strategy','Campaign Development','Market Research','Editorial Calendars','Audience Research','Content Audits','Persona Development','Competitor Analysis','Distribution Strategy','Content Mapping','Messaging Architecture']
             },
             {
                 icon: '🎨',
                 title: 'Creative Direction',
                 desc: 'Cohesive storytelling across every medium and touchpoint',
-                tags: ['Brand Storytelling','Visual Messaging','Campaign Concepting','Tone & Voice','Brand Identity']
+                tags: ['Brand Storytelling','Visual Messaging','Campaign Concepting','Tone & Voice','Brand Identity','Messaging Frameworks','Positioning Strategy','Creative Briefs','Narrative Design','Pitch Decks','Brand Guidelines']
             },
             {
                 icon: '📣',
                 title: 'Digital Marketing',
                 desc: 'Right message, right channel — content that reaches and converts',
-                tags: ['Social Media','Email Marketing','SEO','Analytics','Paid Campaigns','Lead Generation']
+                tags: ['Social Media','Email Marketing','SEO','Analytics','Paid Campaigns','Lead Generation','LinkedIn Strategy','Conversion Optimization','A/B Testing','Funnel Strategy','Community Building','Content Marketing']
             }
         ];
 
