@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reel Maker 2000 — parsa.exe</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #008080; display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; font-family: 'MS Sans Serif', Arial, sans-serif; font-size: 11px;
+}
+.window {
+  background: #c0c0c0;
+  border: 2px solid; border-color: #fff #808080 #808080 #fff;
+  box-shadow: 3px 3px 0 #000;
+  width: min(860px, 98vw);
+}
+.title-bar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff; padding: 3px 4px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: bold; font-size: 11px; user-select: none;
+}
+.title-left { display: flex; align-items: center; gap: 4px; }
+.tb-btns { display: flex; gap: 2px; }
+.tb-btn {
+  width: 16px; height: 14px; background: #c0c0c0;
+  border: 1px solid; border-color: #fff #808080 #808080 #fff;
+  font-size: 9px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; color: #000; text-decoration: none;
+}
+.tb-btn:active { border-color: #808080 #fff #fff #808080; }
+.menu-bar { background: #c0c0c0; border-bottom: 1px solid #808080; display: flex; padding: 2px 2px 0; }
+.mi { padding: 2px 8px; cursor: pointer; }
+.mi:hover { background: #000080; color: #fff; }
+
+/* Toolbar */
+.toolbar {
+  background: #c0c0c0; border-bottom: 2px solid; border-color: #808080 #fff #fff #808080;
+  padding: 3px 4px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+}
+.tool-btn {
+  background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff;
+  padding: 3px 8px; font-size: 11px; cursor: pointer; white-space: nowrap;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+}
+.tool-btn:active { border-color: #808080 #fff #fff #808080; }
+.tool-sep { width: 1px; height: 22px; background: #808080; margin: 0 2px; }
+
+/* Main body */
+.rm-body {
+  display: flex; height: 380px;
+}
+
+/* Left: clips panel */
+.clips-panel {
+  width: 200px; min-width: 160px;
+  border-right: 2px solid; border-color: #808080 #fff #fff #808080;
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+}
+.panel-title {
+  background: linear-gradient(180deg, #d0d0d0, #b8b8b8);
+  padding: 4px 6px; font-weight: bold; font-size: 10px; color: #333;
+  border-bottom: 1px solid #808080;
+}
+.clips-list { overflow-y: auto; flex: 1; }
+.clip-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px; cursor: pointer; border-bottom: 1px solid #d8d8d8;
+}
+.clip-item:hover { background: #000080; color: #fff; }
+.clip-item.selected { background: #000080; color: #fff; }
+.clip-thumb {
+  width: 36px; height: 28px; flex-shrink: 0;
+  border: 1px solid #808080;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; background: #000;
+}
+.clip-info { min-width: 0; }
+.clip-name { font-weight: bold; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.clip-dur { font-size: 9px; color: #666; }
+.clip-item:hover .clip-dur, .clip-item.selected .clip-dur { color: #ccc; }
+
+/* Center: preview */
+.preview-panel {
+  flex: 1; display: flex; flex-direction: column; background: #1a1a1a;
+  min-width: 0;
+}
+.preview-screen {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 16px; text-align: center; position: relative;
+  background: #111;
+}
+.preview-logo {
+  font-size: 48px; margin-bottom: 8px;
+}
+.preview-title {
+  color: #fff; font-size: 16px; font-weight: bold; margin-bottom: 4px;
+}
+.preview-meta {
+  color: #888; font-size: 10px; margin-bottom: 12px;
+}
+.preview-desc {
+  color: #ccc; font-size: 11px; line-height: 1.6; max-width: 380px; margin-bottom: 16px;
+}
+.preview-open {
+  display: inline-block;
+  background: linear-gradient(180deg, #1565c0, #0d47a1);
+  color: #fff; text-decoration: none;
+  padding: 6px 18px; font-size: 11px; font-weight: bold;
+  border: 2px solid; border-color: #5590d8 #0a3d91 #0a3d91 #5590d8;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+}
+.preview-open:hover { background: linear-gradient(180deg, #1e7ae0, #1256b8); }
+.preview-idle {
+  color: #444; font-size: 13px; text-align: center;
+}
+.preview-idle span { display: block; color: #225; font-size: 32px; margin-bottom: 8px; }
+
+/* Preview transport bar */
+.transport {
+  background: #2a2a2a; border-top: 1px solid #444;
+  padding: 6px 8px; display: flex; align-items: center; gap: 8px;
+}
+.t-btn {
+  background: #3a3a3a; border: 1px solid #555; color: #fff;
+  width: 24px; height: 20px; font-size: 11px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.t-btn:hover { background: #505050; }
+.t-scrub {
+  flex: 1; height: 6px; background: #444; border: 1px solid #333; position: relative; cursor: pointer;
+}
+.t-scrub-fill { height: 100%; background: #1084d0; width: 0%; transition: width 2s linear; }
+.t-time { color: #aaa; font-size: 9px; font-family: monospace; }
+
+/* Timeline */
+.timeline {
+  border-top: 2px solid; border-color: #808080 #fff #fff #808080;
+  background: #e0e0e0; height: 80px; overflow-x: auto;
+  display: flex; flex-direction: column;
+}
+.tl-header {
+  background: #c8c8c8; border-bottom: 1px solid #ababab;
+  padding: 2px 6px; font-size: 9px; color: #555; display: flex; align-items: center; gap: 6px;
+}
+.tl-track { flex: 1; padding: 4px 6px; display: flex; gap: 4px; align-items: center; overflow-x: auto; }
+.tl-clip {
+  height: 36px; min-width: 70px; border: 2px solid; border-color: #fff #808080 #808080 #fff;
+  background: #4a7ab5; color: #fff; font-size: 9px; padding: 2px 4px;
+  cursor: pointer; white-space: nowrap; overflow: hidden; flex-shrink: 0;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.tl-clip.active { background: #1a4a85; border-color: #aaccff #002266 #002266 #aaccff; }
+.tl-clip-icon { font-size: 14px; }
+
+/* Status */
+.status-bar { border-top: 1px solid #808080; padding: 2px 4px; display: flex; gap: 4px; }
+.sp { flex:1; border:1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 4px; color:#444; }
+.back {
+  display: block; text-align: center; padding: 5px; font-size: 10px;
+  color: #000080; text-decoration: underline; cursor: pointer;
+  background: #c0c0c0; border-top: 1px solid #dfdfdf;
+}
+
+@media (max-width: 600px) {
+  .clips-panel { width: 130px; }
+  .rm-body { height: auto; flex-direction: column; }
+  .clips-panel { width: 100%; height: 160px; border-right: none; border-bottom: 2px solid #808080; }
+  .clips-list { display: flex; flex-direction: row; overflow-x: auto; overflow-y: hidden; flex: none; height: 120px; }
+  .clip-item { flex-direction: column; min-width: 80px; text-align: center; }
+  .preview-panel { min-height: 260px; }
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="title-left">🎬 Reel Maker 2000 — parsa.exe</div>
+    <div class="tb-btns">
+      <a class="tb-btn" href="index.html">✕</a>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="mi">File</div>
+    <div class="mi">Edit</div>
+    <div class="mi">View</div>
+    <div class="mi">Clip</div>
+    <div class="mi">Play</div>
+    <div class="mi">Help</div>
+  </div>
+  <div class="toolbar">
+    <button class="tool-btn">📂 Import</button>
+    <div class="tool-sep"></div>
+    <button class="tool-btn">✂️ Split</button>
+    <button class="tool-btn">🔗 Combine</button>
+    <div class="tool-sep"></div>
+    <button class="tool-btn">🎵 Add Music</button>
+    <button class="tool-btn">📝 Add Title</button>
+    <div class="tool-sep"></div>
+    <button class="tool-btn" onclick="exportReel()">💾 Save Movie…</button>
+  </div>
+
+  <div class="rm-body">
+    <!-- Clips collection -->
+    <div class="clips-panel">
+      <div class="panel-title">📁 My Collections</div>
+      <div class="clips-list" id="clipsList"></div>
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-panel">
+      <div class="preview-screen" id="preview">
+        <div class="preview-idle">
+          <span>🎬</span>
+          Select a clip to preview
+        </div>
+      </div>
+      <div class="transport">
+        <div class="t-btn" onclick="playPreview()">▶</div>
+        <div class="t-btn">⏸</div>
+        <div class="t-btn">⏹</div>
+        <div class="t-scrub"><div class="t-scrub-fill" id="scrubFill"></div></div>
+        <div class="t-time" id="tTime">0:00 / 0:00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline">
+    <div class="tl-header">
+      🎞️ Video Track &nbsp;|&nbsp; Drag clips here to build your reel
+    </div>
+    <div class="tl-track" id="tlTrack">
+      <div style="color:#888;font-size:10px;padding:8px;">Click a clip to add it to your timeline →</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="sp" id="msg">Welcome to Reel Maker 2000 · Select a clip from the collection to preview</div>
+  </div>
+  <a class="back" href="index.html">← Back to Desktop</a>
+</div>
+
+<script>
+const clips = [
+  {
+    icon: '📊',
+    name: 'Yardi Market Reports',
+    dur: '2024–Present',
+    meta: 'Content Strategy',
+    desc: 'Monthly market intelligence reports for Canadian real estate. Built an entire content framework from scratch — data sourcing, narrative structure, design briefs, and distribution strategy across Yardi\'s Canadian network.',
+    url: 'https://info.yardi.com/multifamily-market-reports-for-canada',
+    color: '#1a5c2e'
+  },
+  {
+    icon: '🎙️',
+    name: 'Jas Takhar Podcast',
+    dur: '2022–2023',
+    meta: 'Copywriting · Podcast Production',
+    desc: 'Full production pipeline for a high-profile real estate podcast — scripts, show notes, guest outreach copy, and social amplification. Grew listener engagement through tighter narrative hooks and consistent brand voice.',
+    url: 'https://meetjastakhar.com/',
+    color: '#5c1a1a'
+  },
+  {
+    icon: '🔧',
+    name: 'Plumb Wize',
+    dur: '2023',
+    meta: 'SEO Copywriting · Conversion',
+    desc: 'Rewrote core service pages for a local plumbing company with a hard focus on local SEO and conversion. Structured content around the specific questions people ask at 2am when a pipe bursts.',
+    url: 'https://www.plumbwize.ca/drain-services/drain-repair/',
+    color: '#1a3a5c'
+  },
+  {
+    icon: '☀️',
+    name: 'My Solar Group',
+    dur: '2023',
+    meta: 'Brand Voice · Web Copy',
+    desc: 'Developed brand voice and rewrote the full website for a solar energy provider. Made complex technical concepts accessible without dumbing them down — the sweet spot between "we\'re saving the planet" and "here\'s your ROI."',
+    url: 'https://www.mysolargroup.ca/',
+    color: '#5c4a1a'
+  },
+  {
+    icon: '📝',
+    name: 'Shoplazza — Buyer Personas',
+    dur: '2022',
+    meta: 'Marketing Guide',
+    desc: 'A definitive guide on building buyer personas for e-commerce brands. Written for practitioners, not theorists — every section ends with something actionable. Still one of the most-read pieces on the Shoplazza blog.',
+    url: 'https://blog.shoplazza.com/what-is-buyer-persona',
+    color: '#3a1a5c'
+  },
+  {
+    icon: '👩‍💻',
+    name: 'Women in Tech Feature',
+    dur: '2025',
+    meta: 'Feature · Yardi Breeze Canada',
+    desc: 'A personal piece published under the Yardi Breeze Canada brand — part interview, part editorial — spotlighting a woman in property management technology. Navigated tone carefully between candid and professional.',
+    url: 'https://www.yardibreeze.ca/blog/2025/02/women-in-tech-parisa/',
+    color: '#1a4a5c'
+  },
+  {
+    icon: '🏛️',
+    name: 'YASC Canada 2025',
+    dur: '2025',
+    meta: 'Event Coverage',
+    desc: 'Live event coverage and post-event editorial for the Yardi Advanced Solutions Conference in Canada. Captured the energy of the room while distilling the product news that actually mattered to attendees.',
+    url: 'https://www.yardi.com/blog/yasc-canada-2025/',
+    color: '#1a5c4a'
+  },
+  {
+    icon: '🏠',
+    name: 'REC Canada — 28 Doors',
+    dur: '2022',
+    meta: 'Long-form Editorial',
+    desc: 'Long-form brand editorial for a real estate investment community. Took a storytelling-first approach — this isn\'t a listicle, it\'s a narrative. The kind of content that builds an audience, not just traffic.',
+    url: 'https://www.reccanada.com/blog/28doors',
+    color: '#4a3a1a'
+  }
+];
+
+let selected = null;
+let tlClips = [];
+
+function renderClips() {
+  const list = document.getElementById('clipsList');
+  list.innerHTML = clips.map((c,i) => `
+    <div class="clip-item" id="ci-${i}" onclick="selectClip(${i})">
+      <div class="clip-thumb" style="background:${c.color}">${c.icon}</div>
+      <div class="clip-info">
+        <div class="clip-name">${c.name}</div>
+        <div class="clip-dur">${c.dur}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectClip(i) {
+  document.querySelectorAll('.clip-item').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('ci-'+i).classList.add('selected');
+  selected = i;
+  showPreview(i);
+  addToTimeline(i);
+}
+
+function showPreview(i) {
+  const c = clips[i];
+  document.getElementById('preview').innerHTML = `
+    <div class="preview-logo">${c.icon}</div>
+    <div class="preview-title">${c.name}</div>
+    <div class="preview-meta">${c.meta} &nbsp;·&nbsp; ${c.dur}</div>
+    <div class="preview-desc">${c.desc}</div>
+    <a class="preview-open" href="${c.url}" target="_blank" rel="noopener">▶ Open Project →</a>
+  `;
+  document.getElementById('msg').textContent = `Now previewing: ${c.name} · ${c.meta}`;
+  document.getElementById('scrubFill').style.width = '0%';
+  document.getElementById('tTime').textContent = '0:00 / 2:34';
+}
+
+function addToTimeline(i) {
+  if(tlClips.includes(i)) return;
+  tlClips.push(i);
+  renderTimeline();
+}
+
+function renderTimeline() {
+  const track = document.getElementById('tlTrack');
+  track.innerHTML = tlClips.map((i,idx) => {
+    const c = clips[i];
+    return `<div class="tl-clip${selected===i?' active':''}" onclick="selectClip(${i})" style="background:${c.color}">
+      <div class="tl-clip-icon">${c.icon}</div>
+      <div>${c.name.split(' ').slice(0,2).join(' ')}</div>
+      <div style="font-size:8px;opacity:0.7">${c.dur}</div>
+    </div>`;
+  }).join('');
+}
+
+function playPreview() {
+  if(selected === null) return;
+  const fill = document.getElementById('scrubFill');
+  fill.style.transition = 'width 4s linear';
+  fill.style.width = '100%';
+  document.getElementById('tTime').textContent = '0:00 / 2:34';
+  let t = 0;
+  const iv = setInterval(()=>{
+    t += 154/40;
+    const s = Math.floor(t);
+    document.getElementById('tTime').textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} / 2:34`;
+  }, 100);
+  setTimeout(()=>{ clearInterval(iv); document.getElementById('tTime').textContent = '2:34 / 2:34'; }, 4000);
+}
+
+function exportReel() {
+  if(tlClips.length === 0) {
+    document.getElementById('msg').textContent = 'Add some clips to your timeline first!';
+    return;
+  }
+  document.getElementById('msg').textContent = `✅ Saved "My Reel.wmv" to My Documents · ${tlClips.length} clip(s) · Ready to share!`;
+}
+
+renderClips();
+</script>
+</body>
+</html>

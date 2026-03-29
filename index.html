@@ -328,79 +328,173 @@
         }
 
         /* Start Menu */
+        /* ── Start Menu (Windows XP two-column) ── */
         .start-menu {
             position: fixed;
-            bottom: 32px;
+            bottom: 38px;
             left: 0;
-            width: 360px;
-            background: linear-gradient(180deg, #0055df 0%, #0046c8 100%);
-            border: 2px solid;
-            border-color: #0d47a1 #001a4d #001a4d #0d47a1;
+            width: 480px;
+            background: #d4e4f7;
+            border: 2px solid #3268b8;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 4px -2px 12px rgba(0,0,0,0.5);
             display: none;
             z-index: 10000;
+            overflow: hidden;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
         }
+        .start-menu.open { display: block; }
 
-        .start-menu.open {
-            display: block;
-        }
-
-        .start-menu-sidebar {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 24px;
-            background: linear-gradient(180deg, #003399 0%, #001a4d 100%);
-            border-right: 1px solid #00003d;
+        /* Header */
+        .sm-header {
+            background: linear-gradient(180deg, #2878d4 0%, #1c5ab8 40%, #1450a8 41%, #0d46a0 100%);
+            padding: 8px 12px;
             display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 4px;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #0a3d91;
         }
-
-        .start-menu-sidebar span {
+        .sm-avatar {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, #4a7ad4, #1a4a9c);
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 4px;
+            font-size: 26px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .sm-username {
             color: #fff;
             font-weight: bold;
-            font-size: 14px;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 13px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+        }
+        .sm-usertitle {
+            color: rgba(255,255,255,0.75);
+            font-size: 10px;
+            margin-top: 2px;
         }
 
-        .start-menu-items {
-            margin-left: 24px;
-            padding: 4px 0;
+        /* Body */
+        .sm-body {
+            display: flex;
+            min-height: 320px;
         }
 
-        .start-menu-item {
+        /* Left panel — white, programs */
+        .sm-left {
+            flex: 1;
+            background: #fff;
+            padding: 6px 0;
+            border-right: 1px solid #a8c0e0;
+        }
+        .sm-left-label {
+            font-size: 9px;
+            color: #888;
+            font-style: italic;
+            padding: 2px 10px 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .sm-prog {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 12px;
-            color: #fff;
+            padding: 6px 10px;
             cursor: pointer;
-        }
-
-        .start-menu-item:hover {
-            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
-        }
-
-        .start-menu-item img {
-            width: 32px;
-            height: 32px;
-        }
-
-        .start-menu-item span {
             font-size: 11px;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            color: #000;
         }
-
-        .start-menu-divider {
+        .sm-prog:hover {
+            background: #2368c4;
+            color: #fff;
+        }
+        .sm-prog-icon {
+            width: 32px; height: 32px;
+            flex-shrink: 0;
+            font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .sm-prog-text { flex: 1; }
+        .sm-prog-name { font-weight: bold; font-size: 11px; }
+        .sm-prog-desc { font-size: 9px; color: #666; margin-top: 1px; }
+        .sm-prog:hover .sm-prog-desc { color: rgba(255,255,255,0.8); }
+        .sm-sep {
             height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            background: linear-gradient(90deg, transparent, #ccc 20%, #ccc 80%, transparent);
             margin: 4px 8px;
         }
+        .sm-all-progs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+            border-top: 1px solid #ddd;
+            margin-top: 4px;
+        }
+        .sm-all-progs:hover { background: #2368c4; color: #fff; }
+
+        /* Right panel — light blue, nav */
+        .sm-right {
+            width: 170px;
+            background: #d4e4f7;
+            padding: 6px 0;
+            flex-shrink: 0;
+        }
+        .sm-right-label {
+            font-size: 9px;
+            color: #555;
+            font-style: italic;
+            padding: 2px 10px 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .sm-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            font-size: 11px;
+            color: #000;
+            cursor: pointer;
+        }
+        .sm-nav:hover { background: #2368c4; color: #fff; }
+        .sm-nav-icon { font-size: 18px; width: 22px; text-align: center; flex-shrink: 0; }
+        .sm-nav-sep {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #a8c0e0 20%, #a8c0e0 80%, transparent);
+            margin: 4px 8px;
+        }
+
+        /* Footer */
+        .sm-footer {
+            background: linear-gradient(180deg, #1c5ab8 0%, #0d46a0 100%);
+            border-top: 2px solid #0a3d91;
+            padding: 6px 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+        .sm-foot-btn {
+            background: linear-gradient(180deg, #3a70c8 0%, #2258b0 100%);
+            color: #fff;
+            border: 1px solid #5588dd;
+            padding: 4px 14px;
+            font-size: 11px;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .sm-foot-btn:hover { background: linear-gradient(180deg, #4a80d8, #3268c0); }
+
+        /* legacy — keep for JS compat */
+        .start-menu-item { display: none; }
+        .start-menu-divider { display: none; }
 
         /* Windows */
         .window {
@@ -929,8 +1023,15 @@
             }
 
             .start-menu {
-                width: 260px;
+                width: 100vw;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
             }
+            .sm-body { min-height: auto; }
+            .sm-left { flex: 1; min-width: 0; }
+            .sm-right { width: 140px; }
+            .sm-prog-desc { display: none; }
 
             /* All open windows fill the viewport */
             .window:not(.minimized) {
@@ -3208,44 +3309,94 @@
 
     <!-- Start Menu -->
     <div class="start-menu" id="start-menu">
-        <div class="start-menu-sidebar">
-            <span>Parsa</span>
+        <!-- Header -->
+        <div class="sm-header">
+            <div class="sm-avatar">✍️</div>
+            <div>
+                <div class="sm-username">Parsa Navidi</div>
+                <div class="sm-usertitle">Content Strategist · Copywriter</div>
+            </div>
         </div>
-        <div class="start-menu-items">
-            <div class="start-menu-item" data-window="about">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23fff' x='2' y='2' width='28' height='28'/%3E%3Ccircle fill='%230055df' cx='16' cy='16' r='8'/%3E%3C/svg%3E">
-                <span>My Info</span>
+
+        <!-- Two-column body -->
+        <div class="sm-body">
+            <!-- Left: Programs -->
+            <div class="sm-left">
+                <div class="sm-left-label">Programs</div>
+
+                <div class="sm-prog" onclick="window.open('snake.html','_blank')">
+                    <div class="sm-prog-icon">🐍</div>
+                    <div class="sm-prog-text">
+                        <div class="sm-prog-name">Snake</div>
+                        <div class="sm-prog-desc">Classic Nokia vibes</div>
+                    </div>
+                </div>
+                <div class="sm-prog" onclick="window.open('minesweeper.html','_blank')">
+                    <div class="sm-prog-icon">💣</div>
+                    <div class="sm-prog-text">
+                        <div class="sm-prog-name">Minesweeper</div>
+                        <div class="sm-prog-desc">Don't hit the mines</div>
+                    </div>
+                </div>
+                <div class="sm-prog" onclick="window.open('reelmaker.html','_blank')">
+                    <div class="sm-prog-icon">🎬</div>
+                    <div class="sm-prog-text">
+                        <div class="sm-prog-name">Reel Maker 2000</div>
+                        <div class="sm-prog-desc">Windows Movie Maker, basically</div>
+                    </div>
+                </div>
+                <div class="sm-prog" onclick="window.open('maple.html','_blank')">
+                    <div class="sm-prog-icon">🍁</div>
+                    <div class="sm-prog-text">
+                        <div class="sm-prog-name">MapleWorld</div>
+                        <div class="sm-prog-desc">Pick your class, adventurer</div>
+                    </div>
+                </div>
+                <div class="sm-prog" onclick="window.open('runescape.html','_blank')">
+                    <div class="sm-prog-icon">⚔️</div>
+                    <div class="sm-prog-text">
+                        <div class="sm-prog-name">Skills Cape</div>
+                        <div class="sm-prog-desc">RuneScape stats, IRL</div>
+                    </div>
+                </div>
+
+                <div class="sm-all-progs">
+                    <span>📂</span> All Programs &rsaquo;
+                </div>
             </div>
-            <div class="start-menu-item" data-window="projects">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23ffeb3b' x='2' y='4' width='12' height='10'/%3E%3Crect fill='%234caf50' x='18' y='4' width='12' height='10'/%3E%3Crect fill='%23f44336' x='2' y='18' width='12' height='10'/%3E%3Crect fill='%232196f3' x='18' y='18' width='12' height='10'/%3E%3C/svg%3E">
-                <span>Projects</span>
+
+            <!-- Right: Portfolio nav -->
+            <div class="sm-right">
+                <div class="sm-right-label">My Portfolio</div>
+                <div class="sm-nav" data-window="about">
+                    <span class="sm-nav-icon">👤</span> My Info
+                </div>
+                <div class="sm-nav" data-window="projects">
+                    <span class="sm-nav-icon">📂</span> Projects
+                </div>
+                <div class="sm-nav" data-window="skills">
+                    <span class="sm-nav-icon">🛠️</span> Skills
+                </div>
+                <div class="sm-nav" data-window="tools">
+                    <span class="sm-nav-icon">🔧</span> My Tools
+                </div>
+                <div class="sm-nav-sep"></div>
+                <div class="sm-nav" data-window="contact">
+                    <span class="sm-nav-icon">📧</span> Contact
+                </div>
+                <div class="sm-nav" data-window="resume">
+                    <span class="sm-nav-icon">📄</span> Resume
+                </div>
+                <div class="sm-nav-sep"></div>
+                <div class="sm-nav" data-window="recycle">
+                    <span class="sm-nav-icon">🗑️</span> Recycle Bin
+                </div>
             </div>
-            <div class="start-menu-item" data-window="skills">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23e91e63' x='4' y='4' width='24' height='24' rx='4'/%3E%3Ctext x='16' y='22' text-anchor='middle' fill='%23fff' font-size='14' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
-                <span>Skills</span>
-            </div>
-            <div class="start-menu-item" data-window="contact">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%230055df' x='2' y='8' width='28' height='18' rx='2'/%3E%3Cpolygon fill='%23fff' points='16,14 4,24 28,24'/%3E%3C/svg%3E">
-                <span>Contact</span>
-            </div>
-            <div class="start-menu-item" data-window="resume">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23fff' x='4' y='2' width='24' height='28' rx='1'/%3E%3Cline x1='8' y1='10' x2='24' y2='10' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='8' y1='16' x2='24' y2='16' stroke='%23ccc' stroke-width='2'/%3E%3Cline x1='8' y1='22' x2='20' y2='22' stroke='%23ccc' stroke-width='2'/%3E%3C/svg%3E">
-                <span>Resume</span>
-            </div>
-            <div class="start-menu-item" data-window="tools">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%230055df' x='4' y='4' width='10' height='10'/%3E%3Crect fill='%23e91e63' x='18' y='4' width='10' height='10'/%3E%3Crect fill='%23ff9800' x='4' y='18' width='10' height='10'/%3E%3Crect fill='%234caf50' x='18' y='18' width='10' height='10'/%3E%3C/svg%3E">
-                <span>My Tools</span>
-            </div>
-            <div class="start-menu-divider"></div>
-            <div class="start-menu-item" data-window="recycle">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Cpath fill='%23708090' d='M8,10 L10,26 L22,26 L24,10 Z M12,10 L12,6 L20,6 L20,10 M10,6 L22,6 L22,4 L10,4 Z'/%3E%3C/svg%3E">
-                <span>Recycle Bin</span>
-            </div>
-            <div class="start-menu-divider"></div>
-            <div class="start-menu-item" onclick="window.close()">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23c0c0c0' width='32' height='32'/%3E%3Crect fill='%23fff' x='4' y='4' width='24' height='24' rx='1' stroke='%23f44336' stroke-width='2'/%3E%3Cline x1='10' y1='10' x2='22' y2='22' stroke='%23f44336' stroke-width='2'/%3E%3Cline x1='22' y1='10' x2='10' y2='22' stroke='%23f44336' stroke-width='2'/%3E%3C/svg%3E">
-                <span>Log Off</span>
-            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="sm-footer">
+            <button class="sm-foot-btn" onclick="window.close()">🔴 Log Off</button>
         </div>
     </div>
 
@@ -3479,12 +3630,13 @@
             });
         });
 
-        // Start menu items click handler
-        document.querySelectorAll('.start-menu-item[data-window]').forEach(item => {
+        // Start menu nav items click handler
+        document.querySelectorAll('.sm-nav[data-window]').forEach(item => {
             item.addEventListener('click', () => {
                 const windowId = item.dataset.window;
                 if (windowId) {
                     openWindow(windowId);
+                    document.getElementById('start-menu').classList.remove('open');
                 }
             });
         });
