@@ -5,27 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MapleWorld — parsa.exe</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-  background: #1a0a2e;
-  display: flex; align-items: center; justify-content: center;
+  background: #0a0520;
   min-height: 100vh;
-  font-family: 'MS Sans Serif', Arial, sans-serif; font-size: 11px;
-  background-image:
-    radial-gradient(ellipse 300px 200px at 20% 80%, rgba(100,20,180,0.3) 0%, transparent 70%),
-    radial-gradient(ellipse 200px 150px at 80% 20%, rgba(20,80,180,0.3) 0%, transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: Arial, sans-serif; font-size: 11px;
 }
+
+/* ── Windows chrome ── */
 .window {
   background: #c0c0c0;
   border: 2px solid; border-color: #fff #808080 #808080 #fff;
   box-shadow: 3px 3px 0 #000;
-  width: min(580px, 98vw);
+  width: min(640px, 98vw);
 }
 .title-bar {
   background: linear-gradient(90deg, #000080, #1084d0);
   color: #fff; padding: 3px 4px;
   display: flex; align-items: center; justify-content: space-between;
   font-weight: bold; font-size: 11px; user-select: none;
+  font-family: Arial, sans-serif;
 }
 .title-left { display: flex; align-items: center; gap: 4px; }
 .tb-btns { display: flex; gap: 2px; }
@@ -33,93 +36,288 @@ body {
   width: 16px; height: 14px; background: #c0c0c0;
   border: 1px solid; border-color: #fff #808080 #808080 #fff;
   font-size: 9px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; color: #000; text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+  color: #000; text-decoration: none;
 }
 .tb-btn:active { border-color: #808080 #fff #fff #808080; }
 .menu-bar { background: #c0c0c0; border-bottom: 1px solid #808080; display: flex; padding: 2px 2px 0; }
-.mi { padding: 2px 8px; cursor: pointer; }
+.mi { padding: 2px 8px; cursor: pointer; font-size: 11px; }
 .mi:hover { background: #000080; color: #fff; }
 
-/* Maple header */
-.maple-header {
-  background: linear-gradient(135deg, #1a0a3e 0%, #2a1060 50%, #0a1a4e 100%);
-  padding: 16px 12px 12px;
-  text-align: center; position: relative; overflow: hidden;
+/* ── MapleStory World ── */
+.maple-world {
+  background:
+    radial-gradient(ellipse 120px 80px at 15% 15%, rgba(255,255,200,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 80px 60px at 85% 10%, rgba(200,200,255,0.1) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0520 0%, #150835 40%, #1a1040 70%, #0d1a30 100%);
+  padding: 0;
+  overflow: hidden;
 }
-.maple-header::before {
-  content: '🍁🌟🍁🌟🍁🌟🍁🌟🍁🌟🍁🌟🍁';
-  position: absolute; top: 4px; left: 0; right: 0;
-  font-size: 10px; opacity: 0.3; letter-spacing: 4px;
-}
-.maple-logo {
-  font-size: 13px; font-weight: bold; letter-spacing: 3px;
-  background: linear-gradient(90deg, #ff4444, #ffaa00, #ffff44, #44ff44, #4488ff, #aa44ff);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; margin-bottom: 4px;
-  text-shadow: none;
-}
-.maple-sub { color: #88aaff; font-size: 10px; }
 
-/* Intro text */
-.intro { padding: 12px 16px; background: #f0f0f0; border-bottom: 1px solid #d0d0d0; font-size: 11px; line-height: 1.5; color: #333; text-align: center; }
-
-/* Class picker */
-.class-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 6px; padding: 12px;
+/* Night sky with pixel stars */
+.sky {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+  padding: 10px 12px;
 }
-@media (max-width: 400px) { .class-grid { grid-template-columns: repeat(3, 1fr); } }
+.sky::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, #fff 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 60%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 10%, rgba(255,255,200,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 40%, #fff 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 60% 55%, rgba(255,255,200,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 15%, #fff 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 45%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 30%, rgba(255,255,200,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 55% 80%, rgba(200,200,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+}
 
-.class-card {
+/* Title sign */
+.maple-sign {
+  display: inline-block;
+  background: linear-gradient(180deg, #8b4513 0%, #5d2e0c 50%, #4a2208 100%);
+  border: 3px solid #2a1205;
+  border-radius: 4px;
+  padding: 8px 18px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,200,100,0.3);
+  margin-bottom: 8px;
+}
+.maple-sign::before, .maple-sign::after {
+  content: '';
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 12px; height: 30px;
+  background: linear-gradient(180deg, #6b3410 0%, #3a1a06 100%);
+  border: 2px solid #2a1205;
+}
+.maple-sign::before { left: -14px; border-radius: 2px 0 0 2px; }
+.maple-sign::after { right: -14px; border-radius: 0 2px 2px 0; }
+
+.maple-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #ffcc00;
+  text-shadow: 2px 2px 0 #8b4500, 0 0 10px rgba(255,200,0,0.5);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.maple-sub {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #ffaa44;
+  text-shadow: 1px 1px 0 #5a2a00;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Pixel moon */
+.moon {
+  position: absolute;
+  top: 12px; right: 24px;
+  width: 32px; height: 32px;
+  background: radial-gradient(circle at 40% 40%, #ffffcc, #ffee88);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(255,238,100,0.5);
+}
+
+/* Forest silhouette */
+.forest {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 48px;
+  overflow: hidden;
+}
+.tree {
+  position: absolute;
+  bottom: 0;
+  width: 0; height: 0;
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid;
+}
+
+/* Platform area */
+.platform-area {
+  background: linear-gradient(180deg, #1a1a3a 0%, #0d1220 100%);
+  padding: 0 12px 12px;
+  position: relative;
+}
+
+/* Main floating platform */
+.platform-main {
+  background: linear-gradient(180deg, #5a8a2e 0%, #3d6620 60%, #8b6914 61%, #5a4010 100%);
+  height: 20px;
+  border-radius: 6px 6px 2px 2px;
+  box-shadow: 0 4px 0 #2a1a05, 0 6px 0 rgba(0,0,0,0.4);
+  position: relative;
+  margin: 0 8px 12px;
+}
+.platform-main::before {
+  content: '';
+  position: absolute;
+  top: 2px; left: 4px; right: 4px; height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+
+/* Class selection prompt */
+.select-prompt {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #88aaff;
+  text-align: center;
+  padding: 0 0 8px;
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Character cards */
+.char-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 4px 4px;
+}
+
+.char-card {
+  width: 100px;
   display: flex; flex-direction: column; align-items: center;
-  padding: 8px 4px; cursor: pointer;
-  border: 2px solid; border-color: #fff #808080 #808080 #fff;
-  background: #c0c0c0; transition: none; text-align: center;
-  user-select: none;
+  cursor: pointer;
+  transition: transform 0.1s;
 }
-.class-card:hover { background: #d8d8ff; border-color: #8888ff #3333cc #3333cc #8888ff; }
-.class-card.selected { background: #000080; color: #fff; border-color: #aaccff #002266 #002266 #aaccff; }
-
-/* Pixel characters — pure CSS art */
-.pixel-char {
-  width: 36px; height: 44px; position: relative; margin-bottom: 4px; image-rendering: pixelated;
+.char-card:hover { transform: translateY(-4px); }
+.char-card.selected .char-sprite-wrap {
+  filter: drop-shadow(0 0 8px #ffcc00);
 }
-/* Each character is drawn via layered box-shadows on a 1px div */
-.px { width: 4px; height: 4px; position: absolute; }
 
-.class-name { font-size: 9px; font-weight: bold; line-height: 1.2; }
-.class-card.selected .class-name { color: #fff; }
+.char-sprite-wrap {
+  width: 80px; height: 96px;
+  display: flex; align-items: flex-end; justify-content: center;
+  position: relative;
+  image-rendering: pixelated;
+}
+.char-sprite {
+  image-rendering: pixelated;
+  height: 90px;
+  width: auto;
+}
+.char-sprite-fallback {
+  font-size: 52px;
+  line-height: 1;
+}
+.char-shadow {
+  position: absolute;
+  bottom: -2px;
+  width: 36px; height: 8px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%);
+  border-radius: 50%;
+}
 
-/* Detail panel */
-.detail-panel {
-  min-height: 160px; padding: 14px 16px;
-  background: #fff;
-  border-top: 2px solid; border-color: #808080 #fff #fff #808080;
+.char-name-plate {
+  background: linear-gradient(180deg, #2a1a05 0%, #1a0e02 100%);
+  border: 2px solid #5a3a10;
+  border-radius: 3px;
+  padding: 3px 8px;
+  margin-top: 4px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.char-class { font-family: 'Press Start 2P', monospace; font-size: 6px; color: #ffcc44; }
+.char-job   { font-family: Arial, sans-serif; font-size: 9px; color: #aaa; margin-top: 2px; }
+.char-card.selected .char-name-plate { border-color: #ffcc00; }
+.char-card.selected .char-class { color: #ffff44; }
+
+/* RS-style scroll UI for detail panel */
+.detail-scroll {
+  background: linear-gradient(180deg, #f5e8d0 0%, #ede0c0 100%);
+  border: 3px solid;
+  border-color: #8b6914 #3a1a06 #3a1a06 #8b6914;
+  margin: 8px;
+  padding: 12px 14px;
   display: none;
+  position: relative;
 }
-.detail-panel.visible { display: block; }
-.detail-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.detail-icon { font-size: 36px; }
-.detail-class { font-weight: bold; font-size: 14px; color: #000080; }
-.detail-tagline { font-size: 10px; color: #666; font-style: italic; }
-.detail-body { font-size: 11px; line-height: 1.7; color: #333; margin-bottom: 10px; }
-.detail-stats { display: flex; gap: 8px; flex-wrap: wrap; }
-.stat-bar { flex: 1; min-width: 100px; }
-.stat-label { font-size: 9px; color: #555; margin-bottom: 2px; }
+.detail-scroll.visible { display: block; }
+.detail-scroll::before {
+  content: '';
+  position: absolute; inset: 3px;
+  border: 1px solid rgba(139,105,20,0.4);
+  pointer-events: none;
+}
+
+.detail-header {
+  display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px;
+}
+.detail-class-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px; color: #5a2a00; margin-bottom: 4px;
+}
+.detail-job-path {
+  font-size: 10px; color: #6b4a1f;
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+}
+.job-node {
+  background: linear-gradient(180deg, #8b6914, #5a3a0a);
+  color: #ffe080; font-family: 'Press Start 2P', monospace;
+  font-size: 6px; padding: 2px 5px; border-radius: 2px;
+  border: 1px solid #3a1a05;
+}
+.job-arrow { color: #8b6914; font-size: 10px; }
+.detail-body {
+  font-size: 11px; color: #3a2000; line-height: 1.7; margin-bottom: 10px;
+  border-top: 1px solid rgba(139,105,20,0.3); padding-top: 8px;
+}
+.detail-stats { display: flex; flex-direction: column; gap: 5px; }
+.stat-row { display: flex; align-items: center; gap: 8px; }
+.stat-lbl {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px; color: #5a2a00; width: 80px; flex-shrink: 0;
+}
 .stat-track {
-  height: 8px; background: #d0d0d0;
-  border: 1px solid; border-color: #808080 #fff #fff #808080;
+  flex: 1; height: 12px;
+  background: #8b6914;
+  border: 2px solid; border-color: #3a1a06 #c8a040 #c8a040 #3a1a06;
+  position: relative; overflow: hidden;
 }
-.stat-fill { height: 100%; }
+.stat-fill {
+  height: 100%;
+  position: relative;
+}
+.stat-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 40%;
+  background: rgba(255,255,255,0.25);
+}
+.stat-val {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px; color: #3a1a00; width: 28px; text-align: right; flex-shrink: 0;
+}
 
-.choose-prompt { padding: 12px 16px; color: #666; font-size: 11px; text-align: center; font-style: italic; display: block; }
-
+/* Status bar */
 .status-bar { border-top: 1px solid #808080; padding: 2px 4px; display: flex; gap: 4px; }
 .sp { flex:1; border:1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 4px; color:#444; }
 .back {
   display: block; text-align: center; padding: 5px; font-size: 10px;
   color: #000080; text-decoration: underline; cursor: pointer;
   background: #c0c0c0; border-top: 1px solid #dfdfdf;
+}
+
+@media (max-width: 480px) {
+  .char-row { gap: 4px; }
+  .char-card { width: 80px; }
+  .char-sprite-wrap { width: 64px; height: 80px; }
+  .char-sprite { height: 74px; }
+  .maple-title { font-size: 9px; }
 }
 </style>
 </head>
@@ -134,155 +332,212 @@ body {
   <div class="menu-bar">
     <div class="mi">Character</div>
     <div class="mi">World</div>
+    <div class="mi">Community</div>
     <div class="mi">Help</div>
   </div>
 
-  <div class="maple-header">
-    <div class="maple-logo">✦ MAPLE WORLD ✦</div>
-    <div class="maple-sub">Choose Your Class, Adventurer</div>
-  </div>
-
-  <div class="intro">
-    Every great copywriter has a class. Which one fits?
-  </div>
-
-  <div class="class-grid" id="classGrid"></div>
-
-  <div id="choosePrompt" class="choose-prompt">↑ Pick a class to see your stats ↑</div>
-  <div class="detail-panel" id="detailPanel">
-    <div class="detail-header">
-      <div class="detail-icon" id="dIcon"></div>
-      <div>
-        <div class="detail-class" id="dClass"></div>
-        <div class="detail-tagline" id="dTag"></div>
+  <div class="maple-world">
+    <!-- Sky -->
+    <div class="sky">
+      <div style="text-align:center;padding-top:12px">
+        <div class="maple-sign">
+          <div class="maple-title">✦ MapleWorld ✦</div>
+          <div class="maple-sub">Choose Your Class</div>
+        </div>
+      </div>
+      <div class="moon"></div>
+      <!-- pixel trees -->
+      <div class="forest">
+        <div class="tree" style="left:2%;border-left-width:20px;border-right-width:20px;border-bottom-width:48px;border-bottom-color:#1a3a0a;"></div>
+        <div class="tree" style="left:5%;bottom:18px;border-left-width:14px;border-right-width:14px;border-bottom-width:30px;border-bottom-color:#244a0e;"></div>
+        <div class="tree" style="left:10%;border-left-width:16px;border-right-width:16px;border-bottom-width:42px;border-bottom-color:#1a3a0a;"></div>
+        <div class="tree" style="right:3%;border-left-width:22px;border-right-width:22px;border-bottom-width:52px;border-bottom-color:#1a3a0a;"></div>
+        <div class="tree" style="right:8%;bottom:20px;border-left-width:14px;border-right-width:14px;border-bottom-width:28px;border-bottom-color:#244a0e;"></div>
+        <div class="tree" style="right:15%;border-left-width:16px;border-right-width:16px;border-bottom-width:38px;border-bottom-color:#1a3a0a;"></div>
       </div>
     </div>
-    <div class="detail-body" id="dBody"></div>
-    <div class="detail-stats" id="dStats"></div>
+
+    <!-- Platform & Characters -->
+    <div class="platform-area">
+      <div class="select-prompt">— Select your class, adventurer —</div>
+      <div class="char-row" id="charRow"></div>
+      <div class="platform-main"></div>
+    </div>
+
+    <!-- Detail scroll -->
+    <div class="detail-scroll" id="detailScroll">
+      <div class="detail-header">
+        <div id="detailBody"><!-- populated by JS --></div>
+      </div>
+    </div>
   </div>
 
   <div class="status-bar">
-    <div class="sp" id="msg">Welcome to MapleWorld · Choose your class</div>
+    <div class="sp" id="statusMsg">Welcome to MapleWorld · Choose your class above</div>
   </div>
   <a class="back" href="index.html">← Back to Desktop</a>
 </div>
 
 <script>
+// maplestory.io character sprite API
+// Format: https://maplestory.io/api/GMS/latest/character/{items}/stand1/0
+// Items: comma-separated numeric item IDs
+// We use known equipment IDs for each class look
+
+const BASE = 'https://maplestory.io/api/GMS/latest/character/';
+const ACTION = '/stand1/0';
+
+// Each array: [skin, face, hair, ...equipment]
+// Item IDs from maplestory.io (v83/GMS dataset)
+const charSprites = {
+  warrior: BASE + '2000,20000,30030,1040221,1060221,1072383,1302058' + ACTION,
+  mage:    BASE + '2001,20001,30007,1050147,1060090,1072037,1003823,1372000' + ACTION,
+  archer:  BASE + '2002,20002,30020,1060091,1040081,1072154,1003021,1452002' + ACTION,
+  thief:   BASE + '2003,20003,30050,1070114,1060163,1072269,1332025' + ACTION,
+  pirate:  BASE + '2004,20004,30046,1082146,1060153,1072430,1003349,1482004' + ACTION,
+};
+
 const classes = [
   {
-    name: 'The\nWordsmith',
-    icon: '🖊️',
-    emoji: '⚔️',
-    tagline: '"Lead with the hook, finish with the heart."',
-    color: '#cc3300',
-    body: `The Wordsmith is the backbone of any creative team. Grounded, dependable, hits hard. Every piece starts with a brief and ends with something that actually works. No gimmicks — just craft honed through hundreds of rewrites at 2am.
-
-Parsa runs Wordsmith energy daily: structured thinking, clean sentences, and the discipline to kill darlings when needed.`,
+    id: 'warrior',
+    class: 'WARRIOR',
+    job: 'Fighter → Crusader → Hero',
+    jobNodes: ['Beginner', 'Fighter', 'Crusader', 'Hero'],
+    color: '#cc4444',
+    statColor: '#cc4444',
+    icon: '⚔️',
+    body: `The backbone of every party. Hits hard, stands firm, never quits. The Warrior's strength isn't just raw damage — it's showing up every single day and doing the work without glamour.\n\nThis is Parsa on a deadline: focused, reliable, produces results. The Warrior doesn't miss.`,
     stats: [
-      { name: 'Copywriting', val: 97, color: '#cc3300' },
-      { name: 'Storytelling', val: 90, color: '#884400' },
-      { name: 'Editing', val: 88, color: '#660000' },
+      { name: 'STRENGTH',  val: 97 },
+      { name: 'ENDURANCE', val: 94 },
+      { name: 'EDGE',      val: 90 },
     ]
   },
   {
-    name: 'The\nStrategist',
-    icon: '🧙',
-    emoji: '🔮',
-    tagline: '"Why before how. Always."',
-    color: '#5533cc',
-    body: `The Strategist sees three moves ahead. While others are writing, they're asking: who is this for, why do they care, and what do we want them to do next? Content is never just content — it's architecture.
-
-This is Parsa in content strategy mode: market reports, editorial calendars, audience frameworks. The words come after the thinking.`,
+    id: 'mage',
+    class: 'MAGICIAN',
+    job: 'Wizard → Mage → Archmage',
+    jobNodes: ['Beginner', 'Wizard', 'Mage', 'Archmage'],
+    color: '#8844ee',
+    statColor: '#9955ff',
+    icon: '🔮',
+    body: `The Magician sees what others miss. Strategy, pattern recognition, the ability to process complexity and translate it into something that lands. Content architecture is spellcraft.\n\nParsa in strategy mode: building frameworks, structuring campaigns, turning a client brief into something elegant and effective.`,
     stats: [
-      { name: 'Strategy', val: 93, color: '#5533cc' },
-      { name: 'Research', val: 89, color: '#3311aa' },
-      { name: 'Systems', val: 85, color: '#221188' },
+      { name: 'INTELLECT', val: 95 },
+      { name: 'STRATEGY',  val: 93 },
+      { name: 'RANGE',     val: 88 },
     ]
   },
   {
-    name: 'The\nStoryteller',
+    id: 'archer',
+    class: 'BOWMAN',
+    job: 'Hunter → Ranger → Bowmaster',
+    jobNodes: ['Beginner', 'Hunter', 'Ranger', 'Bowmaster'],
+    color: '#339944',
+    statColor: '#44aa44',
     icon: '🏹',
-    emoji: '🎯',
-    tagline: '"Make them feel it before they think it."',
-    color: '#228800',
-    body: `The Storyteller hits from range. Emotional resonance, brand narrative, the long-form piece that actually gets read. They pull readers in with a scene, hold them with stakes, and close with something that sticks.
-
-Parsa goes full Storyteller on editorial features, podcast scripts, and anything that needs more than facts to land.`,
+    body: `Precision at range. The Bowman hits the target before the enemy even knows they're there. Storytelling, narrative hooks, long-form content that reaches people emotionally — from exactly the right angle.\n\nParsa in full storyteller mode: the feature piece, the brand essay, the podcast script that opens with a scene.`,
     stats: [
-      { name: 'Narrative', val: 91, color: '#228800' },
-      { name: 'Voice', val: 94, color: '#116600' },
-      { name: 'Hooks', val: 92, color: '#004400' },
+      { name: 'PRECISION', val: 92 },
+      { name: 'NARRATIVE', val: 91 },
+      { name: 'DEXTERITY', val: 89 },
     ]
   },
   {
-    name: 'The\nOptimizer',
+    id: 'thief',
+    class: 'THIEF',
+    job: 'Rogue → Assassin → Night Lord',
+    jobNodes: ['Beginner', 'Rogue', 'Assassin', 'Night Lord'],
+    color: '#555588',
+    statColor: '#6666bb',
     icon: '🗡️',
-    emoji: '⚡',
-    tagline: '"If it can\'t be found, it doesn\'t exist."',
-    color: '#bb7700',
-    body: `The Optimizer moves fast and leaves a trail of rankings. Technical SEO meets persuasive copy — the rare combo where the algorithm and the human both nod along. Every word earns its place in the title tag and in the reader's brain.
-
-Parsa channeled this on Plumb Wize and My Solar Group: conversion-focused, search-native, no fluff.`,
+    body: `Speed, precision, maximum impact with minimal footprint. The Thief doesn't waste words — every syllable earns its place. SEO, conversion copy, email subject lines that get opened. In and out before the algorithm knows what hit it.\n\nParsa when the brief is tight and the goal is clear: direct, sharp, no filler.`,
     stats: [
-      { name: 'SEO', val: 86, color: '#bb7700' },
-      { name: 'CRO', val: 83, color: '#885500' },
-      { name: 'Analytics', val: 80, color: '#663300' },
+      { name: 'SPEED',     val: 96 },
+      { name: 'SEO',       val: 86 },
+      { name: 'IMPACT',    val: 91 },
     ]
   },
   {
-    name: 'The\nProducer',
+    id: 'pirate',
+    class: 'PIRATE',
+    job: 'Brawler → Marauder → Buccaneer',
+    jobNodes: ['Beginner', 'Brawler', 'Marauder', 'Buccaneer'],
+    color: '#cc7722',
+    statColor: '#dd8833',
     icon: '🏴‍☠️',
-    emoji: '🎬',
-    tagline: '"Everything on time. Nothing left on the table."',
-    color: '#007788',
-    body: `The Producer doesn't just write — they ship. Podcast production, content pipelines, editorial systems that actually scale. The Producer is the one in the room who gets things across the finish line when everyone else is still revising.
-
-Parsa went full Producer mode on the Jas Takhar Podcast: scripts, show notes, scheduling, and amplification — end to end.`,
+    body: `The Pirate doesn't play by anyone else's rules. Multi-format, multi-platform, always moving. Podcast production, video scripts, social copy, editorial — the Pirate can do all of it and do it well.\n\nParsa as producer and creative director: shipping full content pipelines end-to-end, from brief to distribution.`,
     stats: [
-      { name: 'Production', val: 88, color: '#007788' },
-      { name: 'Delivery', val: 95, color: '#005566' },
-      { name: 'Collaboration', val: 90, color: '#003344' },
+      { name: 'VERSATILITY', val: 90 },
+      { name: 'PRODUCTION',  val: 88 },
+      { name: 'CHAOS',       val: 85 },
     ]
   }
 ];
 
-function renderGrid() {
-  const grid = document.getElementById('classGrid');
-  grid.innerHTML = classes.map((c,i) => `
-    <div class="class-card" id="cc-${i}" onclick="pick(${i})">
-      <div style="font-size:28px;margin-bottom:4px">${c.icon}</div>
-      <div class="class-name">${c.name}</div>
+let selected = null;
+
+function buildCards() {
+  const row = document.getElementById('charRow');
+  row.innerHTML = classes.map((c, i) => `
+    <div class="char-card" id="card-${i}" onclick="pick(${i})">
+      <div class="char-sprite-wrap">
+        <img class="char-sprite"
+             src="${charSprites[c.id]}"
+             alt="${c.class}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="char-sprite-fallback" style="display:none;align-items:flex-end;justify-content:center;height:90px;font-size:52px">${c.icon}</div>
+        <div class="char-shadow"></div>
+      </div>
+      <div class="char-name-plate">
+        <div class="char-class">${c.class}</div>
+        <div class="char-job">${c.jobNodes[1]}</div>
+      </div>
     </div>
   `).join('');
 }
 
 function pick(i) {
-  document.querySelectorAll('.class-card').forEach(el=>el.classList.remove('selected'));
-  document.getElementById('cc-'+i).classList.add('selected');
-  const c = classes[i];
-
-  document.getElementById('choosePrompt').style.display = 'none';
-  const panel = document.getElementById('detailPanel');
-  panel.classList.add('visible');
-
-  document.getElementById('dIcon').textContent = c.icon;
-  document.getElementById('dClass').textContent = c.name.replace('\n', ' ');
-  document.getElementById('dTag').textContent = c.tagline;
-  document.getElementById('dBody').textContent = c.body;
-
-  document.getElementById('dStats').innerHTML = c.stats.map(s => `
-    <div class="stat-bar">
-      <div class="stat-label">${s.name} (${s.val}/99)</div>
-      <div class="stat-track">
-        <div class="stat-fill" style="width:${s.val}%;background:${s.color}"></div>
-      </div>
-    </div>
-  `).join('');
-
-  document.getElementById('msg').textContent = `${c.name.replace('\n',' ')} selected · ${c.tagline}`;
+  document.querySelectorAll('.char-card').forEach(el => el.classList.remove('selected'));
+  document.getElementById('card-' + i).classList.add('selected');
+  selected = i;
+  showDetail(i);
 }
 
-renderGrid();
+function showDetail(i) {
+  const c = classes[i];
+  const scroll = document.getElementById('detailScroll');
+  scroll.classList.add('visible');
+
+  document.getElementById('detailBody').innerHTML = `
+    <div style="flex:1">
+      <div class="detail-class-name">${c.icon} ${c.class}</div>
+      <div class="detail-job-path">
+        ${c.jobNodes.map((j,idx) => `
+          <span class="job-node">${j}</span>
+          ${idx < c.jobNodes.length-1 ? '<span class="job-arrow">›</span>' : ''}
+        `).join('')}
+      </div>
+    </div>
+    <div class="detail-body" style="margin-top:10px">${c.body.replace(/\n/g,'<br>')}</div>
+    <div class="detail-stats">
+      ${c.stats.map(s => `
+        <div class="stat-row">
+          <div class="stat-lbl">${s.name}</div>
+          <div class="stat-track">
+            <div class="stat-fill" style="width:${s.val}%;background:linear-gradient(90deg,${c.statColor},${c.statColor}88)"></div>
+          </div>
+          <div class="stat-val">${s.val}/99</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  document.getElementById('statusMsg').textContent =
+    `${c.class} selected · Job path: ${c.job}`;
+}
+
+buildCards();
 </script>
 </body>
 </html>

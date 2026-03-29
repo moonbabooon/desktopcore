@@ -6,14 +6,29 @@
 <title>Skills Cape — parsa.exe</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* RS colour palette */
+:root {
+  --rs-bg:       #3e2e0e;
+  --rs-bg2:      #2a1e08;
+  --rs-border:   #6b4a1f;
+  --rs-gold:     #ffcc44;
+  --rs-orange:   #ff9900;
+  --rs-text:     #ffe0a0;
+  --rs-dim:      #aa8844;
+  --rs-panel:    #2e2008;
+  --rs-green:    #3a6600;
+  --rs-red:      #991111;
+}
+
 body {
   background: #1a0800;
-  display: flex; align-items: center; justify-content: center;
-  min-height: 100vh;
+  display: flex; align-items: flex-start; justify-content: center;
+  min-height: 100vh; padding: 12px;
   font-family: 'MS Sans Serif', Arial, sans-serif; font-size: 11px;
 }
 
-/* RS-style outer window (uses Windows 97 chrome) */
+/* Windows chrome */
 .window {
   background: #c0c0c0;
   border: 2px solid; border-color: #fff #808080 #808080 #fff;
@@ -32,132 +47,276 @@ body {
   width: 16px; height: 14px; background: #c0c0c0;
   border: 1px solid; border-color: #fff #808080 #808080 #fff;
   font-size: 9px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; color: #000; text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+  color: #000; text-decoration: none;
 }
-.tb-btn:active { border-color: #808080 #fff #fff #808080; }
 .menu-bar { background: #c0c0c0; border-bottom: 1px solid #808080; display: flex; padding: 2px 2px 0; }
-.mi { padding: 2px 8px; cursor: pointer; }
+.mi { padding: 2px 8px; cursor: pointer; font-size: 11px; }
 .mi:hover { background: #000080; color: #fff; }
 
-/* RS content area */
-.rs-body {
-  background: #2e1a06;
-  padding: 12px;
-}
+/* ── RS shell ── */
+.rs-body { background: var(--rs-bg2); padding: 10px; }
 
-/* Header */
+/* Player header */
 .rs-header {
-  background: linear-gradient(180deg, #3d2508 0%, #2a1804 100%);
-  border: 2px solid #6b4a1f;
+  background: linear-gradient(180deg, #3d2508, #2a1804);
+  border: 2px solid var(--rs-border);
   border-radius: 4px 4px 0 0;
-  padding: 10px 14px;
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 8px;
+  padding: 8px 12px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 0;
 }
 .rs-avatar {
-  width: 52px; height: 52px;
-  background: linear-gradient(135deg, #1a3a6e 0%, #0d2244 100%);
-  border: 2px solid #6b4a1f;
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, #1a3a6e, #0d2244);
+  border: 2px solid var(--rs-border);
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px; border-radius: 2px;
+  font-size: 26px; flex-shrink: 0;
 }
-.rs-player-name {
-  color: #ffcc44; font-size: 14px; font-weight: bold;
-  text-shadow: 1px 1px 0 #000;
-  font-family: 'Courier New', monospace;
-}
-.rs-player-title { color: #aaaaaa; font-size: 10px; margin-top: 2px; }
-.rs-combat {
-  margin-left: auto; text-align: right;
-}
-.rs-combat-label { color: #aaaaaa; font-size: 9px; }
-.rs-combat-level { color: #ffcc44; font-size: 22px; font-weight: bold; font-family: 'Courier New', monospace; }
+.rs-player { flex: 1; }
+.rs-name { color: var(--rs-gold); font-size: 13px; font-weight: bold; }
+.rs-title-text { color: #aaa; font-size: 10px; margin-top: 2px; }
+.rs-combat-box { text-align: right; }
+.rs-combat-lbl { color: #aaa; font-size: 9px; }
+.rs-combat-val { color: var(--rs-gold); font-size: 22px; font-weight: bold; font-family: 'Courier New', monospace; }
 
-/* Skills tab */
-.rs-tab-bar {
-  display: flex; border-bottom: 2px solid #6b4a1f;
-  background: #221205;
+/* Tab bar */
+.rs-tabs {
+  display: flex; background: #221205;
+  border: 2px solid var(--rs-border); border-top: none;
+  overflow-x: auto;
 }
 .rs-tab {
-  padding: 5px 12px; font-size: 10px; cursor: pointer;
-  color: #aa8844; border-right: 1px solid #6b4a1f;
+  padding: 6px 14px; font-size: 10px; cursor: pointer;
+  color: var(--rs-dim); border-right: 1px solid var(--rs-border);
+  white-space: nowrap; flex-shrink: 0;
+  user-select: none;
 }
-.rs-tab.active { background: #3d2508; color: #ffcc44; font-weight: bold; }
-.rs-tab:hover { color: #ffcc44; }
+.rs-tab.active { background: var(--rs-bg); color: var(--rs-gold); font-weight: bold; }
+.rs-tab:hover:not(.active) { color: var(--rs-gold); }
 
-/* Skills grid */
-.rs-skills {
-  background: #3d2508;
-  border: 2px solid #6b4a1f;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  padding: 4px;
+/* Tab panels */
+.rs-panel {
+  background: var(--rs-bg);
+  border: 2px solid var(--rs-border); border-top: none;
+  padding: 8px;
+  display: none;
 }
-@media (max-width: 380px) { .rs-skills { grid-template-columns: repeat(2, 1fr); } }
+.rs-panel.active { display: block; }
 
-.rs-skill {
+/* ──── SKILLS tab ──── */
+.rs-skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+@media (max-width: 380px) { .rs-skills { grid-template-columns: repeat(2,1fr); } }
+
+.sk {
   background: #2a1804;
   border: 1px solid #5a3a10;
   padding: 4px 6px;
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 5px;
   cursor: pointer; position: relative;
-  transition: background 0.1s;
 }
-.rs-skill:hover { background: #3a2510; }
-.rs-skill-icon { font-size: 20px; flex-shrink: 0; width: 24px; text-align: center; }
-.rs-skill-info { flex: 1; min-width: 0; }
-.rs-skill-name { color: #ff9900; font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rs-skill-levels {
-  display: flex; align-items: baseline; gap: 3px; margin-top: 1px;
-}
-.rs-skill-cur { color: #ffff00; font-size: 13px; font-weight: bold; font-family: 'Courier New', monospace; }
-.rs-skill-sep { color: #888; font-size: 10px; }
-.rs-skill-max { color: #aaaaaa; font-size: 10px; font-family: 'Courier New', monospace; }
-.rs-skill-xp-bar {
-  height: 3px; background: #111; margin-top: 3px;
-  border: 1px solid #000;
-}
-.rs-skill-xp-fill { height: 100%; background: #3a6600; }
-.rs-skill.maxed .rs-skill-xp-fill { background: #aacc00; }
-.rs-skill.maxed .rs-skill-cur { color: #aaff00; }
+.sk:hover { background: #3a2510; }
+.sk-icon { font-size: 18px; width: 22px; text-align: center; flex-shrink: 0; }
+.sk-info { flex: 1; min-width: 0; }
+.sk-name { color: var(--rs-orange); font-size: 8px; font-weight: bold; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sk-lvls { display: flex; align-items: baseline; gap: 2px; margin-top: 1px; }
+.sk-cur { color: #ffff00; font-size: 13px; font-weight: bold; font-family: 'Courier New', monospace; }
+.sk-sep { color: #666; font-size: 9px; }
+.sk-max { color: #aaa; font-size: 10px; font-family: 'Courier New', monospace; }
+.sk-bar { height: 3px; background: #111; border: 1px solid #000; margin-top: 3px; }
+.sk-fill { height: 100%; background: var(--rs-green); }
+.sk.maxed .sk-fill { background: #aacc00; }
+.sk.maxed .sk-cur { color: #aaff00; }
 
-/* Tooltip */
 .rs-tooltip {
   display: none;
   position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
-  background: #1a0c00; border: 1px solid #aa7722;
-  color: #ffcc44; font-size: 10px;
+  background: #1a0c00; border: 1px solid var(--rs-border);
+  color: var(--rs-gold); font-size: 10px;
   padding: 6px 10px; z-index: 999; width: 200px;
-  text-align: left; line-height: 1.5; white-space: normal;
-  pointer-events: none;
+  text-align: left; line-height: 1.5; pointer-events: none;
 }
-.rs-tooltip::after {
-  content: '';
-  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-  border: 5px solid transparent; border-top-color: #aa7722;
-}
-.rs-skill:hover .rs-tooltip { display: block; }
+.sk:hover .rs-tooltip { display: block; }
 
-/* Total level bar */
-.rs-total {
-  background: #221205; border: 2px solid #6b4a1f;
-  border-top: none; padding: 8px 10px;
+.sk-total {
+  background: #221205; border: 2px solid var(--rs-border);
+  border-top: none; padding: 6px 10px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.rs-total-label { color: #aa8844; font-size: 10px; }
-.rs-total-val { color: #ffcc44; font-size: 16px; font-weight: bold; font-family: 'Courier New', monospace; }
-.rs-total-max { color: #666; font-size: 10px; }
+.sk-total-lbl { color: var(--rs-dim); font-size: 10px; }
+.sk-total-val { color: var(--rs-gold); font-size: 16px; font-weight: bold; font-family: 'Courier New', monospace; }
 
-/* Cape unlock */
-.rs-cape {
+/* Cape banner */
+.cape-banner {
   background: linear-gradient(180deg, #2a1804, #1a0c00);
-  border: 2px solid #6b4a1f; border-top: none;
-  padding: 10px 12px; text-align: center;
+  border: 2px solid var(--rs-border); border-top: none;
+  padding: 8px 12px; text-align: center;
 }
-.rs-cape-title { color: #aacc00; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
-.rs-cape-text { color: #888; font-size: 10px; line-height: 1.5; }
+.cape-title { color: #aacc00; font-size: 11px; font-weight: bold; margin-bottom: 3px; }
+.cape-text { color: #888; font-size: 10px; line-height: 1.5; }
 
+/* ──── QUESTS tab ──── */
+.quest-list { display: flex; flex-direction: column; gap: 3px; }
+.quest {
+  display: flex; align-items: center; gap: 8px;
+  background: #2a1804; border: 1px solid #5a3a10;
+  padding: 6px 8px; cursor: pointer;
+}
+.quest:hover { background: #3a2510; }
+.q-status { font-size: 14px; flex-shrink: 0; }
+.q-info { flex: 1; }
+.q-name { color: var(--rs-gold); font-size: 10px; font-weight: bold; }
+.q-desc { color: #aaa; font-size: 9px; margin-top: 1px; }
+.q-points { color: var(--rs-orange); font-size: 9px; white-space: nowrap; }
+.quest.complete .q-name { color: #aaff44; }
+.quest.inprog .q-name { color: #ffcc44; }
+.quest.future .q-name { color: #888; }
+.quest-total {
+  margin-top: 6px; padding: 6px 8px;
+  background: #1a0c00; border: 1px solid var(--rs-border);
+  display: flex; justify-content: space-between;
+  font-size: 10px;
+}
+.quest-total span:first-child { color: var(--rs-dim); }
+.quest-total span:last-child { color: var(--rs-gold); font-weight: bold; }
+
+/* ──── ACHIEVEMENTS tab ──── */
+.achievement-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+@media (max-width: 360px) { .achievement-grid { grid-template-columns: 1fr; } }
+.ach {
+  background: #2a1804; border: 2px solid #5a3a10;
+  padding: 8px; display: flex; gap: 8px; align-items: flex-start;
+}
+.ach.locked { opacity: 0.4; filter: grayscale(1); }
+.ach-icon { font-size: 24px; flex-shrink: 0; }
+.ach-info { flex: 1; min-width: 0; }
+.ach-name { color: var(--rs-gold); font-size: 10px; font-weight: bold; }
+.ach-desc { color: #aaa; font-size: 9px; margin-top: 2px; line-height: 1.4; }
+.ach-tier { color: var(--rs-orange); font-size: 9px; margin-top: 3px; }
+
+/* ──── EQUIPMENT tab ──── */
+.eq-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  max-width: 340px; margin: 0 auto;
+}
+.eq-slot {
+  background: #2a1804;
+  border: 2px solid #5a3a10;
+  padding: 6px 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; min-height: 64px; justify-content: center;
+  position: relative;
+}
+.eq-slot:hover { background: #3a2510; }
+.eq-slot.empty { opacity: 0.35; }
+.eq-icon { font-size: 24px; }
+.eq-name { color: var(--rs-gold); font-size: 8px; text-align: center; font-weight: bold; }
+.eq-stat { color: var(--rs-orange); font-size: 8px; }
+.eq-lbl { color: #666; font-size: 8px; }
+
+.eq-tooltip {
+  display: none;
+  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
+  background: #1a0c00; border: 1px solid var(--rs-border);
+  color: var(--rs-gold); font-size: 10px;
+  padding: 6px 10px; z-index: 999; width: 180px;
+  text-align: left; line-height: 1.5; pointer-events: none; white-space: normal;
+}
+.eq-slot:hover .eq-tooltip { display: block; }
+
+/* ──── COW FIGHT easter egg ──── */
+.cow-panel { padding: 6px; }
+.cow-arena {
+  background: #1a2a0a;
+  border: 3px solid; border-color: #808080 #fff #fff #808080;
+  height: 160px;
+  position: relative; overflow: hidden;
+  margin-bottom: 8px;
+}
+/* Ground */
+.cow-arena::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 28px;
+  background: linear-gradient(180deg, #3a6600 0%, #2a4800 100%);
+  border-top: 3px solid #4a8000;
+}
+/* Sky */
+.cow-arena::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 28px;
+  background: linear-gradient(180deg, #4488cc 0%, #66aaee 100%);
+}
+
+.fighter {
+  position: absolute;
+  bottom: 28px;
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 2;
+}
+.fighter-sprite { font-size: 36px; line-height: 1; user-select: none; transition: transform 0.1s; }
+.fighter-name { font-size: 8px; color: #fff; background: rgba(0,0,0,0.6); padding: 1px 3px; margin-top: 1px; white-space: nowrap; }
+#fighter-player { left: 24px; }
+#fighter-cow    { right: 24px; }
+
+.hp-bars { display: flex; gap: 8px; margin-bottom: 8px; }
+.hp-bar { flex: 1; }
+.hp-bar-label { font-size: 9px; color: var(--rs-orange); margin-bottom: 2px; display: flex; justify-content: space-between; }
+.hp-bar-track {
+  height: 14px;
+  background: #111; border: 2px solid; border-color: #808080 #fff #fff #808080;
+  position: relative; overflow: hidden;
+}
+.hp-bar-fill { height: 100%; transition: width 0.3s; }
+.hp-bar-fill.player { background: linear-gradient(90deg, #33cc33, #55ee55); }
+.hp-bar-fill.cow    { background: linear-gradient(90deg, #cc3333, #ee5555); }
+.hp-bar-text {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: bold; color: #fff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.combat-btns { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+.cb {
+  background: #c0c0c0;
+  border: 2px solid; border-color: #fff #808080 #808080 #fff;
+  padding: 4px 12px; font-size: 11px; cursor: pointer;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+}
+.cb:active { border-color: #808080 #fff #fff #808080; }
+.cb:disabled { opacity: 0.5; cursor: default; }
+
+.combat-log {
+  background: #000;
+  border: 2px solid; border-color: #808080 #fff #fff #808080;
+  height: 80px; overflow-y: auto; padding: 4px 6px;
+  font-size: 10px; font-family: 'Courier New', monospace;
+}
+.log-line { padding: 1px 0; }
+.log-line.hit-p  { color: #ffff44; }
+.log-line.hit-c  { color: #ff6666; }
+.log-line.miss   { color: #888; }
+.log-line.system { color: #44aaff; }
+.log-line.win    { color: #aaff44; font-weight: bold; }
+.log-line.die    { color: #ff4444; font-weight: bold; }
+.log-line.drop   { color: #ffcc44; }
+
+/* Floating damage splat */
+.splat {
+  position: absolute; font-size: 14px; font-weight: bold;
+  text-shadow: 1px 1px 0 #000;
+  pointer-events: none; z-index: 10;
+  animation: floatUp 1.2s ease-out forwards;
+}
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-40px); }
+}
+
+/* Status bar */
 .status-bar { border-top: 1px solid #808080; padding: 2px 4px; display: flex; gap: 4px; }
 .sp { flex:1; border:1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 4px; color:#444; }
 .back {
@@ -182,117 +341,403 @@ body {
   </div>
 
   <div class="rs-body">
+    <!-- Player card -->
     <div class="rs-header">
       <div class="rs-avatar">✍️</div>
-      <div>
-        <div class="rs-player-name">Parsa Navidi</div>
-        <div class="rs-player-title">Content Strategist · Copywriter</div>
-        <div class="rs-player-title" style="color:#aacc00;margin-top:2px;">🏅 Skill Cape Unlocked</div>
+      <div class="rs-player">
+        <div class="rs-name">Parsa Navidi</div>
+        <div class="rs-title-text">Content Strategist · Copywriter</div>
+        <div class="rs-title-text" style="color:#aacc00;margin-top:2px">🏅 Skill Cape Unlocked</div>
       </div>
-      <div class="rs-combat">
-        <div class="rs-combat-label">Total Level</div>
-        <div class="rs-combat-level" id="totalLevel">---</div>
-      </div>
-    </div>
-
-    <div class="rs-tab-bar">
-      <div class="rs-tab active">Skills</div>
-      <div class="rs-tab">Quests</div>
-      <div class="rs-tab">Achievements</div>
-      <div class="rs-tab">Equipment</div>
-    </div>
-
-    <div class="rs-skills" id="skillGrid"></div>
-
-    <div class="rs-total">
-      <div class="rs-total-label">Total Level</div>
-      <div>
-        <span class="rs-total-val" id="totalVal">0</span>
-        <span class="rs-total-max"> / 1188</span>
+      <div class="rs-combat-box">
+        <div class="rs-combat-lbl">Total Level</div>
+        <div class="rs-combat-val" id="totalDisp">—</div>
       </div>
     </div>
 
-    <div class="rs-cape">
-      <div class="rs-cape-title">🎓 Skill Cape of the Wordsmith — Equipped</div>
-      <div class="rs-cape-text">Awarded to adventurers who have mastered the art of making words work.<br>Total XP earned: <span style="color:#ffcc44">14,320,480</span></div>
+    <!-- Tabs -->
+    <div class="rs-tabs">
+      <div class="rs-tab active" data-tab="skills"   onclick="switchTab('skills')">Skills</div>
+      <div class="rs-tab"        data-tab="quests"   onclick="switchTab('quests')">Quests</div>
+      <div class="rs-tab"        data-tab="achieve"  onclick="switchTab('achieve')">Achievements</div>
+      <div class="rs-tab"        data-tab="equip"    onclick="switchTab('equip')">Equipment</div>
+      <div class="rs-tab"        data-tab="cow"      onclick="switchTab('cow')">🐄 ??</div>
     </div>
-  </div>
+
+    <!-- SKILLS -->
+    <div class="rs-panel active" id="tab-skills">
+      <div class="rs-skills" id="skillGrid"></div>
+    </div>
+    <div id="skills-footer" style="display:block">
+      <div class="sk-total">
+        <span class="sk-total-lbl">Total Level</span>
+        <span><span class="sk-total-val" id="totalVal">0</span><span style="color:#666;font-size:10px"> / 1188</span></span>
+      </div>
+      <div class="cape-banner">
+        <div class="cape-title">🎓 Skill Cape of the Wordsmith — Equipped</div>
+        <div class="cape-text">Awarded to adventurers who have mastered the art of making words work.<br>
+        Total XP earned: <span style="color:var(--rs-gold)">14,320,480</span></div>
+      </div>
+    </div>
+
+    <!-- QUESTS -->
+    <div class="rs-panel" id="tab-quests">
+      <div class="quest-list" id="questList"></div>
+      <div class="quest-total">
+        <span>Quest Points</span>
+        <span id="questPoints">0 / 30</span>
+      </div>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <div class="rs-panel" id="tab-achieve">
+      <div class="achievement-grid" id="achGrid"></div>
+    </div>
+
+    <!-- EQUIPMENT -->
+    <div class="rs-panel" id="tab-equip">
+      <div id="eqLayout"></div>
+    </div>
+
+    <!-- COW FIGHT easter egg -->
+    <div class="rs-panel" id="tab-cow">
+      <div class="cow-panel">
+        <div class="cow-arena" id="arena">
+          <div class="fighter" id="fighter-player">
+            <div class="fighter-sprite" id="sprite-player">🧑‍💻</div>
+            <div class="fighter-name">Parsa Navidi</div>
+          </div>
+          <div class="fighter" id="fighter-cow">
+            <div class="fighter-sprite" id="sprite-cow">🐄</div>
+            <div class="fighter-name">Lumbridge Cow</div>
+          </div>
+        </div>
+        <div class="hp-bars">
+          <div class="hp-bar">
+            <div class="hp-bar-label"><span>Parsa</span><span id="php-text">10/10</span></div>
+            <div class="hp-bar-track"><div class="hp-bar-fill player" id="php-fill" style="width:100%"></div></div>
+          </div>
+          <div class="hp-bar">
+            <div class="hp-bar-label"><span>Lumbridge Cow</span><span id="chp-text">8/8</span></div>
+            <div class="hp-bar-track"><div class="hp-bar-fill cow" id="chp-fill" style="width:100%"></div></div>
+          </div>
+        </div>
+        <div class="combat-btns">
+          <button class="cb" id="btn-atk" onclick="attack()">⚔️ Attack</button>
+          <button class="cb" id="btn-eat" onclick="eat()">🥩 Eat Food (3)</button>
+          <button class="cb" id="btn-run" onclick="flee()">🏃 Run Away</button>
+          <button class="cb" id="btn-reset" onclick="resetFight()" style="display:none">▶ Fight Again</button>
+        </div>
+        <div class="combat-log" id="combatLog"></div>
+      </div>
+    </div>
+
+  </div><!-- rs-body -->
 
   <div class="status-bar">
-    <div class="sp" id="msg">Hover a skill to view details · Max level: 99</div>
+    <div class="sp" id="statusMsg">Hover a skill to view details · Click tabs to explore · 🐄 there's something hidden…</div>
   </div>
   <a class="back" href="index.html">← Back to Desktop</a>
 </div>
 
 <script>
-const skills = [
-  { icon: '✍️', name: 'Copywriting',       level: 99, xp: 4672349, tip: 'Master of persuasive writing. Every word earns its place. Cape unlocked.' },
-  { icon: '🗺️', name: 'Content Strategy',  level: 93, xp: 2341000, tip: 'Plans content ecosystems, not just pieces. Thinks in funnels and audiences.' },
-  { icon: '📖', name: 'Storytelling',       level: 91, xp: 1987000, tip: 'Hooks the reader, holds attention, lands the close. The rarest weapon.' },
-  { icon: '🔍', name: 'SEO',               level: 86, xp: 1340000, tip: 'Writes for humans first. Search engines follow. On-page + semantic.' },
-  { icon: '🎤', name: 'Brand Voice',        level: 94, xp: 2680000, tip: 'Reads a brand in minutes. Writes in their voice without losing the craft.' },
-  { icon: '✂️', name: 'Editing',            level: 88, xp: 1560000, tip: 'Kills darlings efficiently. Tightens prose, sharpens arguments.' },
-  { icon: '🔬', name: 'Research',           level: 87, xp: 1420000, tip: 'Primary + secondary. Knows the difference between a stat and a story.' },
-  { icon: '📊', name: 'Analytics',          level: 80, xp: 900000,  tip: 'Reads GA4, Search Console, and content performance dashboards.' },
-  { icon: '🎙️', name: 'Podcast Prod.',     level: 85, xp: 1200000, tip: 'Scripts, show notes, episode arcs, distribution. End-to-end.' },
-  { icon: '🎬', name: 'Video Scripting',    level: 82, xp: 1050000, tip: 'Writes for the ear and eye. Pacing, visual cues, natural dialogue.' },
-  { icon: '📧', name: 'Email Copy',         level: 84, xp: 1180000, tip: 'Subject lines that get opened. Body copy that gets clicked.' },
-  { icon: '📱', name: 'Social Copy',        level: 83, xp: 1100000, tip: 'Platform-native writing. TikTok is not LinkedIn. Knows the difference.' },
+// ──────────────── DATA ────────────────
+const SKILLS = [
+  { icon:'✍️', name:'Copywriting',      level:99, xp:4672349, tip:'Master of persuasive writing. Cape unlocked.' },
+  { icon:'🗺️', name:'Content Strategy', level:93, xp:2341000, tip:'Plans content ecosystems, not just pieces.' },
+  { icon:'📖', name:'Storytelling',      level:91, xp:1987000, tip:'Hooks the reader, holds attention, lands the close.' },
+  { icon:'🔍', name:'SEO',              level:86, xp:1340000, tip:'Writes for humans first. Search engines follow.' },
+  { icon:'🎤', name:'Brand Voice',       level:94, xp:2680000, tip:'Reads a brand in minutes, writes in their voice.' },
+  { icon:'✂️', name:'Editing',           level:88, xp:1560000, tip:'Kills darlings efficiently. Sharpens arguments.' },
+  { icon:'🔬', name:'Research',          level:87, xp:1420000, tip:'Primary + secondary. Knows stat from story.' },
+  { icon:'📊', name:'Analytics',         level:80, xp:900000,  tip:'GA4, Search Console, content dashboards.' },
+  { icon:'🎙️', name:'Podcast Prod.',    level:85, xp:1200000, tip:'Scripts, show notes, ep arcs, distribution.' },
+  { icon:'🎬', name:'Video Scripting',   level:82, xp:1050000, tip:'Writes for ear and eye. Pacing, visual cues.' },
+  { icon:'📧', name:'Email Copy',        level:84, xp:1180000, tip:'Subject lines that get opened. Body that converts.' },
+  { icon:'📱', name:'Social Copy',       level:83, xp:1100000, tip:'Platform-native. TikTok is not LinkedIn.' },
 ];
 
-function xpToLevel(level) {
-  // simplified XP % within the level for bar display
-  const pct = Math.min(99, level) / 99;
-  return pct;
+const QUESTS = [
+  { name:'The First Byline',        desc:'Published first article for Shoplazza',           pts:2, status:'complete' },
+  { name:'Client Acquisition',      desc:'Landed first enterprise retainer',                pts:3, status:'complete' },
+  { name:'The Yardi Contract',      desc:'Became content lead for Yardi Canada',            pts:5, status:'complete' },
+  { name:'Market Report Framework', desc:'Built monthly report pipeline from scratch',      pts:4, status:'complete' },
+  { name:'Podcast Pipeline',        desc:'Ran Jas Takhar Podcast end-to-end',               pts:3, status:'complete' },
+  { name:'Feature Film',            desc:'Long-form editorial piece for national brand',    pts:3, status:'complete' },
+  { name:'Brand Voice Guide',       desc:'Internal content standards document',             pts:4, status:'inprog'   },
+  { name:'Dragon Slayer',           desc:'Rank a competitive keyword to position 1',        pts:4, status:'future'   },
+  { name:'Legends Quest',           desc:'Publish something that goes properly viral',      pts:2, status:'future'   },
+];
+
+const ACHIEVEMENTS = [
+  { icon:'🏆', name:'Published Author',      desc:'20+ published pieces across multiple brands', tier:'Gold',   locked:false },
+  { icon:'🔱', name:'Enterprise Scribe',     desc:'Wrote for a company with 2,500+ employees',   tier:'Silver', locked:false },
+  { icon:'🎤', name:'Podcast Producer',      desc:'50+ episode production run',                  tier:'Gold',   locked:false },
+  { icon:'⚡', name:'Night Editor',          desc:'Submitted final copy at 2am',                 tier:'Bronze', locked:false },
+  { icon:'🥇', name:'First Place Ranking',   desc:'Ranked #1 on Google for a target keyword',   tier:'Gold',   locked:false },
+  { icon:'🌐', name:'Multi-Brand Voice',     desc:'Wrote in 5+ distinct brand voices',          tier:'Silver', locked:false },
+  { icon:'💡', name:'The Idea Machine',      desc:'Generated 100+ content briefs in one quarter',tier:'Bronze', locked:false },
+  { icon:'🔒', name:'True Lumbridge Legend', desc:'Defeat the Lumbridge Cow',                   tier:'???',    locked:true  },
+];
+
+const EQUIPMENT = [
+  { slot:'Head',    icon:'🎧', name:'Noise-Cancelling Headphones', stat:'+5 Focus',   tip:'Blocks distractions. Equipping this adds +5 to all writing stats.' },
+  { slot:'Cape',    icon:'🎓', name:'Skill Cape (Copywriting)',    stat:'+15 Prestige',tip:'Trimmed cape. Only obtainable at level 99 Copywriting.' },
+  { slot:'Neck',    icon:'📿', name:'Deadline Amulet',             stat:'+10 Speed',  tip:'Forged from missed sleep and tight briefs. Grants haste under pressure.' },
+  { slot:'Weapon',  icon:'💻', name:'MacBook Pro',                 stat:'+12 Writing', tip:'Main weapon. Enchanted with VS Code and 47 open browser tabs.' },
+  { slot:'Body',    icon:'👕', name:'Vintage Hoodie',              stat:'+3 Comfort',  tip:'Well-worn. Provides unbreakable confidence on late-night sessions.' },
+  { slot:'Off-hand',icon:'☕', name:'Black Coffee',                stat:'+8 Energy',   tip:'Consumed daily. Provides temporary +5 to speed. Addictive.' },
+  { slot:'Legs',    icon:'👖', name:'Thinking Trousers',           stat:'+4 Strategy', tip:'Standard issue. No special properties, but very comfortable.' },
+  { slot:'Ring',    icon:'💍', name:'Ring of Contract',            stat:'+6 Authority',tip:'Worn on signing day. Grants permanent +6 to client trust.' },
+  { slot:'Feet',    icon:'👟', name:'Comfortable Sneakers',        stat:'+2 Movement', tip:'For those days when you pace while brainstorming.' },
+];
+
+// ──────────────── TAB SWITCH ────────────────
+function switchTab(id) {
+  document.querySelectorAll('.rs-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+  document.querySelectorAll('.rs-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + id));
+  document.getElementById('skills-footer').style.display = id === 'skills' ? 'block' : 'none';
+  setStatus(
+    id === 'skills'  ? 'Hover a skill · Click on mobile for details' :
+    id === 'quests'  ? 'Your adventure log — quests completed and in progress' :
+    id === 'achieve' ? 'Achievements earned across the portfolio' :
+    id === 'equip'   ? 'Current equipment loadout — hover for item details' :
+    id === 'cow'     ? '⚠️ A wild cow appears! What do you do?' : ''
+  );
 }
 
-function formatXP(xp) {
-  return xp.toLocaleString();
-}
-
-function render() {
+// ──────────────── SKILLS ────────────────
+function buildSkills() {
   const grid = document.getElementById('skillGrid');
   let total = 0;
-  grid.innerHTML = skills.map((s, i) => {
+  grid.innerHTML = SKILLS.map((s, i) => {
     total += s.level;
     const pct = (s.level / 99 * 100).toFixed(1);
     const maxed = s.level === 99;
-    return `
-      <div class="rs-skill${maxed ? ' maxed' : ''}">
-        <div class="rs-skill-icon">${s.icon}</div>
-        <div class="rs-skill-info">
-          <div class="rs-skill-name">${s.name}</div>
-          <div class="rs-skill-levels">
-            <span class="rs-skill-cur">${s.level}</span>
-            <span class="rs-skill-sep">/</span>
-            <span class="rs-skill-max">99</span>
-          </div>
-          <div class="rs-skill-xp-bar">
-            <div class="rs-skill-xp-fill" style="width:${pct}%"></div>
-          </div>
+    return `<div class="sk${maxed ? ' maxed' : ''}" onclick="setStatus('${s.name} · Level ${s.level}/99 · XP: ${s.xp.toLocaleString()}')">
+      <div class="sk-icon">${s.icon}</div>
+      <div class="sk-info">
+        <div class="sk-name">${s.name}</div>
+        <div class="sk-lvls">
+          <span class="sk-cur">${s.level}</span>
+          <span class="sk-sep">/</span>
+          <span class="sk-max">99</span>
         </div>
-        <div class="rs-tooltip">
-          <strong style="color:#ffcc44">${s.name}</strong><br>
-          Level: ${s.level} / 99<br>
-          XP: ${formatXP(s.xp)}<br>
-          <span style="color:#aaa;font-size:9px">${s.tip}</span>
-        </div>
-      </div>`;
+        <div class="sk-bar"><div class="sk-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="rs-tooltip"><strong style="color:var(--rs-gold)">${s.name}</strong><br>Level ${s.level} / 99<br>XP: ${s.xp.toLocaleString()}<br><span style="color:#aaa;font-size:9px">${s.tip}</span></div>
+    </div>`;
   }).join('');
-
   document.getElementById('totalVal').textContent = total;
-  document.getElementById('totalLevel').textContent = total;
+  document.getElementById('totalDisp').textContent = total;
 }
 
-render();
+// ──────────────── QUESTS ────────────────
+function buildQuests() {
+  const statusIcon = { complete:'✅', inprog:'🔄', future:'⬜' };
+  let qpts = 0;
+  document.getElementById('questList').innerHTML = QUESTS.map(q => {
+    if (q.status === 'complete') qpts += q.pts;
+    return `<div class="quest ${q.status}">
+      <div class="q-status">${statusIcon[q.status]}</div>
+      <div class="q-info">
+        <div class="q-name">${q.name}</div>
+        <div class="q-desc">${q.desc}</div>
+      </div>
+      <div class="q-points">${q.pts} QP</div>
+    </div>`;
+  }).join('');
+  document.getElementById('questPoints').textContent = `${qpts} / 30`;
+}
 
-// mobile: tap to show tooltip in status bar
-document.querySelectorAll('.rs-skill').forEach((el, i) => {
-  el.addEventListener('click', () => {
-    const s = skills[i];
-    document.getElementById('msg').textContent = `${s.name} · Level ${s.level}/99 · XP: ${formatXP(s.xp)} · ${s.tip}`;
+// ──────────────── ACHIEVEMENTS ────────────────
+function buildAchievements() {
+  document.getElementById('achGrid').innerHTML = ACHIEVEMENTS.map(a => `
+    <div class="ach${a.locked ? ' locked' : ''}">
+      <div class="ach-icon">${a.locked ? '🔒' : a.icon}</div>
+      <div class="ach-info">
+        <div class="ach-name">${a.locked ? '???' : a.name}</div>
+        <div class="ach-desc">${a.locked ? 'Complete a secret challenge to unlock.' : a.desc}</div>
+        <div class="ach-tier">${a.tier} tier</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ──────────────── EQUIPMENT ────────────────
+function buildEquipment() {
+  document.getElementById('eqLayout').innerHTML = `
+    <div class="eq-layout">
+      ${EQUIPMENT.map(e => `
+        <div class="eq-slot">
+          <div class="eq-icon">${e.icon}</div>
+          <div class="eq-name">${e.name.length > 14 ? e.name.slice(0,14)+'…' : e.name}</div>
+          <div class="eq-stat">${e.stat}</div>
+          <div class="eq-lbl">[${e.slot}]</div>
+          <div class="eq-tooltip"><strong style="color:var(--rs-gold)">${e.name}</strong><br>${e.slot} slot · ${e.stat}<br><span style="color:#aaa;font-size:9px">${e.tip}</span></div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top:8px;text-align:center;color:var(--rs-dim);font-size:9px">
+      Total bonuses: +63 to writing stats · Parsa is combat level 88
+    </div>
+  `;
+}
+
+// ──────────────── COW FIGHT ────────────────
+let PHP = 10, MAXPHP = 10;
+let CHP = 8, MAXCHP = 8;
+let food = 3, combatOver = false, cowWon = false;
+let cowTimer = null;
+
+function log(text, cls) {
+  const el = document.getElementById('combatLog');
+  const line = document.createElement('div');
+  line.className = 'log-line ' + cls;
+  line.textContent = text;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function splat(parentId, dmg, color) {
+  const arena = document.getElementById('arena');
+  const fighter = document.getElementById(parentId);
+  const s = document.createElement('div');
+  s.className = 'splat';
+  s.style.color = color;
+  s.style.left = (fighter.offsetLeft + 10 + Math.random()*20) + 'px';
+  s.style.top  = (fighter.offsetTop  - 10) + 'px';
+  s.textContent = dmg === 0 ? 'miss' : dmg;
+  arena.appendChild(s);
+  setTimeout(() => s.remove(), 1200);
+}
+
+function updateBars() {
+  const pp = Math.max(0, PHP/MAXPHP*100);
+  const cp = Math.max(0, CHP/MAXCHP*100);
+  document.getElementById('php-fill').style.width = pp + '%';
+  document.getElementById('chp-fill').style.width = cp + '%';
+  document.getElementById('php-text').textContent = Math.max(0,PHP)+'/'+MAXPHP;
+  document.getElementById('chp-text').textContent = Math.max(0,CHP)+'/'+MAXCHP;
+  if (pp < 25) document.getElementById('php-fill').style.background = 'linear-gradient(90deg,#cc3333,#ee5555)';
+  document.getElementById('btn-eat').textContent = `🥩 Eat Food (${food})`;
+}
+
+function setBtnsDisabled(d) {
+  ['btn-atk','btn-eat','btn-run'].forEach(id => document.getElementById(id).disabled = d);
+}
+
+function cowAttack() {
+  if (combatOver) return;
+  const dmg = Math.random() < 0.15 ? 0 : Math.floor(Math.random() * 4) + 1;
+  splat('fighter-player', dmg, '#ff4444');
+  if (dmg === 0) {
+    log('The cow misses you.', 'miss');
+  } else {
+    PHP -= dmg;
+    log(`The cow attacks and deals ${dmg} damage to you.`, 'hit-c');
+    document.getElementById('sprite-player').style.transform = 'translateX(4px)';
+    setTimeout(() => document.getElementById('sprite-player').style.transform = '', 150);
+    if (PHP <= 0) {
+      PHP = 0; updateBars(); die(); return;
+    }
+  }
+  updateBars();
+}
+
+function attack() {
+  if (combatOver) return;
+  const dmg = Math.random() < 0.1 ? 0 : Math.floor(Math.random() * 6) + 1;
+  splat('fighter-cow', dmg, '#ffff44');
+  if (dmg === 0) {
+    log('You swing but miss!', 'miss');
+  } else {
+    CHP -= dmg;
+    log(`You attack the cow and deal ${dmg} damage!`, 'hit-p');
+    document.getElementById('sprite-cow').style.transform = 'translateX(-4px)';
+    setTimeout(() => document.getElementById('sprite-cow').style.transform = '', 150);
+    if (CHP <= 0) {
+      CHP = 0; updateBars(); winFight(); return;
+    }
+  }
+  updateBars();
+  setTimeout(cowAttack, 600);
+}
+
+function eat() {
+  if (food <= 0 || combatOver) return;
+  food--;
+  const heal = Math.floor(Math.random() * 3) + 2;
+  PHP = Math.min(MAXPHP, PHP + heal);
+  log(`You eat some food and recover ${heal} HP.`, 'system');
+  updateBars();
+}
+
+function flee() {
+  combatOver = true;
+  setBtnsDisabled(true);
+  document.getElementById('btn-reset').style.display = '';
+  log('You run away from the cow... safely.', 'system');
+  setStatus('You fled combat. Coward! Click Fight Again to try once more.');
+}
+
+function winFight() {
+  combatOver = true;
+  setBtnsDisabled(true);
+  document.getElementById('btn-reset').style.display = '';
+  document.getElementById('sprite-cow').textContent = '💀';
+  const drops = ['Raw Beef', '12 coins', '3 Cowhide'];
+  log('You have defeated the Lumbridge Cow!', 'win');
+  drops.forEach(d => log(`The cow drops: ${d}`, 'drop'));
+  log('You gain 100 Copywriting XP.', 'system');
+  log('+1 Quest Point — "True Lumbridge Legend" unlocked! 🏆', 'win');
+  setStatus('🎉 You defeated the Lumbridge Cow! The True Lumbridge Legend achievement is now yours.');
+  // unlock the achievement
+  const achItems = document.querySelectorAll('.ach.locked');
+  achItems.forEach(el => {
+    el.classList.remove('locked');
+    el.querySelector('.ach-icon').textContent = '🏆';
+    el.querySelector('.ach-name').textContent = 'True Lumbridge Legend';
+    el.querySelector('.ach-desc').textContent = 'Defeated the Lumbridge Cow in honorable combat.';
   });
-});
+}
+
+function die() {
+  combatOver = true;
+  setBtnsDisabled(true);
+  document.getElementById('btn-reset').style.display = '';
+  document.getElementById('sprite-player').textContent = '💀';
+  log('Oh dear, you are dead!', 'die');
+  log('You respawn at Lumbridge with your items.', 'system');
+  setStatus('You died. Respawn at Lumbridge and try again... or just eat more food next time.');
+}
+
+function resetFight() {
+  PHP = MAXPHP; CHP = MAXCHP; food = 3; combatOver = false;
+  document.getElementById('sprite-player').textContent = '🧑‍💻';
+  document.getElementById('sprite-cow').textContent = '🐄';
+  document.getElementById('combatLog').innerHTML = '';
+  document.getElementById('btn-reset').style.display = 'none';
+  setBtnsDisabled(false);
+  updateBars();
+  log('A new Lumbridge Cow appears!', 'system');
+  log('Attack it for XP and drops.', 'system');
+  setStatus('⚔️ Fight! Use Attack, Eat Food, or Run Away.');
+}
+
+function setStatus(t) { document.getElementById('statusMsg').textContent = t; }
+
+// ──────────────── INIT ────────────────
+buildSkills();
+buildQuests();
+buildAchievements();
+buildEquipment();
+
+// seed combat log
+log('You enter the Lumbridge cow pen.', 'system');
+log('A level 2 Cow is nearby!', 'system');
+log('Attack it for Copywriting XP.', 'system');
+updateBars();
 </script>
 </body>
 </html>
