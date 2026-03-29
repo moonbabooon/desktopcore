@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Snake — parsa.exe</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #008080;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  font-family: 'MS Sans Serif', 'Pixelated MS Sans Serif', Arial, sans-serif;
+  font-size: 11px;
+}
+.window {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: 3px 3px 0 #000;
+  width: 320px;
+}
+.title-bar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: #fff;
+  padding: 3px 4px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: bold; font-size: 11px; user-select: none;
+}
+.title-left { display: flex; align-items: center; gap: 4px; }
+.title-icon { font-size: 13px; }
+.tb-btns { display: flex; gap: 2px; }
+.tb-btn {
+  width: 16px; height: 14px;
+  background: #c0c0c0;
+  border: 1px solid; border-color: #fff #808080 #808080 #fff;
+  font-size: 9px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #000; text-decoration: none; line-height: 1;
+}
+.tb-btn:active { border-color: #808080 #fff #fff #808080; }
+.menu-bar {
+  background: #c0c0c0;
+  border-bottom: 1px solid #808080;
+  display: flex; padding: 2px 2px 0;
+}
+.mi { padding: 2px 8px; cursor: pointer; font-size: 11px; }
+.mi:hover { background: #000080; color: #fff; }
+.content { padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.score-display {
+  display: flex; gap: 8px; width: 100%;
+  background: #000; border: 2px solid; border-color: #808080 #fff #fff #808080;
+  padding: 4px 8px; color: #ff0000;
+  font-family: 'Courier New', monospace; font-size: 18px; font-weight: bold;
+  letter-spacing: 2px; justify-content: space-between;
+}
+.score-label { font-family: Arial; font-size: 9px; color: #aaa; display: block; text-align: center; }
+canvas {
+  display: block;
+  border: 2px solid; border-color: #808080 #fff #fff #808080;
+  image-rendering: pixelated;
+}
+.controls { display: flex; gap: 4px; }
+.btn {
+  background: #c0c0c0;
+  border: 2px solid; border-color: #fff #808080 #808080 #fff;
+  padding: 4px 16px; font-size: 11px;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+  cursor: pointer; white-space: nowrap;
+}
+.btn:active { border-color: #808080 #fff #fff #808080; padding: 5px 15px 3px 17px; }
+.touch-pad {
+  display: none;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(3, 48px);
+  gap: 3px;
+}
+@media (pointer: coarse) { .touch-pad { display: grid; } }
+.dp {
+  background: #c0c0c0;
+  border: 2px solid; border-color: #fff #808080 #808080 #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; cursor: pointer; user-select: none; -webkit-user-select: none;
+}
+.dp:active { border-color: #808080 #fff #fff #808080; }
+.dp-empty { border: none; background: transparent; }
+.status-bar {
+  border-top: 1px solid #808080;
+  padding: 2px 4px; font-size: 10px;
+  display: flex; gap: 4px;
+}
+.sp {
+  flex: 1; border: 1px solid; border-color: #808080 #fff #fff #808080;
+  padding: 1px 4px; color: #444;
+}
+.back {
+  display: block; text-align: center;
+  padding: 5px; font-size: 10px;
+  color: #000080; text-decoration: underline;
+  cursor: pointer; background: #c0c0c0;
+  border-top: 1px solid #dfdfdf;
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="title-left"><span class="title-icon">🐍</span> Snake — parsa.exe</div>
+    <div class="tb-btns">
+      <a class="tb-btn" href="index.html" title="Close">✕</a>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="mi" onclick="startGame()">Game</div>
+    <div class="mi">Help</div>
+  </div>
+  <div class="content">
+    <div class="score-display">
+      <div><span class="score-label">SCORE</span><span id="score">000</span></div>
+      <div style="text-align:center"><span class="score-label">LEVEL</span><span id="level">1</span></div>
+      <div style="text-align:right"><span class="score-label">BEST</span><span id="best">000</span></div>
+    </div>
+    <canvas id="c" width="280" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="startGame()">▶ New Game</button>
+      <button class="btn" onclick="toggle()">⏸ Pause</button>
+    </div>
+    <div class="touch-pad">
+      <div class="dp dp-empty"></div>
+      <div class="dp" ontouchstart="e(event);dir(0,-1)">▲</div>
+      <div class="dp dp-empty"></div>
+      <div class="dp" ontouchstart="e(event);dir(-1,0)">◄</div>
+      <div class="dp dp-empty"></div>
+      <div class="dp" ontouchstart="e(event);dir(1,0)">►</div>
+      <div class="dp dp-empty"></div>
+      <div class="dp" ontouchstart="e(event);dir(0,1)">▼</div>
+      <div class="dp dp-empty"></div>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="sp" id="msg">Press ▶ New Game or Space to start · Arrow keys / WASD to move</div>
+  </div>
+  <a class="back" href="index.html">← Back to Desktop</a>
+</div>
+
+<script>
+const C = document.getElementById('c'), ctx = C.getContext('2d');
+const SZ = 14, COLS = 20, ROWS = 20;
+let snake, dx, dy, ndx, ndy, food, score, best = 0, loop, alive, paused;
+
+function pad(n,d=3){ return String(n).padStart(d,'0'); }
+function $(id){ return document.getElementById(id); }
+
+function msg(t){ $('msg').textContent = t; }
+function ui(){
+  $('score').textContent = pad(score);
+  $('best').textContent  = pad(best);
+  $('level').textContent = Math.floor(score/5)+1;
+}
+
+function placeFood(){
+  do { food = {x:~~(Math.random()*COLS), y:~~(Math.random()*ROWS)}; }
+  while(snake.some(s=>s.x===food.x&&s.y===food.y));
+}
+
+function speed(){ return Math.max(75, 200 - Math.floor(score/5)*12); }
+
+function startGame(){
+  if(loop) clearInterval(loop);
+  snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+  dx=1; dy=0; ndx=1; ndy=0;
+  score=0; alive=true; paused=false;
+  placeFood(); ui();
+  loop = setInterval(tick, speed());
+  msg('Arrow keys / WASD · Space = pause');
+}
+
+function toggle(){
+  if(!alive) return;
+  paused = !paused;
+  msg(paused ? '⏸ Paused — press Space or Pause to resume' : 'Playing…');
+}
+
+function dir(x,y){
+  if(x===-dx && y===-dy) return;
+  ndx=x; ndy=y;
+}
+function e(ev){ ev.preventDefault(); }
+
+function tick(){
+  if(paused) return;
+  dx=ndx; dy=ndy;
+  const h = {x:snake[0].x+dx, y:snake[0].y+dy};
+  if(h.x<0||h.x>=COLS||h.y<0||h.y>=ROWS||snake.some(s=>s.x===h.x&&s.y===h.y)){
+    gameOver(); return;
+  }
+  snake.unshift(h);
+  if(h.x===food.x&&h.y===food.y){
+    score++; if(score>best) best=score; ui(); placeFood();
+    clearInterval(loop); loop=setInterval(tick,speed());
+  } else { snake.pop(); }
+  draw();
+}
+
+function gameOver(){
+  clearInterval(loop); alive=false;
+  draw(true);
+  msg(`💀 Game Over! Score: ${score} — Press ▶ New Game to try again`);
+}
+
+function draw(dead=false){
+  // bg
+  ctx.fillStyle='#001800'; ctx.fillRect(0,0,C.width,C.height);
+  // grid
+  ctx.fillStyle='#002800';
+  for(let x=0;x<COLS;x++) for(let y=0;y<ROWS;y++) ctx.fillRect(x*SZ+6,y*SZ+6,2,2);
+  // food — pulsing red dot
+  const grd=ctx.createRadialGradient(food.x*SZ+SZ/2,food.y*SZ+SZ/2,1,food.x*SZ+SZ/2,food.y*SZ+SZ/2,SZ/2-1);
+  grd.addColorStop(0,'#ff8888'); grd.addColorStop(1,'#cc0000');
+  ctx.fillStyle=grd;
+  ctx.beginPath(); ctx.arc(food.x*SZ+SZ/2,food.y*SZ+SZ/2,SZ/2-2,0,Math.PI*2); ctx.fill();
+  // snake
+  snake.forEach((s,i)=>{
+    const head=i===0;
+    ctx.fillStyle = dead?'#446644': head?'#44ff44':'#22bb22';
+    const r=dead?1:head?2:1;
+    roundRect(ctx, s.x*SZ+1, s.y*SZ+1, SZ-2, SZ-2, r);
+    if(head&&!dead){
+      // eyes
+      ctx.fillStyle='#000';
+      const ex=dx,ey=dy;
+      ctx.fillRect(s.x*SZ+3+ex*3+ey*3, s.y*SZ+3+ey*3-ex*3, 2,2);
+      ctx.fillRect(s.x*SZ+3+ex*3-ey*3, s.y*SZ+3+ey*3+ex*3, 2,2);
+    }
+  });
+  // overlay text on init
+  if(!alive&&score===0&&!loop){
+    ctx.fillStyle='rgba(0,0,0,0.5)';
+    ctx.fillRect(50,110,180,60);
+    ctx.fillStyle='#44ff44';
+    ctx.font='bold 14px monospace';
+    ctx.textAlign='center';
+    ctx.fillText('SNAKE',140,135);
+    ctx.font='11px monospace';
+    ctx.fillText('press NEW GAME',140,155);
+  }
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath(); ctx.fill();
+}
+
+// init draw
+draw();
+
+document.addEventListener('keydown', ev=>{
+  switch(ev.code){
+    case 'ArrowUp':    case 'KeyW': e(ev); dir(0,-1); break;
+    case 'ArrowDown':  case 'KeyS': e(ev); dir(0,1);  break;
+    case 'ArrowLeft':  case 'KeyA': e(ev); dir(-1,0); break;
+    case 'ArrowRight': case 'KeyD': e(ev); dir(1,0);  break;
+    case 'Space': ev.preventDefault();
+      if(!alive||(!loop&&score===0)) startGame(); else toggle(); break;
+    case 'Enter': if(!alive) startGame(); break;
+  }
+});
+</script>
+</body>
+</html>

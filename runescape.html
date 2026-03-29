@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skills Cape — parsa.exe</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1a0800;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  font-family: 'MS Sans Serif', Arial, sans-serif; font-size: 11px;
+}
+
+/* RS-style outer window (uses Windows 97 chrome) */
+.window {
+  background: #c0c0c0;
+  border: 2px solid; border-color: #fff #808080 #808080 #fff;
+  box-shadow: 3px 3px 0 #000;
+  width: min(520px, 98vw);
+}
+.title-bar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff; padding: 3px 4px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: bold; font-size: 11px; user-select: none;
+}
+.title-left { display: flex; align-items: center; gap: 4px; }
+.tb-btns { display: flex; gap: 2px; }
+.tb-btn {
+  width: 16px; height: 14px; background: #c0c0c0;
+  border: 1px solid; border-color: #fff #808080 #808080 #fff;
+  font-size: 9px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; color: #000; text-decoration: none;
+}
+.tb-btn:active { border-color: #808080 #fff #fff #808080; }
+.menu-bar { background: #c0c0c0; border-bottom: 1px solid #808080; display: flex; padding: 2px 2px 0; }
+.mi { padding: 2px 8px; cursor: pointer; }
+.mi:hover { background: #000080; color: #fff; }
+
+/* RS content area */
+.rs-body {
+  background: #2e1a06;
+  padding: 12px;
+}
+
+/* Header */
+.rs-header {
+  background: linear-gradient(180deg, #3d2508 0%, #2a1804 100%);
+  border: 2px solid #6b4a1f;
+  border-radius: 4px 4px 0 0;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 8px;
+}
+.rs-avatar {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, #1a3a6e 0%, #0d2244 100%);
+  border: 2px solid #6b4a1f;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; border-radius: 2px;
+}
+.rs-player-name {
+  color: #ffcc44; font-size: 14px; font-weight: bold;
+  text-shadow: 1px 1px 0 #000;
+  font-family: 'Courier New', monospace;
+}
+.rs-player-title { color: #aaaaaa; font-size: 10px; margin-top: 2px; }
+.rs-combat {
+  margin-left: auto; text-align: right;
+}
+.rs-combat-label { color: #aaaaaa; font-size: 9px; }
+.rs-combat-level { color: #ffcc44; font-size: 22px; font-weight: bold; font-family: 'Courier New', monospace; }
+
+/* Skills tab */
+.rs-tab-bar {
+  display: flex; border-bottom: 2px solid #6b4a1f;
+  background: #221205;
+}
+.rs-tab {
+  padding: 5px 12px; font-size: 10px; cursor: pointer;
+  color: #aa8844; border-right: 1px solid #6b4a1f;
+}
+.rs-tab.active { background: #3d2508; color: #ffcc44; font-weight: bold; }
+.rs-tab:hover { color: #ffcc44; }
+
+/* Skills grid */
+.rs-skills {
+  background: #3d2508;
+  border: 2px solid #6b4a1f;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 4px;
+}
+@media (max-width: 380px) { .rs-skills { grid-template-columns: repeat(2, 1fr); } }
+
+.rs-skill {
+  background: #2a1804;
+  border: 1px solid #5a3a10;
+  padding: 4px 6px;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; position: relative;
+  transition: background 0.1s;
+}
+.rs-skill:hover { background: #3a2510; }
+.rs-skill-icon { font-size: 20px; flex-shrink: 0; width: 24px; text-align: center; }
+.rs-skill-info { flex: 1; min-width: 0; }
+.rs-skill-name { color: #ff9900; font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rs-skill-levels {
+  display: flex; align-items: baseline; gap: 3px; margin-top: 1px;
+}
+.rs-skill-cur { color: #ffff00; font-size: 13px; font-weight: bold; font-family: 'Courier New', monospace; }
+.rs-skill-sep { color: #888; font-size: 10px; }
+.rs-skill-max { color: #aaaaaa; font-size: 10px; font-family: 'Courier New', monospace; }
+.rs-skill-xp-bar {
+  height: 3px; background: #111; margin-top: 3px;
+  border: 1px solid #000;
+}
+.rs-skill-xp-fill { height: 100%; background: #3a6600; }
+.rs-skill.maxed .rs-skill-xp-fill { background: #aacc00; }
+.rs-skill.maxed .rs-skill-cur { color: #aaff00; }
+
+/* Tooltip */
+.rs-tooltip {
+  display: none;
+  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
+  background: #1a0c00; border: 1px solid #aa7722;
+  color: #ffcc44; font-size: 10px;
+  padding: 6px 10px; z-index: 999; width: 200px;
+  text-align: left; line-height: 1.5; white-space: normal;
+  pointer-events: none;
+}
+.rs-tooltip::after {
+  content: '';
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #aa7722;
+}
+.rs-skill:hover .rs-tooltip { display: block; }
+
+/* Total level bar */
+.rs-total {
+  background: #221205; border: 2px solid #6b4a1f;
+  border-top: none; padding: 8px 10px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.rs-total-label { color: #aa8844; font-size: 10px; }
+.rs-total-val { color: #ffcc44; font-size: 16px; font-weight: bold; font-family: 'Courier New', monospace; }
+.rs-total-max { color: #666; font-size: 10px; }
+
+/* Cape unlock */
+.rs-cape {
+  background: linear-gradient(180deg, #2a1804, #1a0c00);
+  border: 2px solid #6b4a1f; border-top: none;
+  padding: 10px 12px; text-align: center;
+}
+.rs-cape-title { color: #aacc00; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
+.rs-cape-text { color: #888; font-size: 10px; line-height: 1.5; }
+
+.status-bar { border-top: 1px solid #808080; padding: 2px 4px; display: flex; gap: 4px; }
+.sp { flex:1; border:1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 4px; color:#444; }
+.back {
+  display: block; text-align: center; padding: 5px; font-size: 10px;
+  color: #000080; text-decoration: underline; cursor: pointer;
+  background: #c0c0c0; border-top: 1px solid #dfdfdf;
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="title-left">⚔️ Skills Cape — parsa.exe</div>
+    <div class="tb-btns">
+      <a class="tb-btn" href="index.html">✕</a>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="mi">Character</div>
+    <div class="mi">Skills</div>
+    <div class="mi">Highscores</div>
+  </div>
+
+  <div class="rs-body">
+    <div class="rs-header">
+      <div class="rs-avatar">✍️</div>
+      <div>
+        <div class="rs-player-name">Parsa Navidi</div>
+        <div class="rs-player-title">Content Strategist · Copywriter</div>
+        <div class="rs-player-title" style="color:#aacc00;margin-top:2px;">🏅 Skill Cape Unlocked</div>
+      </div>
+      <div class="rs-combat">
+        <div class="rs-combat-label">Total Level</div>
+        <div class="rs-combat-level" id="totalLevel">---</div>
+      </div>
+    </div>
+
+    <div class="rs-tab-bar">
+      <div class="rs-tab active">Skills</div>
+      <div class="rs-tab">Quests</div>
+      <div class="rs-tab">Achievements</div>
+      <div class="rs-tab">Equipment</div>
+    </div>
+
+    <div class="rs-skills" id="skillGrid"></div>
+
+    <div class="rs-total">
+      <div class="rs-total-label">Total Level</div>
+      <div>
+        <span class="rs-total-val" id="totalVal">0</span>
+        <span class="rs-total-max"> / 1188</span>
+      </div>
+    </div>
+
+    <div class="rs-cape">
+      <div class="rs-cape-title">🎓 Skill Cape of the Wordsmith — Equipped</div>
+      <div class="rs-cape-text">Awarded to adventurers who have mastered the art of making words work.<br>Total XP earned: <span style="color:#ffcc44">14,320,480</span></div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="sp" id="msg">Hover a skill to view details · Max level: 99</div>
+  </div>
+  <a class="back" href="index.html">← Back to Desktop</a>
+</div>
+
+<script>
+const skills = [
+  { icon: '✍️', name: 'Copywriting',       level: 99, xp: 4672349, tip: 'Master of persuasive writing. Every word earns its place. Cape unlocked.' },
+  { icon: '🗺️', name: 'Content Strategy',  level: 93, xp: 2341000, tip: 'Plans content ecosystems, not just pieces. Thinks in funnels and audiences.' },
+  { icon: '📖', name: 'Storytelling',       level: 91, xp: 1987000, tip: 'Hooks the reader, holds attention, lands the close. The rarest weapon.' },
+  { icon: '🔍', name: 'SEO',               level: 86, xp: 1340000, tip: 'Writes for humans first. Search engines follow. On-page + semantic.' },
+  { icon: '🎤', name: 'Brand Voice',        level: 94, xp: 2680000, tip: 'Reads a brand in minutes. Writes in their voice without losing the craft.' },
+  { icon: '✂️', name: 'Editing',            level: 88, xp: 1560000, tip: 'Kills darlings efficiently. Tightens prose, sharpens arguments.' },
+  { icon: '🔬', name: 'Research',           level: 87, xp: 1420000, tip: 'Primary + secondary. Knows the difference between a stat and a story.' },
+  { icon: '📊', name: 'Analytics',          level: 80, xp: 900000,  tip: 'Reads GA4, Search Console, and content performance dashboards.' },
+  { icon: '🎙️', name: 'Podcast Prod.',     level: 85, xp: 1200000, tip: 'Scripts, show notes, episode arcs, distribution. End-to-end.' },
+  { icon: '🎬', name: 'Video Scripting',    level: 82, xp: 1050000, tip: 'Writes for the ear and eye. Pacing, visual cues, natural dialogue.' },
+  { icon: '📧', name: 'Email Copy',         level: 84, xp: 1180000, tip: 'Subject lines that get opened. Body copy that gets clicked.' },
+  { icon: '📱', name: 'Social Copy',        level: 83, xp: 1100000, tip: 'Platform-native writing. TikTok is not LinkedIn. Knows the difference.' },
+];
+
+function xpToLevel(level) {
+  // simplified XP % within the level for bar display
+  const pct = Math.min(99, level) / 99;
+  return pct;
+}
+
+function formatXP(xp) {
+  return xp.toLocaleString();
+}
+
+function render() {
+  const grid = document.getElementById('skillGrid');
+  let total = 0;
+  grid.innerHTML = skills.map((s, i) => {
+    total += s.level;
+    const pct = (s.level / 99 * 100).toFixed(1);
+    const maxed = s.level === 99;
+    return `
+      <div class="rs-skill${maxed ? ' maxed' : ''}">
+        <div class="rs-skill-icon">${s.icon}</div>
+        <div class="rs-skill-info">
+          <div class="rs-skill-name">${s.name}</div>
+          <div class="rs-skill-levels">
+            <span class="rs-skill-cur">${s.level}</span>
+            <span class="rs-skill-sep">/</span>
+            <span class="rs-skill-max">99</span>
+          </div>
+          <div class="rs-skill-xp-bar">
+            <div class="rs-skill-xp-fill" style="width:${pct}%"></div>
+          </div>
+        </div>
+        <div class="rs-tooltip">
+          <strong style="color:#ffcc44">${s.name}</strong><br>
+          Level: ${s.level} / 99<br>
+          XP: ${formatXP(s.xp)}<br>
+          <span style="color:#aaa;font-size:9px">${s.tip}</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('totalVal').textContent = total;
+  document.getElementById('totalLevel').textContent = total;
+}
+
+render();
+
+// mobile: tap to show tooltip in status bar
+document.querySelectorAll('.rs-skill').forEach((el, i) => {
+  el.addEventListener('click', () => {
+    const s = skills[i];
+    document.getElementById('msg').textContent = `${s.name} · Level ${s.level}/99 · XP: ${formatXP(s.xp)} · ${s.tip}`;
+  });
+});
+</script>
+</body>
+</html>
