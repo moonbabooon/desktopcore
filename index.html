@@ -4064,6 +4064,8 @@
             const preBoot = document.getElementById('pre-boot');
             const screen = document.querySelector('.pb-screen');
             btn.style.pointerEvents = 'none';
+            // Reveal boot screen behind pre-boot now so desktop never flashes through
+            document.getElementById('boot-screen').classList.remove('hidden');
             // LED goes bright green
             led.style.animation = 'none';
             led.style.background = '#00cc44';
@@ -4088,7 +4090,6 @@
         // Boot Animation
         function startBoot() {
             const bootScreen = document.getElementById('boot-screen');
-            bootScreen.classList.remove('hidden');
             const progressBar = document.getElementById('boot-progress-bar');
             const bootMessage = document.getElementById('boot-message');
 
