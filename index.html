@@ -802,68 +802,22 @@
             color: #0000ff;
         }
 
-        /* Recycle Bin files */
-        .bin-item {
-            width: 72px; text-align: center; cursor: pointer; padding: 4px;
-            border: 1px solid transparent; user-select: none;
+        /* Recycle Bin graveyard cards */
+        .rip-card {
+            background: #1a1a2e; color: #ccc; border: 1px solid #333;
+            padding: 8px 10px; font-size: 10px; font-family: 'Courier New', monospace;
+            line-height: 1.6; border-left: 3px solid #533483;
         }
-        .bin-item:hover { background: #000080; }
-        .bin-item:hover .bin-name { color: #fff; }
-        .bin-item.selected { background: #000080; border-color: #000080; }
-        .bin-item.selected .bin-name { color: #fff; }
-        .bin-item.deleting { animation: binDelete 0.4s ease-out forwards; }
-        @keyframes binDelete { to { opacity: 0; transform: translateY(20px) scale(0.7); } }
-        .bin-icon { font-size: 28px; margin-bottom: 3px; }
-        .bin-name { font-size: 9px; color: #000; line-height: 1.2; word-break: break-all; }
+        .rip-card b { color: #e0e0ff; }
+        .rip-card span { color: #888; font-size: 9px; }
+        .rip-card i { color: #aaa; font-size: 9px; }
+        .alive-badge {
+            background: #006600; color: #fff; font-size: 9px;
+            font-family: 'Courier New', monospace; padding: 2px 8px;
+            border: 1px solid #004400;
+        }
 
         /* Bin File Viewer */
-        .bin-viewer-overlay {
-            position: fixed; inset: 0; z-index: 99998;
-            display: none; align-items: center; justify-content: center;
-        }
-        .bin-viewer-overlay.open { display: flex; }
-        .bin-viewer {
-            width: 480px; max-width: calc(100vw - 24px);
-            max-height: 80vh;
-            background: #c0c0c0;
-            border: 2px solid #fff;
-            border-right-color: #000; border-bottom-color: #000;
-            box-shadow: 2px 2px 0 #000;
-            display: flex; flex-direction: column;
-            font-family: 'Courier New', monospace;
-        }
-        .bin-viewer-title {
-            background: linear-gradient(90deg, #000080, #1084d0);
-            color: #fff; font-family: Tahoma, sans-serif;
-            font-size: 11px; font-weight: bold;
-            padding: 3px 6px; display: flex; align-items: center; justify-content: space-between;
-        }
-        .bin-viewer-title span { display: flex; align-items: center; gap: 6px; }
-        .bin-viewer-close {
-            width: 16px; height: 14px; background: #c0c0c0;
-            border: 1px solid #fff; border-right-color: #000; border-bottom-color: #000;
-            font-size: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-family: Tahoma; color: #000; font-weight: bold;
-        }
-        .bin-viewer-menubar {
-            background: #c0c0c0; font-family: Tahoma, sans-serif;
-            font-size: 11px; padding: 1px 4px; border-bottom: 1px solid #808080;
-            display: flex; gap: 12px;
-        }
-        .bin-viewer-body {
-            flex: 1; overflow-y: auto; background: #fff;
-            margin: 3px; padding: 8px 10px;
-            font-size: 11px; line-height: 1.6; white-space: pre-wrap;
-            border: 1px solid #808080; border-right-color: #fff; border-bottom-color: #fff;
-            min-height: 180px; max-height: 55vh;
-            color: #000;
-        }
-        .bin-viewer-body.ie-mode {
-            font-family: Times New Roman, serif;
-            background: #000080; color: #ffff00;
-            font-size: 13px;
-        }
-
         /* Recycle Bin */
         .recycle-content {
             text-align: center;
@@ -3289,66 +3243,129 @@
             </div>
         </div>
 
-        <div class="window recycle-window minimized" id="window-recycle" style="top: 80px; left: 220px; width: 300px; height: 220px;">
+        <div class="window minimized" id="window-recycle" style="top:50px;left:120px;width:680px;height:530px;">
             <div class="window-titlebar inactive" data-window="recycle">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/%3E%3C/svg%3E">
-                <span>Recycle Bin</span>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%231a73e8' d='M2 2h12v12H2z'/%3E%3Cpath fill='white' d='M4 5h8v7H4zM6 5V3h4v2M5 3h6'/%3E%3C/svg%3E">
+                <span>The Digital Graveyard — Microsoft Internet Explorer</span>
                 <div class="window-controls">
                     <button class="window-btn minimize-btn" data-window="recycle">_</button>
                     <button class="window-btn maximize-btn" data-window="recycle">▢</button>
                     <button class="window-btn close-btn" data-window="recycle">×</button>
                 </div>
             </div>
-            <div class="window-content" style="padding:0;display:flex;flex-direction:column;height:100%">
-              <div style="background:#c0c0c0;border-bottom:1px solid #808080;padding:1px 4px;font-size:11px;display:flex;gap:12px">
-                <span style="cursor:pointer" onclick="emptyBin()">File</span>
-                <span>Edit</span><span>View</span><span>Help</span>
-              </div>
-              <div id="bin-files" style="flex:1;overflow-y:auto;padding:6px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;background:#fff">
-                <div class="bin-item" data-name="bio_draft_v1.txt" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="aspiring content creator with a passion for storytelling 😭&#10;(2018 — please don't read this)">
-                  <div class="bin-icon">📄</div><div class="bin-name">bio_draft_v1.txt</div>
+            <div class="window-content ie-window-content">
+                <div class="ie-menubar"><span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span></div>
+                <div class="ie-toolbar">
+                    <button class="ie-btn" disabled>&#9664; Back</button>
+                    <button class="ie-btn" disabled>Fwd &#9654;</button>
+                    <button class="ie-btn">&#10006; Stop</button>
+                    <button class="ie-btn">&#8635; Refresh</button>
+                    <div class="ie-sep"></div>
+                    <button class="ie-btn">&#127968; Home</button>
+                    <div class="ie-throbber-wrap"><div class="ie-throbber"></div></div>
                 </div>
-                <div class="bin-item" data-name="cover_letter_desperate.doc" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="please hire me i love words&#10;(sent to 47 companies, 2018)">
-                  <div class="bin-icon">📝</div><div class="bin-name">cover_letter_desperate.doc</div>
+                <div class="ie-addressbar">
+                    <span class="ie-addr-label">Address</span>
+                    <input class="ie-addr-input" value="http://www.digitalgraveyard.net/rip/old-internet.html" readonly>
+                    <button class="ie-btn ie-go-btn">Go &#9654;</button>
                 </div>
-                <div class="bin-item" data-name="imposter_syndrome.exe" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="⚠️ Cannot delete&#10;Process is still running&#10;(has been running since 2018)">
-                  <div class="bin-icon">⚙️</div><div class="bin-name">imposter_syndrome.exe</div>
-                </div>
-                <div class="bin-item" data-name="portfolio_2019_v1.html" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="Best viewed in Internet Explorer 6&#10;Font: Comic Sans, 72pt&#10;Background: animated GIF">
-                  <div class="bin-icon">🌐</div><div class="bin-name">portfolio_2019_v1.html</div>
-                </div>
-                <div class="bin-item" data-name="writers_block.log" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="847 entries&#10;Most recent: 3 minutes ago">
-                  <div class="bin-icon">📋</div><div class="bin-name">writers_block.log</div>
-                </div>
-                <div class="bin-item" data-name="unfinished_screenplay.fdx" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="Act 1: Complete&#10;Act 2: 'this is where it gets good'&#10;Act 3: [TODO]">
-                  <div class="bin-icon">🎬</div><div class="bin-name">unfinished_screenplay.fdx</div>
-                </div>
-                <div class="bin-item" data-name="deleted_tweet_drafts.txt" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="128 unsent tweets&#10;Mostly correct takes&#10;Sent none of them">
-                  <div class="bin-icon">🐦</div><div class="bin-name">deleted_tweet_drafts.txt</div>
-                </div>
-                <div class="bin-item" data-name="the_blog_ill_start_someday.url" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="Posted: 0 articles&#10;Planned: ∞&#10;ETA: someday">
-                  <div class="bin-icon">🔗</div><div class="bin-name">the_blog_ill_start_someday.url</div>
-                </div>
-              </div>
-              <div id="bin-statusbar" style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 6px;font-size:10px;font-family:Tahoma,sans-serif">
-                8 object(s) &nbsp;·&nbsp; <a href="#" onclick="emptyBin();return false" style="color:#000080">Empty Recycle Bin</a>
-                &nbsp;·&nbsp; <span style="color:#555;font-style:italic">Double-click a file to open</span>
-              </div>
-            </div>
-        </div>
-    </div>
+                <div class="ie-page" id="bin-ie-page">
 
-    <!-- Bin File Viewer -->
-    <div class="bin-viewer-overlay" id="bin-viewer-overlay" onclick="closeBinViewer(event)">
-        <div class="bin-viewer" id="bin-viewer">
-            <div class="bin-viewer-title">
-                <span><span id="bin-viewer-app-icon"></span> <span id="bin-viewer-app-name">Notepad</span> — <span id="bin-viewer-filename"></span></span>
-                <div class="bin-viewer-close" onclick="closeBinViewer()">✕</div>
+                    <!-- Banner -->
+                    <div class="ie-banner" style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-bottom:3px solid #533483">
+                        <div class="ie-banner-title" style="color:#e0e0ff;font-size:18px">✝ &nbsp; The Digital Graveyard &nbsp; ✝</div>
+                        <div class="ie-banner-sub" style="color:#a0a0cc">Est. 1991 &nbsp;·&nbsp; In loving memory of the Old Internet &nbsp;·&nbsp; Best viewed in 800×600</div>
+                    </div>
+
+                    <!-- Counter bar -->
+                    <div class="ie-counterbar" style="background:#222;color:#0f0;font-family:'Courier New',monospace;font-size:10px;border-bottom:2px solid #0f0">
+                        <span>&#9608; MOURNERS VISITED: <b>1,337,420</b></span>
+                        <span style="color:#ff0">&#128293; You are mourner #1,337,421</span>
+                        <span style="color:#0ff">&#128148; Please sign the guestbook below</span>
+                    </div>
+
+                    <!-- Two-col layout -->
+                    <table class="ie-layout-table" cellpadding="8" cellspacing="4">
+                        <tr valign="top">
+                            <!-- Sidebar -->
+                            <td class="ie-sidebar" style="background:#1a1a1a;color:#ccc;border-right:2px dashed #444">
+                                <div style="text-align:center;font-family:'Courier New',monospace;font-size:11px">
+                                    <div style="font-size:36px">🪦</div>
+                                    <div style="color:#888;margin:4px 0">R.I.P.</div>
+                                    <div style="color:#e0e0ff;font-weight:bold">The Old Web</div>
+                                    <div style="color:#666;font-size:9px">1991 – forever in our hearts</div>
+                                </div>
+                                <hr style="border-color:#333;margin:8px 0">
+                                <div style="font-size:10px;font-family:Tahoma,sans-serif;line-height:1.8">
+                                    <div style="color:#0f0">&#9679; ONLINE: Geocities fans</div>
+                                    <div style="color:#f00">&#9679; OFFLINE: Flash Player</div>
+                                    <div style="color:#f00">&#9679; OFFLINE: MSN Messenger</div>
+                                    <div style="color:#f00">&#9679; OFFLINE: AIM</div>
+                                    <div style="color:#f00">&#9679; OFFLINE: Vine</div>
+                                </div>
+                                <hr style="border-color:#333;margin:8px 0">
+                                <div style="font-size:9px;color:#666;text-align:center;font-family:'Courier New',monospace">
+                                    &#9608;&#9608;&#9608;&#9608;&#9608;&#9617;&#9617;&#9617;&#9617;&#9617;<br>
+                                    nostalgia: 50%<br><br>
+                                    &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;<br>
+                                    cringe: 100%
+                                </div>
+                                <hr style="border-color:#333;margin:8px 0">
+                                <div style="font-size:9px;color:#555;text-align:center;line-height:1.6;font-family:'Courier New',monospace">
+                                    &#128679; PAGE UNDER<br>CONSTRUCTION &#128679;<br><br>
+                                    (always was,<br>always will be)
+                                </div>
+                            </td>
+
+                            <!-- Main content -->
+                            <td class="ie-main" style="background:#f5f0e8">
+                                <h2 class="ie-main-h2" style="font-family:'Courier New',monospace;color:#1a1a2e">&#9996; Here Lie the Fallen</h2>
+                                <p class="ie-main-p" style="font-style:italic;color:#555">A humble tribute to the websites, apps, and vibes that shaped the internet we grew up on. Gone, but never forgotten. Pour one out. 🫗</p>
+
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0">
+                                    <div class="rip-card">🪦 <b>GeoCities</b><br><span>1994 – 2009</span><br><i>"Your web host has ceased operations"</i></div>
+                                    <div class="rip-card">🪦 <b>Flash Player</b><br><span>1996 – 2020</span><br><i>"Please update Adobe Flash to continue"</i></div>
+                                    <div class="rip-card">🪦 <b>MSN Messenger</b><br><span>1999 – 2013</span><br><i>nudge nudge nudge nudge</i></div>
+                                    <div class="rip-card">🪦 <b>AIM</b><br><span>1997 – 2017</span><br><i>"SuRfErDuDe94 has signed off"</i></div>
+                                    <div class="rip-card">🪦 <b>Vine</b><br><span>2013 – 2017</span><br><i>6 seconds was enough to change us</i></div>
+                                    <div class="rip-card">🪦 <b>Club Penguin</b><br><span>2005 – 2017</span><br><i>banned for saying "pizza" wrong</i></div>
+                                    <div class="rip-card">🪦 <b>LimeWire</b><br><span>1999 – 2010</span><br><i>definitely a song.mp3.exe</i></div>
+                                    <div class="rip-card">🪦 <b>Internet Explorer</b><br><span>1995 – 2022</span><br><i>used only to download Firefox</i></div>
+                                </div>
+
+                                <hr class="ie-hr">
+                                <h3 class="ie-main-h3" style="font-family:'Courier New',monospace">&#128156; Still Alive (somehow)</h3>
+                                <div style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0">
+                                    <span class="alive-badge">Wikipedia</span>
+                                    <span class="alive-badge">Newgrounds</span>
+                                    <span class="alive-badge">The Wayback Machine</span>
+                                    <span class="alive-badge">RuneScape</span>
+                                    <span class="alive-badge">Craigslist</span>
+                                    <span class="alive-badge">IMDb</span>
+                                    <span class="alive-badge">4chan 😬</span>
+                                </div>
+
+                                <hr class="ie-hr">
+                                <h3 class="ie-main-h3" style="font-family:'Courier New',monospace">&#128221; Guestbook</h3>
+                                <div style="font-size:10px;font-family:'Courier New',monospace;background:#fff;border:1px inset #ccc;padding:8px;line-height:1.9">
+                                    <b style="color:#000080">xX_WebMaster_Xx</b> <span style="color:#888">(2003)</span>: this site is so cool!! bookmarked!! tell ur friends!!<br>
+                                    <b style="color:#800000">surfergirl99</b> <span style="color:#888">(2006)</span>: rip flash games... neopets was my whole childhood<br>
+                                    <b style="color:#006600">TotallyNotARobot</b> <span style="color:#888">(2009)</span>: geocities going down is the worst day of my life<br>
+                                    <b style="color:#660066">parsa</b> <span style="color:#888">(today)</span>: found this in my recycling bin. miss u old internet 🫶
+                                </div>
+                                <div class="ie-blink-text" style="color:#800000;font-family:'Courier New',monospace;font-size:10px;margin-top:8px">
+                                    &#9733; Thanks for visiting! Don't forget to sign the guestbook! Add to Favorites! &#9733;
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="ie-footer" style="background:#1a1a2e;color:#666;font-family:'Courier New',monospace;font-size:9px">
+                        &copy; The Digital Graveyard &nbsp;|&nbsp; Est. 1991, maintained by volunteers &nbsp;|&nbsp; Best viewed in Internet Explorer 4.0+<br>
+                        <span style="color:#333">No penguins were harmed in the making of this page. (Club Penguin RIP)</span>
+                    </div>
+                </div>
             </div>
-            <div class="bin-viewer-menubar">
-                <span>File</span><span>Edit</span><span>Format</span><span>Help</span>
-            </div>
-            <div class="bin-viewer-body" id="bin-viewer-body"></div>
         </div>
     </div>
 
@@ -4658,271 +4675,6 @@
                 <div class="cp-detail-tags">${ap.tags.map(t => `<span class="cp-tag">${t}</span>`).join('')}</div>`;
             document.getElementById('cp-status').textContent = ap.title + ' — ' + ap.tags.length + ' capabilities';
             SFX.click();
-        }
-
-        function binClick(el) {
-            document.querySelectorAll('.bin-item').forEach(i => i.classList.remove('selected'));
-            el.classList.add('selected');
-        }
-        function emptyBin() {
-            const items = document.querySelectorAll('.bin-item');
-            let delay = 0;
-            let hasImposter = false;
-            items.forEach(item => {
-                if (item.dataset.name === 'imposter_syndrome.exe') { hasImposter = true; return; }
-                setTimeout(() => {
-                    item.classList.add('deleting');
-                    setTimeout(() => item.remove(), 400);
-                }, delay);
-                delay += 80;
-            });
-            setTimeout(() => {
-                const sb = document.getElementById('bin-statusbar');
-                if (hasImposter) {
-                    sb.innerHTML = '<span style="color:#cc0000">⚠️ Cannot delete imposter_syndrome.exe — Access Denied. Process still running.</span>';
-                    // Show the imposter item highlighted
-                    const imp = document.querySelector('.bin-item[data-name="imposter_syndrome.exe"]');
-                    if (imp) imp.classList.add('selected');
-                } else {
-                    sb.textContent = 'Recycle Bin is empty';
-                }
-            }, delay + 450);
-        }
-
-        // ── Recycle Bin file viewer ───────────────────────────────────
-        const BIN_FILES = {
-            'bio_draft_v1.txt': {
-                app: 'Notepad', icon: '📄', ie: false,
-                content: `Hi! My name is Parsa and I'm a aspiring content creator
-with a passion for storytelling and making a difference
-through the power of my words. I love writing, learning,
-and also growing as a person.
-
-I have experience with blogging (2 posts, 1 deleted),
-social media (deleted), and Microsoft Word.
-
-Currently seeking: any opportunity. Please.
-
-Hobbies: Netflix, starting side projects, not finishing
-them, telling people I'm working on something.
-
-References available upon request (asking my mom).
-
-                              — Parsa, 2018`
-            },
-            'cover_letter_desperate.doc': {
-                app: 'WordPad', icon: '📝', ie: false,
-                content: `Dear Hiring Manager (or whoever reads this),
-
-My name is Parsa and I REALLY want to work at your company.
-Like, really really. I saw your job posting and thought:
-"that's the one."
-
-I know I don't have every listed requirement, but I am
-a very fast learner and extremely passionate. Did I mention
-I'm passionate? I am extremely passionate about this role.
-
-I will work very hard. I will bring donuts on Fridays.
-I will arrive early. I will stay late. I will answer
-emails on weekends. I will eat lunch at my desk.
-
-I just need a chance. One chance.
-
-Please.
-
-Warmly (desperately),
-Parsa Navidi
-Available immediately. Like, today.`
-            },
-            'imposter_syndrome.exe': {
-                app: null, icon: '⚙️', ie: false,
-                content: null  // blocked — handled separately
-            },
-            'portfolio_2019_v1.html': {
-                app: 'Internet Explorer', icon: '🌐', ie: true,
-                content: `  *** FILE PREVIEW — Internet Explorer 6 required ***
-
-<html>
-<body bgcolor="#000080" text="#FFFF00">
-
-<center>
-<marquee scrollamount="6">
-  ✨ WELCOME TO PARSA'S OFFICIAL WEBSITE!!! ✨
-</marquee>
-
-<font face="Comic Sans MS" size="7" color="#FF00FF">
-  PARSA NAVIDI
-</font><br>
-<font size="3">~ future professional ~</font>
-
-<br><hr color="#FF0000"><br>
-
-<blink>🚧 UNDER CONSTRUCTION 🚧</blink><br>
-<img src="cool_spinning_globe.gif" alt="[cool globe]"><br>
-<img src="under_construction.gif" alt="[under construction]">
-
-<br><hr><br>
-
-<font face="Comic Sans MS" size="4">About Me:</font><br>
-<font size="3">
-hi my name is parsa!! i like writing and stuff.
-this is my website. bookmark it!!
-best viewed at 800x600. please use IE.
-</font>
-
-<br><hr><br>
-<font size="1">
-  visitors: [00000014] (mom counted twice)
-  last updated: a while ago
-  &copy; parsa 2019 all rights reserved
-</font>
-</center>
-</body>
-</html>`
-            },
-            'writers_block.log': {
-                app: 'Notepad', icon: '📋', ie: false,
-                content: `[writers_block.log — 847 entries — showing last 20]
-
-2018-03-04 09:12  .
-2018-03-04 09:13  ..
-2018-03-04 09:14  ...
-2018-03-04 09:21  maybe if i get a coffee
-2018-03-04 10:05  .
-2018-03-04 10:06  the cursor is blinking at me
-2018-03-04 11:30  okay what if the main character is actually—
-2018-03-04 11:31  never mind
-2024-09-14 14:22  i have an idea. a real one this time
-2024-09-14 14:23  actually i need to think about it more
-2024-09-14 14:24  .
-2024-11-02 16:10  just need the right song to write to
-2024-11-02 17:45  listened to 4 playlists. still nothing
-2025-01-18 10:00  new year, new start
-2025-01-18 10:03  .
-2025-03-30 [TODAY]  still going
-                   .`
-            },
-            'unfinished_screenplay.fdx': {
-                app: 'Final Draft', icon: '🎬', ie: false,
-                content: `FADE IN:
-
-═══════════════════════════════
-  ACT ONE — COMPLETE ✓
-═══════════════════════════════
-
-INT. COFFEE SHOP - DAY
-
-A young writer sits alone, staring at a blank page.
-Then — suddenly — everything clicks. The words flow.
-The dialogue sings. This is it. This is the one.
-
-═══════════════════════════════
-  ACT TWO — IN PROGRESS (37%)
-═══════════════════════════════
-
-"okay so this is where it gets REALLY good"
-
-[sticky note: figure out the plot here]
-[sticky note: character motivation — TBD]
-[sticky note: maybe a twist??]
-[sticky note: this scene will be amazing, trust]
-[sticky note: do NOT delete, this is almost done]
-
-═══════════════════════════════
-  ACT THREE — [TODO]
-═══════════════════════════════
-
-
-
-FADE OUT.
-
-Title: "The Thing" (working title, will change)
-Written by: Parsa Navidi
-Draft: 1 of ∞   |   Last saved: a while ago`
-            },
-            'deleted_tweet_drafts.txt': {
-                app: 'Notepad', icon: '🐦', ie: false,
-                content: `[128 unsent drafts — selected highlights]
-
-"hot take: most hot takes are lukewarm at best"
-→ [deleted: too meta]
-
-"genuinely cannot tell if I'm a morning person who just
-hasn't found the right morning yet"
-→ [deleted: too honest]
-
-"the best time to start was years ago, the second best
-time is now, the third best time is after this episode"
-→ [deleted: relatable but self-incriminating]
-
-"working on something. no I won't say what. yes it's
-going well. please stop asking."
-→ [deleted: lying]
-
-"actually had a really good day today"
-→ [deleted: suspicious, people will ask questions]
-
-"it's giving"
-→ [deleted: never finished the thought]
-
-[122 more drafts hidden for your own protection]`
-            },
-            'the_blog_ill_start_someday.url': {
-                app: 'Internet Explorer', icon: '🔗', ie: true,
-                content: `Address: http://parsasblog.wordpress.com
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Connecting to parsasblog.wordpress.com...
-  Connecting...
-  Still connecting...
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  ✖  Error 404 — Page Not Found
-
-  This page does not exist.
-
-  (It will though. Probably. Soon-ish.)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Site stats:
-    Posts published  :  0
-    Posts drafted    :  0
-    Post ideas (notes app)  :  47
-    Times said "I should start a blog"  :  ∞
-    Bookmarked since :  2019
-    Last visited     :  never
-
-  Would you like to add this to your Favourites?
-  [Yes]  [Yes]  [Maybe someday]`
-            }
-        };
-
-        function openBinFile(name) {
-            const f = BIN_FILES[name];
-            if (!f) return;
-            if (f.app === null) {
-                // imposter_syndrome.exe
-                document.getElementById('bin-viewer-app-icon').textContent = '⚠️';
-                document.getElementById('bin-viewer-app-name').textContent = 'System';
-                document.getElementById('bin-viewer-filename').textContent = name;
-                const body = document.getElementById('bin-viewer-body');
-                body.className = 'bin-viewer-body';
-                body.textContent = `ACCESS DENIED\n\nCannot open imposter_syndrome.exe\n\nProcess is currently running and cannot be terminated.\nPID: unknown\nStatus: ACTIVE\nStarted: 2018\nUptime: ${new Date().getFullYear() - 2018} years\n\nPlease contact your system administrator.\n(You are the system administrator.)`;
-            } else {
-                document.getElementById('bin-viewer-app-icon').textContent = f.icon;
-                document.getElementById('bin-viewer-app-name').textContent = f.app;
-                document.getElementById('bin-viewer-filename').textContent = name;
-                const body = document.getElementById('bin-viewer-body');
-                body.className = 'bin-viewer-body' + (f.ie ? ' ie-mode' : '');
-                body.textContent = f.content;
-            }
-            document.getElementById('bin-viewer-overlay').classList.add('open');
-        }
-
-        function closeBinViewer(e) {
-            if (e && e.target !== document.getElementById('bin-viewer-overlay')) return;
-            document.getElementById('bin-viewer-overlay').classList.remove('open');
         }
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
