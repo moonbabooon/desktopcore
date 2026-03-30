@@ -2691,7 +2691,7 @@
     </div>
 
     <!-- Boot Screen -->
-    <div class="boot-screen" id="boot-screen">
+    <div class="boot-screen hidden" id="boot-screen">
         <div class="boot-logo">
             PARSA<span class="version">97</span><span class="tm">™</span>
         </div>
@@ -4088,6 +4088,7 @@
         // Boot Animation
         function startBoot() {
             const bootScreen = document.getElementById('boot-screen');
+            bootScreen.classList.remove('hidden');
             const progressBar = document.getElementById('boot-progress-bar');
             const bootMessage = document.getElementById('boot-message');
 
