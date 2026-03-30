@@ -2270,6 +2270,39 @@
             .sticky-note { display: none; }
         }
 
+        /* ── Pre-boot mobile ── */
+        @media (max-width: 500px) {
+            .pb-room { transform: scale(0.72); transform-origin: center center; }
+            .pb-desk { width: 100vw; }
+        }
+
+        /* ── Clippy mobile ── */
+        @media (max-width: 768px) {
+            .clippy-wrap {
+                /* Pin to bottom-right corner above taskbar, no wandering */
+                right: 10px !important;
+                left: auto !important;
+                bottom: 50px !important;
+                transform: scale(0.78);
+                transform-origin: bottom right;
+                transition: opacity 0.5s;
+            }
+            .clippy-bubble {
+                max-width: 170px;
+                font-size: 10px;
+                /* Anchor bubble to right so it doesn't bleed off-screen */
+                right: 0;
+                left: auto;
+            }
+            .clippy-bubble::after,
+            .clippy-bubble::before {
+                /* Move tail to right side */
+                left: auto;
+                right: 18px;
+                transform: none;
+            }
+        }
+
         /* ── Winamp Player (removed) ── */
         .winamp-removed {
             position: absolute;
@@ -4308,23 +4341,22 @@
             }
             setTimeout(blink, 3000);
 
+            const isMobile = () => window.innerWidth <= 768;
+
             /* ── Dodge: move Clippy away from an open window ── */
             function dodgeWindow(windowId) {
+                if (isMobile()) return; // windows are full-screen on mobile; nowhere to dodge
                 const win = document.getElementById('window-' + windowId);
                 if (!win || win.classList.contains('minimized')) return;
-                // Give the window a frame to paint before measuring
                 requestAnimationFrame(() => {
                     const wr  = win.getBoundingClientRect();
                     const cr  = wrap.getBoundingClientRect();
                     const sw  = window.innerWidth;
-                    const sh  = window.innerHeight;
-                    // Check overlap (with 20px cushion)
                     const overlap = !(cr.right  < wr.left  - 20 ||
                                       cr.left   > wr.right + 20 ||
                                       cr.bottom < wr.top   - 20 ||
                                       cr.top    > wr.bottom + 20);
                     if (!overlap) return;
-                    // Move to the side of the screen with more space
                     const spaceRight = sw - wr.right;
                     const spaceLeft  = wr.left;
                     const safeX = spaceRight > spaceLeft
@@ -4338,6 +4370,7 @@
 
             /* ── Wandering ── */
             function wander() {
+                if (isMobile()) return; // CSS pins Clippy to bottom-right corner on mobile
                 const pad  = 120;
                 const maxX = window.innerWidth  - pad;
                 const newL = Math.max(20, Math.min(maxX, 80 + Math.random() * (maxX - 80)));
@@ -4369,8 +4402,10 @@
             }, 12000);
 
             /* ── Initial position: right-middle ── */
-            wrap.style.left   = (window.innerWidth  - 115) + 'px';
-            wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
+            if (!isMobile()) {
+                wrap.style.left   = (window.innerWidth  - 115) + 'px';
+                wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
+            }
 
             /* ── First appearance ── */
             window._showClippy = function() {
