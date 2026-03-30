@@ -802,6 +802,20 @@
             color: #0000ff;
         }
 
+        /* Recycle Bin files */
+        .bin-item {
+            width: 72px; text-align: center; cursor: pointer; padding: 4px;
+            border: 1px solid transparent; user-select: none;
+        }
+        .bin-item:hover { background: #000080; }
+        .bin-item:hover .bin-name { color: #fff; }
+        .bin-item.selected { background: #000080; border-color: #000080; }
+        .bin-item.selected .bin-name { color: #fff; }
+        .bin-item.deleting { animation: binDelete 0.4s ease-out forwards; }
+        @keyframes binDelete { to { opacity: 0; transform: translateY(20px) scale(0.7); } }
+        .bin-icon { font-size: 28px; margin-bottom: 3px; }
+        .bin-name { font-size: 9px; color: #000; line-height: 1.2; word-break: break-all; }
+
         /* Recycle Bin */
         .recycle-content {
             text-align: center;
@@ -912,6 +926,107 @@
         .browser-content ul {
             margin-left: 20px;
             font-size: 11px;
+        }
+
+        /* ─── PRE-BOOT INTRO ─── */
+        #pre-boot {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #070705;
+            display: flex; align-items: center; justify-content: center;
+            cursor: default;
+        }
+        #pre-boot.off { display: none; }
+        .pb-room {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .pb-desk {
+            width: 500px; height: 6px;
+            background: linear-gradient(90deg, #111110 0%, #1e1e1a 30%, #161614 70%, #0e0e0c 100%);
+            border-top: 1px solid #2a2a22;
+            margin-top: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        .pb-monitor {
+            position: relative;
+            background: #141412;
+            border: 3px solid #0d0d0b;
+            border-radius: 6px 6px 3px 3px;
+            padding: 10px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.95), inset 0 0 10px rgba(0,0,0,0.6), 0 0 120px rgba(0,0,0,0.8);
+        }
+        .pb-screen {
+            width: 300px; height: 210px;
+            background: #04060a;
+            border: 2px solid #060606;
+            border-radius: 2px;
+            position: relative; overflow: hidden;
+        }
+        .pb-scanlines {
+            position: absolute; inset: 0; z-index: 2; pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px);
+        }
+        .pb-screen-glow {
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(ellipse at 50% 50%, rgba(0,20,40,0.15) 0%, transparent 70%);
+        }
+        .pb-cursor {
+            position: absolute; top: 14px; left: 10px; z-index: 3;
+            width: 7px; height: 13px;
+            background: #0a180a;
+            animation: pbBlink 1.4s step-end infinite;
+        }
+        @keyframes pbBlink { 0%,100%{opacity:0.2} 50%{opacity:0} }
+        .pb-ghost-text {
+            position: absolute; bottom: 20px; left: 0; right: 0;
+            text-align: center; z-index: 3;
+            font-family: 'Courier New', monospace; font-size: 9px;
+            color: #0a1a0a; letter-spacing: 3px;
+            animation: pbGhost 6s ease-in-out infinite;
+        }
+        @keyframes pbGhost { 0%,100%{opacity:0.08} 50%{opacity:0.22} }
+        .pb-front {
+            background: #121210; height: 26px; margin-top: 6px;
+            border-radius: 0 0 3px 3px;
+            display: flex; align-items: center; padding: 0 10px; gap: 8px;
+        }
+        .pb-led {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #5a2800;
+            box-shadow: 0 0 3px #5a2800;
+            animation: pbLed 3.5s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes pbLed {
+            0%,100%{ background:#3a1800; box-shadow:0 0 3px #3a1800; }
+            50%{ background:#cc6600; box-shadow:0 0 8px #cc6600, 0 0 16px #ff880033; }
+        }
+        .pb-deco { display:flex; gap:5px; margin-left:auto; }
+        .pb-btn-deco { width:18px;height:5px;background:#1e1e1c;border-radius:1px; }
+        .pb-power-btn {
+            position: absolute;
+            bottom: -2px; left: 10px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #181816;
+            border: 1.5px solid #2a2a26;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .pb-power-btn:hover { border-color: #cc6600; box-shadow: 0 0 10px #cc660044; }
+        .pb-power-btn svg { pointer-events: none; }
+        .pb-neck { width: 36px; height: 22px; background: #111110; margin: 0 auto; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); }
+        .pb-base { width: 110px; height: 10px; background: #111110; border-radius: 3px; margin: 0 auto; }
+        .pb-hint {
+            margin-top: 28px; font-family: 'Courier New', monospace;
+            font-size: 10px; letter-spacing: 3px; color: #1a1a16;
+            animation: pbHint 5s ease-in-out infinite;
+        }
+        @keyframes pbHint { 0%,100%{opacity:0.04} 60%{opacity:0.18} }
+        .pb-flash {
+            position: fixed; inset: 0; background: #fff;
+            opacity: 0; pointer-events: none; z-index: 10001;
+            transition: opacity 0.15s;
         }
 
         /* Boot Screen */
@@ -2546,6 +2661,35 @@
     </style>
 </head>
 <body>
+    <!-- Pre-Boot Intro -->
+    <div id="pre-boot">
+      <div class="pb-room">
+        <div class="pb-monitor">
+          <div class="pb-screen">
+            <div class="pb-scanlines"></div>
+            <div class="pb-screen-glow"></div>
+            <div class="pb-cursor"></div>
+            <div class="pb-ghost-text">SYSTEM OFFLINE</div>
+          </div>
+          <div class="pb-front">
+            <div class="pb-led"></div>
+            <div class="pb-deco"><div class="pb-btn-deco"></div><div class="pb-btn-deco"></div><div class="pb-btn-deco"></div></div>
+          </div>
+          <div class="pb-power-btn" id="pbPowerBtn" onclick="pbPowerOn()">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 1 L5.5 5.5" stroke="#7a3800" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M3 2.8 A3.5 3.5 0 1 0 8 2.8" stroke="#7a3800" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="pb-neck"></div>
+        <div class="pb-base"></div>
+        <div class="pb-desk"></div>
+        <div class="pb-hint">PRESS POWER TO INITIALIZE</div>
+      </div>
+      <div class="pb-flash" id="pbFlash"></div>
+    </div>
+
     <!-- Boot Screen -->
     <div class="boot-screen" id="boot-screen">
         <div class="boot-logo">
@@ -3082,11 +3226,40 @@
                     <button class="window-btn close-btn" data-window="recycle">×</button>
                 </div>
             </div>
-            <div class="window-content">
-                <div class="recycle-content">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23708090' d='M18,20 L22,52 L42,52 L46,20 Z M26,20 L26,16 L38,16 L38,20 M22,16 L42,16 L42,12 L22,12 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
-                    <p>Recycle Bin is empty</p>
+            <div class="window-content" style="padding:0;display:flex;flex-direction:column;height:100%">
+              <div style="background:#c0c0c0;border-bottom:1px solid #808080;padding:1px 4px;font-size:11px;display:flex;gap:12px">
+                <span style="cursor:pointer" onclick="emptyBin()">File</span>
+                <span>Edit</span><span>View</span><span>Help</span>
+              </div>
+              <div id="bin-files" style="flex:1;overflow-y:auto;padding:6px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;background:#fff">
+                <div class="bin-item" data-name="bio_draft_v1.txt" onclick="binClick(this)" title="aspiring content creator with a passion for storytelling 😭&#10;(2018 — please don't read this)">
+                  <div class="bin-icon">📄</div><div class="bin-name">bio_draft_v1.txt</div>
                 </div>
+                <div class="bin-item" data-name="cover_letter_desperate.doc" onclick="binClick(this)" title="please hire me i love words&#10;(sent to 47 companies, 2018)">
+                  <div class="bin-icon">📝</div><div class="bin-name">cover_letter_desperate.doc</div>
+                </div>
+                <div class="bin-item" data-name="imposter_syndrome.exe" onclick="binClick(this)" title="⚠️ Cannot delete&#10;Process is still running&#10;(has been running since 2018)">
+                  <div class="bin-icon">⚙️</div><div class="bin-name">imposter_syndrome.exe</div>
+                </div>
+                <div class="bin-item" data-name="portfolio_2019_v1.html" onclick="binClick(this)" title="Best viewed in Internet Explorer 6&#10;Font: Comic Sans, 72pt&#10;Background: animated GIF">
+                  <div class="bin-icon">🌐</div><div class="bin-name">portfolio_2019_v1.html</div>
+                </div>
+                <div class="bin-item" data-name="writers_block.log" onclick="binClick(this)" title="847 entries&#10;Most recent: 3 minutes ago">
+                  <div class="bin-icon">📋</div><div class="bin-name">writers_block.log</div>
+                </div>
+                <div class="bin-item" data-name="unfinished_screenplay.fdx" onclick="binClick(this)" title="Act 1: Complete&#10;Act 2: 'this is where it gets good'&#10;Act 3: [TODO]">
+                  <div class="bin-icon">🎬</div><div class="bin-name">unfinished_screenplay.fdx</div>
+                </div>
+                <div class="bin-item" data-name="deleted_tweet_drafts.txt" onclick="binClick(this)" title="128 unsent tweets&#10;Mostly correct takes&#10;Sent none of them">
+                  <div class="bin-icon">🐦</div><div class="bin-name">deleted_tweet_drafts.txt</div>
+                </div>
+                <div class="bin-item" data-name="the_blog_ill_start_someday.url" onclick="binClick(this)" title="Posted: 0 articles&#10;Planned: ∞&#10;ETA: someday">
+                  <div class="bin-icon">🔗</div><div class="bin-name">the_blog_ill_start_someday.url</div>
+                </div>
+              </div>
+              <div id="bin-statusbar" style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 6px;font-size:10px">
+                8 object(s) &nbsp;·&nbsp; <a href="#" onclick="emptyBin();return false" style="color:#000080">Empty Recycle Bin</a>
+              </div>
             </div>
         </div>
     </div>
@@ -3345,11 +3518,6 @@
                         <div class="sm-prog-desc">Windows Movie Maker, basically</div>
                     </div>
                 </div>
-                <div class="sm-prog" onclick="window.open('maple.html','_blank')">
-                    <div class="sm-prog-icon">🍁</div>
-                    <div class="sm-prog-text">
-                        <div class="sm-prog-name">MapleWorld</div>
-                        <div class="sm-prog-desc">Pick your class, adventurer</div>
                     </div>
                 </div>
                 <div class="sm-prog" onclick="window.open('runescape.html','_blank')">
@@ -3888,8 +4056,37 @@
             };
         })();
 
+        // Pre-Boot Power On
+        function pbPowerOn() {
+            const btn = document.getElementById('pbPowerBtn');
+            const led = document.querySelector('.pb-led');
+            const flash = document.getElementById('pbFlash');
+            const preBoot = document.getElementById('pre-boot');
+            const screen = document.querySelector('.pb-screen');
+            btn.style.pointerEvents = 'none';
+            // LED goes bright green
+            led.style.animation = 'none';
+            led.style.background = '#00cc44';
+            led.style.boxShadow = '0 0 10px #00cc44, 0 0 20px #00cc4466';
+            // Power icon brightens
+            btn.querySelectorAll('svg path').forEach(p => p.setAttribute('stroke','#00cc44'));
+            // Screen flickers on
+            setTimeout(() => { screen.style.background = '#e8f0ff'; screen.style.transition='background 0.08s'; }, 120);
+            setTimeout(() => { screen.style.background = '#c0d4ff'; }, 200);
+            setTimeout(() => { screen.style.background = '#d8e8ff'; }, 260);
+            setTimeout(() => { screen.style.background = '#b0c8ff'; }, 310);
+            // White flash
+            setTimeout(() => { flash.style.opacity = '1'; }, 380);
+            setTimeout(() => {
+                preBoot.style.transition = 'opacity 0.5s';
+                preBoot.style.opacity = '0';
+                preBoot.style.pointerEvents = 'none';
+            }, 600);
+            setTimeout(() => { preBoot.classList.add('off'); startBoot(); }, 1100);
+        }
+
         // Boot Animation
-        (function() {
+        function startBoot() {
             const bootScreen = document.getElementById('boot-screen');
             const progressBar = document.getElementById('boot-progress-bar');
             const bootMessage = document.getElementById('boot-message');
@@ -3913,7 +4110,7 @@
             const bootInterval = setInterval(() => {
                 progress += Math.random() * 8 + 2;
                 if (progress > 100) progress = 100;
-                
+
                 progressBar.style.width = progress + '%';
 
                 if (progress > (messageIndex + 1) * 10 && messageIndex < messages.length) {
@@ -3933,7 +4130,7 @@
                     }, 800);
                 }
             }, 150);
-        })();
+        }
 
         // ── Toast notifications ───────────────────────────────────────
         let activeToast = null;
@@ -4357,6 +4554,35 @@
                 <div class="cp-detail-tags">${ap.tags.map(t => `<span class="cp-tag">${t}</span>`).join('')}</div>`;
             document.getElementById('cp-status').textContent = ap.title + ' — ' + ap.tags.length + ' capabilities';
             SFX.click();
+        }
+
+        function binClick(el) {
+            document.querySelectorAll('.bin-item').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+        function emptyBin() {
+            const items = document.querySelectorAll('.bin-item');
+            let delay = 0;
+            let hasImposter = false;
+            items.forEach(item => {
+                if (item.dataset.name === 'imposter_syndrome.exe') { hasImposter = true; return; }
+                setTimeout(() => {
+                    item.classList.add('deleting');
+                    setTimeout(() => item.remove(), 400);
+                }, delay);
+                delay += 80;
+            });
+            setTimeout(() => {
+                const sb = document.getElementById('bin-statusbar');
+                if (hasImposter) {
+                    sb.innerHTML = '<span style="color:#cc0000">⚠️ Cannot delete imposter_syndrome.exe — Access Denied. Process still running.</span>';
+                    // Show the imposter item highlighted
+                    const imp = document.querySelector('.bin-item[data-name="imposter_syndrome.exe"]');
+                    if (imp) imp.classList.add('selected');
+                } else {
+                    sb.textContent = 'Recycle Bin is empty';
+                }
+            }, delay + 450);
         }
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
