@@ -816,6 +816,54 @@
         .bin-icon { font-size: 28px; margin-bottom: 3px; }
         .bin-name { font-size: 9px; color: #000; line-height: 1.2; word-break: break-all; }
 
+        /* Bin File Viewer */
+        .bin-viewer-overlay {
+            position: fixed; inset: 0; z-index: 99998;
+            display: none; align-items: center; justify-content: center;
+        }
+        .bin-viewer-overlay.open { display: flex; }
+        .bin-viewer {
+            width: 480px; max-width: calc(100vw - 24px);
+            max-height: 80vh;
+            background: #c0c0c0;
+            border: 2px solid #fff;
+            border-right-color: #000; border-bottom-color: #000;
+            box-shadow: 2px 2px 0 #000;
+            display: flex; flex-direction: column;
+            font-family: 'Courier New', monospace;
+        }
+        .bin-viewer-title {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: #fff; font-family: Tahoma, sans-serif;
+            font-size: 11px; font-weight: bold;
+            padding: 3px 6px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .bin-viewer-title span { display: flex; align-items: center; gap: 6px; }
+        .bin-viewer-close {
+            width: 16px; height: 14px; background: #c0c0c0;
+            border: 1px solid #fff; border-right-color: #000; border-bottom-color: #000;
+            font-size: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-family: Tahoma; color: #000; font-weight: bold;
+        }
+        .bin-viewer-menubar {
+            background: #c0c0c0; font-family: Tahoma, sans-serif;
+            font-size: 11px; padding: 1px 4px; border-bottom: 1px solid #808080;
+            display: flex; gap: 12px;
+        }
+        .bin-viewer-body {
+            flex: 1; overflow-y: auto; background: #fff;
+            margin: 3px; padding: 8px 10px;
+            font-size: 11px; line-height: 1.6; white-space: pre-wrap;
+            border: 1px solid #808080; border-right-color: #fff; border-bottom-color: #fff;
+            min-height: 180px; max-height: 55vh;
+            color: #000;
+        }
+        .bin-viewer-body.ie-mode {
+            font-family: Times New Roman, serif;
+            background: #000080; color: #ffff00;
+            font-size: 13px;
+        }
+
         /* Recycle Bin */
         .recycle-content {
             text-align: center;
@@ -2279,27 +2327,19 @@
         /* ── Clippy mobile ── */
         @media (max-width: 768px) {
             .clippy-wrap {
-                /* Pin to bottom-right corner above taskbar, no wandering */
-                right: 10px !important;
-                left: auto !important;
+                /* Pin to bottom-left corner above taskbar, no wandering */
+                left: 10px !important;
+                right: auto !important;
                 bottom: 50px !important;
                 transform: scale(0.78);
-                transform-origin: bottom right;
+                transform-origin: bottom left;
                 transition: opacity 0.5s;
             }
             .clippy-bubble {
                 max-width: 170px;
                 font-size: 10px;
-                /* Anchor bubble to right so it doesn't bleed off-screen */
-                right: 0;
-                left: auto;
-            }
-            .clippy-bubble::after,
-            .clippy-bubble::before {
-                /* Move tail to right side */
-                left: auto;
-                right: 18px;
-                transform: none;
+                left: 0;
+                right: auto;
             }
         }
 
@@ -3265,35 +3305,50 @@
                 <span>Edit</span><span>View</span><span>Help</span>
               </div>
               <div id="bin-files" style="flex:1;overflow-y:auto;padding:6px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;background:#fff">
-                <div class="bin-item" data-name="bio_draft_v1.txt" onclick="binClick(this)" title="aspiring content creator with a passion for storytelling 😭&#10;(2018 — please don't read this)">
+                <div class="bin-item" data-name="bio_draft_v1.txt" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="aspiring content creator with a passion for storytelling 😭&#10;(2018 — please don't read this)">
                   <div class="bin-icon">📄</div><div class="bin-name">bio_draft_v1.txt</div>
                 </div>
-                <div class="bin-item" data-name="cover_letter_desperate.doc" onclick="binClick(this)" title="please hire me i love words&#10;(sent to 47 companies, 2018)">
+                <div class="bin-item" data-name="cover_letter_desperate.doc" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="please hire me i love words&#10;(sent to 47 companies, 2018)">
                   <div class="bin-icon">📝</div><div class="bin-name">cover_letter_desperate.doc</div>
                 </div>
-                <div class="bin-item" data-name="imposter_syndrome.exe" onclick="binClick(this)" title="⚠️ Cannot delete&#10;Process is still running&#10;(has been running since 2018)">
+                <div class="bin-item" data-name="imposter_syndrome.exe" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="⚠️ Cannot delete&#10;Process is still running&#10;(has been running since 2018)">
                   <div class="bin-icon">⚙️</div><div class="bin-name">imposter_syndrome.exe</div>
                 </div>
-                <div class="bin-item" data-name="portfolio_2019_v1.html" onclick="binClick(this)" title="Best viewed in Internet Explorer 6&#10;Font: Comic Sans, 72pt&#10;Background: animated GIF">
+                <div class="bin-item" data-name="portfolio_2019_v1.html" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="Best viewed in Internet Explorer 6&#10;Font: Comic Sans, 72pt&#10;Background: animated GIF">
                   <div class="bin-icon">🌐</div><div class="bin-name">portfolio_2019_v1.html</div>
                 </div>
-                <div class="bin-item" data-name="writers_block.log" onclick="binClick(this)" title="847 entries&#10;Most recent: 3 minutes ago">
+                <div class="bin-item" data-name="writers_block.log" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="847 entries&#10;Most recent: 3 minutes ago">
                   <div class="bin-icon">📋</div><div class="bin-name">writers_block.log</div>
                 </div>
-                <div class="bin-item" data-name="unfinished_screenplay.fdx" onclick="binClick(this)" title="Act 1: Complete&#10;Act 2: 'this is where it gets good'&#10;Act 3: [TODO]">
+                <div class="bin-item" data-name="unfinished_screenplay.fdx" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="Act 1: Complete&#10;Act 2: 'this is where it gets good'&#10;Act 3: [TODO]">
                   <div class="bin-icon">🎬</div><div class="bin-name">unfinished_screenplay.fdx</div>
                 </div>
-                <div class="bin-item" data-name="deleted_tweet_drafts.txt" onclick="binClick(this)" title="128 unsent tweets&#10;Mostly correct takes&#10;Sent none of them">
+                <div class="bin-item" data-name="deleted_tweet_drafts.txt" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="128 unsent tweets&#10;Mostly correct takes&#10;Sent none of them">
                   <div class="bin-icon">🐦</div><div class="bin-name">deleted_tweet_drafts.txt</div>
                 </div>
-                <div class="bin-item" data-name="the_blog_ill_start_someday.url" onclick="binClick(this)" title="Posted: 0 articles&#10;Planned: ∞&#10;ETA: someday">
+                <div class="bin-item" data-name="the_blog_ill_start_someday.url" onclick="binClick(this)" ondblclick="openBinFile(this.dataset.name)" title="Posted: 0 articles&#10;Planned: ∞&#10;ETA: someday">
                   <div class="bin-icon">🔗</div><div class="bin-name">the_blog_ill_start_someday.url</div>
                 </div>
               </div>
-              <div id="bin-statusbar" style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 6px;font-size:10px">
+              <div id="bin-statusbar" style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 6px;font-size:10px;font-family:Tahoma,sans-serif">
                 8 object(s) &nbsp;·&nbsp; <a href="#" onclick="emptyBin();return false" style="color:#000080">Empty Recycle Bin</a>
+                &nbsp;·&nbsp; <span style="color:#555;font-style:italic">Double-click a file to open</span>
               </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Bin File Viewer -->
+    <div class="bin-viewer-overlay" id="bin-viewer-overlay" onclick="closeBinViewer(event)">
+        <div class="bin-viewer" id="bin-viewer">
+            <div class="bin-viewer-title">
+                <span><span id="bin-viewer-app-icon"></span> <span id="bin-viewer-app-name">Notepad</span> — <span id="bin-viewer-filename"></span></span>
+                <div class="bin-viewer-close" onclick="closeBinViewer()">✕</div>
+            </div>
+            <div class="bin-viewer-menubar">
+                <span>File</span><span>Edit</span><span>Format</span><span>Help</span>
+            </div>
+            <div class="bin-viewer-body" id="bin-viewer-body"></div>
         </div>
     </div>
 
@@ -3551,8 +3606,6 @@
                         <div class="sm-prog-desc">Windows Movie Maker, basically</div>
                     </div>
                 </div>
-                    </div>
-                </div>
                 <div class="sm-prog" onclick="window.open('runescape.html','_blank')">
                     <div class="sm-prog-icon">⚔️</div>
                     <div class="sm-prog-text">
@@ -3560,7 +3613,7 @@
                         <div class="sm-prog-desc">RuneScape stats, IRL</div>
                     </div>
                 </div>
-
+                <div class="sm-sep"></div>
                 <div class="sm-all-progs">
                     <span>📂</span> All Programs &rsaquo;
                 </div>
@@ -3570,7 +3623,7 @@
             <div class="sm-right">
                 <div class="sm-right-label">My Portfolio</div>
                 <div class="sm-nav" data-window="about">
-                    <span class="sm-nav-icon">👤</span> My Info
+                    <span class="sm-nav-icon">👤</span> About Me
                 </div>
                 <div class="sm-nav" data-window="projects">
                     <span class="sm-nav-icon">📂</span> Projects
@@ -3587,10 +3640,6 @@
                 </div>
                 <div class="sm-nav" data-window="resume">
                     <span class="sm-nav-icon">📄</span> Resume
-                </div>
-                <div class="sm-nav-sep"></div>
-                <div class="sm-nav" data-window="recycle">
-                    <span class="sm-nav-icon">🗑️</span> Recycle Bin
                 </div>
             </div>
         </div>
@@ -4638,6 +4687,242 @@
                     sb.textContent = 'Recycle Bin is empty';
                 }
             }, delay + 450);
+        }
+
+        // ── Recycle Bin file viewer ───────────────────────────────────
+        const BIN_FILES = {
+            'bio_draft_v1.txt': {
+                app: 'Notepad', icon: '📄', ie: false,
+                content: `Hi! My name is Parsa and I'm a aspiring content creator
+with a passion for storytelling and making a difference
+through the power of my words. I love writing, learning,
+and also growing as a person.
+
+I have experience with blogging (2 posts, 1 deleted),
+social media (deleted), and Microsoft Word.
+
+Currently seeking: any opportunity. Please.
+
+Hobbies: Netflix, starting side projects, not finishing
+them, telling people I'm working on something.
+
+References available upon request (asking my mom).
+
+                              — Parsa, 2018`
+            },
+            'cover_letter_desperate.doc': {
+                app: 'WordPad', icon: '📝', ie: false,
+                content: `Dear Hiring Manager (or whoever reads this),
+
+My name is Parsa and I REALLY want to work at your company.
+Like, really really. I saw your job posting and thought:
+"that's the one."
+
+I know I don't have every listed requirement, but I am
+a very fast learner and extremely passionate. Did I mention
+I'm passionate? I am extremely passionate about this role.
+
+I will work very hard. I will bring donuts on Fridays.
+I will arrive early. I will stay late. I will answer
+emails on weekends. I will eat lunch at my desk.
+
+I just need a chance. One chance.
+
+Please.
+
+Warmly (desperately),
+Parsa Navidi
+Available immediately. Like, today.`
+            },
+            'imposter_syndrome.exe': {
+                app: null, icon: '⚙️', ie: false,
+                content: null  // blocked — handled separately
+            },
+            'portfolio_2019_v1.html': {
+                app: 'Internet Explorer', icon: '🌐', ie: true,
+                content: `  *** FILE PREVIEW — Internet Explorer 6 required ***
+
+<html>
+<body bgcolor="#000080" text="#FFFF00">
+
+<center>
+<marquee scrollamount="6">
+  ✨ WELCOME TO PARSA'S OFFICIAL WEBSITE!!! ✨
+</marquee>
+
+<font face="Comic Sans MS" size="7" color="#FF00FF">
+  PARSA NAVIDI
+</font><br>
+<font size="3">~ future professional ~</font>
+
+<br><hr color="#FF0000"><br>
+
+<blink>🚧 UNDER CONSTRUCTION 🚧</blink><br>
+<img src="cool_spinning_globe.gif" alt="[cool globe]"><br>
+<img src="under_construction.gif" alt="[under construction]">
+
+<br><hr><br>
+
+<font face="Comic Sans MS" size="4">About Me:</font><br>
+<font size="3">
+hi my name is parsa!! i like writing and stuff.
+this is my website. bookmark it!!
+best viewed at 800x600. please use IE.
+</font>
+
+<br><hr><br>
+<font size="1">
+  visitors: [00000014] (mom counted twice)
+  last updated: a while ago
+  &copy; parsa 2019 all rights reserved
+</font>
+</center>
+</body>
+</html>`
+            },
+            'writers_block.log': {
+                app: 'Notepad', icon: '📋', ie: false,
+                content: `[writers_block.log — 847 entries — showing last 20]
+
+2018-03-04 09:12  .
+2018-03-04 09:13  ..
+2018-03-04 09:14  ...
+2018-03-04 09:21  maybe if i get a coffee
+2018-03-04 10:05  .
+2018-03-04 10:06  the cursor is blinking at me
+2018-03-04 11:30  okay what if the main character is actually—
+2018-03-04 11:31  never mind
+2024-09-14 14:22  i have an idea. a real one this time
+2024-09-14 14:23  actually i need to think about it more
+2024-09-14 14:24  .
+2024-11-02 16:10  just need the right song to write to
+2024-11-02 17:45  listened to 4 playlists. still nothing
+2025-01-18 10:00  new year, new start
+2025-01-18 10:03  .
+2025-03-30 [TODAY]  still going
+                   .`
+            },
+            'unfinished_screenplay.fdx': {
+                app: 'Final Draft', icon: '🎬', ie: false,
+                content: `FADE IN:
+
+═══════════════════════════════
+  ACT ONE — COMPLETE ✓
+═══════════════════════════════
+
+INT. COFFEE SHOP - DAY
+
+A young writer sits alone, staring at a blank page.
+Then — suddenly — everything clicks. The words flow.
+The dialogue sings. This is it. This is the one.
+
+═══════════════════════════════
+  ACT TWO — IN PROGRESS (37%)
+═══════════════════════════════
+
+"okay so this is where it gets REALLY good"
+
+[sticky note: figure out the plot here]
+[sticky note: character motivation — TBD]
+[sticky note: maybe a twist??]
+[sticky note: this scene will be amazing, trust]
+[sticky note: do NOT delete, this is almost done]
+
+═══════════════════════════════
+  ACT THREE — [TODO]
+═══════════════════════════════
+
+
+
+FADE OUT.
+
+Title: "The Thing" (working title, will change)
+Written by: Parsa Navidi
+Draft: 1 of ∞   |   Last saved: a while ago`
+            },
+            'deleted_tweet_drafts.txt': {
+                app: 'Notepad', icon: '🐦', ie: false,
+                content: `[128 unsent drafts — selected highlights]
+
+"hot take: most hot takes are lukewarm at best"
+→ [deleted: too meta]
+
+"genuinely cannot tell if I'm a morning person who just
+hasn't found the right morning yet"
+→ [deleted: too honest]
+
+"the best time to start was years ago, the second best
+time is now, the third best time is after this episode"
+→ [deleted: relatable but self-incriminating]
+
+"working on something. no I won't say what. yes it's
+going well. please stop asking."
+→ [deleted: lying]
+
+"actually had a really good day today"
+→ [deleted: suspicious, people will ask questions]
+
+"it's giving"
+→ [deleted: never finished the thought]
+
+[122 more drafts hidden for your own protection]`
+            },
+            'the_blog_ill_start_someday.url': {
+                app: 'Internet Explorer', icon: '🔗', ie: true,
+                content: `Address: http://parsasblog.wordpress.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Connecting to parsasblog.wordpress.com...
+  Connecting...
+  Still connecting...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✖  Error 404 — Page Not Found
+
+  This page does not exist.
+
+  (It will though. Probably. Soon-ish.)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Site stats:
+    Posts published  :  0
+    Posts drafted    :  0
+    Post ideas (notes app)  :  47
+    Times said "I should start a blog"  :  ∞
+    Bookmarked since :  2019
+    Last visited     :  never
+
+  Would you like to add this to your Favourites?
+  [Yes]  [Yes]  [Maybe someday]`
+            }
+        };
+
+        function openBinFile(name) {
+            const f = BIN_FILES[name];
+            if (!f) return;
+            if (f.app === null) {
+                // imposter_syndrome.exe
+                document.getElementById('bin-viewer-app-icon').textContent = '⚠️';
+                document.getElementById('bin-viewer-app-name').textContent = 'System';
+                document.getElementById('bin-viewer-filename').textContent = name;
+                const body = document.getElementById('bin-viewer-body');
+                body.className = 'bin-viewer-body';
+                body.textContent = `ACCESS DENIED\n\nCannot open imposter_syndrome.exe\n\nProcess is currently running and cannot be terminated.\nPID: unknown\nStatus: ACTIVE\nStarted: 2018\nUptime: ${new Date().getFullYear() - 2018} years\n\nPlease contact your system administrator.\n(You are the system administrator.)`;
+            } else {
+                document.getElementById('bin-viewer-app-icon').textContent = f.icon;
+                document.getElementById('bin-viewer-app-name').textContent = f.app;
+                document.getElementById('bin-viewer-filename').textContent = name;
+                const body = document.getElementById('bin-viewer-body');
+                body.className = 'bin-viewer-body' + (f.ie ? ' ie-mode' : '');
+                body.textContent = f.content;
+            }
+            document.getElementById('bin-viewer-overlay').classList.add('open');
+        }
+
+        function closeBinViewer(e) {
+            if (e && e.target !== document.getElementById('bin-viewer-overlay')) return;
+            document.getElementById('bin-viewer-overlay').classList.remove('open');
         }
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
