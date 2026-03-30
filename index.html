@@ -4123,12 +4123,28 @@
                 if (progress >= 100) {
                     clearInterval(bootInterval);
                     setTimeout(() => {
-                        bootScreen.classList.add('hidden');
-                        SFX.startup();
-                        setTimeout(() => showToast('Parsa Navidi\u2122', '\uD83D\uDC4B Welcome! Double-click any icon to explore.'), 3500);
-                        setTimeout(() => showToast('\uD83D\uDCBC Available for Work', 'Open for freelance copywriting & creative strategy projects.'), 7000);
-                        setTimeout(() => showToast('\uD83D\uDCEC New Message', 'Parsa recently published on Yardi & REC Canada. Check Projects!'), 13000);
-                    }, 800);
+                        // Fade boot screen out instead of instant hide
+                        bootScreen.style.transition = 'opacity 0.8s';
+                        bootScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            bootScreen.classList.add('hidden');
+                            bootScreen.style.opacity = '';
+                            bootScreen.style.transition = '';
+                            // Fade desktop in
+                            const desk = document.querySelector('.desktop');
+                            desk.style.opacity = '0';
+                            desk.style.transition = 'opacity 1s';
+                            requestAnimationFrame(() => requestAnimationFrame(() => { desk.style.opacity = '1'; }));
+                            setTimeout(() => { desk.style.opacity = ''; desk.style.transition = ''; }, 1200);
+                            SFX.startup();
+                            setTimeout(() => showToast('Parsa Navidi\u2122', '\uD83D\uDC4B Welcome! Double-click any icon to explore.'), 3500);
+                            setTimeout(() => showToast('\uD83D\uDCBC Available for Work', 'Open for freelance copywriting & creative strategy projects.'), 7000);
+                            setTimeout(() => showToast('\uD83D\uDCEC New Message', 'Parsa recently published on Yardi & REC Canada. Check Projects!'), 13000);
+                            // Signal Clippy it can appear now
+                            window._desktopReady = true;
+                            if (window._showClippy) setTimeout(window._showClippy, 5000);
+                        }, 900);
+                    }, 2000);
                 }
             }, 150);
         }
@@ -4356,13 +4372,15 @@
             wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
 
             /* ── First appearance ── */
-            setTimeout(() => {
+            window._showClippy = function() {
                 wrap.classList.add('visible');
                 SFX.clippy();
                 playAnim('wave');
                 setExpression('happy');
                 setTimeout(() => playAnim('float'), 1000);
-            }, 6000);
+            };
+            // Fallback: if desktop was already ready before this IIFE ran
+            if (window._desktopReady) setTimeout(window._showClippy, 5000);
 
             /* ── Click interactions ── */
             bubble.addEventListener('click', () => openWindow('contact'));
