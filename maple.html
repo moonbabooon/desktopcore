@@ -3,541 +3,772 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MapleWorld — parsa.exe</title>
+<title>MapleStory Forums — Bera World</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: #0a0520;
+  background: #0d0d1a;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  color: #c0c0d0;
   min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  font-family: Arial, sans-serif; font-size: 11px;
 }
 
-/* ── Windows chrome ── */
-.window {
-  background: #c0c0c0;
-  border: 2px solid; border-color: #fff #808080 #808080 #fff;
-  box-shadow: 3px 3px 0 #000;
-  width: min(640px, 98vw);
-}
-.title-bar {
-  background: linear-gradient(90deg, #000080, #1084d0);
-  color: #fff; padding: 3px 4px;
-  display: flex; align-items: center; justify-content: space-between;
-  font-weight: bold; font-size: 11px; user-select: none;
-  font-family: Arial, sans-serif;
-}
-.title-left { display: flex; align-items: center; gap: 4px; }
-.tb-btns { display: flex; gap: 2px; }
-.tb-btn {
-  width: 16px; height: 14px; background: #c0c0c0;
-  border: 1px solid; border-color: #fff #808080 #808080 #fff;
-  font-size: 9px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: #000; text-decoration: none;
-}
-.tb-btn:active { border-color: #808080 #fff #fff #808080; }
-.menu-bar { background: #c0c0c0; border-bottom: 1px solid #808080; display: flex; padding: 2px 2px 0; }
-.mi { padding: 2px 8px; cursor: pointer; font-size: 11px; }
-.mi:hover { background: #000080; color: #fff; }
-
-/* ── MapleStory World ── */
-.maple-world {
-  background:
-    radial-gradient(ellipse 120px 80px at 15% 15%, rgba(255,255,200,0.15) 0%, transparent 70%),
-    radial-gradient(ellipse 80px 60px at 85% 10%, rgba(200,200,255,0.1) 0%, transparent 70%),
-    linear-gradient(180deg, #0a0520 0%, #150835 40%, #1a1040 70%, #0d1a30 100%);
+/* ─── SITE HEADER ─── */
+.site-header {
+  background: linear-gradient(180deg, #1a0a3a 0%, #0d0820 100%);
+  border-bottom: 3px solid #ff6600;
   padding: 0;
-  overflow: hidden;
 }
-
-/* Night sky with pixel stars */
-.sky {
-  position: relative;
-  height: 160px;
-  overflow: hidden;
-  padding: 10px 12px;
+.header-top {
+  background: linear-gradient(90deg, #1a0a3a, #2a1060, #1a0a3a);
+  padding: 12px 20px 8px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px;
 }
-.sky::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 10% 20%, #fff 0%, transparent 100%),
-    radial-gradient(1px 1px at 20% 60%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(2px 2px at 30% 10%, rgba(255,255,200,0.9) 0%, transparent 100%),
-    radial-gradient(1px 1px at 40% 40%, #fff 0%, transparent 100%),
-    radial-gradient(1px 1px at 50% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(2px 2px at 60% 55%, rgba(255,255,200,0.8) 0%, transparent 100%),
-    radial-gradient(1px 1px at 70% 15%, #fff 0%, transparent 100%),
-    radial-gradient(1px 1px at 80% 45%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 90% 30%, rgba(255,255,200,0.9) 0%, transparent 100%),
-    radial-gradient(1px 1px at 25% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(2px 2px at 55% 80%, rgba(200,200,255,0.8) 0%, transparent 100%),
-    radial-gradient(1px 1px at 75% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+.logo-area { display: flex; align-items: center; gap: 14px; }
+.maple-leaf-big {
+  font-size: 44px;
+  filter: drop-shadow(0 0 12px rgba(255,100,0,0.8));
+  animation: leafPulse 2s ease-in-out infinite alternate;
 }
-
-/* Title sign */
-.maple-sign {
-  display: inline-block;
-  background: linear-gradient(180deg, #8b4513 0%, #5d2e0c 50%, #4a2208 100%);
-  border: 3px solid #2a1205;
-  border-radius: 4px;
-  padding: 8px 18px;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,200,100,0.3);
-  margin-bottom: 8px;
-}
-.maple-sign::before, .maple-sign::after {
-  content: '';
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  width: 12px; height: 30px;
-  background: linear-gradient(180deg, #6b3410 0%, #3a1a06 100%);
-  border: 2px solid #2a1205;
-}
-.maple-sign::before { left: -14px; border-radius: 2px 0 0 2px; }
-.maple-sign::after { right: -14px; border-radius: 0 2px 2px 0; }
-
-.maple-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  color: #ffcc00;
-  text-shadow: 2px 2px 0 #8b4500, 0 0 10px rgba(255,200,0,0.5);
+@keyframes leafPulse { from { filter: drop-shadow(0 0 8px rgba(255,100,0,0.6)); } to { filter: drop-shadow(0 0 18px rgba(255,160,0,0.9)); } }
+.logo-text { line-height: 1.1; }
+.logo-main {
+  font-size: 22px; font-weight: bold;
+  background: linear-gradient(90deg, #ff6600, #ffcc00, #ff6600);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
   letter-spacing: 1px;
-  white-space: nowrap;
 }
-.maple-sub {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
-  color: #ffaa44;
-  text-shadow: 1px 1px 0 #5a2a00;
-  margin-top: 4px;
+.logo-sub { font-size: 10px; color: #8877aa; margin-top: 2px; }
+
+.user-bar { text-align: right; font-size: 10px; color: #8877aa; line-height: 1.6; }
+.user-bar strong { color: #ffcc44; }
+.ms-pts { color: #ff9900; }
+
+.nav-bar {
+  background: #0a0818;
+  border-top: 1px solid #2a1a5a;
+  display: flex; gap: 0; overflow-x: auto;
+}
+.nav-item {
+  padding: 7px 16px; font-size: 11px; color: #aa99cc;
+  border-right: 1px solid #2a1a5a;
+  cursor: pointer; white-space: nowrap;
+  text-decoration: none; display: block;
+}
+.nav-item:hover { background: #1a0a3a; color: #ffcc44; }
+.nav-item.active { background: #1a0a3a; color: #ffcc44; border-bottom: 2px solid #ff6600; }
+
+.breadcrumb {
+  background: #0a0818; border-bottom: 1px solid #1a1a3a;
+  padding: 5px 16px; font-size: 10px; color: #665577;
+}
+.breadcrumb a { color: #8866aa; text-decoration: none; }
+.breadcrumb a:hover { color: #ffcc44; }
+
+/* ─── MAIN LAYOUT ─── */
+.page-wrap { display: flex; gap: 0; min-height: calc(100vh - 120px); }
+
+.sidebar {
+  width: 180px; flex-shrink: 0;
+  background: #0a0818;
+  border-right: 1px solid #1a1a3a;
+  padding: 10px 8px;
+}
+@media (max-width: 600px) { .sidebar { display: none; } }
+
+.main-col { flex: 1; min-width: 0; padding: 12px; }
+
+/* ─── SIDEBAR WIDGETS ─── */
+.widget { margin-bottom: 12px; }
+.widget-title {
+  background: linear-gradient(90deg, #2a0a50, #1a0a38);
+  color: #ffcc44; font-size: 10px; font-weight: bold;
+  padding: 4px 8px; border-bottom: 1px solid #ff6600;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.widget-body { background: #0d0d22; border: 1px solid #1a1a3a; border-top: none; padding: 8px; }
+.widget-row { font-size: 10px; padding: 2px 0; color: #887799; }
+.widget-row strong { color: #ffcc44; }
+.online-dot { display: inline-block; width: 6px; height: 6px; background: #44cc44; border-radius: 50%; margin-right: 4px; }
+.offline-dot { display: inline-block; width: 6px; height: 6px; background: #555; border-radius: 50%; margin-right: 4px; }
+
+/* ─── FORUM BOARD LIST ─── */
+.board-section { margin-bottom: 16px; }
+.board-section-title {
+  background: linear-gradient(90deg, #3a1060, #1a0838);
+  color: #cc88ff; font-size: 12px; font-weight: bold;
+  padding: 6px 10px; border: 1px solid #4a1a7a;
+  border-bottom: 2px solid #ff6600;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+}
+.board-table { width: 100%; border-collapse: collapse; }
+.board-row {
+  background: #0d0d22; border-bottom: 1px solid #1a1a3a;
+  cursor: pointer;
+}
+.board-row:hover { background: #12102a; }
+.board-icon-cell { width: 40px; padding: 8px; text-align: center; font-size: 20px; }
+.board-info { padding: 8px 4px; }
+.board-name { color: #88aaff; font-weight: bold; font-size: 11px; }
+.board-name:hover { color: #ffcc44; text-decoration: underline; }
+.board-desc { color: #665577; font-size: 10px; margin-top: 2px; }
+.board-stats { width: 140px; padding: 8px; text-align: center; }
+.board-stats-num { color: #ffcc44; font-size: 13px; font-weight: bold; }
+.board-stats-lbl { color: #665577; font-size: 9px; }
+.board-last { width: 160px; padding: 8px; font-size: 9px; color: #665577; }
+.board-last strong { color: #88aaff; }
+
+/* ─── THREAD LIST ─── */
+.thread-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+.thread-header-row { background: #1a0838; }
+.thread-header-row th { padding: 6px 8px; color: #cc88ff; font-size: 10px; text-align: left; border-bottom: 2px solid #ff6600; }
+.thread-row { background: #0d0d22; border-bottom: 1px solid #151530; }
+.thread-row:hover { background: #121228; }
+.thread-row.sticky { background: #0f0d28; }
+.thread-row.hot   { background: #180d1a; }
+.t-icon { width: 30px; padding: 8px 4px; text-align: center; font-size: 16px; }
+.t-info { padding: 8px 6px; }
+.t-title { color: #88aaff; font-weight: bold; font-size: 11px; cursor: pointer; }
+.t-title:hover { color: #ffcc44; text-decoration: underline; }
+.t-title.sticky-title { color: #ffcc44; }
+.t-badges { display: inline-flex; gap: 3px; margin-right: 4px; }
+.badge {
+  font-size: 8px; padding: 1px 4px; border-radius: 2px;
+  font-weight: bold;
+}
+.badge-sticky { background: #cc3300; color: #fff; }
+.badge-hot    { background: #aa5500; color: #fff; }
+.badge-guide  { background: #005588; color: #aaddff; }
+.badge-new    { background: #005500; color: #aaffaa; }
+.t-sub { color: #665577; font-size: 10px; margin-top: 2px; }
+.t-by  { font-size: 9px; color: #554466; margin-top: 2px; }
+.t-by strong { color: #8866aa; }
+.t-stats { width: 80px; padding: 8px; text-align: center; color: #554466; font-size: 10px; }
+.t-stats strong { display: block; color: #aaa; font-size: 12px; }
+.t-last { width: 140px; padding: 8px; font-size: 9px; color: #554466; }
+.t-last strong { color: #88aaff; display: block; }
+
+/* ─── EXPANDED THREAD / POSTS ─── */
+.thread-expand {
+  display: none;
+  background: #0a0818;
+  border: 1px solid #2a1a5a;
+  border-top: 3px solid #ff6600;
+  margin-bottom: 2px;
+}
+.thread-expand.open { display: block; }
+.post { display: flex; gap: 0; border-bottom: 1px solid #151530; }
+.post:last-child { border-bottom: none; }
+.post-sidebar {
+  width: 140px; flex-shrink: 0;
+  background: #0d0820;
+  border-right: 1px solid #1a1a3a;
+  padding: 10px 8px;
   text-align: center;
 }
-
-/* Pixel moon */
-.moon {
-  position: absolute;
-  top: 12px; right: 24px;
-  width: 32px; height: 32px;
-  background: radial-gradient(circle at 40% 40%, #ffffcc, #ffee88);
-  border-radius: 50%;
-  box-shadow: 0 0 12px rgba(255,238,100,0.5);
-}
-
-/* Forest silhouette */
-.forest {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 48px;
-  overflow: hidden;
-}
-.tree {
-  position: absolute;
-  bottom: 0;
-  width: 0; height: 0;
-  border-left: solid transparent;
-  border-right: solid transparent;
-  border-bottom: solid;
-}
-
-/* Platform area */
-.platform-area {
-  background: linear-gradient(180deg, #1a1a3a 0%, #0d1220 100%);
-  padding: 0 12px 12px;
+.post-avatar {
+  width: 72px; height: 88px;
+  margin: 0 auto 6px;
   position: relative;
+  display: flex; align-items: flex-end; justify-content: center;
+  background: linear-gradient(180deg, #1a1060 0%, #0d0828 100%);
+  border: 1px solid #2a1a5a;
 }
+.post-avatar img {
+  height: 84px; width: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.post-avatar .av-fallback {
+  font-size: 44px; line-height: 1;
+  padding-bottom: 4px;
+  display: none;
+}
+.post-username { color: #ffcc44; font-weight: bold; font-size: 11px; margin-bottom: 3px; }
+.post-rank { color: #cc88ff; font-size: 9px; margin-bottom: 6px; }
+.post-stats-row { font-size: 9px; color: #554466; padding: 1px 0; }
+.post-stats-row strong { color: #8877aa; }
+.post-maple-lvl {
+  margin-top: 6px; padding: 4px;
+  background: #1a0a3a; border: 1px solid #2a1a5a;
+  font-size: 9px; color: #aaa;
+}
+.post-maple-lvl .lvl-num { color: #ff9900; font-weight: bold; font-size: 12px; }
 
-/* Main floating platform */
-.platform-main {
-  background: linear-gradient(180deg, #5a8a2e 0%, #3d6620 60%, #8b6914 61%, #5a4010 100%);
-  height: 20px;
-  border-radius: 6px 6px 2px 2px;
-  box-shadow: 0 4px 0 #2a1a05, 0 6px 0 rgba(0,0,0,0.4);
-  position: relative;
-  margin: 0 8px 12px;
+.post-body { flex: 1; min-width: 0; padding: 10px 12px; }
+.post-meta {
+  font-size: 9px; color: #554466;
+  border-bottom: 1px solid #1a1a3a;
+  padding-bottom: 6px; margin-bottom: 8px;
+  display: flex; justify-content: space-between;
 }
-.platform-main::before {
-  content: '';
-  position: absolute;
-  top: 2px; left: 4px; right: 4px; height: 4px;
-  background: rgba(255,255,255,0.15);
+.post-meta .post-num { color: #ff6600; font-weight: bold; }
+.post-content {
+  font-size: 11px; color: #c0b8d0;
+  line-height: 1.7;
+}
+.post-content p { margin-bottom: 8px; }
+.post-content .quote {
+  background: #0d0d22; border-left: 3px solid #4a1a7a;
+  padding: 6px 10px; margin: 8px 0; font-size: 10px; color: #887799;
+}
+.post-content .quote strong { color: #cc88ff; }
+.post-content a { color: #88aaff; text-decoration: none; }
+.post-content a:hover { color: #ffcc44; text-decoration: underline; }
+.post-content .highlight { color: #ffcc44; font-weight: bold; }
+.post-content .red { color: #ff6644; }
+.post-content .green { color: #44dd88; }
+.post-content ul { margin: 6px 0 8px 18px; }
+.post-content li { margin-bottom: 3px; }
+
+.post-sig {
+  margin-top: 10px; padding-top: 8px;
+  border-top: 1px dotted #2a1a5a;
+  font-size: 10px; color: #554466;
+}
+.sig-bar {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(90deg, #1a0a3a, #0a0818);
+  border: 1px solid #2a1a5a; padding: 4px 8px;
   border-radius: 2px;
 }
+.sig-bar img { height: 28px; image-rendering: pixelated; }
+.sig-bar .sig-fallback { font-size: 18px; }
+.sig-text { font-size: 9px; color: #887799; line-height: 1.4; }
 
-/* Class selection prompt */
-.select-prompt {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
-  color: #88aaff;
-  text-align: center;
-  padding: 0 0 8px;
-  animation: blink 1.2s step-end infinite;
+/* ─── QUICK REPLY ─── */
+.quick-reply {
+  background: #0d0d22; border: 1px solid #2a1a5a;
+  border-top: 2px solid #ff6600; padding: 10px;
+  margin-top: 8px; display: none;
 }
-@keyframes blink { 50% { opacity: 0; } }
+.quick-reply.visible { display: block; }
+.qr-label { color: #cc88ff; font-size: 11px; margin-bottom: 6px; }
+.qr-box {
+  width: 100%; background: #0a0818; color: #c0b8d0;
+  border: 1px solid #2a1a5a; padding: 6px;
+  font-family: Verdana, Arial, sans-serif; font-size: 11px;
+  resize: vertical; min-height: 60px;
+}
+.qr-box:focus { outline: 1px solid #ff6600; }
+.qr-submit {
+  background: linear-gradient(180deg, #cc5500, #882200);
+  color: #fff; border: 1px solid #ff8800;
+  padding: 5px 16px; font-size: 11px; cursor: pointer;
+  margin-top: 6px;
+}
+.qr-submit:hover { background: linear-gradient(180deg, #dd6600, #993300); }
 
-/* Character cards */
-.char-row {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 0 4px 4px;
-}
-
-.char-card {
-  width: 100px;
-  display: flex; flex-direction: column; align-items: center;
-  cursor: pointer;
-  transition: transform 0.1s;
-}
-.char-card:hover { transform: translateY(-4px); }
-.char-card.selected .char-sprite-wrap {
-  filter: drop-shadow(0 0 8px #ffcc00);
-}
-
-.char-sprite-wrap {
-  width: 80px; height: 96px;
-  display: flex; align-items: flex-end; justify-content: center;
-  position: relative;
-  image-rendering: pixelated;
-}
-.char-sprite {
-  image-rendering: pixelated;
-  height: 90px;
-  width: auto;
-}
-.char-sprite-fallback {
-  font-size: 52px;
-  line-height: 1;
-}
-.char-shadow {
-  position: absolute;
-  bottom: -2px;
-  width: 36px; height: 8px;
-  background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%);
-  border-radius: 50%;
+/* ─── FOOTER ─── */
+.site-footer {
+  background: #080810; border-top: 1px solid #1a1a3a;
+  padding: 10px 16px; font-size: 10px; color: #443355; text-align: center;
 }
 
-.char-name-plate {
-  background: linear-gradient(180deg, #2a1a05 0%, #1a0e02 100%);
-  border: 2px solid #5a3a10;
-  border-radius: 3px;
-  padding: 3px 8px;
-  margin-top: 4px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+/* ─── BACK LINK ─── */
+.back-bar {
+  background: #0a0818; border-top: 1px solid #1a1a3a;
+  padding: 6px 12px; text-align: center;
 }
-.char-class { font-family: 'Press Start 2P', monospace; font-size: 6px; color: #ffcc44; }
-.char-job   { font-family: Arial, sans-serif; font-size: 9px; color: #aaa; margin-top: 2px; }
-.char-card.selected .char-name-plate { border-color: #ffcc00; }
-.char-card.selected .char-class { color: #ffff44; }
+.back-bar a { color: #8866aa; font-size: 10px; text-decoration: none; }
+.back-bar a:hover { color: #ffcc44; }
 
-/* RS-style scroll UI for detail panel */
-.detail-scroll {
-  background: linear-gradient(180deg, #f5e8d0 0%, #ede0c0 100%);
-  border: 3px solid;
-  border-color: #8b6914 #3a1a06 #3a1a06 #8b6914;
-  margin: 8px;
-  padding: 12px 14px;
-  display: none;
-  position: relative;
+/* ─── ONLINE USERS MARQUEE ─── */
+.ticker {
+  background: #0a0818; border-bottom: 1px solid #1a1a3a;
+  padding: 3px 10px; font-size: 9px; color: #554466;
+  overflow: hidden; white-space: nowrap;
 }
-.detail-scroll.visible { display: block; }
-.detail-scroll::before {
-  content: '';
-  position: absolute; inset: 3px;
-  border: 1px solid rgba(139,105,20,0.4);
-  pointer-events: none;
-}
-
-.detail-header {
-  display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px;
-}
-.detail-class-name {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px; color: #5a2a00; margin-bottom: 4px;
-}
-.detail-job-path {
-  font-size: 10px; color: #6b4a1f;
-  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
-}
-.job-node {
-  background: linear-gradient(180deg, #8b6914, #5a3a0a);
-  color: #ffe080; font-family: 'Press Start 2P', monospace;
-  font-size: 6px; padding: 2px 5px; border-radius: 2px;
-  border: 1px solid #3a1a05;
-}
-.job-arrow { color: #8b6914; font-size: 10px; }
-.detail-body {
-  font-size: 11px; color: #3a2000; line-height: 1.7; margin-bottom: 10px;
-  border-top: 1px solid rgba(139,105,20,0.3); padding-top: 8px;
-}
-.detail-stats { display: flex; flex-direction: column; gap: 5px; }
-.stat-row { display: flex; align-items: center; gap: 8px; }
-.stat-lbl {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px; color: #5a2a00; width: 80px; flex-shrink: 0;
-}
-.stat-track {
-  flex: 1; height: 12px;
-  background: #8b6914;
-  border: 2px solid; border-color: #3a1a06 #c8a040 #c8a040 #3a1a06;
-  position: relative; overflow: hidden;
-}
-.stat-fill {
-  height: 100%;
-  position: relative;
-}
-.stat-fill::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 40%;
-  background: rgba(255,255,255,0.25);
-}
-.stat-val {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6px; color: #3a1a00; width: 28px; text-align: right; flex-shrink: 0;
-}
-
-/* Status bar */
-.status-bar { border-top: 1px solid #808080; padding: 2px 4px; display: flex; gap: 4px; }
-.sp { flex:1; border:1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 4px; color:#444; }
-.back {
-  display: block; text-align: center; padding: 5px; font-size: 10px;
-  color: #000080; text-decoration: underline; cursor: pointer;
-  background: #c0c0c0; border-top: 1px solid #dfdfdf;
-}
-
-@media (max-width: 480px) {
-  .char-row { gap: 4px; }
-  .char-card { width: 80px; }
-  .char-sprite-wrap { width: 64px; height: 80px; }
-  .char-sprite { height: 74px; }
-  .maple-title { font-size: 9px; }
-}
+.ticker-inner { display: inline-block; animation: ticker 30s linear infinite; }
+@keyframes ticker { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
 </style>
 </head>
 <body>
-<div class="window">
-  <div class="title-bar">
-    <div class="title-left">🍁 MapleWorld — parsa.exe</div>
-    <div class="tb-btns">
-      <a class="tb-btn" href="index.html">✕</a>
+
+<!-- Site Header -->
+<div class="site-header">
+  <div class="header-top">
+    <div class="logo-area">
+      <div class="maple-leaf-big">🍁</div>
+      <div class="logo-text">
+        <div class="logo-main">MapleStory Forums</div>
+        <div class="logo-sub">Bera World · Est. 2003 · Your #1 Maple Community</div>
+      </div>
+    </div>
+    <div class="user-bar">
+      Welcome, <strong>ParsaNavidi</strong> &nbsp;·&nbsp;
+      <span class="ms-pts">2,400 ⭐ Maple Points</span><br>
+      <span style="color:#554466">Last visited: Today, 2:47 AM &nbsp;|&nbsp; </span>
+      <span style="color:#88aaff">Messages: 3 &nbsp;|&nbsp; </span>
+      <a href="index.html" style="color:#ff9900;text-decoration:none">← Back to Desktop</a>
     </div>
   </div>
-  <div class="menu-bar">
-    <div class="mi">Character</div>
-    <div class="mi">World</div>
-    <div class="mi">Community</div>
-    <div class="mi">Help</div>
+  <div class="nav-bar">
+    <a class="nav-item active">Forums</a>
+    <a class="nav-item">Characters</a>
+    <a class="nav-item">Guild Wars</a>
+    <a class="nav-item">Item Database</a>
+    <a class="nav-item">Market</a>
+    <a class="nav-item">Guides</a>
+    <a class="nav-item">Community</a>
+    <a class="nav-item">Help</a>
+  </div>
+</div>
+
+<!-- Ticker -->
+<div class="ticker">
+  <span class="ticker-inner">
+    🟢 Online Now: Grendel_theReally &nbsp;·&nbsp; Jr_Necki_Bera &nbsp;·&nbsp; DarkLord_v3 &nbsp;·&nbsp; ParsaNavidi &nbsp;·&nbsp; xXWordsmithXx &nbsp;·&nbsp; BowmasterPro &nbsp;·&nbsp; MapleAdmin &nbsp;·&nbsp; ThiefGuild_Boss &nbsp;·&nbsp; Buccaneer99 &nbsp;·&nbsp; ContentWarrior &nbsp;·&nbsp; PixelArtist2003 &nbsp;·&nbsp; Jr_Necki_Bera2 &nbsp;· ★ [New] Market Report Season 3 is live! Check the guides section ★
+  </span>
+</div>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="#">MapleStory Forums</a> &rsaquo; <strong style="color:#c0b8d0">Bera World</strong>
+</div>
+
+<!-- Page -->
+<div class="page-wrap">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="widget">
+      <div class="widget-title">🟢 Who's Online</div>
+      <div class="widget-body">
+        <div class="widget-row"><span class="online-dot"></span><strong>ParsaNavidi</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Grendel_theReally</div>
+        <div class="widget-row"><span class="online-dot"></span>Jr_Necki_Bera</div>
+        <div class="widget-row"><span class="online-dot"></span>xXWordsmithXx</div>
+        <div class="widget-row"><span class="offline-dot"></span>DarkLord_v3</div>
+        <div class="widget-row"><span class="offline-dot"></span>MapleAdmin</div>
+        <div class="widget-row" style="margin-top:4px;color:#554466">12 guests browsing</div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">📊 Forum Stats</div>
+      <div class="widget-body">
+        <div class="widget-row">Threads: <strong>14,882</strong></div>
+        <div class="widget-row">Posts: <strong>287,441</strong></div>
+        <div class="widget-row">Members: <strong>38,204</strong></div>
+        <div class="widget-row">Newest: <strong>ContentWarrior</strong></div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">🏆 Top Posters</div>
+      <div class="widget-body">
+        <div class="widget-row">1. <strong>MapleAdmin</strong></div>
+        <div class="widget-row">2. <strong>ParsaNavidi</strong></div>
+        <div class="widget-row">3. Grendel_theReally</div>
+        <div class="widget-row">4. Jr_Necki_Bera</div>
+        <div class="widget-row">5. DarkLord_v3</div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">🍁 Server Status</div>
+      <div class="widget-body">
+        <div class="widget-row"><span class="online-dot"></span>Bera: <strong style="color:#44cc44">ONLINE</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Broa: <strong style="color:#44cc44">ONLINE</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Windia: <strong style="color:#44cc44">ONLINE</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Khaini: <strong style="color:#ffcc44">LAG</strong></div>
+      </div>
+    </div>
   </div>
 
-  <div class="maple-world">
-    <!-- Sky -->
-    <div class="sky">
-      <div style="text-align:center;padding-top:12px">
-        <div class="maple-sign">
-          <div class="maple-title">✦ MapleWorld ✦</div>
-          <div class="maple-sub">Choose Your Class</div>
+  <!-- Main -->
+  <div class="main-col">
+
+    <!-- BOARD: Announcements -->
+    <div class="board-section">
+      <div class="board-section-title">📋 ANNOUNCEMENTS &amp; INTRODUCTIONS</div>
+      <table class="board-table">
+        <tr class="board-row" onclick="toggleBoard('board-announce')">
+          <td class="board-icon-cell">📌</td>
+          <td class="board-info">
+            <div class="board-name">Introductions &amp; About Me</div>
+            <div class="board-desc">New to the forums? Introduce yourself here. Tell us your class and server!</div>
+          </td>
+          <td class="board-stats"><div class="board-stats-num">89</div><div class="board-stats-lbl">threads</div></td>
+          <td class="board-last">Last post by <strong>ParsaNavidi</strong><br>Today, 2:47 AM</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Board 1 threads -->
+    <div id="board-announce" style="display:none;margin-bottom:16px">
+      <table class="thread-table">
+        <tr class="thread-header-row">
+          <th style="width:30px"></th>
+          <th>Thread</th>
+          <th style="width:80px">Replies</th>
+          <th style="width:140px">Last Post</th>
+        </tr>
+        <tr class="thread-row sticky" onclick="toggleThread('t1')">
+          <td class="t-icon">📌</td>
+          <td class="t-info">
+            <div class="t-title sticky-title">
+              <span class="t-badges"><span class="badge badge-sticky">STICKY</span></span>
+              Hello everyone! Introduction + who I am
+            </div>
+            <div class="t-by">by <strong>ParsaNavidi</strong> · Junior Maple Admin</div>
+          </td>
+          <td class="t-stats"><strong>47</strong> replies</td>
+          <td class="t-last"><strong>ParsaNavidi</strong>Today, 2:47 AM</td>
+        </tr>
+      </table>
+
+      <div id="t1" class="thread-expand">
+        <!-- Post 1 -->
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+            <div class="post-stats-row">Joined: <strong>Oct 2018</strong></div>
+            <div class="post-stats-row">Server: <strong>Bera</strong></div>
+            <div class="post-maple-lvl">
+              Class: <span style="color:#88aaff">Copywriter</span><br>
+              Lv. <span class="lvl-num">200</span> ⭐
+            </div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; Today, 2:47 AM</span>
+              <span style="color:#665577">Bera · Guild: The Wordsmiths</span>
+            </div>
+            <div class="post-content">
+              <p>hey everyone!! 👋 figured I'd make an intro post since I've been lurking for ages lol</p>
+              <p>I'm <span class="highlight">Parsa Navidi</span> — content strategist and copywriter based in <span class="highlight">Toronto</span>. Been grinding this class since 2018 and hit 200 a while back (still can't believe it tbh 😂)</p>
+              <p>Main spec is <span class="highlight">Brand Voice</span> with points into <span class="highlight">SEO</span> and <span class="highlight">Long-form Storytelling</span>. Currently working as content lead at Yardi Canada — mostly doing market reports, editorial features, and strategy work across the brand.</p>
+              <p>Before that I ran the full production pipeline for the Jas Takhar Podcast (scripts, show notes, scheduling — full end-to-end). Also did conversion copy for a plumbing company and a solar energy brand which sounds random but was honestly great for the portfolio diversity 😅</p>
+              <p>If you need someone to duo a brand voice dungeon or just want to talk shop about writing, HMU. Always down to party with serious players 🍁</p>
+              <p class="green">GoodLuckHaveMaple, everyone.</p>
+            </div>
+            <div class="post-sig">
+              <div class="sig-bar">
+                <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" alt="">
+                <span class="sig-fallback" style="display:none">✍️</span>
+                <div class="sig-text">
+                  ParsaNavidi · Lv.200 Copywriter · Bera<br>
+                  <span style="color:#ff9900">▰▰▰▰▰▰▰▰▰▰</span> Copywriting 99/99<br>
+                  <a href="https://www.linkedin.com/in/parsanavidi/" target="_blank" style="color:#88aaff">linkedin.com/in/parsanavidi</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Reply 1 -->
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2001,30020,20001,1050147,1060090,1003823,1372000/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧙</div>
+            </div>
+            <div class="post-username">Grendel_theReally</div>
+            <div class="post-rank">⭐ Senior Member</div>
+            <div class="post-stats-row">Posts: <strong>11,209</strong></div>
+            <div class="post-stats-row">Joined: <strong>Mar 2005</strong></div>
+            <div class="post-stats-row">Server: <strong>Bera</strong></div>
+            <div class="post-maple-lvl">
+              Class: <span style="color:#cc88ff">Archmage</span><br>
+              Lv. <span class="lvl-num">200</span> ⭐
+            </div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span>Post <span class="post-num">#2</span> &nbsp;·&nbsp; Today, 3:12 AM</span>
+              <span style="color:#665577">Bera · Guild: Ossyria Elite</span>
+            </div>
+            <div class="post-content">
+              <p>Welcome to the forums Parsa!! Always good to have more content mains around here — the SEO class is seriously underrated. People sleep on it but the passive XP gain over time is insane 📈</p>
+              <div class="quote"><strong>ParsaNavidi wrote:</strong><br>If you need someone to duo a brand voice dungeon</div>
+              <p>Lmao yes please, I've been trying to clear the "Consistent Brand Tone" dungeon for weeks and my party keeps breaking formation in the 3rd room 😭</p>
+              <p>Also — market reports for Yardi is solid content endgame content. Good luck on the grind!! 🍁</p>
+            </div>
+            <div class="post-sig">
+              <div class="sig-bar">
+                <img src="https://maplestory.io/api/GMS/latest/character/2001,30020,20001,1050147,1060090,1003823,1372000/stand1/0"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" alt="">
+                <span class="sig-fallback" style="display:none">🔮</span>
+                <div class="sig-text">Grendel · Lv.200 Archmage (F/P) · Bera<br>The original magician since GMS Beta 🧙</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:right;padding:8px;background:#0a0818;border-top:1px solid #1a1a3a">
+          <button class="qr-submit" onclick="showReply('qr1')">+ Quick Reply</button>
+        </div>
+        <div id="qr1" class="quick-reply">
+          <div class="qr-label">Quick Reply to: <strong>Hello everyone! Introduction + who I am</strong></div>
+          <textarea class="qr-box" placeholder="Type your reply... (this is a read-only portfolio — replies won't post 😄)"></textarea><br>
+          <button class="qr-submit">Post Reply</button>
         </div>
       </div>
-      <div class="moon"></div>
-      <!-- pixel trees -->
-      <div class="forest">
-        <div class="tree" style="left:2%;border-left-width:20px;border-right-width:20px;border-bottom-width:48px;border-bottom-color:#1a3a0a;"></div>
-        <div class="tree" style="left:5%;bottom:18px;border-left-width:14px;border-right-width:14px;border-bottom-width:30px;border-bottom-color:#244a0e;"></div>
-        <div class="tree" style="left:10%;border-left-width:16px;border-right-width:16px;border-bottom-width:42px;border-bottom-color:#1a3a0a;"></div>
-        <div class="tree" style="right:3%;border-left-width:22px;border-right-width:22px;border-bottom-width:52px;border-bottom-color:#1a3a0a;"></div>
-        <div class="tree" style="right:8%;bottom:20px;border-left-width:14px;border-right-width:14px;border-bottom-width:28px;border-bottom-color:#244a0e;"></div>
-        <div class="tree" style="right:15%;border-left-width:16px;border-right-width:16px;border-bottom-width:38px;border-bottom-color:#1a3a0a;"></div>
+    </div>
+
+    <!-- BOARD: Projects / Guild -->
+    <div class="board-section">
+      <div class="board-section-title">⚔️ CLASS GUIDES &amp; PROJECTS</div>
+      <table class="board-table">
+        <tr class="board-row" onclick="toggleBoard('board-proj')">
+          <td class="board-icon-cell">🖊️</td>
+          <td class="board-info">
+            <div class="board-name">Copywriter's Lounge — Guides &amp; Showcases</div>
+            <div class="board-desc">Strategy guides, DPM calculators, boss runs, and class showcases for writers.</div>
+          </td>
+          <td class="board-stats"><div class="board-stats-num">241</div><div class="board-stats-lbl">threads</div></td>
+          <td class="board-last">Last post by <strong>xXWordsmithXx</strong><br>2 days ago</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="board-proj" style="display:none;margin-bottom:16px">
+      <table class="thread-table">
+        <tr class="thread-header-row">
+          <th style="width:30px"></th>
+          <th>Thread</th>
+          <th style="width:80px">Replies</th>
+          <th style="width:140px">Last Post</th>
+        </tr>
+        <tr class="thread-row hot" onclick="toggleThread('t2')">
+          <td class="t-icon">🔥</td>
+          <td class="t-info">
+            <div class="t-title">
+              <span class="t-badges"><span class="badge badge-guide">GUIDE</span><span class="badge badge-hot">HOT</span></span>
+              The Copywriter Build 2024 — Full Progression Guide
+            </div>
+            <div class="t-sub">From Beginner to Lv.200 — every skill point explained with real project examples</div>
+            <div class="t-by">by <strong>ParsaNavidi</strong></div>
+          </td>
+          <td class="t-stats"><strong>184</strong> replies</td>
+          <td class="t-last"><strong>ContentWarrior</strong>Yesterday</td>
+        </tr>
+        <tr class="thread-row" onclick="toggleThread('t3')">
+          <td class="t-icon">🏰</td>
+          <td class="t-info">
+            <div class="t-title">
+              <span class="t-badges"><span class="badge badge-new">NEW</span></span>
+              [Guild Recruitment] The Wordsmiths — Top Content Guild on Bera
+            </div>
+            <div class="t-by">by <strong>ParsaNavidi</strong></div>
+          </td>
+          <td class="t-stats"><strong>32</strong> replies</td>
+          <td class="t-last"><strong>ParsaNavidi</strong>Today</td>
+        </tr>
+      </table>
+
+      <!-- Thread 2 -->
+      <div id="t2" class="thread-expand">
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; Dec 2, 2024</span></div>
+            <div class="post-content">
+              <p><span class="highlight">THE COPYWRITER — COMPLETE 2024 PROGRESSION GUIDE</span></p>
+              <p>Ok so I've been getting a lot of DMs asking how I structured my build so I figured I'd write the definitive guide. This is the path I took and it's working really well.</p>
+              <p><span class="highlight">📊 Active Projects (Boss Runs):</span></p>
+              <ul>
+                <li><span class="green">✅ Yardi Canada Market Reports</span> — Monthly real estate intelligence series. Built the full content framework: data sourcing, narrative structure, design briefs, distribution. <a href="https://info.yardi.com/multifamily-market-reports-for-canada" target="_blank">↗ View Reports</a></li>
+                <li><span class="green">✅ Jas Takhar Podcast</span> — Ran full production end-to-end: scripts, show notes, guest outreach, social amplification. <a href="https://meetjastakhar.com/" target="_blank">↗ Listen</a></li>
+                <li><span class="green">✅ Plumb Wize</span> — SEO conversion copy for plumbing. Structured around actual 2am pipe burst search queries. <a href="https://www.plumbwize.ca/drain-services/drain-repair/" target="_blank">↗ View</a></li>
+                <li><span class="green">✅ My Solar Group</span> — Brand voice + full website copy. Made technical solar concepts human without dumbing them down. <a href="https://www.mysolargroup.ca/" target="_blank">↗ View</a></li>
+              </ul>
+              <p><span class="highlight">📰 Published Articles (Side Quests):</span></p>
+              <ul>
+                <li><a href="https://blog.shoplazza.com/what-is-buyer-persona" target="_blank">Shoplazza — Buyer Personas Guide</a></li>
+                <li><a href="https://www.yardibreeze.ca/blog/2025/02/women-in-tech-parisa/" target="_blank">Yardi Breeze — Women in Tech Feature</a></li>
+                <li><a href="https://www.yardi.com/blog/yasc-canada-2025/" target="_blank">Yardi — YASC Canada 2025 Coverage</a></li>
+                <li><a href="https://www.reccanada.com/blog/28doors" target="_blank">REC Canada — 28 Doors Editorial</a></li>
+              </ul>
+              <p>lmk if you have questions!! GL on your content grind 🍁</p>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2002,30040,20002,1060091,1003021,1452002/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🏹</div>
+            </div>
+            <div class="post-username">xXWordsmithXx</div>
+            <div class="post-rank">🌟 Veteran Member</div>
+            <div class="post-stats-row">Posts: <strong>4,392</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#2</span> &nbsp;·&nbsp; Dec 3, 2024</span></div>
+            <div class="post-content">
+              <div class="quote"><strong>ParsaNavidi wrote:</strong><br>Structured around actual 2am pipe burst search queries</div>
+              <p>bro this is actually galaxy brain SEO strategy 😭 who else is writing copy at the emotional peak moment of a customer's pain?? This is advanced stuff.</p>
+              <p>Bookmarking this whole thread. The Yardi market reports are a seriously smart recurring content piece — monthly cadence, data-driven, builds authority over time. Classic grinding strategy tbh</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thread 3: Guild Recruitment -->
+      <div id="t3" class="thread-expand">
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; Today</span></div>
+            <div class="post-content">
+              <p><span class="highlight">🏰 THE WORDSMITHS — NOW RECRUITING (Serious Players Only)</span></p>
+              <p>Guild tier: <span class="highlight">Diamond</span> · Server: Bera · Active members: 12</p>
+              <p>We're a tight-knit content guild that runs regular boss clears and theory crafts builds together. Looking for players who take their class seriously.</p>
+              <p><span class="highlight">Requirements:</span></p>
+              <ul>
+                <li>Lv.80+ in any writing class (Copywriter, Content Strategist, SEO Ranger, Brand Voice Mage)</li>
+                <li>Active 3x per week minimum</li>
+                <li>No drama. Good vibes only 🍁</li>
+              </ul>
+              <p>To apply — send a DM or find me in-game on <strong>Bera</strong>.</p>
+              <p>Real talk: I'm open to freelance collabs, content partnerships, and brand work. If you're a brand or agency looking for a content lead — <a href="mailto:hello@parsanavidi.com">send me a message</a> 📬</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Platform & Characters -->
-    <div class="platform-area">
-      <div class="select-prompt">— Select your class, adventurer —</div>
-      <div class="char-row" id="charRow"></div>
-      <div class="platform-main"></div>
+    <!-- BOARD: Off-Topic -->
+    <div class="board-section">
+      <div class="board-section-title">💬 OFF-TOPIC &amp; NOSTALGIA</div>
+      <table class="board-table">
+        <tr class="board-row" onclick="toggleBoard('board-ot')">
+          <td class="board-icon-cell">🎮</td>
+          <td class="board-info">
+            <div class="board-name">Nostalgia Lounge — Remember When?</div>
+            <div class="board-desc">Pre-BB memories, Henesys Hunting Ground stories, and classic Maple moments.</div>
+          </td>
+          <td class="board-stats"><div class="board-stats-num">8,441</div><div class="board-stats-lbl">posts</div></td>
+          <td class="board-last">Last post by <strong>Jr_Necki_Bera</strong><br>Just now</td>
+        </tr>
+      </table>
     </div>
 
-    <!-- Detail scroll -->
-    <div class="detail-scroll" id="detailScroll">
-      <div class="detail-header">
-        <div id="detailBody"><!-- populated by JS --></div>
+    <div id="board-ot" style="display:none;margin-bottom:16px">
+      <table class="thread-table">
+        <tr class="thread-header-row">
+          <th style="width:30px"></th>
+          <th>Thread</th>
+          <th style="width:80px">Replies</th>
+          <th style="width:140px">Last Post</th>
+        </tr>
+        <tr class="thread-row hot" onclick="toggleThread('t4')">
+          <td class="t-icon">🔥</td>
+          <td class="t-info">
+            <div class="t-title">What was your FIRST piece of content? (nostalgia thread)</div>
+            <div class="t-sub">Share your very first project — doesn't matter how bad it was 😂</div>
+            <div class="t-by">by <strong>Jr_Necki_Bera</strong></div>
+          </td>
+          <td class="t-stats"><strong>892</strong> replies</td>
+          <td class="t-last"><strong>ParsaNavidi</strong>Today</td>
+        </tr>
+      </table>
+      <div id="t4" class="thread-expand">
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2003,30050,20003,1070114,1060163,1332025/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🗡️</div>
+            </div>
+            <div class="post-username">Jr_Necki_Bera</div>
+            <div class="post-rank">🌙 Senior Member</div>
+            <div class="post-stats-row">Posts: <strong>6,771</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; 4 days ago</span></div>
+            <div class="post-content">
+              <p>ok we're all doing this. What was your FIRST piece of content? The one that made you go "ok I think I can actually do this"</p>
+              <p>Mine was a terrible product description for a small clothing brand. Zero strategy. No brief. Just me writing what sounded cool. Looking back it was so bad but it got me started 😭</p>
+              <p><span class="highlight">Drop yours below!!</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#847</span> &nbsp;·&nbsp; Just now</span></div>
+            <div class="post-content">
+              <p>lmaoo ok I'll bite</p>
+              <p>My first published piece was a buyer persona guide for <span class="highlight">Shoplazza</span> in 2022. I was so worried it was too long but they loved it and it's still one of the most-read posts on their blog 😅</p>
+              <p>Before that I'd done some ghostwriting and brand copy stuff but that was the first thing with my name on it. The feeling of seeing it live was actually kind of unreal??</p>
+              <p>The weird thing is looking back it still holds up. Maybe beginner instincts aren't always wrong. Or maybe I was just lucky idk 🍁</p>
+              <p class="green">Anyway — this thread is sending me. Keep them coming!!</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="status-bar">
-    <div class="sp" id="statusMsg">Welcome to MapleWorld · Choose your class above</div>
-  </div>
-  <a class="back" href="index.html">← Back to Desktop</a>
+  </div><!-- main-col -->
+</div><!-- page-wrap -->
+
+<div class="site-footer">
+  MapleStory Forums — Bera World &nbsp;·&nbsp; All times are GMT-5 &nbsp;·&nbsp;
+  Powered by <strong style="color:#cc88ff">vBulletin</strong> 3.8.7 &nbsp;·&nbsp;
+  Copyright ©2000-2024, MapleStory Community &nbsp;·&nbsp;
+  <a href="index.html" style="color:#88aaff;text-decoration:none">← Back to Desktop</a>
 </div>
 
 <script>
-// maplestory.io character sprite API
-// Format: https://maplestory.io/api/GMS/latest/character/{items}/stand1/0
-// Items: comma-separated numeric item IDs
-// We use known equipment IDs for each class look
-
-const BASE = 'https://maplestory.io/api/GMS/latest/character/';
-const ACTION = '/stand1/0';
-
-// Each array: [skin, face, hair, ...equipment]
-// Item IDs from maplestory.io (v83/GMS dataset)
-const charSprites = {
-  warrior: BASE + '2000,20000,30030,1040221,1060221,1072383,1302058' + ACTION,
-  mage:    BASE + '2001,20001,30007,1050147,1060090,1072037,1003823,1372000' + ACTION,
-  archer:  BASE + '2002,20002,30020,1060091,1040081,1072154,1003021,1452002' + ACTION,
-  thief:   BASE + '2003,20003,30050,1070114,1060163,1072269,1332025' + ACTION,
-  pirate:  BASE + '2004,20004,30046,1082146,1060153,1072430,1003349,1482004' + ACTION,
-};
-
-const classes = [
-  {
-    id: 'warrior',
-    class: 'WARRIOR',
-    job: 'Fighter → Crusader → Hero',
-    jobNodes: ['Beginner', 'Fighter', 'Crusader', 'Hero'],
-    color: '#cc4444',
-    statColor: '#cc4444',
-    icon: '⚔️',
-    body: `The backbone of every party. Hits hard, stands firm, never quits. The Warrior's strength isn't just raw damage — it's showing up every single day and doing the work without glamour.\n\nThis is Parsa on a deadline: focused, reliable, produces results. The Warrior doesn't miss.`,
-    stats: [
-      { name: 'STRENGTH',  val: 97 },
-      { name: 'ENDURANCE', val: 94 },
-      { name: 'EDGE',      val: 90 },
-    ]
-  },
-  {
-    id: 'mage',
-    class: 'MAGICIAN',
-    job: 'Wizard → Mage → Archmage',
-    jobNodes: ['Beginner', 'Wizard', 'Mage', 'Archmage'],
-    color: '#8844ee',
-    statColor: '#9955ff',
-    icon: '🔮',
-    body: `The Magician sees what others miss. Strategy, pattern recognition, the ability to process complexity and translate it into something that lands. Content architecture is spellcraft.\n\nParsa in strategy mode: building frameworks, structuring campaigns, turning a client brief into something elegant and effective.`,
-    stats: [
-      { name: 'INTELLECT', val: 95 },
-      { name: 'STRATEGY',  val: 93 },
-      { name: 'RANGE',     val: 88 },
-    ]
-  },
-  {
-    id: 'archer',
-    class: 'BOWMAN',
-    job: 'Hunter → Ranger → Bowmaster',
-    jobNodes: ['Beginner', 'Hunter', 'Ranger', 'Bowmaster'],
-    color: '#339944',
-    statColor: '#44aa44',
-    icon: '🏹',
-    body: `Precision at range. The Bowman hits the target before the enemy even knows they're there. Storytelling, narrative hooks, long-form content that reaches people emotionally — from exactly the right angle.\n\nParsa in full storyteller mode: the feature piece, the brand essay, the podcast script that opens with a scene.`,
-    stats: [
-      { name: 'PRECISION', val: 92 },
-      { name: 'NARRATIVE', val: 91 },
-      { name: 'DEXTERITY', val: 89 },
-    ]
-  },
-  {
-    id: 'thief',
-    class: 'THIEF',
-    job: 'Rogue → Assassin → Night Lord',
-    jobNodes: ['Beginner', 'Rogue', 'Assassin', 'Night Lord'],
-    color: '#555588',
-    statColor: '#6666bb',
-    icon: '🗡️',
-    body: `Speed, precision, maximum impact with minimal footprint. The Thief doesn't waste words — every syllable earns its place. SEO, conversion copy, email subject lines that get opened. In and out before the algorithm knows what hit it.\n\nParsa when the brief is tight and the goal is clear: direct, sharp, no filler.`,
-    stats: [
-      { name: 'SPEED',     val: 96 },
-      { name: 'SEO',       val: 86 },
-      { name: 'IMPACT',    val: 91 },
-    ]
-  },
-  {
-    id: 'pirate',
-    class: 'PIRATE',
-    job: 'Brawler → Marauder → Buccaneer',
-    jobNodes: ['Beginner', 'Brawler', 'Marauder', 'Buccaneer'],
-    color: '#cc7722',
-    statColor: '#dd8833',
-    icon: '🏴‍☠️',
-    body: `The Pirate doesn't play by anyone else's rules. Multi-format, multi-platform, always moving. Podcast production, video scripts, social copy, editorial — the Pirate can do all of it and do it well.\n\nParsa as producer and creative director: shipping full content pipelines end-to-end, from brief to distribution.`,
-    stats: [
-      { name: 'VERSATILITY', val: 90 },
-      { name: 'PRODUCTION',  val: 88 },
-      { name: 'CHAOS',       val: 85 },
-    ]
-  }
-];
-
-let selected = null;
-
-function buildCards() {
-  const row = document.getElementById('charRow');
-  row.innerHTML = classes.map((c, i) => `
-    <div class="char-card" id="card-${i}" onclick="pick(${i})">
-      <div class="char-sprite-wrap">
-        <img class="char-sprite"
-             src="${charSprites[c.id]}"
-             alt="${c.class}"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="char-sprite-fallback" style="display:none;align-items:flex-end;justify-content:center;height:90px;font-size:52px">${c.icon}</div>
-        <div class="char-shadow"></div>
-      </div>
-      <div class="char-name-plate">
-        <div class="char-class">${c.class}</div>
-        <div class="char-job">${c.jobNodes[1]}</div>
-      </div>
-    </div>
-  `).join('');
+function toggleBoard(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+function toggleThread(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+function showReply(id) {
+  document.getElementById(id).classList.toggle('visible');
 }
 
-function pick(i) {
-  document.querySelectorAll('.char-card').forEach(el => el.classList.remove('selected'));
-  document.getElementById('card-' + i).classList.add('selected');
-  selected = i;
-  showDetail(i);
-}
-
-function showDetail(i) {
-  const c = classes[i];
-  const scroll = document.getElementById('detailScroll');
-  scroll.classList.add('visible');
-
-  document.getElementById('detailBody').innerHTML = `
-    <div style="flex:1">
-      <div class="detail-class-name">${c.icon} ${c.class}</div>
-      <div class="detail-job-path">
-        ${c.jobNodes.map((j,idx) => `
-          <span class="job-node">${j}</span>
-          ${idx < c.jobNodes.length-1 ? '<span class="job-arrow">›</span>' : ''}
-        `).join('')}
-      </div>
-    </div>
-    <div class="detail-body" style="margin-top:10px">${c.body.replace(/\n/g,'<br>')}</div>
-    <div class="detail-stats">
-      ${c.stats.map(s => `
-        <div class="stat-row">
-          <div class="stat-lbl">${s.name}</div>
-          <div class="stat-track">
-            <div class="stat-fill" style="width:${s.val}%;background:linear-gradient(90deg,${c.statColor},${c.statColor}88)"></div>
-          </div>
-          <div class="stat-val">${s.val}/99</div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-
-  document.getElementById('statusMsg').textContent =
-    `${c.class} selected · Job path: ${c.job}`;
-}
-
-buildCards();
+// Open all boards by default for first visit feel
+window.addEventListener('load', () => {
+  ['board-announce','board-proj','board-ot'].forEach(id => {
+    document.getElementById(id).style.display = 'block';
+  });
+});
 </script>
 </body>
 </html>

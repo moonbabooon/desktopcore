@@ -5,739 +5,1170 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skills Cape — parsa.exe</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-/* RS colour palette */
-:root {
-  --rs-bg:       #3e2e0e;
-  --rs-bg2:      #2a1e08;
-  --rs-border:   #6b4a1f;
-  --rs-gold:     #ffcc44;
-  --rs-orange:   #ff9900;
-  --rs-text:     #ffe0a0;
-  --rs-dim:      #aa8844;
-  --rs-panel:    #2e2008;
-  --rs-green:    #3a6600;
-  --rs-red:      #991111;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rs-bg:#2e1f06;--rs-bg2:#1e1404;--rs-panel:#251a07;
+  --rs-border:#6b4a1f;--rs-border2:#4a2e0a;
+  --rs-gold:#ffcc44;--rs-orange:#ff9900;
+  --rs-text:#ffe0a0;--rs-dim:#aa8844;
+  --rs-green:#3a7a00;--rs-red:#cc1111;
 }
-
-body {
-  background: #1a0800;
-  display: flex; align-items: flex-start; justify-content: center;
-  min-height: 100vh; padding: 12px;
-  font-family: 'MS Sans Serif', Arial, sans-serif; font-size: 11px;
-}
+body{background:#1a0800;font-family:'MS Sans Serif',Arial,sans-serif;font-size:11px;display:flex;align-items:flex-start;justify-content:center;min-height:100vh;padding:8px}
 
 /* Windows chrome */
-.window {
-  background: #c0c0c0;
-  border: 2px solid; border-color: #fff #808080 #808080 #fff;
-  box-shadow: 3px 3px 0 #000;
-  width: min(520px, 98vw);
-}
-.title-bar {
-  background: linear-gradient(90deg, #000080, #1084d0);
-  color: #fff; padding: 3px 4px;
-  display: flex; align-items: center; justify-content: space-between;
-  font-weight: bold; font-size: 11px; user-select: none;
-}
-.title-left { display: flex; align-items: center; gap: 4px; }
-.tb-btns { display: flex; gap: 2px; }
-.tb-btn {
-  width: 16px; height: 14px; background: #c0c0c0;
-  border: 1px solid; border-color: #fff #808080 #808080 #fff;
-  font-size: 9px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: #000; text-decoration: none;
-}
-.menu-bar { background: #c0c0c0; border-bottom: 1px solid #808080; display: flex; padding: 2px 2px 0; }
-.mi { padding: 2px 8px; cursor: pointer; font-size: 11px; }
-.mi:hover { background: #000080; color: #fff; }
+.window{background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:3px 3px 0 #000;width:min(680px,99vw)}
+.title-bar{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:3px 4px;display:flex;align-items:center;justify-content:space-between;font-weight:bold;font-size:11px;user-select:none}
+.title-left{display:flex;align-items:center;gap:4px}
+.tb-btns{display:flex;gap:2px}
+.tb-btn{width:16px;height:14px;background:#c0c0c0;border:1px solid;border-color:#fff #808080 #808080 #fff;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000;text-decoration:none}
+.menu-bar{background:#c0c0c0;border-bottom:1px solid #808080;display:flex;padding:2px 2px 0}
+.mi{padding:2px 8px;cursor:pointer}.mi:hover{background:#000080;color:#fff}
 
-/* ── RS shell ── */
-.rs-body { background: var(--rs-bg2); padding: 10px; }
+/* RS shell */
+.rs-body{background:var(--rs-bg2);padding:8px}
 
 /* Player header */
-.rs-header {
-  background: linear-gradient(180deg, #3d2508, #2a1804);
-  border: 2px solid var(--rs-border);
-  border-radius: 4px 4px 0 0;
-  padding: 8px 12px;
-  display: flex; align-items: center; gap: 10px; margin-bottom: 0;
-}
-.rs-avatar {
-  width: 48px; height: 48px;
-  background: linear-gradient(135deg, #1a3a6e, #0d2244);
-  border: 2px solid var(--rs-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px; flex-shrink: 0;
-}
-.rs-player { flex: 1; }
-.rs-name { color: var(--rs-gold); font-size: 13px; font-weight: bold; }
-.rs-title-text { color: #aaa; font-size: 10px; margin-top: 2px; }
-.rs-combat-box { text-align: right; }
-.rs-combat-lbl { color: #aaa; font-size: 9px; }
-.rs-combat-val { color: var(--rs-gold); font-size: 22px; font-weight: bold; font-family: 'Courier New', monospace; }
+.rs-header{background:linear-gradient(180deg,#3d2508,#2a1804);border:2px solid var(--rs-border);border-radius:3px 3px 0 0;padding:8px 10px;display:flex;align-items:center;gap:10px}
+.rs-avatar{width:44px;height:44px;background:linear-gradient(135deg,#1a3a6e,#0d2244);border:2px solid var(--rs-border);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.rs-name{color:var(--rs-gold);font-size:12px;font-weight:bold}
+.rs-sub{color:#aaa;font-size:9px;margin-top:2px}
+.rs-combat-box{margin-left:auto;text-align:right}
+.rs-combat-lbl{color:#aaa;font-size:9px}
+.rs-combat-val{color:var(--rs-gold);font-size:20px;font-weight:bold;font-family:'Courier New',monospace}
 
-/* Tab bar */
-.rs-tabs {
-  display: flex; background: #221205;
-  border: 2px solid var(--rs-border); border-top: none;
-  overflow-x: auto;
-}
-.rs-tab {
-  padding: 6px 14px; font-size: 10px; cursor: pointer;
-  color: var(--rs-dim); border-right: 1px solid var(--rs-border);
-  white-space: nowrap; flex-shrink: 0;
-  user-select: none;
-}
-.rs-tab.active { background: var(--rs-bg); color: var(--rs-gold); font-weight: bold; }
-.rs-tab:hover:not(.active) { color: var(--rs-gold); }
+/* Tabs */
+.rs-tabs{display:flex;background:#150e02;border:2px solid var(--rs-border);border-top:none;overflow-x:auto;flex-shrink:0}
+.rs-tab{padding:6px 12px;font-size:10px;cursor:pointer;color:var(--rs-dim);border-right:1px solid var(--rs-border);white-space:nowrap;user-select:none;flex-shrink:0}
+.rs-tab.active{background:var(--rs-bg);color:var(--rs-gold);font-weight:bold}
+.rs-tab:hover:not(.active){color:var(--rs-gold)}
+.rs-tab.hidden{display:none}
 
-/* Tab panels */
-.rs-panel {
-  background: var(--rs-bg);
-  border: 2px solid var(--rs-border); border-top: none;
-  padding: 8px;
-  display: none;
-}
-.rs-panel.active { display: block; }
+/* Panels */
+.rs-panel{background:var(--rs-bg);border:2px solid var(--rs-border);border-top:none;display:none;padding:6px}
+.rs-panel.active{display:block}
 
-/* ──── SKILLS tab ──── */
-.rs-skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-@media (max-width: 380px) { .rs-skills { grid-template-columns: repeat(2,1fr); } }
+/* ── SKILLS TAB ── */
+.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+@media(max-width:400px){.skill-grid{grid-template-columns:repeat(2,1fr)}}
+.sk{background:var(--rs-panel);border:1px solid var(--rs-border2);padding:5px 6px;cursor:pointer;position:relative}
+.sk:hover{background:#3a2a0a}
+.sk-top{display:flex;align-items:center;gap:5px}
+.sk-icon{font-size:18px;width:22px;flex-shrink:0}
+.sk-name{color:var(--rs-orange);font-size:8px;font-weight:bold;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sk-lvls{display:flex;align-items:baseline;gap:2px;margin-top:1px}
+.sk-cur{color:#ffff00;font-size:14px;font-weight:bold;font-family:'Courier New',monospace}
+.sk-max{color:#888;font-size:10px;font-family:'Courier New',monospace}
+.sk-xp-track{height:4px;background:#111;border:1px solid #000;margin-top:3px;position:relative;overflow:hidden}
+.sk-xp-fill{height:100%;background:var(--rs-green);transition:width 0.4s}
+.sk.maxed .sk-xp-fill{background:#aacc00}
+.sk.maxed .sk-cur{color:#aaff00}
+.sk-tooltip{display:none;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#1a0c00;border:1px solid var(--rs-border);color:var(--rs-gold);font-size:10px;padding:6px 8px;z-index:999;width:190px;line-height:1.5;pointer-events:none;white-space:normal}
+.sk:hover .sk-tooltip{display:block}
+.skills-total{background:#150e02;border:2px solid var(--rs-border);border-top:none;padding:5px 8px;display:flex;justify-content:space-between;align-items:center}
+.st-lbl{color:var(--rs-dim);font-size:10px}
+.st-val{color:var(--rs-gold);font-size:14px;font-weight:bold;font-family:'Courier New',monospace}
 
-.sk {
-  background: #2a1804;
-  border: 1px solid #5a3a10;
-  padding: 4px 6px;
-  display: flex; align-items: center; gap: 5px;
-  cursor: pointer; position: relative;
-}
-.sk:hover { background: #3a2510; }
-.sk-icon { font-size: 18px; width: 22px; text-align: center; flex-shrink: 0; }
-.sk-info { flex: 1; min-width: 0; }
-.sk-name { color: var(--rs-orange); font-size: 8px; font-weight: bold; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sk-lvls { display: flex; align-items: baseline; gap: 2px; margin-top: 1px; }
-.sk-cur { color: #ffff00; font-size: 13px; font-weight: bold; font-family: 'Courier New', monospace; }
-.sk-sep { color: #666; font-size: 9px; }
-.sk-max { color: #aaa; font-size: 10px; font-family: 'Courier New', monospace; }
-.sk-bar { height: 3px; background: #111; border: 1px solid #000; margin-top: 3px; }
-.sk-fill { height: 100%; background: var(--rs-green); }
-.sk.maxed .sk-fill { background: #aacc00; }
-.sk.maxed .sk-cur { color: #aaff00; }
+/* ── WORLD TAB ── */
+.world-layout{display:flex;gap:6px;min-height:360px}
+.world-left{width:160px;flex-shrink:0;display:flex;flex-direction:column;gap:4px}
+.world-right{flex:1;min-width:0;display:flex;flex-direction:column}
+@media(max-width:480px){.world-layout{flex-direction:column}.world-left{width:100%}}
 
-.rs-tooltip {
-  display: none;
-  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
-  background: #1a0c00; border: 1px solid var(--rs-border);
-  color: var(--rs-gold); font-size: 10px;
-  padding: 6px 10px; z-index: 999; width: 200px;
-  text-align: left; line-height: 1.5; pointer-events: none;
-}
-.sk:hover .rs-tooltip { display: block; }
+.area-card{background:var(--rs-panel);border:2px solid var(--rs-border2);padding:6px 8px;cursor:pointer}
+.area-card.active{border-color:var(--rs-gold)}
+.area-card.locked{opacity:0.5;cursor:default}
+.area-name{color:var(--rs-gold);font-size:10px;font-weight:bold}
+.area-sub{color:#666;font-size:9px;margin-top:1px}
 
-.sk-total {
-  background: #221205; border: 2px solid var(--rs-border);
-  border-top: none; padding: 6px 10px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.sk-total-lbl { color: var(--rs-dim); font-size: 10px; }
-.sk-total-val { color: var(--rs-gold); font-size: 16px; font-weight: bold; font-family: 'Courier New', monospace; }
+.activity-list{background:var(--rs-panel);border:2px solid var(--rs-border2);padding:4px;flex:1;overflow-y:auto}
+.activity-section-lbl{color:var(--rs-orange);font-size:9px;font-weight:bold;text-transform:uppercase;padding:3px 4px 2px;letter-spacing:0.5px}
+.act-item{display:flex;align-items:center;gap:5px;padding:4px 6px;cursor:pointer;border-bottom:1px solid var(--rs-border2)}
+.act-item:hover{background:#3a2a0a}
+.act-item.locked{opacity:0.4;cursor:default}
+.act-icon{font-size:16px;width:20px;text-align:center}
+.act-name{color:var(--rs-text);font-size:10px}
+.act-lvl{color:#666;font-size:9px;margin-left:auto}
 
-/* Cape banner */
-.cape-banner {
-  background: linear-gradient(180deg, #2a1804, #1a0c00);
-  border: 2px solid var(--rs-border); border-top: none;
-  padding: 8px 12px; text-align: center;
+/* ── BATTLE SCREEN (Mother/EarthBound style) ── */
+.battle-screen{
+  position:relative;height:200px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;
+  border:3px solid;border-color:#808080 #fff #fff #808080;
+  cursor:default;
 }
-.cape-title { color: #aacc00; font-size: 11px; font-weight: bold; margin-bottom: 3px; }
-.cape-text { color: #888; font-size: 10px; line-height: 1.5; }
+.battle-bg{position:absolute;inset:0;transition:background 0.6s}
+.battle-ground{position:absolute;bottom:0;left:0;right:0;height:40px;opacity:0.8}
+.enemy-wrap{position:relative;z-index:2;text-align:center;user-select:none}
+.enemy-sprite{
+  font-size:88px;line-height:1;
+  filter:drop-shadow(0 6px 20px rgba(0,0,0,0.9));
+  display:block;
+  animation:enemyIdle 2s ease-in-out infinite;
+}
+@keyframes enemyIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.enemy-sprite.shake{animation:enemyShake 0.35s ease-out!important}
+@keyframes enemyShake{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(-10px) rotate(-4deg)}40%{transform:translateX(10px) rotate(4deg)}60%{transform:translateX(-6px) rotate(-2deg)}80%{transform:translateX(6px) rotate(2deg)}}
+.enemy-sprite.die{animation:enemyDie 0.6s ease-out forwards!important}
+@keyframes enemyDie{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(40px) scale(0.3);opacity:0}}
+.battle-flash{position:absolute;inset:0;z-index:10;pointer-events:none;animation:bflash 0.25s ease-out forwards}
+@keyframes bflash{0%{background:rgba(255,0,0,0.45)}100%{background:transparent}}
 
-/* ──── QUESTS tab ──── */
-.quest-list { display: flex; flex-direction: column; gap: 3px; }
-.quest {
-  display: flex; align-items: center; gap: 8px;
-  background: #2a1804; border: 1px solid #5a3a10;
-  padding: 6px 8px; cursor: pointer;
-}
-.quest:hover { background: #3a2510; }
-.q-status { font-size: 14px; flex-shrink: 0; }
-.q-info { flex: 1; }
-.q-name { color: var(--rs-gold); font-size: 10px; font-weight: bold; }
-.q-desc { color: #aaa; font-size: 9px; margin-top: 1px; }
-.q-points { color: var(--rs-orange); font-size: 9px; white-space: nowrap; }
-.quest.complete .q-name { color: #aaff44; }
-.quest.inprog .q-name { color: #ffcc44; }
-.quest.future .q-name { color: #888; }
-.quest-total {
-  margin-top: 6px; padding: 6px 8px;
-  background: #1a0c00; border: 1px solid var(--rs-border);
-  display: flex; justify-content: space-between;
-  font-size: 10px;
-}
-.quest-total span:first-child { color: var(--rs-dim); }
-.quest-total span:last-child { color: var(--rs-gold); font-weight: bold; }
+/* HP bar on battle screen */
+.battle-hpbar{position:absolute;top:0;left:0;right:0;padding:6px 8px;z-index:3;background:linear-gradient(180deg,rgba(0,0,0,0.7),transparent)}
+.battle-enemy-name{color:#ffff88;font-size:11px;font-weight:bold;text-shadow:1px 1px 2px #000;margin-bottom:3px}
+.battle-hp-row{display:flex;align-items:center;gap:6px}
+.battle-hp-track{flex:1;height:10px;background:#330000;border:1px solid #660000;overflow:hidden}
+.battle-hp-fill{height:100%;background:linear-gradient(90deg,#cc2222,#ff4444);transition:width 0.3s}
+.battle-hp-text{color:#ff8888;font-size:9px;font-family:'Courier New',monospace;width:36px;text-align:right;flex-shrink:0}
 
-/* ──── ACHIEVEMENTS tab ──── */
-.achievement-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-@media (max-width: 360px) { .achievement-grid { grid-template-columns: 1fr; } }
-.ach {
-  background: #2a1804; border: 2px solid #5a3a10;
-  padding: 8px; display: flex; gap: 8px; align-items: flex-start;
-}
-.ach.locked { opacity: 0.4; filter: grayscale(1); }
-.ach-icon { font-size: 24px; flex-shrink: 0; }
-.ach-info { flex: 1; min-width: 0; }
-.ach-name { color: var(--rs-gold); font-size: 10px; font-weight: bold; }
-.ach-desc { color: #aaa; font-size: 9px; margin-top: 2px; line-height: 1.4; }
-.ach-tier { color: var(--rs-orange); font-size: 9px; margin-top: 3px; }
+/* Splats */
+.splat{position:absolute;font-size:16px;font-weight:bold;text-shadow:1px 1px 2px #000;pointer-events:none;z-index:20;animation:splatAnim 1s ease-out forwards}
+@keyframes splatAnim{0%{opacity:1;transform:translateY(0) scale(1.2)}100%{opacity:0;transform:translateY(-45px) scale(0.8)}}
 
-/* ──── EQUIPMENT tab ──── */
-.eq-layout {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  max-width: 340px; margin: 0 auto;
-}
-.eq-slot {
-  background: #2a1804;
-  border: 2px solid #5a3a10;
-  padding: 6px 4px;
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  cursor: pointer; min-height: 64px; justify-content: center;
-  position: relative;
-}
-.eq-slot:hover { background: #3a2510; }
-.eq-slot.empty { opacity: 0.35; }
-.eq-icon { font-size: 24px; }
-.eq-name { color: var(--rs-gold); font-size: 8px; text-align: center; font-weight: bold; }
-.eq-stat { color: var(--rs-orange); font-size: 8px; }
-.eq-lbl { color: #666; font-size: 8px; }
+/* Idle state of battle screen */
+.battle-idle{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#554400;font-size:11px;text-align:center;gap:6px;position:relative;z-index:2}
+.battle-idle span{font-size:28px}
 
-.eq-tooltip {
-  display: none;
-  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
-  background: #1a0c00; border: 1px solid var(--rs-border);
-  color: var(--rs-gold); font-size: 10px;
-  padding: 6px 10px; z-index: 999; width: 180px;
-  text-align: left; line-height: 1.5; pointer-events: none; white-space: normal;
-}
-.eq-slot:hover .eq-tooltip { display: block; }
+/* ── COMBAT CONTROLS ── */
+.combat-controls{background:var(--rs-panel);border:2px solid var(--rs-border2);border-top:none;padding:6px 8px;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.cb{background:linear-gradient(180deg,#c0b060,#806020);color:#fff;border:2px solid;border-color:#e0d080 #402000 #402000 #e0d080;padding:4px 12px;font-size:11px;cursor:pointer;font-family:'MS Sans Serif',Arial,sans-serif}
+.cb:hover{background:linear-gradient(180deg,#d0c070,#906030)}
+.cb:active{border-color:#402000 #e0d080 #e0d080 #402000;padding:5px 11px 3px 13px}
+.cb:disabled{opacity:0.4;cursor:default}
+.player-hp-area{margin-left:auto;text-align:right;font-size:10px;color:var(--rs-dim)}
+.php-row{display:flex;align-items:center;gap:4px;margin-top:2px}
+.php-track{width:80px;height:8px;background:#110000;border:1px solid #330000;overflow:hidden}
+.php-fill{height:100%;background:linear-gradient(90deg,#44cc44,#66ff66);transition:width 0.3s}
+.php-text{color:#44ff44;font-size:9px;font-family:'Courier New',monospace}
 
-/* ──── COW FIGHT easter egg ──── */
-.cow-panel { padding: 6px; }
-.cow-arena {
-  background: #1a2a0a;
-  border: 3px solid; border-color: #808080 #fff #fff #808080;
-  height: 160px;
-  position: relative; overflow: hidden;
-  margin-bottom: 8px;
-}
-/* Ground */
-.cow-arena::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0; height: 28px;
-  background: linear-gradient(180deg, #3a6600 0%, #2a4800 100%);
-  border-top: 3px solid #4a8000;
-}
-/* Sky */
-.cow-arena::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 28px;
-  background: linear-gradient(180deg, #4488cc 0%, #66aaee 100%);
-}
+/* Combat log */
+.combat-log{background:#000;border:2px solid;border-color:#808080 #fff #fff #808080;height:72px;overflow-y:auto;padding:3px 6px;font-size:10px;font-family:'Courier New',monospace}
+.log-line{padding:1px 0}
+.log-line.hit-p{color:#ffff44}
+.log-line.hit-c{color:#ff6644}
+.log-line.miss{color:#556655}
+.log-line.sys{color:#6688ff}
+.log-line.win{color:#aaff44;font-weight:bold}
+.log-line.die{color:#ff4444;font-weight:bold}
+.log-line.drop{color:#ffcc44}
+.log-line.lvlup{color:#aaff00;font-weight:bold}
 
-.fighter {
-  position: absolute;
-  bottom: 28px;
-  display: flex; flex-direction: column; align-items: center;
-  z-index: 2;
-}
-.fighter-sprite { font-size: 36px; line-height: 1; user-select: none; transition: transform 0.1s; }
-.fighter-name { font-size: 8px; color: #fff; background: rgba(0,0,0,0.6); padding: 1px 3px; margin-top: 1px; white-space: nowrap; }
-#fighter-player { left: 24px; }
-#fighter-cow    { right: 24px; }
+/* ── SKILLING VIEW ── */
+.skill-view{flex:1;display:flex;flex-direction:column;gap:4px}
+.sv-header{background:var(--rs-panel);border:2px solid var(--rs-border2);padding:8px;text-align:center}
+.sv-skill-name{color:var(--rs-gold);font-size:14px;font-weight:bold}
+.sv-action-name{color:var(--rs-dim);font-size:10px;margin-top:2px}
+.sv-scene{background:#111;border:3px solid;border-color:#808080 #fff #fff #808080;height:140px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden}
+.sv-progress{background:var(--rs-panel);border:2px solid var(--rs-border2);border-top:none;padding:6px 8px}
+.sv-progress-lbl{font-size:9px;color:var(--rs-dim);margin-bottom:3px;display:flex;justify-content:space-between}
+.sv-bar-track{height:14px;background:#111;border:2px solid;border-color:#808080 #fff #fff #808080;overflow:hidden}
+.sv-bar-fill{height:100%;background:linear-gradient(90deg,var(--rs-green),#88cc00);transition:width 0.1s linear}
+.sv-result{min-height:40px;background:#000;border:2px solid;border-color:#808080 #fff #fff #808080;border-top:none;padding:4px 6px;font-size:10px;font-family:'Courier New',monospace;overflow-y:auto}
+.sv-btn-row{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
 
-.hp-bars { display: flex; gap: 8px; margin-bottom: 8px; }
-.hp-bar { flex: 1; }
-.hp-bar-label { font-size: 9px; color: var(--rs-orange); margin-bottom: 2px; display: flex; justify-content: space-between; }
-.hp-bar-track {
-  height: 14px;
-  background: #111; border: 2px solid; border-color: #808080 #fff #fff #808080;
-  position: relative; overflow: hidden;
-}
-.hp-bar-fill { height: 100%; transition: width 0.3s; }
-.hp-bar-fill.player { background: linear-gradient(90deg, #33cc33, #55ee55); }
-.hp-bar-fill.cow    { background: linear-gradient(90deg, #cc3333, #ee5555); }
-.hp-bar-text {
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: bold; color: #fff;
-  text-shadow: 1px 1px 0 #000;
-}
+/* ── SMITHING ── */
+.smith-recipes{display:flex;flex-direction:column;gap:3px}
+.recipe{background:var(--rs-panel);border:1px solid var(--rs-border2);padding:6px 8px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.recipe:hover{background:#3a2a0a}
+.recipe.locked{opacity:0.4;cursor:default}
+.recipe-icon{font-size:22px;flex-shrink:0}
+.recipe-info{flex:1}
+.recipe-name{color:var(--rs-gold);font-size:10px;font-weight:bold}
+.recipe-inputs{color:#888;font-size:9px;margin-top:1px}
+.recipe-xp{color:var(--rs-orange);font-size:9px}
 
-.combat-btns { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-.cb {
-  background: #c0c0c0;
-  border: 2px solid; border-color: #fff #808080 #808080 #fff;
-  padding: 4px 12px; font-size: 11px; cursor: pointer;
-  font-family: 'MS Sans Serif', Arial, sans-serif;
-}
-.cb:active { border-color: #808080 #fff #fff #808080; }
-.cb:disabled { opacity: 0.5; cursor: default; }
+/* ── INVENTORY TAB ── */
+.inv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.inv-slot{background:var(--rs-panel);border:2px solid var(--rs-border2);height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative}
+.inv-slot:hover{background:#3a2a0a}
+.inv-slot.empty{cursor:default}
+.inv-icon{font-size:24px;line-height:1}
+.inv-name{font-size:8px;color:var(--rs-text);text-align:center;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;padding:0 2px}
+.inv-qty{position:absolute;bottom:2px;right:3px;font-size:9px;color:#ffff88;font-family:'Courier New',monospace}
+.inv-tooltip{display:none;position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);background:#1a0c00;border:1px solid var(--rs-border);color:var(--rs-gold);font-size:10px;padding:5px 8px;z-index:99;width:140px;line-height:1.5;pointer-events:none;white-space:normal}
+.inv-slot:hover .inv-tooltip{display:block}
+.inv-actions{margin-top:6px;display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.inv-gold{color:var(--rs-gold);font-size:12px;font-weight:bold;display:flex;align-items:center;gap:4px}
 
-.combat-log {
-  background: #000;
-  border: 2px solid; border-color: #808080 #fff #fff #808080;
-  height: 80px; overflow-y: auto; padding: 4px 6px;
-  font-size: 10px; font-family: 'Courier New', monospace;
-}
-.log-line { padding: 1px 0; }
-.log-line.hit-p  { color: #ffff44; }
-.log-line.hit-c  { color: #ff6666; }
-.log-line.miss   { color: #888; }
-.log-line.system { color: #44aaff; }
-.log-line.win    { color: #aaff44; font-weight: bold; }
-.log-line.die    { color: #ff4444; font-weight: bold; }
-.log-line.drop   { color: #ffcc44; }
+/* ── ACHIEVEMENTS TAB ── */
+.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}
+@media(max-width:400px){.ach-grid{grid-template-columns:1fr}}
+.ach-card{background:var(--rs-panel);border:2px solid var(--rs-border2);padding:8px;display:flex;gap:8px;align-items:flex-start}
+.ach-card.unlocked.bronze{border-color:#b87333}
+.ach-card.unlocked.silver{border-color:#aaaaaa}
+.ach-card.unlocked.gold{border-color:#ffcc00}
+.ach-card.locked{opacity:0.35;filter:grayscale(1)}
+.ach-icon{font-size:22px;flex-shrink:0}
+.ach-name{color:var(--rs-gold);font-size:10px;font-weight:bold}
+.ach-desc{color:#888;font-size:9px;margin-top:1px;line-height:1.4}
+.ach-tier{font-size:8px;margin-top:3px;font-weight:bold;text-transform:uppercase}
+.ach-card.unlocked.bronze .ach-tier{color:#b87333}
+.ach-card.unlocked.silver .ach-tier{color:#aaaaaa}
+.ach-card.unlocked.gold .ach-tier{color:#ffcc00}
+.ach-card.locked .ach-tier{color:#555}
 
-/* Floating damage splat */
-.splat {
-  position: absolute; font-size: 14px; font-weight: bold;
-  text-shadow: 1px 1px 0 #000;
-  pointer-events: none; z-index: 10;
-  animation: floatUp 1.2s ease-out forwards;
+/* ── NOTIFICATION ── */
+.notif{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(180deg,#3a2a00,#1a1200);
+  border:2px solid var(--rs-gold);color:var(--rs-gold);
+  font-size:12px;font-weight:bold;padding:8px 20px;
+  z-index:9999;text-align:center;min-width:200px;
+  animation:notifPop 0.3s ease-out;
+  box-shadow:0 4px 16px rgba(0,0,0,0.8);
 }
-@keyframes floatUp {
-  0%   { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-40px); }
-}
+@keyframes notifPop{0%{transform:translateX(-50%) scale(0.8);opacity:0}100%{transform:translateX(-50%) scale(1);opacity:1}}
+.notif.secret{border-color:#cc44ff;color:#cc44ff;background:linear-gradient(180deg,#200030,#0a0018)}
+
+/* Level up flash */
+.lvlup-overlay{position:fixed;inset:0;background:rgba(255,230,0,0.15);z-index:9998;pointer-events:none;animation:lvlFlash 0.6s ease-out forwards}
+@keyframes lvlFlash{0%,20%{opacity:1}100%{opacity:0}}
 
 /* Status bar */
-.status-bar { border-top: 1px solid #808080; padding: 2px 4px; display: flex; gap: 4px; }
-.sp { flex:1; border:1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 4px; color:#444; }
-.back {
-  display: block; text-align: center; padding: 5px; font-size: 10px;
-  color: #000080; text-decoration: underline; cursor: pointer;
-  background: #c0c0c0; border-top: 1px solid #dfdfdf;
-}
+.status-bar{border-top:1px solid #808080;padding:2px 4px;display:flex;gap:4px}
+.sp{flex:1;border:1px solid;border-color:#808080 #fff #fff #808080;padding:1px 4px;color:#444}
+.back{display:block;text-align:center;padding:5px;font-size:10px;color:#000080;text-decoration:underline;cursor:pointer;background:#c0c0c0;border-top:1px solid #dfdfdf}
 </style>
 </head>
 <body>
 <div class="window">
   <div class="title-bar">
     <div class="title-left">⚔️ Skills Cape — parsa.exe</div>
-    <div class="tb-btns">
-      <a class="tb-btn" href="index.html">✕</a>
-    </div>
+    <div class="tb-btns"><a class="tb-btn" href="index.html">✕</a></div>
   </div>
   <div class="menu-bar">
-    <div class="mi">Character</div>
-    <div class="mi">Skills</div>
-    <div class="mi">Highscores</div>
+    <div class="mi">Character</div><div class="mi">Options</div><div class="mi">Help</div>
   </div>
 
   <div class="rs-body">
-    <!-- Player card -->
     <div class="rs-header">
       <div class="rs-avatar">✍️</div>
-      <div class="rs-player">
+      <div>
         <div class="rs-name">Parsa Navidi</div>
-        <div class="rs-title-text">Content Strategist · Copywriter</div>
-        <div class="rs-title-text" style="color:#aacc00;margin-top:2px">🏅 Skill Cape Unlocked</div>
+        <div class="rs-sub">Content Strategist · Copywriter · Bera World</div>
+        <div class="rs-sub" style="color:#aacc00;margin-top:1px">🏅 Skill Cape Equipped</div>
       </div>
       <div class="rs-combat-box">
-        <div class="rs-combat-lbl">Total Level</div>
-        <div class="rs-combat-val" id="totalDisp">—</div>
+        <div class="rs-combat-lbl">Combat Lv.</div>
+        <div class="rs-combat-val" id="combatLvl">3</div>
       </div>
     </div>
 
-    <!-- Tabs -->
     <div class="rs-tabs">
-      <div class="rs-tab active" data-tab="skills"   onclick="switchTab('skills')">Skills</div>
-      <div class="rs-tab"        data-tab="quests"   onclick="switchTab('quests')">Quests</div>
-      <div class="rs-tab"        data-tab="achieve"  onclick="switchTab('achieve')">Achievements</div>
-      <div class="rs-tab"        data-tab="equip"    onclick="switchTab('equip')">Equipment</div>
-      <div class="rs-tab"        data-tab="cow"      onclick="switchTab('cow')">🐄 ??</div>
+      <div class="rs-tab active" data-tab="skills" onclick="switchTab('skills')">⚔️ Skills</div>
+      <div class="rs-tab" data-tab="world" onclick="switchTab('world')">🗺️ World</div>
+      <div class="rs-tab" data-tab="inventory" onclick="switchTab('inventory')">🎒 Inventory</div>
+      <div class="rs-tab" data-tab="achieve" onclick="switchTab('achieve')">🏆 Achievements</div>
     </div>
 
     <!-- SKILLS -->
     <div class="rs-panel active" id="tab-skills">
-      <div class="rs-skills" id="skillGrid"></div>
+      <div class="skill-grid" id="skillGrid"></div>
     </div>
-    <div id="skills-footer" style="display:block">
-      <div class="sk-total">
-        <span class="sk-total-lbl">Total Level</span>
-        <span><span class="sk-total-val" id="totalVal">0</span><span style="color:#666;font-size:10px"> / 1188</span></span>
-      </div>
-      <div class="cape-banner">
-        <div class="cape-title">🎓 Skill Cape of the Wordsmith — Equipped</div>
-        <div class="cape-text">Awarded to adventurers who have mastered the art of making words work.<br>
-        Total XP earned: <span style="color:var(--rs-gold)">14,320,480</span></div>
+    <div id="skillsFooter" style="display:block">
+      <div class="skills-total">
+        <span class="st-lbl">Total Level</span>
+        <span><span class="st-val" id="totalLvl">0</span> <span style="color:#555;font-size:10px">/ 792</span></span>
       </div>
     </div>
 
-    <!-- QUESTS -->
-    <div class="rs-panel" id="tab-quests">
-      <div class="quest-list" id="questList"></div>
-      <div class="quest-total">
-        <span>Quest Points</span>
-        <span id="questPoints">0 / 30</span>
+    <!-- WORLD -->
+    <div class="rs-panel" id="tab-world">
+      <div class="world-layout">
+        <div class="world-left" id="worldLeft"><!-- rendered by JS --></div>
+        <div class="world-right" id="worldRight"><!-- rendered by JS --></div>
+      </div>
+    </div>
+
+    <!-- INVENTORY -->
+    <div class="rs-panel" id="tab-inventory">
+      <div class="inv-grid" id="invGrid"></div>
+      <div class="inv-actions">
+        <div class="inv-gold">💰 <span id="goldAmt">0</span> coins</div>
+        <button class="cb" onclick="dropAll()">Drop All Junk</button>
+        <span id="invCount" style="color:#888;font-size:9px;margin-left:auto">0/28 slots</span>
       </div>
     </div>
 
     <!-- ACHIEVEMENTS -->
     <div class="rs-panel" id="tab-achieve">
-      <div class="achievement-grid" id="achGrid"></div>
-    </div>
-
-    <!-- EQUIPMENT -->
-    <div class="rs-panel" id="tab-equip">
-      <div id="eqLayout"></div>
-    </div>
-
-    <!-- COW FIGHT easter egg -->
-    <div class="rs-panel" id="tab-cow">
-      <div class="cow-panel">
-        <div class="cow-arena" id="arena">
-          <div class="fighter" id="fighter-player">
-            <div class="fighter-sprite" id="sprite-player">🧑‍💻</div>
-            <div class="fighter-name">Parsa Navidi</div>
-          </div>
-          <div class="fighter" id="fighter-cow">
-            <div class="fighter-sprite" id="sprite-cow">🐄</div>
-            <div class="fighter-name">Lumbridge Cow</div>
-          </div>
-        </div>
-        <div class="hp-bars">
-          <div class="hp-bar">
-            <div class="hp-bar-label"><span>Parsa</span><span id="php-text">10/10</span></div>
-            <div class="hp-bar-track"><div class="hp-bar-fill player" id="php-fill" style="width:100%"></div></div>
-          </div>
-          <div class="hp-bar">
-            <div class="hp-bar-label"><span>Lumbridge Cow</span><span id="chp-text">8/8</span></div>
-            <div class="hp-bar-track"><div class="hp-bar-fill cow" id="chp-fill" style="width:100%"></div></div>
-          </div>
-        </div>
-        <div class="combat-btns">
-          <button class="cb" id="btn-atk" onclick="attack()">⚔️ Attack</button>
-          <button class="cb" id="btn-eat" onclick="eat()">🥩 Eat Food (3)</button>
-          <button class="cb" id="btn-run" onclick="flee()">🏃 Run Away</button>
-          <button class="cb" id="btn-reset" onclick="resetFight()" style="display:none">▶ Fight Again</button>
-        </div>
-        <div class="combat-log" id="combatLog"></div>
-      </div>
+      <div class="ach-grid" id="achGrid"></div>
     </div>
 
   </div><!-- rs-body -->
 
-  <div class="status-bar">
-    <div class="sp" id="statusMsg">Hover a skill to view details · Click tabs to explore · 🐄 there's something hidden…</div>
-  </div>
+  <div class="status-bar"><div class="sp" id="statusMsg">Welcome back, adventurer. Head to the World tab to begin your journey.</div></div>
   <a class="back" href="index.html">← Back to Desktop</a>
 </div>
 
 <script>
-// ──────────────── DATA ────────────────
-const SKILLS = [
-  { icon:'✍️', name:'Copywriting',      level:99, xp:4672349, tip:'Master of persuasive writing. Cape unlocked.' },
-  { icon:'🗺️', name:'Content Strategy', level:93, xp:2341000, tip:'Plans content ecosystems, not just pieces.' },
-  { icon:'📖', name:'Storytelling',      level:91, xp:1987000, tip:'Hooks the reader, holds attention, lands the close.' },
-  { icon:'🔍', name:'SEO',              level:86, xp:1340000, tip:'Writes for humans first. Search engines follow.' },
-  { icon:'🎤', name:'Brand Voice',       level:94, xp:2680000, tip:'Reads a brand in minutes, writes in their voice.' },
-  { icon:'✂️', name:'Editing',           level:88, xp:1560000, tip:'Kills darlings efficiently. Sharpens arguments.' },
-  { icon:'🔬', name:'Research',          level:87, xp:1420000, tip:'Primary + secondary. Knows stat from story.' },
-  { icon:'📊', name:'Analytics',         level:80, xp:900000,  tip:'GA4, Search Console, content dashboards.' },
-  { icon:'🎙️', name:'Podcast Prod.',    level:85, xp:1200000, tip:'Scripts, show notes, ep arcs, distribution.' },
-  { icon:'🎬', name:'Video Scripting',   level:82, xp:1050000, tip:'Writes for ear and eye. Pacing, visual cues.' },
-  { icon:'📧', name:'Email Copy',        level:84, xp:1180000, tip:'Subject lines that get opened. Body that converts.' },
-  { icon:'📱', name:'Social Copy',       level:83, xp:1100000, tip:'Platform-native. TikTok is not LinkedIn.' },
+// ═══════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════
+const ITEMS = {
+  logs:          {name:'Logs',          icon:'🪵', stack:true},
+  oak_logs:      {name:'Oak Logs',      icon:'🌿', stack:true},
+  copper_ore:    {name:'Copper Ore',    icon:'🟤', stack:true},
+  tin_ore:       {name:'Tin Ore',       icon:'🪨', stack:true},
+  iron_ore:      {name:'Iron Ore',      icon:'⚫', stack:true},
+  coal:          {name:'Coal',          icon:'🖤', stack:true},
+  bronze_bar:    {name:'Bronze Bar',    icon:'🟫', stack:true},
+  iron_bar:      {name:'Iron Bar',      icon:'⬛', stack:true},
+  bronze_sword:  {name:'Bronze Sword',  icon:'🗡️', stack:false, atkBonus:5},
+  iron_sword:    {name:'Iron Sword',    icon:'⚔️', stack:false, atkBonus:10},
+  feathers:      {name:'Feathers',      icon:'🪶', stack:true},
+  raw_chicken:   {name:'Raw Chicken',   icon:'🍗', stack:false, cookable:{id:'chicken',xp:30,burnBase:0.5}},
+  chicken:       {name:'Cooked Chicken',icon:'🍗', stack:false, heal:3},
+  raw_beef:      {name:'Raw Beef',      icon:'🥩', stack:false, cookable:{id:'beef',xp:40,burnBase:0.55}},
+  beef:          {name:'Cooked Beef',   icon:'🥩', stack:false, heal:4},
+  raw_salmon:    {name:'Raw Salmon',    icon:'🐟', stack:false, cookable:{id:'salmon',xp:90,burnBase:0.7}},
+  salmon:        {name:'Salmon',        icon:'🐟', stack:false, heal:9},
+  cowhide:       {name:'Cowhide',       icon:'🐄', stack:false},
+  coins:         {name:'Coins',         icon:'💰', stack:true},
+  dark_essence:  {name:'Dark Essence',  icon:'✨', stack:true},
+  runes:         {name:'Runes',         icon:'🔮', stack:true},
+  wizard_hat:    {name:"Wizard's Hat",  icon:'🎩', stack:false},
+};
+
+const MONSTERS = {
+  chicken:     {name:'Chicken',     lv:1,  hp:3,  atk:[0,1],  xp:12,  area:'lumbridge',   emoji:'🐔', bg:'linear-gradient(180deg,#7ec8f0 0%,#aee87a 55%,#3a7000 100%)', ground:'#3a7000', desc:'A common farm chicken.', drops:[{id:'feathers',qty:()=>5,ch:1},{id:'raw_chicken',qty:()=>1,ch:0.8}]},
+  cow:         {name:'Cow',         lv:2,  hp:8,  atk:[0,3],  xp:16,  area:'lumbridge',   emoji:'🐄', bg:'linear-gradient(180deg,#87ceeb 0%,#7ec850 60%,#4a8a00 100%)', ground:'#4a8a00', desc:'A grazing cow. Drops useful hides.', drops:[{id:'raw_beef',qty:()=>1,ch:1},{id:'cowhide',qty:()=>1,ch:1},{id:'coins',qty:()=>rand(1,3),ch:0.3}]},
+  goblin:      {name:'Goblin',      lv:5,  hp:12, atk:[0,4],  xp:25,  area:'lumbridge',   emoji:'👺', bg:'linear-gradient(180deg,#556655 0%,#334433 55%,#1a2a1a 100%)', ground:'#1a2a1a', desc:'A small but aggressive goblin.', drops:[{id:'coins',qty:()=>rand(2,8),ch:0.7},{id:'iron_ore',qty:()=>1,ch:0.2}]},
+  barbarian:   {name:'Barbarian',   lv:28, hp:40, atk:[3,7],  xp:115, area:'barbarian',   emoji:'🧔', bg:'linear-gradient(180deg,#3a3a4a 0%,#222232 50%,#111120 100%)', ground:'#111120', desc:'A fierce barbarian warrior.', drops:[{id:'coins',qty:()=>rand(10,30),ch:0.9},{id:'iron_ore',qty:()=>1,ch:0.3},{id:'raw_salmon',qty:()=>1,ch:0.2}]},
+  dark_warrior:{name:'Dark Warrior',lv:31, hp:45, atk:[4,8],  xp:127, area:'barbarian',   emoji:'🗡️',bg:'linear-gradient(180deg,#1a1a2a 0%,#0d0d1a 50%,#050510 100%)', ground:'#050510', desc:'An undead warrior in dark armour.', drops:[{id:'coins',qty:()=>rand(15,40),ch:0.9},{id:'dark_essence',qty:()=>1,ch:0.3}]},
+  dark_wizard: {name:'Dark Wizard', lv:7,  hp:20, atk:[2,12], xp:48,  area:'wilderness', emoji:'🧙', bg:'radial-gradient(ellipse at 50% 60%,#3a0060 0%,#150028 50%,#000000 100%)', ground:'#050005', desc:'Crackles with unknown dark magic. Hits hard.', drops:[{id:'coins',qty:()=>rand(5,25),ch:1},{id:'runes',qty:()=>rand(5,10),ch:0.7},{id:'wizard_hat',qty:()=>1,ch:0.1}]},
+};
+
+const AREAS = {
+  lumbridge:  {name:'Lumbridge',          sub:'Starter area',           monsters:['chicken','cow','goblin'],          skills:['woodcutting','mining','cooking'],  unlockReq:[]},
+  barbarian:  {name:'Barbarian Village',  sub:'Unlock: clear Lumbridge', monsters:['barbarian','dark_warrior'],        skills:['smithing'],                        unlockReq:['chicken','cow','goblin']},
+  wilderness: {name:'⚠️ Wilderness',     sub:'SECRET — enter at risk',  monsters:['dark_wizard'],                     skills:[],                                  unlockReq:['barbarian','dark_warrior'], secret:true},
+};
+
+const WOOD_ACTIONS = [
+  {name:'Normal Tree', icon:'🌲', lvl:1,  xp:25,   ms:2200, out:{id:'logs',qty:1},      bg:'#1a3a0a'},
+  {name:'Oak Tree',    icon:'🌳', lvl:15, xp:37.5, ms:3000, out:{id:'oak_logs',qty:1}, bg:'#2a4a1a'},
+];
+const MINE_ACTIONS = [
+  {name:'Copper Rock', icon:'🟤', lvl:1,  xp:17.5, ms:2600, out:{id:'copper_ore',qty:1}, bg:'#3a2010'},
+  {name:'Iron Rock',   icon:'⚫', lvl:15, xp:35,   ms:3400, out:{id:'iron_ore',qty:1},   bg:'#2a2a2a'},
+  {name:'Coal Rock',   icon:'🖤', lvl:30, xp:50,   ms:4200, out:{id:'coal',qty:1},       bg:'#1a1a1a'},
+];
+const SMITH_RECIPES = [
+  {name:'Bronze Bar',   icon:'🟫', lvl:1,  xp:6.25, inp:[{id:'copper_ore',n:1},{id:'tin_ore',n:1}], out:{id:'bronze_bar',n:1}},
+  {name:'Iron Bar',     icon:'⬛', lvl:15, xp:12.5, inp:[{id:'iron_ore',n:2}],                      out:{id:'iron_bar',n:1}},
+  {name:'Bronze Sword', icon:'🗡️', lvl:4,  xp:12.5, inp:[{id:'bronze_bar',n:1}],                    out:{id:'bronze_sword',n:1}},
+  {name:'Iron Sword',   icon:'⚔️', lvl:19, xp:25,   inp:[{id:'iron_bar',n:1}],                      out:{id:'iron_sword',n:1}},
 ];
 
-const QUESTS = [
-  { name:'The First Byline',        desc:'Published first article for Shoplazza',           pts:2, status:'complete' },
-  { name:'Client Acquisition',      desc:'Landed first enterprise retainer',                pts:3, status:'complete' },
-  { name:'The Yardi Contract',      desc:'Became content lead for Yardi Canada',            pts:5, status:'complete' },
-  { name:'Market Report Framework', desc:'Built monthly report pipeline from scratch',      pts:4, status:'complete' },
-  { name:'Podcast Pipeline',        desc:'Ran Jas Takhar Podcast end-to-end',               pts:3, status:'complete' },
-  { name:'Feature Film',            desc:'Long-form editorial piece for national brand',    pts:3, status:'complete' },
-  { name:'Brand Voice Guide',       desc:'Internal content standards document',             pts:4, status:'inprog'   },
-  { name:'Dragon Slayer',           desc:'Rank a competitive keyword to position 1',        pts:4, status:'future'   },
-  { name:'Legends Quest',           desc:'Publish something that goes properly viral',      pts:2, status:'future'   },
+const SKILLS_DEF = [
+  {id:'attack',     name:'Attack',      icon:'⚔️',  base:1},
+  {id:'strength',   name:'Strength',    icon:'💪',  base:1},
+  {id:'hitpoints',  name:'Hitpoints',   icon:'❤️',  base:10, baseXP:1154},
+  {id:'defence',    name:'Defence',     icon:'🛡️',  base:1},
+  {id:'woodcutting',name:'Woodcutting', icon:'🪓',  base:1},
+  {id:'mining',     name:'Mining',      icon:'⛏️',  base:1},
+  {id:'smithing',   name:'Smithing',    icon:'🔨',  base:1},
+  {id:'cooking',    name:'Cooking',     icon:'🍳',  base:1},
 ];
 
-const ACHIEVEMENTS = [
-  { icon:'🏆', name:'Published Author',      desc:'20+ published pieces across multiple brands', tier:'Gold',   locked:false },
-  { icon:'🔱', name:'Enterprise Scribe',     desc:'Wrote for a company with 2,500+ employees',   tier:'Silver', locked:false },
-  { icon:'🎤', name:'Podcast Producer',      desc:'50+ episode production run',                  tier:'Gold',   locked:false },
-  { icon:'⚡', name:'Night Editor',          desc:'Submitted final copy at 2am',                 tier:'Bronze', locked:false },
-  { icon:'🥇', name:'First Place Ranking',   desc:'Ranked #1 on Google for a target keyword',   tier:'Gold',   locked:false },
-  { icon:'🌐', name:'Multi-Brand Voice',     desc:'Wrote in 5+ distinct brand voices',          tier:'Silver', locked:false },
-  { icon:'💡', name:'The Idea Machine',      desc:'Generated 100+ content briefs in one quarter',tier:'Bronze', locked:false },
-  { icon:'🔒', name:'True Lumbridge Legend', desc:'Defeat the Lumbridge Cow',                   tier:'???',    locked:true  },
+const ACHIEV_DEF = [
+  {id:'first_blood',   name:'First Blood',          icon:'⚔️', tier:'bronze', desc:'Kill your first monster.',                                check:s=>s.totalKills>=1},
+  {id:'chicken_run',   name:'Chicken Chaser',        icon:'🐔', tier:'bronze', desc:'Kill 10 Chickens.',                                        check:s=>(s.kills.chicken||0)>=10},
+  {id:'lumberjack',    name:'Lumberjack',             icon:'🪓', tier:'bronze', desc:'Reach Woodcutting level 5.',                               check:s=>s.sk.woodcutting.lv>=5},
+  {id:'miner_start',   name:'Rock Steady',            icon:'⛏️', tier:'bronze', desc:'Reach Mining level 5.',                                    check:s=>s.sk.mining.lv>=5},
+  {id:'chef',          name:'Chef\'s Special',        icon:'🍳', tier:'bronze', desc:'Successfully cook 5 items.',                               check:s=>s.cooked>=5},
+  {id:'smithy',        name:'Master Smithy',           icon:'🔨', tier:'bronze', desc:'Smith your first bar.',                                    check:s=>s.smithed>=1},
+  {id:'lumbridge',     name:'Lumbridge Champion',     icon:'🏆', tier:'silver', desc:'Defeat the Chicken, Cow, and Goblin.',                     check:s=>['chicken','cow','goblin'].every(m=>s.unique.includes(m))},
+  {id:'barbarian',     name:'Barbarian Slayer',       icon:'🛡️', tier:'silver', desc:'Defeat all Barbarian Village monsters.',                   check:s=>['barbarian','dark_warrior'].every(m=>s.unique.includes(m))},
+  {id:'wilderness_in', name:'Into the Abyss',         icon:'🌑', tier:'gold',   desc:'Discover the secret Wilderness area.',                     check:s=>s.areas.includes('wilderness')},
+  {id:'wizard_slain',  name:'True Champion',          icon:'🧙', tier:'gold',   desc:'Defeat the Dark Wizard.',                                  check:s=>s.unique.includes('dark_wizard')},
+  {id:'lv10_wc',       name:'Oak Feller',              icon:'🌳', tier:'silver', desc:'Reach Woodcutting level 10.',                              check:s=>s.sk.woodcutting.lv>=10},
+  {id:'rich',          name:'Modest Wealth',           icon:'💰', tier:'silver', desc:'Accumulate 500 gold coins.',                               check:s=>s.gold>=500},
 ];
 
-const EQUIPMENT = [
-  { slot:'Head',    icon:'🎧', name:'Noise-Cancelling Headphones', stat:'+5 Focus',   tip:'Blocks distractions. Equipping this adds +5 to all writing stats.' },
-  { slot:'Cape',    icon:'🎓', name:'Skill Cape (Copywriting)',    stat:'+15 Prestige',tip:'Trimmed cape. Only obtainable at level 99 Copywriting.' },
-  { slot:'Neck',    icon:'📿', name:'Deadline Amulet',             stat:'+10 Speed',  tip:'Forged from missed sleep and tight briefs. Grants haste under pressure.' },
-  { slot:'Weapon',  icon:'💻', name:'MacBook Pro',                 stat:'+12 Writing', tip:'Main weapon. Enchanted with VS Code and 47 open browser tabs.' },
-  { slot:'Body',    icon:'👕', name:'Vintage Hoodie',              stat:'+3 Comfort',  tip:'Well-worn. Provides unbreakable confidence on late-night sessions.' },
-  { slot:'Off-hand',icon:'☕', name:'Black Coffee',                stat:'+8 Energy',   tip:'Consumed daily. Provides temporary +5 to speed. Addictive.' },
-  { slot:'Legs',    icon:'👖', name:'Thinking Trousers',           stat:'+4 Strategy', tip:'Standard issue. No special properties, but very comfortable.' },
-  { slot:'Ring',    icon:'💍', name:'Ring of Contract',            stat:'+6 Authority',tip:'Worn on signing day. Grants permanent +6 to client trust.' },
-  { slot:'Feet',    icon:'👟', name:'Comfortable Sneakers',        stat:'+2 Movement', tip:'For those days when you pace while brainstorming.' },
-];
+// ═══════════════════════════════════════════════════════════
+// XP SYSTEM
+// ═══════════════════════════════════════════════════════════
+function xpTable(){
+  const t=[0];
+  let acc=0;
+  for(let i=1;i<99;i++){acc+=Math.floor(i+300*Math.pow(2,i/7));t.push(Math.floor(acc/4));}
+  return t;
+}
+const XP_TBL=xpTable();
+function lvlForXP(xp){let l=1;while(l<99&&XP_TBL[l]<=xp)l++;return l;}
+function xpPct(xp,lv){if(lv>=99)return 100;const a=XP_TBL[lv-1]||0,b=XP_TBL[lv]||a+1;return Math.min(100,((xp-a)/(b-a)*100).toFixed(1));}
+function xpToNext(xp,lv){if(lv>=99)return 0;return XP_TBL[lv]-xp;}
 
-// ──────────────── TAB SWITCH ────────────────
-function switchTab(id) {
-  document.querySelectorAll('.rs-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
-  document.querySelectorAll('.rs-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + id));
-  document.getElementById('skills-footer').style.display = id === 'skills' ? 'block' : 'none';
-  setStatus(
-    id === 'skills'  ? 'Hover a skill · Click on mobile for details' :
-    id === 'quests'  ? 'Your adventure log — quests completed and in progress' :
-    id === 'achieve' ? 'Achievements earned across the portfolio' :
-    id === 'equip'   ? 'Current equipment loadout — hover for item details' :
-    id === 'cow'     ? '⚠️ A wild cow appears! What do you do?' : ''
-  );
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+function defaultState(){
+  const sk={};
+  SKILLS_DEF.forEach(d=>{
+    sk[d.id]={lv:d.base||1, xp:d.baseXP||0};
+  });
+  return {sk, inv:[], gold:0, kills:{}, unique:[], areas:['lumbridge'],
+          totalKills:0, cooked:0, smithed:0, achiev:[], equipped:null,
+          currentArea:'lumbridge'};
+}
+function saveState(){try{localStorage.setItem('rsState',JSON.stringify(S));}catch(e){}}
+function loadState(){
+  try{
+    const raw=localStorage.getItem('rsState');
+    if(!raw)return null;
+    return JSON.parse(raw);
+  }catch(e){return null;}
+}
+let S=loadState()||defaultState();
+// Migrate: ensure all skills exist
+SKILLS_DEF.forEach(d=>{if(!S.sk[d.id])S.sk[d.id]={lv:d.base||1,xp:d.baseXP||0};});
+if(!S.areas)S.areas=['lumbridge'];
+if(!S.unique)S.unique=[];
+saveState();
+
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+function rand(a,b){return a+~~(Math.random()*(b-a+1));}
+function setStatus(t){document.getElementById('statusMsg').textContent=t;}
+
+// Inventory
+function invCount(){return S.inv.reduce((a,x)=>a+(x.stack?0:x.qty||1)+(x.stack?x.qty||1:0),0);}
+function invTotal(){
+  let n=0;
+  S.inv.forEach(x=>{
+    const item=ITEMS[x.id];
+    if(item&&item.stack)n+=1; else n+=x.qty||1;
+  });
+  return n;
+}
+function invSlots(){
+  let n=0;
+  S.inv.forEach(x=>{
+    const item=ITEMS[x.id];
+    n+= item&&item.stack ? 1 : (x.qty||1);
+  });
+  return n;
+}
+function addItem(id,qty=1){
+  if(invSlots()+(ITEMS[id]&&ITEMS[id].stack?0:qty)>28)return false;
+  const existing=S.inv.find(x=>x.id===id);
+  if(existing&&ITEMS[id]&&ITEMS[id].stack){existing.qty=(existing.qty||0)+qty;}
+  else S.inv.push({id,qty});
+  saveState(); renderInventory(); return true;
+}
+function removeItem(id,qty=1){
+  const idx=S.inv.findIndex(x=>x.id===id);
+  if(idx===-1)return false;
+  const item=S.inv[idx];
+  if((item.qty||1)<=qty)S.inv.splice(idx,1);
+  else item.qty-=qty;
+  saveState(); return true;
+}
+function hasItem(id,qty=1){
+  const x=S.inv.find(i=>i.id===id);
+  return x&&(x.qty||1)>=qty;
+}
+function countItem(id){
+  const x=S.inv.find(i=>i.id===id);
+  return x?(x.qty||1):0;
 }
 
-// ──────────────── SKILLS ────────────────
-function buildSkills() {
-  const grid = document.getElementById('skillGrid');
-  let total = 0;
-  grid.innerHTML = SKILLS.map((s, i) => {
-    total += s.level;
-    const pct = (s.level / 99 * 100).toFixed(1);
-    const maxed = s.level === 99;
-    return `<div class="sk${maxed ? ' maxed' : ''}" onclick="setStatus('${s.name} · Level ${s.level}/99 · XP: ${s.xp.toLocaleString()}')">
-      <div class="sk-icon">${s.icon}</div>
-      <div class="sk-info">
-        <div class="sk-name">${s.name}</div>
-        <div class="sk-lvls">
-          <span class="sk-cur">${s.level}</span>
-          <span class="sk-sep">/</span>
-          <span class="sk-max">99</span>
+// XP gain
+function gainXP(skillId, amt){
+  const sk=S.sk[skillId];
+  const prevLv=sk.lv;
+  sk.xp+=amt;
+  sk.lv=lvlForXP(sk.xp);
+  if(sk.lv>prevLv){
+    showNotif(`🎉 Level up! ${SKILLS_DEF.find(d=>d.id===skillId)?.name} is now level ${sk.lv}!`,'lvlup');
+    flashLvlUp();
+    addLog(`Congratulations! Your ${SKILLS_DEF.find(d=>d.id===skillId)?.name} level is now ${sk.lv}.`,'lvlup');
+    renderSkills();
+    updateCombatLvl();
+  }
+  saveState();
+  checkAchievements();
+}
+
+function updateCombatLvl(){
+  const att=S.sk.attack.lv, str=S.sk.strength.lv, def=S.sk.defence.lv, hp=S.sk.hitpoints.lv;
+  const lv=~~((att+str)*0.325+def*0.25+hp*0.25)+3;
+  document.getElementById('combatLvl').textContent=lv;
+}
+
+// ═══════════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════════
+function switchTab(id){
+  document.querySelectorAll('.rs-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));
+  document.querySelectorAll('.rs-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+id));
+  document.getElementById('skillsFooter').style.display=id==='skills'?'block':'none';
+  if(id==='world')renderWorld();
+  if(id==='inventory')renderInventory();
+  if(id==='achieve')renderAchievements();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SKILLS TAB
+// ═══════════════════════════════════════════════════════════
+function renderSkills(){
+  const grid=document.getElementById('skillGrid');
+  let total=0;
+  grid.innerHTML=SKILLS_DEF.map(d=>{
+    const sk=S.sk[d.id];
+    const lv=sk.lv, xp=sk.xp;
+    total+=lv;
+    const pct=xpPct(xp,lv);
+    const toNext=xpToNext(xp,lv);
+    const maxed=lv>=99;
+    return `<div class="sk${maxed?' maxed':''}">
+      <div class="sk-top">
+        <div class="sk-icon">${d.icon}</div>
+        <div>
+          <div class="sk-name">${d.name}</div>
+          <div class="sk-lvls"><span class="sk-cur">${lv}</span><span class="sk-max">/99</span></div>
         </div>
-        <div class="sk-bar"><div class="sk-fill" style="width:${pct}%"></div></div>
       </div>
-      <div class="rs-tooltip"><strong style="color:var(--rs-gold)">${s.name}</strong><br>Level ${s.level} / 99<br>XP: ${s.xp.toLocaleString()}<br><span style="color:#aaa;font-size:9px">${s.tip}</span></div>
+      <div class="sk-xp-track"><div class="sk-xp-fill" style="width:${pct}%"></div></div>
+      <div class="sk-tooltip"><strong style="color:var(--rs-gold)">${d.name}</strong><br>Level: ${lv}/99<br>XP: ${xp.toLocaleString()}<br>${maxed?'Max level!':'To next: '+toNext.toLocaleString()+' XP'}</div>
     </div>`;
   }).join('');
-  document.getElementById('totalVal').textContent = total;
-  document.getElementById('totalDisp').textContent = total;
+  document.getElementById('totalLvl').textContent=total;
+  updateCombatLvl();
 }
 
-// ──────────────── QUESTS ────────────────
-function buildQuests() {
-  const statusIcon = { complete:'✅', inprog:'🔄', future:'⬜' };
-  let qpts = 0;
-  document.getElementById('questList').innerHTML = QUESTS.map(q => {
-    if (q.status === 'complete') qpts += q.pts;
-    return `<div class="quest ${q.status}">
-      <div class="q-status">${statusIcon[q.status]}</div>
-      <div class="q-info">
-        <div class="q-name">${q.name}</div>
-        <div class="q-desc">${q.desc}</div>
-      </div>
-      <div class="q-points">${q.pts} QP</div>
+// ═══════════════════════════════════════════════════════════
+// WORLD TAB
+// ═══════════════════════════════════════════════════════════
+let currentArea='lumbridge';
+let combatState=null;
+let skillState=null;
+let playerHP=10, maxPlayerHP=10;
+
+function renderWorld(){
+  // Update max HP from hitpoints skill
+  maxPlayerHP=S.sk.hitpoints.lv;
+  if(playerHP>maxPlayerHP)playerHP=maxPlayerHP;
+
+  const left=document.getElementById('worldLeft');
+  // Area cards
+  let areaHtml='';
+  Object.entries(AREAS).forEach(([id,area])=>{
+    const unlocked=S.areas.includes(id);
+    if(area.secret&&!unlocked)return;
+    const locked=!unlocked;
+    areaHtml+=`<div class="area-card${id===currentArea?' active':''}${locked?' locked':''}" onclick="${locked?'':'selectArea(\''+id+'\')'}">
+      <div class="area-name">${area.name}</div>
+      <div class="area-sub">${locked?'🔒 '+area.sub:area.sub}</div>
     </div>`;
-  }).join('');
-  document.getElementById('questPoints').textContent = `${qpts} / 30`;
+  });
+  // Activity list
+  const area=AREAS[currentArea];
+  let actHtml='<div class="activity-list">';
+  if(area.monsters.length){
+    actHtml+='<div class="activity-section-lbl">⚔️ Combat</div>';
+    area.monsters.forEach(mid=>{
+      const m=MONSTERS[mid];
+      actHtml+=`<div class="act-item" onclick="enterCombat('${mid}')"><div class="act-icon">${m.emoji}</div><div class="act-name">${m.name}</div><div class="act-lvl">Lv.${m.lv}</div></div>`;
+    });
+  }
+  if(area.skills.includes('woodcutting')){
+    actHtml+='<div class="activity-section-lbl">🌲 Woodcutting</div>';
+    WOOD_ACTIONS.forEach((a,i)=>{
+      const locked=S.sk.woodcutting.lv<a.lvl;
+      actHtml+=`<div class="act-item${locked?' locked':''}" onclick="${locked?'':' startSkillAction(\'woodcutting\','+i+')'}"><div class="act-icon">${a.icon}</div><div class="act-name">${a.name}</div><div class="act-lvl">Lv.${a.lvl}</div></div>`;
+    });
+  }
+  if(area.skills.includes('mining')){
+    actHtml+='<div class="activity-section-lbl">⛏️ Mining</div>';
+    MINE_ACTIONS.forEach((a,i)=>{
+      const locked=S.sk.mining.lv<a.lvl;
+      actHtml+=`<div class="act-item${locked?' locked':''}" onclick="${locked?'':' startSkillAction(\'mining\','+i+')'}"><div class="act-icon">${a.icon}</div><div class="act-name">${a.name}</div><div class="act-lvl">Lv.${a.lvl}</div></div>`;
+    });
+  }
+  if(area.skills.includes('cooking')){
+    actHtml+='<div class="activity-section-lbl">🍳 Cooking</div>';
+    const cookables=S.inv.filter(x=>ITEMS[x.id]&&ITEMS[x.id].cookable);
+    if(cookables.length){
+      cookables.forEach(x=>{
+        actHtml+=`<div class="act-item" onclick="startCooking('${x.id}')"><div class="act-icon">${ITEMS[x.id].icon}</div><div class="act-name">Cook ${ITEMS[x.id].name}</div><div class="act-lvl">${countItem(x.id)}x</div></div>`;
+      });
+    } else {
+      actHtml+='<div class="act-item locked"><div class="act-icon">🔥</div><div class="act-name" style="color:#555">No raw food in inventory</div></div>';
+    }
+  }
+  if(area.skills.includes('smithing')){
+    actHtml+='<div class="activity-section-lbl">🔨 Smithing</div>';
+    actHtml+=`<div class="act-item" onclick="showSmithing()"><div class="act-icon">🔨</div><div class="act-name">Open Anvil</div><div class="act-lvl">Lv.${S.sk.smithing.lv}</div></div>`;
+  }
+  actHtml+='</div>';
+
+  left.innerHTML=areaHtml+actHtml;
+
+  // Right panel — only render if not mid-combat/skill
+  if(!combatState&&!skillState){
+    renderIdleRight();
+  }
 }
 
-// ──────────────── ACHIEVEMENTS ────────────────
-function buildAchievements() {
-  document.getElementById('achGrid').innerHTML = ACHIEVEMENTS.map(a => `
-    <div class="ach${a.locked ? ' locked' : ''}">
-      <div class="ach-icon">${a.locked ? '🔒' : a.icon}</div>
-      <div class="ach-info">
-        <div class="ach-name">${a.locked ? '???' : a.name}</div>
-        <div class="ach-desc">${a.locked ? 'Complete a secret challenge to unlock.' : a.desc}</div>
-        <div class="ach-tier">${a.tier} tier</div>
+function selectArea(id){
+  currentArea=id;
+  S.currentArea=id;
+  combatState=null; skillState=null;
+  renderWorld();
+}
+
+function renderIdleRight(){
+  const right=document.getElementById('worldRight');
+  const area=AREAS[currentArea];
+  right.innerHTML=`
+    <div class="battle-screen" style="flex-shrink:0">
+      <div class="battle-idle">
+        <span>🗺️</span>
+        <div style="color:var(--rs-gold);font-size:13px;font-weight:bold">${area.name}</div>
+        <div style="font-size:10px">Select an activity from the left panel</div>
       </div>
     </div>
-  `).join('');
+    <div class="combat-log" id="combatLog" style="flex:1;height:auto;min-height:60px"></div>
+  `;
 }
 
-// ──────────────── EQUIPMENT ────────────────
-function buildEquipment() {
-  document.getElementById('eqLayout').innerHTML = `
-    <div class="eq-layout">
-      ${EQUIPMENT.map(e => `
-        <div class="eq-slot">
-          <div class="eq-icon">${e.icon}</div>
-          <div class="eq-name">${e.name.length > 14 ? e.name.slice(0,14)+'…' : e.name}</div>
-          <div class="eq-stat">${e.stat}</div>
-          <div class="eq-lbl">[${e.slot}]</div>
-          <div class="eq-tooltip"><strong style="color:var(--rs-gold)">${e.name}</strong><br>${e.slot} slot · ${e.stat}<br><span style="color:#aaa;font-size:9px">${e.tip}</span></div>
+// ═══════════════════════════════════════════════════════════
+// COMBAT
+// ═══════════════════════════════════════════════════════════
+function enterCombat(mId){
+  if(combatState){endCombat(false);return;}
+  const m=MONSTERS[mId];
+  combatState={id:mId, hp:m.hp, maxHp:m.hp, attacking:false};
+  maxPlayerHP=S.sk.hitpoints.lv;
+  if(playerHP<=0)playerHP=maxPlayerHP;
+  renderCombatView();
+  addLog(`You approach the ${m.name}. It eyes you aggressively.`,'sys');
+  setStatus(`Fighting ${m.name} (Lv.${m.lv})`);
+}
+
+function renderCombatView(){
+  if(!combatState)return;
+  const m=MONSTERS[combatState.id];
+  const hpPct=Math.max(0,combatState.hp/combatState.maxHp*100).toFixed(1);
+  const phpPct=Math.max(0,playerHP/maxPlayerHP*100).toFixed(1);
+  const right=document.getElementById('worldRight');
+  right.innerHTML=`
+    <div class="battle-screen" id="battleScreen" style="flex-shrink:0">
+      <div class="battle-bg" id="battleBg" style="background:${m.bg}"></div>
+      <div class="battle-ground" style="background:${m.ground}"></div>
+      <div class="battle-hpbar">
+        <div class="battle-enemy-name">${m.name} <span style="font-size:9px;color:#aaa">(Combat Lv.${m.lv})</span></div>
+        <div class="battle-hp-row">
+          <div class="battle-hp-track"><div class="battle-hp-fill" id="enemyHpFill" style="width:${hpPct}%"></div></div>
+          <div class="battle-hp-text" id="enemyHpText">${combatState.hp}/${combatState.maxHp}</div>
         </div>
-      `).join('')}
+      </div>
+      <div class="enemy-wrap">
+        <div class="enemy-sprite" id="enemySprite">${m.emoji}</div>
+        <div style="color:#fff;font-size:9px;margin-top:4px;text-shadow:1px 1px 2px #000">${m.desc}</div>
+      </div>
     </div>
-    <div style="margin-top:8px;text-align:center;color:var(--rs-dim);font-size:9px">
-      Total bonuses: +63 to writing stats · Parsa is combat level 88
+    <div class="combat-controls">
+      <button class="cb" id="btn-atk" onclick="playerAttack()">⚔️ Attack</button>
+      <button class="cb" id="btn-eat" onclick="eatFood()">🍗 Eat Food</button>
+      <button class="cb" onclick="fleeCombat()">🏃 Flee</button>
+      <div class="player-hp-area">
+        <div>HP</div>
+        <div class="php-row">
+          <div class="php-track"><div class="php-fill" id="phpFill" style="width:${phpPct}%"></div></div>
+          <div class="php-text" id="phpText">${playerHP}/${maxPlayerHP}</div>
+        </div>
+      </div>
+    </div>
+    <div class="combat-log" id="combatLog" style="flex:1;height:auto;min-height:60px"></div>
+  `;
+}
+
+function playerAttack(){
+  if(!combatState||combatState.attacking)return;
+  combatState.attacking=true;
+  document.getElementById('btn-atk').disabled=true;
+
+  // Calculate damage: base from attack + equipped bonus
+  const atkLv=S.sk.attack.lv, strLv=S.sk.strength.lv;
+  const bonus=S.equipped&&ITEMS[S.equipped]&&ITEMS[S.equipped].atkBonus||0;
+  const maxDmg=Math.max(1,~~((atkLv+strLv)*0.4+bonus*0.5));
+  const hit=Math.random()<0.85;
+  const dmg=hit?rand(1,maxDmg):0;
+
+  const sprite=document.getElementById('enemySprite');
+  if(sprite){
+    sprite.classList.remove('shake');
+    void sprite.offsetWidth;
+    sprite.classList.add('shake');
+  }
+
+  showSplat(dmg, dmg>0?'#ffff44':'#aaffaa', 'battleScreen');
+
+  if(dmg===0){addLog(`You swing at the ${MONSTERS[combatState.id].name} and miss!`,'miss');}
+  else {
+    combatState.hp-=dmg;
+    addLog(`You hit the ${MONSTERS[combatState.id].name} for ${dmg} damage.`,'hit-p');
+    updateEnemyHP();
+  }
+
+  if(combatState.hp<=0){
+    winCombat(); return;
+  }
+
+  // Enemy attacks back after delay
+  setTimeout(()=>{
+    if(!combatState)return;
+    const m=MONSTERS[combatState.id];
+    const eDmg=Math.random()<0.2?0:rand(...m.atk);
+    showSplat(eDmg,'#ff6644','battleScreen',true);
+    if(eDmg===0){addLog(`The ${m.name} misses you.`,'miss');}
+    else {
+      playerHP=Math.max(0,playerHP-eDmg);
+      addLog(`The ${m.name} hits you for ${eDmg} damage.`,'hit-c');
+      updatePlayerHP();
+      // Screen flash
+      const screen=document.getElementById('battleScreen');
+      if(screen){const fl=document.createElement('div');fl.className='battle-flash';screen.appendChild(fl);setTimeout(()=>fl.remove(),300);}
+    }
+    if(playerHP<=0){dieCombat();return;}
+    combatState.attacking=false;
+    const btn=document.getElementById('btn-atk');
+    if(btn)btn.disabled=false;
+    gainXP('attack',1.5);
+    gainXP('strength',1.5);
+    gainXP('defence',0.5);
+  },700);
+}
+
+function updateEnemyHP(){
+  const m=MONSTERS[combatState.id];
+  const pct=Math.max(0,combatState.hp/combatState.maxHp*100);
+  const fill=document.getElementById('enemyHpFill');
+  const text=document.getElementById('enemyHpText');
+  if(fill)fill.style.width=pct+'%';
+  if(text)text.textContent=Math.max(0,combatState.hp)+'/'+combatState.maxHp;
+  if(pct<25&&fill)fill.style.background='linear-gradient(90deg,#660000,#cc0000)';
+}
+
+function updatePlayerHP(){
+  const pct=Math.max(0,playerHP/maxPlayerHP*100);
+  const fill=document.getElementById('phpFill');
+  const text=document.getElementById('phpText');
+  if(fill){fill.style.width=pct+'%'; fill.style.background=pct<30?'linear-gradient(90deg,#cc0000,#ee2222)':'linear-gradient(90deg,#44cc44,#66ff66)';}
+  if(text)text.textContent=playerHP+'/'+maxPlayerHP;
+}
+
+function eatFood(){
+  const foods=S.inv.filter(x=>ITEMS[x.id]&&ITEMS[x.id].heal);
+  if(!foods.length){addLog('You have no food to eat!','miss');return;}
+  const food=ITEMS[foods[0].id];
+  removeItem(foods[0].id,1);
+  const h=food.heal;
+  playerHP=Math.min(maxPlayerHP,playerHP+h);
+  addLog(`You eat the ${food.name} and recover ${h} HP.`,'sys');
+  updatePlayerHP();
+  renderInventory();
+}
+
+function fleeCombat(){
+  if(!combatState)return;
+  addLog('You escape from the fight.','sys');
+  combatState=null; skillState=null;
+  renderWorld();
+}
+
+function winCombat(){
+  const m=MONSTERS[combatState.id];
+  const sprite=document.getElementById('enemySprite');
+  if(sprite){sprite.classList.remove('shake');sprite.classList.add('die');}
+
+  setTimeout(()=>{
+    addLog(`You have defeated the ${m.name}!`,'win');
+
+    // XP
+    gainXP('attack', m.xp*0.4);
+    gainXP('strength', m.xp*0.4);
+    gainXP('hitpoints', m.xp*0.133);
+    gainXP('defence', m.xp*0.133);
+
+    // Track kills
+    S.kills[combatState.id]=(S.kills[combatState.id]||0)+1;
+    S.totalKills++;
+    if(!S.unique.includes(combatState.id))S.unique.push(combatState.id);
+
+    // Drops
+    m.drops.forEach(d=>{
+      if(Math.random()<d.ch){
+        const qty=d.qty();
+        if(addItem(d.id,qty))addLog(`The ${m.name} drops: ${ITEMS[d.id].icon} ${ITEMS[d.id].name}${qty>1?' x'+qty:''}`, 'drop');
+      }
+    });
+
+    saveState();
+    checkAreaUnlocks();
+    checkAchievements();
+    combatState=null;
+    setTimeout(()=>renderWorld(),1200);
+  },700);
+}
+
+function dieCombat(){
+  addLog('Oh dear, you are dead!','die');
+  addLog('You respawn at Lumbridge with your items.','sys');
+  playerHP=maxPlayerHP;
+  combatState=null;
+  setTimeout(()=>renderWorld(),1200);
+}
+
+function endCombat(won){
+  combatState=null;
+  renderWorld();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SKILLING
+// ═══════════════════════════════════════════════════════════
+let skillTimer=null, skillProgress=0;
+
+function startSkillAction(type, idx){
+  if(combatState){addLog('Finish the combat first!','miss');return;}
+  let actions;
+  if(type==='woodcutting')actions=WOOD_ACTIONS;
+  else if(type==='mining')actions=MINE_ACTIONS;
+  else return;
+  const a=actions[idx];
+  if(S.sk[type].lv<a.lvl){addLog(`You need ${type} level ${a.lvl} for that.`,'miss');return;}
+  if(invSlots()>=28){addLog('Your inventory is full!','miss');switchTab('inventory');return;}
+  skillState={type, action:a};
+  skillProgress=0;
+  renderSkillingView();
+  tickSkill();
+}
+
+function startCooking(itemId){
+  if(combatState)return;
+  if(!hasItem(itemId)){addLog('You don\'t have that item.','miss');return;}
+  const item=ITEMS[itemId];
+  const a={name:'Cooking '+item.name,icon:'🔥',xp:item.cookable.xp,ms:2000,cookId:item.cookable.id,burnBase:item.cookable.burnBase,rawId:itemId};
+  skillState={type:'cooking',action:a};
+  skillProgress=0;
+  renderSkillingView();
+  tickSkill();
+}
+
+function showSmithing(){
+  if(combatState)return;
+  skillState={type:'smithing',action:null};
+  renderSmithingView();
+}
+
+function renderSkillingView(){
+  const right=document.getElementById('worldRight');
+  const a=skillState.action;
+  const bg=a.bg||'#1a1a1a';
+  right.innerHTML=`
+    <div class="sv-header">
+      <div class="sv-skill-name">${a.icon} ${a.name}</div>
+      <div class="sv-action-name">+${a.xp} XP per action</div>
+    </div>
+    <div class="sv-scene" style="background:${bg}" id="svScene">
+      ${a.icon}
+    </div>
+    <div class="sv-progress">
+      <div class="sv-progress-lbl"><span>Progress</span><span id="svPct">0%</span></div>
+      <div class="sv-bar-track"><div class="sv-bar-fill" id="svFill" style="width:0%"></div></div>
+    </div>
+    <div class="sv-result" id="svResult"></div>
+    <div class="sv-btn-row">
+      <button class="cb" onclick="stopSkill()">⏹ Stop</button>
     </div>
   `;
 }
 
-// ──────────────── COW FIGHT ────────────────
-let PHP = 10, MAXPHP = 10;
-let CHP = 8, MAXCHP = 8;
-let food = 3, combatOver = false, cowWon = false;
-let cowTimer = null;
-
-function log(text, cls) {
-  const el = document.getElementById('combatLog');
-  const line = document.createElement('div');
-  line.className = 'log-line ' + cls;
-  line.textContent = text;
-  el.appendChild(line);
-  el.scrollTop = el.scrollHeight;
+function renderSmithingView(){
+  const right=document.getElementById('worldRight');
+  right.innerHTML=`
+    <div class="sv-header"><div class="sv-skill-name">🔨 Smithing (Level ${S.sk.smithing.lv})</div></div>
+    <div class="smith-recipes" id="smithList"></div>
+    <div class="sv-result" id="svResult" style="min-height:32px"></div>
+    <div class="sv-btn-row"><button class="cb" onclick="stopSkill()">⏹ Close Anvil</button></div>
+  `;
+  const list=document.getElementById('smithList');
+  list.innerHTML=SMITH_RECIPES.map((r,i)=>{
+    const canSmith=S.sk.smithing.lv>=r.lvl;
+    const hasIng=r.inp.every(x=>hasItem(x.id,x.n));
+    const disabled=!canSmith||!hasIng;
+    const inpText=r.inp.map(x=>`${ITEMS[x.id].icon}${ITEMS[x.id].name} x${x.n}`).join(' + ');
+    return `<div class="recipe${disabled?' locked':''}" onclick="${disabled?'':' doSmith('+i+')'}">
+      <div class="recipe-icon">${r.icon}</div>
+      <div class="recipe-info">
+        <div class="recipe-name">${r.name}</div>
+        <div class="recipe-inputs">${inpText} → ${ITEMS[r.out.id].icon}${r.name}</div>
+        <div class="recipe-xp">+${r.xp} Smithing XP</div>
+      </div>
+      ${!canSmith?'<span style="color:#555;font-size:9px">Lv.'+r.lvl+'</span>':(hasIng?'<span style="color:#aaff44;font-size:10px">✓</span>':'<span style="color:#ff6644;font-size:9px">No mats</span>')}
+    </div>`;
+  }).join('');
 }
 
-function splat(parentId, dmg, color) {
-  const arena = document.getElementById('arena');
-  const fighter = document.getElementById(parentId);
-  const s = document.createElement('div');
-  s.className = 'splat';
-  s.style.color = color;
-  s.style.left = (fighter.offsetLeft + 10 + Math.random()*20) + 'px';
-  s.style.top  = (fighter.offsetTop  - 10) + 'px';
-  s.textContent = dmg === 0 ? 'miss' : dmg;
-  arena.appendChild(s);
-  setTimeout(() => s.remove(), 1200);
+function doSmith(idx){
+  const r=SMITH_RECIPES[idx];
+  if(!r.inp.every(x=>hasItem(x.id,x.n))){addLog('Not enough materials.','miss');return;}
+  r.inp.forEach(x=>removeItem(x.id,x.n));
+  addItem(r.out.id,r.out.n||1);
+  gainXP('smithing',r.xp);
+  S.smithed=(S.smithed||0)+1;
+  saveState();
+  const res=document.getElementById('svResult');
+  if(res)res.innerHTML+=`<div style="color:var(--rs-gold)">You smith a ${r.name}! (+${r.xp} XP)</div>`;
+  renderSmithingView();
+  // re-attach result
+  const res2=document.getElementById('svResult');
+  if(res2)res2.innerHTML+=`<div style="color:var(--rs-gold)">You smith a ${r.name}! (+${r.xp} XP)</div>`;
+  checkAchievements();
 }
 
-function updateBars() {
-  const pp = Math.max(0, PHP/MAXPHP*100);
-  const cp = Math.max(0, CHP/MAXCHP*100);
-  document.getElementById('php-fill').style.width = pp + '%';
-  document.getElementById('chp-fill').style.width = cp + '%';
-  document.getElementById('php-text').textContent = Math.max(0,PHP)+'/'+MAXPHP;
-  document.getElementById('chp-text').textContent = Math.max(0,CHP)+'/'+MAXCHP;
-  if (pp < 25) document.getElementById('php-fill').style.background = 'linear-gradient(90deg,#cc3333,#ee5555)';
-  document.getElementById('btn-eat').textContent = `🥩 Eat Food (${food})`;
-}
-
-function setBtnsDisabled(d) {
-  ['btn-atk','btn-eat','btn-run'].forEach(id => document.getElementById(id).disabled = d);
-}
-
-function cowAttack() {
-  if (combatOver) return;
-  const dmg = Math.random() < 0.15 ? 0 : Math.floor(Math.random() * 4) + 1;
-  splat('fighter-player', dmg, '#ff4444');
-  if (dmg === 0) {
-    log('The cow misses you.', 'miss');
-  } else {
-    PHP -= dmg;
-    log(`The cow attacks and deals ${dmg} damage to you.`, 'hit-c');
-    document.getElementById('sprite-player').style.transform = 'translateX(4px)';
-    setTimeout(() => document.getElementById('sprite-player').style.transform = '', 150);
-    if (PHP <= 0) {
-      PHP = 0; updateBars(); die(); return;
+let skillInterval=null;
+function tickSkill(){
+  if(!skillState||skillState.type==='smithing')return;
+  clearInterval(skillInterval);
+  const a=skillState.action;
+  const startTime=Date.now();
+  skillInterval=setInterval(()=>{
+    if(!skillState){clearInterval(skillInterval);return;}
+    skillProgress=(Date.now()-startTime)/a.ms*100;
+    const fill=document.getElementById('svFill');
+    const pctEl=document.getElementById('svPct');
+    if(fill)fill.style.width=Math.min(100,skillProgress)+'%';
+    if(pctEl)pctEl.textContent=Math.min(100,~~skillProgress)+'%';
+    if(skillProgress>=100){
+      clearInterval(skillInterval);
+      completeSkill();
     }
-  }
-  updateBars();
+  },50);
 }
 
-function attack() {
-  if (combatOver) return;
-  const dmg = Math.random() < 0.1 ? 0 : Math.floor(Math.random() * 6) + 1;
-  splat('fighter-cow', dmg, '#ffff44');
-  if (dmg === 0) {
-    log('You swing but miss!', 'miss');
-  } else {
-    CHP -= dmg;
-    log(`You attack the cow and deal ${dmg} damage!`, 'hit-p');
-    document.getElementById('sprite-cow').style.transform = 'translateX(-4px)';
-    setTimeout(() => document.getElementById('sprite-cow').style.transform = '', 150);
-    if (CHP <= 0) {
-      CHP = 0; updateBars(); winFight(); return;
+function completeSkill(){
+  if(!skillState)return;
+  const {type,action:a}=skillState;
+  const res=document.getElementById('svResult');
+
+  if(type==='cooking'){
+    const burnChance=Math.max(0,a.burnBase-S.sk.cooking.lv*0.02);
+    const burned=Math.random()<burnChance;
+    removeItem(a.rawId,1);
+    if(burned){
+      if(res)res.innerHTML+=`<div style="color:#ff8844">You accidentally burn the ${ITEMS[a.rawId].name}.</div>`;
+    } else {
+      addItem(a.cookId,1);
+      gainXP('cooking',a.xp);
+      S.cooked=(S.cooked||0)+1;
+      if(res)res.innerHTML+=`<div style="color:#aaff44">You cook the ${ITEMS[a.rawId].name} successfully! (+${a.xp} XP)</div>`;
     }
+    saveState(); checkAchievements();
+    // Continue if more raw food
+    if(hasItem(a.rawId)){
+      skillProgress=0;
+      if(document.getElementById('svFill'))document.getElementById('svFill').style.width='0%';
+      tickSkill();
+    } else {
+      skillState=null;
+    }
+    return;
   }
-  updateBars();
-  setTimeout(cowAttack, 600);
+
+  // Woodcutting / Mining
+  if(invSlots()>=28){
+    if(res)res.innerHTML+=`<div style="color:#ff8844">Inventory full! Stopping.</div>`;
+    stopSkill(); return;
+  }
+  addItem(a.out.id,a.out.qty||1);
+  gainXP(type,a.xp);
+  if(res)res.innerHTML+=`<div style="color:#aaff44">You get some ${ITEMS[a.out.id].name}. (+${a.xp} XP)</div>`;
+  if(res)res.scrollTop=res.scrollHeight;
+
+  // Continue
+  skillProgress=0;
+  if(document.getElementById('svFill'))document.getElementById('svFill').style.width='0%';
+  tickSkill();
 }
 
-function eat() {
-  if (food <= 0 || combatOver) return;
-  food--;
-  const heal = Math.floor(Math.random() * 3) + 2;
-  PHP = Math.min(MAXPHP, PHP + heal);
-  log(`You eat some food and recover ${heal} HP.`, 'system');
-  updateBars();
+function stopSkill(){
+  clearInterval(skillInterval);
+  skillState=null;
+  renderWorld();
 }
 
-function flee() {
-  combatOver = true;
-  setBtnsDisabled(true);
-  document.getElementById('btn-reset').style.display = '';
-  log('You run away from the cow... safely.', 'system');
-  setStatus('You fled combat. Coward! Click Fight Again to try once more.');
+// ═══════════════════════════════════════════════════════════
+// INVENTORY
+// ═══════════════════════════════════════════════════════════
+function renderInventory(){
+  const grid=document.getElementById('invGrid');
+  const slots=[];
+  S.inv.forEach(x=>{
+    const item=ITEMS[x.id];
+    if(item&&item.stack){slots.push({id:x.id,qty:x.qty||1});}
+    else for(let i=0;i<(x.qty||1);i++)slots.push({id:x.id,qty:1});
+  });
+  while(slots.length<28)slots.push(null);
+  grid.innerHTML=slots.slice(0,28).map((s,i)=>{
+    if(!s)return`<div class="inv-slot empty"></div>`;
+    const item=ITEMS[s.id];
+    if(!item)return`<div class="inv-slot empty"></div>`;
+    const equipped=S.equipped===s.id;
+    const actions=getItemActions(s.id);
+    return `<div class="inv-slot${equipped?' ':''}">
+      <div class="inv-icon">${item.icon}</div>
+      <div class="inv-name">${item.name}</div>
+      ${s.qty>1?`<div class="inv-qty">${s.qty}</div>`:''}
+      <div class="inv-tooltip">
+        <strong>${item.icon} ${item.name}</strong><br>
+        ${item.heal?`Heals: ${item.heal} HP<br>`:''}
+        ${item.atkBonus?`Attack bonus: +${item.atkBonus}<br>`:''}
+        ${item.stack&&s.qty>1?`Quantity: ${s.qty}<br>`:''}
+        ${actions.map(a=>`<span onclick="${a.fn}()" style="color:#ffcc44;cursor:pointer">→ ${a.name}</span>`).join('<br>')}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('goldAmt').textContent=S.gold||0;
+  document.getElementById('invCount').textContent=invSlots()+'/28 slots';
 }
 
-function winFight() {
-  combatOver = true;
-  setBtnsDisabled(true);
-  document.getElementById('btn-reset').style.display = '';
-  document.getElementById('sprite-cow').textContent = '💀';
-  const drops = ['Raw Beef', '12 coins', '3 Cowhide'];
-  log('You have defeated the Lumbridge Cow!', 'win');
-  drops.forEach(d => log(`The cow drops: ${d}`, 'drop'));
-  log('You gain 100 Copywriting XP.', 'system');
-  log('+1 Quest Point — "True Lumbridge Legend" unlocked! 🏆', 'win');
-  setStatus('🎉 You defeated the Lumbridge Cow! The True Lumbridge Legend achievement is now yours.');
-  // unlock the achievement
-  const achItems = document.querySelectorAll('.ach.locked');
-  achItems.forEach(el => {
-    el.classList.remove('locked');
-    el.querySelector('.ach-icon').textContent = '🏆';
-    el.querySelector('.ach-name').textContent = 'True Lumbridge Legend';
-    el.querySelector('.ach-desc').textContent = 'Defeated the Lumbridge Cow in honorable combat.';
+function getItemActions(id){
+  const item=ITEMS[id];
+  const actions=[];
+  if(item.heal)actions.push({name:'Eat',fn:`eatItem_${id.replace('-','_')}`});
+  if(item.atkBonus)actions.push({name:'Equip',fn:`equipItem_${id.replace('-','_')}`});
+  return [];
+}
+
+function dropAll(){
+  S.inv=S.inv.filter(x=>{
+    const item=ITEMS[x.id];
+    return item&&(item.heal||item.atkBonus||x.id==='coins'||x.id==='runes'||x.id==='dark_essence'||x.id==='cowhide'||x.id==='feathers');
+  });
+  saveState(); renderInventory();
+  setStatus('Dropped junk items. Kept food, weapons, and valuables.');
+}
+
+// ═══════════════════════════════════════════════════════════
+// AREA UNLOCKS
+// ═══════════════════════════════════════════════════════════
+function checkAreaUnlocks(){
+  Object.entries(AREAS).forEach(([id,area])=>{
+    if(S.areas.includes(id))return;
+    if(area.unlockReq.every(m=>S.unique.includes(m))){
+      S.areas.push(id);
+      saveState();
+      if(area.secret){
+        showNotif('⚠️ A dark portal tears open in the wilderness... something stirs beyond.','secret');
+        setTimeout(()=>showNotif('🌑 NEW AREA UNLOCKED: Wilderness — enter if you dare.','secret'),2000);
+      } else {
+        showNotif(`🗺️ New area unlocked: ${area.name}!`);
+      }
+      renderWorld();
+    }
   });
 }
 
-function die() {
-  combatOver = true;
-  setBtnsDisabled(true);
-  document.getElementById('btn-reset').style.display = '';
-  document.getElementById('sprite-player').textContent = '💀';
-  log('Oh dear, you are dead!', 'die');
-  log('You respawn at Lumbridge with your items.', 'system');
-  setStatus('You died. Respawn at Lumbridge and try again... or just eat more food next time.');
+// ═══════════════════════════════════════════════════════════
+// ACHIEVEMENTS
+// ═══════════════════════════════════════════════════════════
+function checkAchievements(){
+  ACHIEV_DEF.forEach(a=>{
+    if(!S.achiev.includes(a.id)&&a.check(S)){
+      S.achiev.push(a.id);
+      saveState();
+      showNotif(`🏆 Achievement unlocked: ${a.name}!`);
+      renderAchievements();
+    }
+  });
 }
 
-function resetFight() {
-  PHP = MAXPHP; CHP = MAXCHP; food = 3; combatOver = false;
-  document.getElementById('sprite-player').textContent = '🧑‍💻';
-  document.getElementById('sprite-cow').textContent = '🐄';
-  document.getElementById('combatLog').innerHTML = '';
-  document.getElementById('btn-reset').style.display = 'none';
-  setBtnsDisabled(false);
-  updateBars();
-  log('A new Lumbridge Cow appears!', 'system');
-  log('Attack it for XP and drops.', 'system');
-  setStatus('⚔️ Fight! Use Attack, Eat Food, or Run Away.');
+function renderAchievements(){
+  document.getElementById('achGrid').innerHTML=ACHIEV_DEF.map(a=>{
+    const done=S.achiev.includes(a.id);
+    return `<div class="ach-card ${done?'unlocked':'locked'} ${a.tier}">
+      <div class="ach-icon">${done?a.icon:'🔒'}</div>
+      <div>
+        <div class="ach-name">${done?a.name:'???'}</div>
+        <div class="ach-desc">${done?a.desc:'Complete a challenge to unlock.'}</div>
+        <div class="ach-tier">${a.tier} tier</div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
-function setStatus(t) { document.getElementById('statusMsg').textContent = t; }
+// ═══════════════════════════════════════════════════════════
+// SPLATS / NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════
+function showSplat(dmg,color,parentId,bottom=false){
+  const parent=document.getElementById(parentId);
+  if(!parent)return;
+  const s=document.createElement('div');
+  s.className='splat';
+  s.style.color=color;
+  s.style.left=rand(30,70)+'%';
+  s.style.top=bottom?(rand(60,80)+'%'):(rand(20,50)+'%');
+  s.textContent=dmg===0?'miss':dmg;
+  parent.appendChild(s);
+  setTimeout(()=>s.remove(),1100);
+}
 
-// ──────────────── INIT ────────────────
-buildSkills();
-buildQuests();
-buildAchievements();
-buildEquipment();
+function addLog(text,cls='sys'){
+  const log=document.getElementById('combatLog');
+  if(!log)return;
+  const line=document.createElement('div');
+  line.className='log-line '+cls;
+  line.textContent=text;
+  log.appendChild(line);
+  log.scrollTop=log.scrollHeight;
+}
 
-// seed combat log
-log('You enter the Lumbridge cow pen.', 'system');
-log('A level 2 Cow is nearby!', 'system');
-log('Attack it for Copywriting XP.', 'system');
-updateBars();
+function showNotif(msg,type='info'){
+  const el=document.createElement('div');
+  el.className='notif'+(type==='secret'?' secret':'');
+  el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity 0.4s';el.style.opacity='0';setTimeout(()=>el.remove(),500);},3000);
+}
+
+function flashLvlUp(){
+  const el=document.createElement('div');
+  el.className='lvlup-overlay';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),700);
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init(){
+  renderSkills();
+  renderAchievements();
+  updateCombatLvl();
+  // Heal player to full on load
+  maxPlayerHP=S.sk.hitpoints.lv;
+  playerHP=maxPlayerHP;
+  setStatus('Welcome back, adventurer. Head to the World tab to begin your journey.');
+  // Show reset button in menu
+  document.querySelector('.mi:last-child').onclick=()=>{
+    if(confirm('Reset all progress?')){localStorage.removeItem('rsState');S=defaultState();init();renderSkills();renderAchievements();}
+  };
+  document.querySelector('.menu-bar').innerHTML=`
+    <div class="mi">Character</div>
+    <div class="mi" onclick="if(confirm('Reset all progress? This cannot be undone.')){localStorage.removeItem('rsState');location.reload();}">⚠️ Reset</div>
+    <div class="mi">Help</div>
+  `;
+}
+
+init();
 </script>
 </body>
 </html>
