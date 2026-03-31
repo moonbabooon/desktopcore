@@ -802,6 +802,38 @@
             color: #0000ff;
         }
 
+        /* Recycle Bin file explorer */
+        .bin-menubar {
+            background: #c0c0c0; font-family: Tahoma, sans-serif; font-size: 11px;
+            padding: 1px 6px; border-bottom: 1px solid #808080;
+            display: flex; gap: 14px; flex-shrink: 0;
+        }
+        .bin-menubar span { cursor: default; padding: 1px 3px; }
+        .bin-menubar span:hover { background: #000080; color: #fff; }
+        .bin-toolbar {
+            background: #c0c0c0; border-bottom: 1px solid #808080;
+            padding: 2px 6px; display: flex; gap: 4px; align-items: center; flex-shrink: 0;
+        }
+        .bin-tb-btn {
+            font-family: Tahoma, sans-serif; font-size: 10px;
+            background: #c0c0c0; border: 1px solid #fff;
+            border-right-color: #000; border-bottom-color: #000;
+            padding: 1px 8px; cursor: pointer;
+        }
+        .bin-tb-btn:disabled { color: #808080; cursor: default; }
+        .bin-tb-btn:not(:disabled):hover { background: #d4d0c8; }
+        .bin-item {
+            width: 72px; text-align: center; cursor: pointer; padding: 4px 2px;
+            border: 1px solid transparent; user-select: none; font-family: Tahoma, sans-serif;
+        }
+        .bin-item:hover { background: rgba(0,0,128,0.12); border-color: #000080; }
+        .bin-item.selected { background: #000080; border-color: #000080; }
+        .bin-item.selected .bin-name { color: #fff; }
+        .bin-icon { font-size: 26px; margin-bottom: 2px; line-height: 1; }
+        .bin-name { font-size: 9px; color: #000; line-height: 1.2; word-break: break-all; }
+        .bin-item-special .bin-name { color: #000080; font-weight: bold; }
+        .bin-item-special.selected .bin-name { color: #fff; }
+
         /* Recycle Bin graveyard cards */
         .rip-card {
             background: #1a1a2e; color: #ccc; border: 1px solid #333;
@@ -3243,107 +3275,134 @@
             </div>
         </div>
 
-        <div class="window minimized" id="window-recycle" style="top:50px;left:120px;width:680px;height:530px;">
+        <div class="window minimized" id="window-recycle" style="top:60px;left:180px;width:360px;height:280px;">
             <div class="window-titlebar inactive" data-window="recycle">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%231a73e8' d='M2 2h12v12H2z'/%3E%3Cpath fill='white' d='M4 5h8v7H4zM6 5V3h4v2M5 3h6'/%3E%3C/svg%3E">
-                <span>The Digital Graveyard — Microsoft Internet Explorer</span>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/%3E%3C/svg%3E">
+                <span>Recycle Bin</span>
                 <div class="window-controls">
                     <button class="window-btn minimize-btn" data-window="recycle">_</button>
                     <button class="window-btn maximize-btn" data-window="recycle">▢</button>
                     <button class="window-btn close-btn" data-window="recycle">×</button>
                 </div>
             </div>
-            <div class="window-content ie-window-content">
-                <div class="ie-menubar"><span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span></div>
-                <div class="ie-toolbar">
-                    <button class="ie-btn" disabled>&#9664; Back</button>
-                    <button class="ie-btn" disabled>Fwd &#9654;</button>
-                    <button class="ie-btn">&#10006; Stop</button>
-                    <button class="ie-btn">&#8635; Refresh</button>
-                    <div class="ie-sep"></div>
-                    <button class="ie-btn">&#127968; Home</button>
-                    <div class="ie-throbber-wrap"><div class="ie-throbber"></div></div>
+            <div class="window-content" style="padding:0;display:flex;flex-direction:column;height:100%">
+                <div class="bin-menubar">
+                    <span>File</span><span>Edit</span><span>View</span><span>Help</span>
                 </div>
-                <div class="ie-addressbar">
-                    <span class="ie-addr-label">Address</span>
-                    <input class="ie-addr-input" value="http://www.parsanavidi.com/why-does-this-look-like-1999.html" readonly>
-                    <button class="ie-btn ie-go-btn">Go &#9654;</button>
+                <div class="bin-toolbar">
+                    <button class="bin-tb-btn" disabled>&#9664; Back</button>
+                    <button class="bin-tb-btn" disabled>Forward &#9654;</button>
+                    <div style="flex:1"></div>
+                    <button class="bin-tb-btn" onclick="alert('Recycle Bin cannot be emptied.\nimposter_syndrome.exe is still running.')">Empty Recycle Bin</button>
                 </div>
-                <div class="ie-page" id="bin-ie-page">
-
-                    <div class="ie-banner">
-                        <div class="ie-banner-title">* * * why does this look like 1999? * * *</div>
-                        <div class="ie-banner-sub">a note from parsa &nbsp;&bull;&nbsp; you found it &nbsp;&bull;&nbsp; best viewed with the sound on</div>
+                <div id="bin-files" style="flex:1;overflow-y:auto;padding:8px;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;background:#fff">
+                    <div class="bin-item" onclick="binClick(this)">
+                        <div class="bin-icon">📄</div><div class="bin-name">bio_draft_v1.txt</div>
                     </div>
-
-                    <div class="ie-counterbar">
-                        <span class="ie-counter-green">READERS: <b>001,994</b></span>
-                        <span class="ie-counter-orange">:-) you found the easter egg!</span>
-                        <span class="ie-counter-cyan">[*] dial-up recommended</span>
+                    <div class="bin-item" onclick="binClick(this)">
+                        <div class="bin-icon">📝</div><div class="bin-name">cover_letter_<br>desperate.doc</div>
                     </div>
+                    <div class="bin-item" onclick="binClick(this)">
+                        <div class="bin-icon">⚙️</div><div class="bin-name">imposter_<br>syndrome.exe</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)">
+                        <div class="bin-icon">🌐</div><div class="bin-name">portfolio_<br>2019_v1.html</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)">
+                        <div class="bin-icon">📋</div><div class="bin-name">writers_<br>block.log</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)">
+                        <div class="bin-icon">🎬</div><div class="bin-name">unfinished_<br>screenplay.fdx</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)">
+                        <div class="bin-icon">🐦</div><div class="bin-name">deleted_tweet_<br>drafts.txt</div>
+                    </div>
+                    <div class="bin-item bin-item-special" onclick="binClick(this)" ondblclick="openTimeCapsule()" title="double-click to open">
+                        <div class="bin-icon">📓</div><div class="bin-name">time_capsule<br>.txt</div>
+                    </div>
+                </div>
+                <div id="bin-statusbar" style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 8px;font-size:10px;font-family:Tahoma,sans-serif;flex-shrink:0">
+                    8 object(s) &nbsp;&nbsp; <span style="color:#555">Double-click time_capsule.txt to open</span>
+                </div>
+            </div>
+        </div>
 
-                    <table class="ie-layout-table" cellpadding="8" cellspacing="4">
-                        <tr valign="top">
-                            <td class="ie-sidebar">
-                                <div class="ie-profile-pic-wrap">
-                                    <div style="font-size:36px;text-align:center;line-height:1.4">[monitor]</div>
-                                    <div class="ie-profile-name">~*~ the old web ~*~</div>
-                                </div>
-                                <hr class="ie-hr">
-                                <div class="ie-sidebar-facts" style="font-size:10px">
-                                    <b>soundtrack:</b><br>some MIDI file autoplay-ing<br><br>
-                                    <b>grew up on:</b><br>Newgrounds<br>MapleStory<br>RuneScape<br>Neopets<br>GeoCities<br>MSN Messenger<br><br>
-                                    <b>first website:</b><br>Microsoft FrontPage<br>background: tiled flames GIF<br>font: Comic Sans (obviously)
-                                </div>
-                                <hr class="ie-hr">
-                                <div class="ie-construction">[*] ALWAYS BUILDING [*]</div>
-                                <hr class="ie-hr">
-                                <div style="font-size:9px;color:#666;text-align:center;font-family:'Courier New',monospace;line-height:1.7">
-                                    [##########]<br>nostalgia: 100%<br><br>
-                                    [#####.....]<br>cringe: 50% (and rising)
-                                </div>
-                            </td>
-
-                            <td class="ie-main">
-                                <h2 class="ie-main-h2">I grew up on the internet when it still felt <span class="ie-name-red">personal.</span></h2>
-
-                                <p class="ie-main-p">I'm talking about GeoCities pages with tiled backgrounds and a MIDI file playing whether you wanted it or not. Newgrounds Flash games that took four minutes to load and crashed your browser half the time. MSN Messenger nudges. AIM away messages that were basically diary entries for anyone who cared to look.</p>
-
-                                <p class="ie-main-p">Every page looked like a real person made it. Sometimes badly. But that was kind of the point. You could tell there was a kid behind it who really cared about something, even if that something was just having the coolest "about me" section on their profile.</p>
-
-                                <hr class="ie-hr">
-                                <h3 class="ie-main-h3">that internet taught me how to write.</h3>
-
-                                <p class="ie-main-p">Not in school, not from a book. I learned by watching what worked. Which Newgrounds submissions got frontpaged. Which RuneScape forum posts got replies. Which GeoCities profiles got bookmarked. It was always the ones with a real voice. The ones that sounded like a person, not a page.</p>
-
-                                <p class="ie-main-p">That stuck with me. I've been thinking about it ever since, and it's basically the whole reason I ended up doing what I do now.</p>
-
-                                <hr class="ie-hr">
-                                <h3 class="ie-main-h3">so why does this portfolio look like Windows 98?</h3>
-
-                                <p class="ie-main-p">Honestly, I got tired of looking at the same Notion-style portfolio over and over. Clean grid, neutral colors, three bullet points under each job. They all look fine. None of them look like anyone in particular.</p>
-
-                                <p class="ie-main-p">I wanted mine to feel like something. And the thing that has always felt like something to me is that era of the internet, before everything got smoothed out and optimized. This is just my version of a GeoCities page. It takes itself seriously in the exact same way those did, which is to say, not that seriously at all.</p>
-
-                                <p class="ie-main-p">The fact that you clicked on the Recycle Bin tells me you're the kind of person who actually looks around. That's the kind of person I like working with. :)</p>
-
-                                <div class="ie-blink-text">* thanks for poking around. hope it was worth the click. *</div>
-
-                                <hr class="ie-hr">
-                                <h3 class="ie-main-h3">// guestbook</h3>
-                                <div style="font-size:10px;font-family:'Courier New',monospace;background:#fff;border:1px inset #ccc;padding:8px;line-height:2">
-                                    <b style="color:#000080">xX_WebMaster_Xx</b> <span style="color:#888">(2004)</span>: this site is so cool!! bookmarked!! tell ur friends!!<br>
-                                    <b style="color:#800000">MapleStory_grl</b> <span style="color:#888">(2007)</span>: omg i miss newgrounds so much... henrystickmin was everything<br>
-                                    <b style="color:#006600">RuneScape_legend</b> <span style="color:#888">(2009)</span>: woodcutting to 99 while reading this. respect.<br>
-                                    <b style="color:#660066">parsa</b> <span style="color:#888">(today)</span>: still building. always will be.
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="ie-footer">
-                        &copy; 2025 Parsa Navidi &nbsp;|&nbsp; built by hand &nbsp;|&nbsp; best viewed in Internet Explorer 4.0+ &nbsp;|&nbsp; 800x600<br>
-                        <span style="color:#00ff88">this page was in the Recycle Bin. you opened it anyway. good.</span>
+        <!-- Time Capsule overlay (IE-style story window) -->
+        <div id="timecapsule-overlay" style="display:none;position:fixed;inset:0;z-index:99997;align-items:center;justify-content:center;background:rgba(0,0,0,0.45)">
+            <div class="window" style="position:relative;width:680px;max-width:calc(100vw - 24px);height:540px;max-height:calc(100vh - 40px)">
+                <div class="window-titlebar" style="background:linear-gradient(90deg,#000080,#1084d0)">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c8a000' x='1' y='4' width='14' height='10' rx='1'/%3E%3Cpath fill='%23a07800' d='M1 7h14v2H1z'/%3E%3C/svg%3E">
+                    <span>time_capsule.txt — Notepad</span>
+                    <div class="window-controls">
+                        <button class="window-btn" onclick="closeTimeCapsule()">×</button>
+                    </div>
+                </div>
+                <div class="window-content ie-window-content" style="height:calc(100% - 28px)">
+                    <div class="ie-menubar"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>
+                    <div class="ie-addressbar">
+                        <span class="ie-addr-label">Path</span>
+                        <input class="ie-addr-input" value="C:\RECYCLER\time_capsule.txt" readonly>
+                    </div>
+                    <div class="ie-page" style="height:calc(100% - 52px);overflow-y:auto">
+                        <div class="ie-banner">
+                            <div class="ie-banner-title">* * * why does this look like 1999? * * *</div>
+                            <div class="ie-banner-sub">a note from parsa &nbsp;&bull;&nbsp; you found it &nbsp;&bull;&nbsp; best viewed with the sound on</div>
+                        </div>
+                        <div class="ie-counterbar">
+                            <span class="ie-counter-green">READERS: <b>001,994</b></span>
+                            <span class="ie-counter-orange">:-) you found the easter egg!</span>
+                            <span class="ie-counter-cyan">[*] dial-up recommended</span>
+                        </div>
+                        <table class="ie-layout-table" cellpadding="8" cellspacing="4">
+                            <tr valign="top">
+                                <td class="ie-sidebar">
+                                    <div class="ie-profile-pic-wrap">
+                                        <div style="font-size:36px;text-align:center;line-height:1.4">&#128421;</div>
+                                        <div class="ie-profile-name">~*~ the old web ~*~</div>
+                                    </div>
+                                    <hr class="ie-hr">
+                                    <div class="ie-sidebar-facts" style="font-size:10px">
+                                        <b>soundtrack:</b><br>some MIDI autoplay-ing<br><br>
+                                        <b>grew up on:</b><br>Newgrounds<br>MapleStory<br>RuneScape<br>Neopets<br>GeoCities<br>MSN Messenger<br><br>
+                                        <b>first website:</b><br>Microsoft FrontPage<br>tiled flames GIF bg<br>font: Comic Sans
+                                    </div>
+                                    <hr class="ie-hr">
+                                    <div class="ie-construction">[*] ALWAYS BUILDING [*]</div>
+                                    <hr class="ie-hr">
+                                    <div style="font-size:9px;color:#666;text-align:center;font-family:'Courier New',monospace;line-height:1.7">
+                                        [##########]<br>nostalgia: 100%<br><br>
+                                        [#####.....]<br>cringe: 50% (rising)
+                                    </div>
+                                </td>
+                                <td class="ie-main">
+                                    <h2 class="ie-main-h2">I grew up on the internet when it still felt <span class="ie-name-red">personal.</span></h2>
+                                    <p class="ie-main-p">I'm talking about GeoCities pages with tiled backgrounds and a MIDI file playing whether you wanted it or not. Newgrounds Flash games that took four minutes to load and crashed your browser half the time. MSN Messenger nudges. AIM away messages that were basically diary entries for anyone who cared to look.</p>
+                                    <p class="ie-main-p">Every page looked like a real person made it. Sometimes badly. But that was kind of the point. You could tell there was a kid behind it who really cared about something, even if that something was just having the coolest "about me" section on their profile.</p>
+                                    <hr class="ie-hr">
+                                    <h3 class="ie-main-h3">that internet taught me how to write.</h3>
+                                    <p class="ie-main-p">Not in school, not from a book. I learned by watching what worked. Which Newgrounds submissions got frontpaged. Which RuneScape forum posts got replies. Which GeoCities profiles got bookmarked. It was always the ones with a real voice. The ones that sounded like a person, not a page.</p>
+                                    <p class="ie-main-p">That stuck with me. It's basically the whole reason I ended up doing what I do now.</p>
+                                    <hr class="ie-hr">
+                                    <h3 class="ie-main-h3">so why does this portfolio look like Windows 98?</h3>
+                                    <p class="ie-main-p">Honestly, I got tired of looking at the same Notion-style portfolio over and over. Clean grid, neutral colors, three bullet points under each job. They all look fine. None of them look like anyone in particular.</p>
+                                    <p class="ie-main-p">I wanted mine to feel like something. And the thing that has always felt like something to me is that era of the internet, before everything got smoothed out and optimized. This is just my version of a GeoCities page. It takes itself seriously in the exact same way those did, which is to say, not that seriously at all.</p>
+                                    <p class="ie-main-p">The fact that you clicked the Recycle Bin and then opened this file tells me you're the kind of person who actually looks around. That's the kind of person I like working with. :)</p>
+                                    <div class="ie-blink-text">* thanks for poking around. hope it was worth the click. *</div>
+                                    <hr class="ie-hr">
+                                    <h3 class="ie-main-h3">// guestbook</h3>
+                                    <div style="font-size:10px;font-family:'Courier New',monospace;background:#fff;border:1px inset #ccc;padding:8px;line-height:2">
+                                        <b style="color:#000080">xX_WebMaster_Xx</b> <span style="color:#888">(2004)</span>: this site is so cool!! bookmarked!! tell ur friends!!<br>
+                                        <b style="color:#800000">MapleStory_grl</b> <span style="color:#888">(2007)</span>: omg i miss newgrounds so much... henrystickmin was everything<br>
+                                        <b style="color:#006600">RuneScape_legend</b> <span style="color:#888">(2009)</span>: woodcutting to 99 while reading this. respect.<br>
+                                        <b style="color:#660066">parsa</b> <span style="color:#888">(today)</span>: still building. always will be.
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="ie-footer">
+                            &copy; 2025 Parsa Navidi &nbsp;|&nbsp; built by hand &nbsp;|&nbsp; best viewed in Internet Explorer 4.0+<br>
+                            <span style="color:#00ff88">this file was in the Recycle Bin. you opened it anyway. good.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -4657,6 +4716,22 @@
             document.getElementById('cp-status').textContent = ap.title + ' — ' + ap.tags.length + ' capabilities';
             SFX.click();
         }
+
+        // ── Recycle Bin ───────────────────────────────────────────────
+        function binClick(el) {
+            document.querySelectorAll('.bin-item').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+        function openTimeCapsule() {
+            const ov = document.getElementById('timecapsule-overlay');
+            ov.style.display = 'flex';
+        }
+        function closeTimeCapsule() {
+            document.getElementById('timecapsule-overlay').style.display = 'none';
+        }
+        document.getElementById('timecapsule-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeTimeCapsule();
+        });
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
         document.getElementById('ctx-crt').addEventListener('click', () => {
