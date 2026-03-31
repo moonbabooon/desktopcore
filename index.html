@@ -2737,49 +2737,85 @@
         .clippy-svg {
             width: 72px;
             height: 90px;
-            cursor: pointer;
+            cursor: grab;
             filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
             transform-origin: bottom center;
         }
+        .clippy-wrap.clippy-dragging { cursor: grabbing; }
+        .clippy-wrap.clippy-dragging .clippy-svg {
+            animation: none !important;
+            transform: rotate(-10deg) scale(1.08) !important;
+            transition: transform 0.12s;
+            filter: drop-shadow(4px 8px 10px rgba(0,0,0,0.45));
+            cursor: grabbing;
+        }
 
-        /* Idle float */
+        /* Idle sway — gentle float with tilt */
         @keyframes clippyFloat {
-            0%,100% { transform: translateY(0); }
-            50%      { transform: translateY(-6px); }
+            0%   { transform: translateY(0)     rotate(0deg); }
+            18%  { transform: translateY(-5px)  rotate(2deg); }
+            36%  { transform: translateY(-10px) rotate(0deg); }
+            54%  { transform: translateY(-6px)  rotate(-2.5deg); }
+            72%  { transform: translateY(-11px) rotate(1deg); }
+            88%  { transform: translateY(-3px)  rotate(-1deg); }
+            100% { transform: translateY(0)     rotate(0deg); }
         }
-        /* Excited bounce */
+        /* Bounce with squish */
         @keyframes clippyBounce {
-            0%,100% { transform: translateY(0) rotate(0deg); }
-            20%     { transform: translateY(-14px) rotate(-8deg); }
-            40%     { transform: translateY(-6px) rotate(6deg); }
-            60%     { transform: translateY(-10px) rotate(-4deg); }
-            80%     { transform: translateY(-4px) rotate(3deg); }
+            0%   { transform: translateY(0)     scaleX(1)    scaleY(1); }
+            18%  { transform: translateY(-22px) scaleX(0.87) scaleY(1.13); }
+            35%  { transform: translateY(-32px) scaleX(0.84) scaleY(1.16); }
+            50%  { transform: translateY(-18px) scaleX(1.07) scaleY(0.94); }
+            62%  { transform: translateY(-26px) scaleX(0.91) scaleY(1.09); }
+            73%  { transform: translateY(-10px) scaleX(1.04) scaleY(0.97); }
+            83%  { transform: translateY(-16px) scaleX(0.97) scaleY(1.03); }
+            92%  { transform: translateY(-4px)  scaleX(1.01) scaleY(0.99); }
+            100% { transform: translateY(0)     scaleX(1)    scaleY(1); }
         }
-        /* Wiggle */
+        /* Wiggle — snappy with size pulse */
         @keyframes clippyWiggle {
-            0%,100% { transform: rotate(0deg); }
-            20%     { transform: rotate(-12deg); }
-            40%     { transform: rotate(10deg); }
-            60%     { transform: rotate(-8deg); }
-            80%     { transform: rotate(6deg); }
+            0%,100% { transform: rotate(0deg)   scale(1); }
+            15%     { transform: rotate(-14deg)  scale(1.05); }
+            30%     { transform: rotate(12deg)   scale(0.97); }
+            45%     { transform: rotate(-10deg)  scale(1.04); }
+            60%     { transform: rotate(8deg)    scale(0.98); }
+            75%     { transform: rotate(-5deg)   scale(1.01); }
+            88%     { transform: rotate(3deg)    scale(1); }
         }
         /* Wave */
         @keyframes clippyWave {
-            0%,100% { transform: rotate(0deg) translateY(0); }
-            25%     { transform: rotate(-15deg) translateY(-8px); }
-            75%     { transform: rotate(15deg) translateY(-8px); }
+            0%,100% { transform: rotate(0deg)   translateY(0); }
+            20%     { transform: rotate(-16deg)  translateY(-10px); }
+            40%     { transform: rotate(14deg)   translateY(-6px); }
+            60%     { transform: rotate(-12deg)  translateY(-12px); }
+            80%     { transform: rotate(10deg)   translateY(-5px); }
+        }
+        /* Dance — full body groove */
+        @keyframes clippyDance {
+            0%   { transform: rotate(0deg)   translateY(0)     scaleX(1); }
+            10%  { transform: rotate(-16deg) translateY(-8px)  scaleX(0.93); }
+            22%  { transform: rotate(14deg)  translateY(-14px) scaleX(1.07); }
+            34%  { transform: rotate(-12deg) translateY(-6px)  scaleX(0.96); }
+            46%  { transform: rotate(18deg)  translateY(-16px) scaleX(1.06); }
+            58%  { transform: rotate(-10deg) translateY(-4px)  scaleX(0.97); }
+            70%  { transform: rotate(14deg)  translateY(-12px) scaleX(1.04); }
+            82%  { transform: rotate(-8deg)  translateY(-6px)  scaleX(0.98); }
+            92%  { transform: rotate(5deg)   translateY(-3px)  scaleX(1.01); }
+            100% { transform: rotate(0deg)   translateY(0)     scaleX(1); }
         }
         /* Shock */
         @keyframes clippyShock {
-            0%,100% { transform: scale(1); }
-            30%     { transform: scale(1.25) rotate(-5deg); }
-            60%     { transform: scale(0.9) rotate(3deg); }
+            0%,100% { transform: scale(1)    rotate(0deg); }
+            25%     { transform: scale(1.3)  rotate(-6deg); }
+            50%     { transform: scale(0.88) rotate(4deg); }
+            75%     { transform: scale(1.15) rotate(-3deg); }
         }
 
-        .clippy-anim-float   { animation: clippyFloat   2.8s ease-in-out infinite; }
-        .clippy-anim-bounce  { animation: clippyBounce  0.7s ease-in-out; }
-        .clippy-anim-wiggle  { animation: clippyWiggle  0.6s ease-in-out; }
-        .clippy-anim-wave    { animation: clippyWave    0.9s ease-in-out; }
+        .clippy-anim-float   { animation: clippyFloat   3.4s ease-in-out infinite; }
+        .clippy-anim-bounce  { animation: clippyBounce  0.85s cubic-bezier(0.36,0,0.66,1.4); }
+        .clippy-anim-wiggle  { animation: clippyWiggle  0.65s ease-in-out; }
+        .clippy-anim-wave    { animation: clippyWave    0.95s ease-in-out; }
+        .clippy-anim-dance   { animation: clippyDance   0.9s ease-in-out; }
         .clippy-anim-shock   { animation: clippyShock   0.5s ease-in-out; }
 
         /* CRT Mode */
@@ -4499,8 +4535,8 @@
             }
 
             function playAnim(name) {
-                svg.classList.remove('clippy-anim-float','clippy-anim-bounce','clippy-anim-wiggle','clippy-anim-wave','clippy-anim-shock');
-                void svg.offsetWidth; // reflow to restart animation
+                svg.classList.remove('clippy-anim-float','clippy-anim-bounce','clippy-anim-wiggle','clippy-anim-wave','clippy-anim-shock','clippy-anim-dance');
+                void svg.offsetWidth;
                 svg.classList.add('clippy-anim-' + name);
                 if (name !== 'float') {
                     svg.addEventListener('animationend', () => {
@@ -4527,9 +4563,42 @@
                 }
             }
 
+            /* ── Drag ── */
+            let dragging = false, dragOffX = 0, dragOffY = 0, dragMoved = false;
+
+            function startDrag(clientX, clientY) {
+                dragging = true; dragMoved = false;
+                const r = wrap.getBoundingClientRect();
+                dragOffX = clientX - r.left;
+                dragOffY = clientY - r.top;
+                wrap.classList.add('clippy-dragging');
+                wrap.style.transition = 'opacity 0.5s'; // drop position transitions while dragging
+            }
+            function moveDrag(clientX, clientY) {
+                if (!dragging) return;
+                dragMoved = true;
+                const newL = Math.max(0, Math.min(window.innerWidth  - wrap.offsetWidth,  clientX - dragOffX));
+                const newB = Math.max(0, Math.min(window.innerHeight - wrap.offsetHeight, window.innerHeight - clientY - (wrap.offsetHeight - dragOffY)));
+                wrap.style.left   = newL + 'px';
+                wrap.style.bottom = newB + 'px';
+            }
+            function endDrag() {
+                if (!dragging) return;
+                dragging = false;
+                wrap.classList.remove('clippy-dragging');
+                wrap.style.transition = ''; // restore
+            }
+
+            wrap.addEventListener('mousedown',  e => { if (e.button === 0) { startDrag(e.clientX, e.clientY); e.preventDefault(); } });
+            document.addEventListener('mousemove', e => { moveDrag(e.clientX, e.clientY); });
+            document.addEventListener('mouseup',   endDrag);
+            wrap.addEventListener('touchstart', e => { const t = e.touches[0]; startDrag(t.clientX, t.clientY); }, { passive: true });
+            document.addEventListener('touchmove', e => { const t = e.touches[0]; moveDrag(t.clientX, t.clientY); }, { passive: true });
+            document.addEventListener('touchend',  endDrag);
+
             /* ── Eye cursor tracking ── */
             document.addEventListener('mousemove', e => {
-                if (!wrap.classList.contains('visible')) return;
+                if (dragging || !wrap.classList.contains('visible')) return;
                 const r = svg.getBoundingClientRect();
                 const ex = r.left + r.width * 0.35;
                 const ey = r.top  + r.height * 0.18;
@@ -4582,7 +4651,7 @@
 
             /* ── Wandering ── */
             function wander() {
-                if (isMobile()) return; // CSS pins Clippy to bottom-right corner on mobile
+                if (isMobile() || dragging) return;
                 const pad  = 120;
                 const maxX = window.innerWidth  - pad;
                 const newL = Math.max(20, Math.min(maxX, 80 + Math.random() * (maxX - 80)));
@@ -4605,12 +4674,15 @@
             };
 
             /* ── Idle message cycling ── */
+            const idleAnims = ['wiggle','dance','bounce','wave','wiggle','dance'];
+            let idleAnimIdx = 0;
             setInterval(() => {
-                if (!wrap.classList.contains('visible')) return;
+                if (!wrap.classList.contains('visible') || dragging) return;
                 idleIdx = (idleIdx + 1) % idleMsgs.length;
                 setMsg(idleMsgs[idleIdx]);
-                playAnim('wiggle');
-                setExpression('neutral');
+                const anim = idleAnims[idleAnimIdx++ % idleAnims.length];
+                playAnim(anim);
+                setExpression(anim === 'bounce' ? 'happy' : 'neutral');
             }, 12000);
 
             /* ── Initial position: right-middle ── */
@@ -4631,15 +4703,16 @@
             if (window._desktopReady) setTimeout(window._showClippy, 5000);
 
             /* ── Click interactions ── */
-            bubble.addEventListener('click', () => openWindow('contact'));
+            bubble.addEventListener('click', () => { if (!dragMoved) openWindow('contact'); });
             svg.addEventListener('click', () => {
+                if (dragMoved) { dragMoved = false; return; } // was a drag, skip
                 const hidden = bubble.style.display === 'none';
                 bubble.style.display = hidden ? 'block' : 'none';
-                playAnim(hidden ? 'wave' : 'wiggle');
+                playAnim(hidden ? 'wave' : 'dance');
                 setExpression(hidden ? 'happy' : 'neutral');
             });
-            svg.addEventListener('mouseenter', () => setExpression('happy'));
-            svg.addEventListener('mouseleave', () => setExpression('neutral'));
+            svg.addEventListener('mouseenter', () => { if (!dragging) setExpression('happy'); });
+            svg.addEventListener('mouseleave', () => { if (!dragging) setExpression('neutral'); });
         })();
 
         // ── Windows Explorer: Projects window logic ────────────────────
