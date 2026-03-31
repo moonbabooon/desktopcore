@@ -70,28 +70,33 @@ body{background:#1a0800;font-family:'MS Sans Serif',Arial,sans-serif;font-size:1
 
 /* ── WORLD TAB ── */
 .world-layout{display:flex;gap:6px;min-height:360px}
-.world-left{width:160px;flex-shrink:0;display:flex;flex-direction:column;gap:4px}
+.world-left{width:180px;flex-shrink:0;display:flex;flex-direction:column;gap:0}
 .world-right{flex:1;min-width:0;display:flex;flex-direction:column}
 @media(max-width:480px){.world-layout{flex-direction:column}.world-left{width:100%}}
 
-.area-card{background:var(--rs-panel);border:2px solid var(--rs-border2);padding:6px 8px;cursor:pointer}
-.area-card.active{border-color:var(--rs-gold)}
-.area-card.locked{opacity:0.5;cursor:default}
-.area-name{color:var(--rs-gold);font-size:10px;font-weight:bold}
-.area-sub{color:#666;font-size:9px;margin-top:1px}
+.area-selector-wrap{display:flex;flex-direction:column;gap:2px;margin-bottom:4px}
+.area-selector-lbl{color:var(--rs-orange);font-size:8px;font-weight:bold;text-transform:uppercase;letter-spacing:0.5px;padding:3px 4px 2px}
+.area-btn{background:var(--rs-panel);border:1px solid var(--rs-border2);padding:5px 7px;cursor:pointer;text-align:left;font-family:'MS Sans Serif',Arial,sans-serif;display:flex;align-items:baseline;gap:5px;transition:background 0.1s}
+.area-btn:hover:not(.locked){background:#3a2a0a}
+.area-btn.active{border-color:var(--rs-gold);background:#2a1804}
+.area-btn.locked{opacity:0.45;cursor:default}
+.area-btn-name{color:var(--rs-gold);font-size:10px;font-weight:bold}
+.area-btn-sub{color:#666;font-size:8px}
 
 .activity-list{background:var(--rs-panel);border:2px solid var(--rs-border2);padding:4px;flex:1;overflow-y:auto}
 .activity-section-lbl{color:var(--rs-orange);font-size:9px;font-weight:bold;text-transform:uppercase;padding:3px 4px 2px;letter-spacing:0.5px}
 .act-item{display:flex;align-items:center;gap:5px;padding:4px 6px;cursor:pointer;border-bottom:1px solid var(--rs-border2)}
 .act-item:hover{background:#3a2a0a}
 .act-item.locked{opacity:0.4;cursor:default}
-.act-icon{font-size:16px;width:20px;text-align:center}
+.act-icon{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.act-icon svg{width:22px;height:22px}
+.act-icon-em{font-size:15px;line-height:1}
 .act-name{color:var(--rs-text);font-size:10px}
 .act-lvl{color:#666;font-size:9px;margin-left:auto}
 
 /* ── BATTLE SCREEN (Mother/EarthBound style) ── */
 .battle-screen{
-  position:relative;height:200px;
+  position:relative;height:240px;
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;flex-shrink:0;
   border:3px solid;border-color:#808080 #fff #fff #808080;
@@ -564,43 +569,45 @@ function renderWorld(){
   if(playerHP>maxPlayerHP)playerHP=maxPlayerHP;
 
   const left=document.getElementById('worldLeft');
-  // Area cards
-  let areaHtml='';
+  // Area selector
+  let areaHtml='<div class="area-selector-wrap"><div class="area-selector-lbl">Location</div>';
   Object.entries(AREAS).forEach(([id,area])=>{
     const unlocked=S.areas.includes(id);
     if(area.secret&&!unlocked)return;
     const locked=!unlocked;
-    areaHtml+=`<div class="area-card${id===currentArea?' active':''}${locked?' locked':''}" onclick="${locked?'':'selectArea(\''+id+'\')'}">
-      <div class="area-name">${area.name}</div>
-      <div class="area-sub">${locked?'🔒 '+area.sub:area.sub}</div>
+    areaHtml+=`<div class="area-btn${id===currentArea?' active':''}${locked?' locked':''}" onclick="${locked?'':'selectArea(\''+id+'\')'}">
+      <span class="area-btn-name">${area.name}</span>
+      <span class="area-btn-sub">${locked?'🔒':''}</span>
     </div>`;
   });
+  areaHtml+='</div>';
   // Activity list
   const area=AREAS[currentArea];
   let actHtml='<div class="activity-list">';
   if(area.monsters.length){
-    actHtml+='<div class="activity-section-lbl">⚔️ Combat</div>';
+    actHtml+='<div class="activity-section-lbl">Combat</div>';
     area.monsters.forEach(mid=>{
       const m=MONSTERS[mid];
-      actHtml+=`<div class="act-item" onclick="enterCombat('${mid}')"><div class="act-icon">${m.emoji}</div><div class="act-name">${m.name}</div><div class="act-lvl">Lv.${m.lv}</div></div>`;
+      const miniSvg=m.svg?`<div class="act-icon">${m.svg}</div>`:`<div class="act-icon"><span class="act-icon-em">${m.emoji}</span></div>`;
+      actHtml+=`<div class="act-item" onclick="enterCombat('${mid}')">${miniSvg}<div class="act-name">${m.name}</div><div class="act-lvl">Lv.${m.lv}</div></div>`;
     });
   }
   if(area.skills.includes('woodcutting')){
-    actHtml+='<div class="activity-section-lbl">🌲 Woodcutting</div>';
+    actHtml+='<div class="activity-section-lbl">Woodcutting</div>';
     WOOD_ACTIONS.forEach((a,i)=>{
       const locked=S.sk.woodcutting.lv<a.lvl;
       actHtml+=`<div class="act-item${locked?' locked':''}" onclick="${locked?'':' startSkillAction(\'woodcutting\','+i+')'}"><div class="act-icon">${a.icon}</div><div class="act-name">${a.name}</div><div class="act-lvl">Lv.${a.lvl}</div></div>`;
     });
   }
   if(area.skills.includes('mining')){
-    actHtml+='<div class="activity-section-lbl">⛏️ Mining</div>';
+    actHtml+='<div class="activity-section-lbl">Mining</div>';
     MINE_ACTIONS.forEach((a,i)=>{
       const locked=S.sk.mining.lv<a.lvl;
       actHtml+=`<div class="act-item${locked?' locked':''}" onclick="${locked?'':' startSkillAction(\'mining\','+i+')'}"><div class="act-icon">${a.icon}</div><div class="act-name">${a.name}</div><div class="act-lvl">Lv.${a.lvl}</div></div>`;
     });
   }
   if(area.skills.includes('cooking')){
-    actHtml+='<div class="activity-section-lbl">🍳 Cooking</div>';
+    actHtml+='<div class="activity-section-lbl">Cooking</div>';
     const cookables=S.inv.filter(x=>ITEMS[x.id]&&ITEMS[x.id].cookable);
     if(cookables.length){
       cookables.forEach(x=>{
@@ -611,7 +618,7 @@ function renderWorld(){
     }
   }
   if(area.skills.includes('smithing')){
-    actHtml+='<div class="activity-section-lbl">🔨 Smithing</div>';
+    actHtml+='<div class="activity-section-lbl">Smithing</div>';
     actHtml+=`<div class="act-item" onclick="showSmithing()"><div class="act-icon">🔨</div><div class="act-name">Open Anvil</div><div class="act-lvl">Lv.${S.sk.smithing.lv}</div></div>`;
   }
   actHtml+='</div>';
@@ -684,9 +691,9 @@ function renderCombatView(){
       </div>
     </div>
     <div class="combat-controls">
-      <button class="cb" id="btn-atk" onclick="playerAttack()">⚔️ Attack</button>
-      <button class="cb" id="btn-eat" onclick="eatFood()">🍗 Eat Food</button>
-      <button class="cb" onclick="fleeCombat()">🏃 Flee</button>
+      <button class="cb" id="btn-atk" onclick="playerAttack()" title="Keyboard: Space">⚔️ Attack <span style="font-size:8px;opacity:0.6">[Space]</span></button>
+      <button class="cb" id="btn-eat" onclick="eatFood()" title="Keyboard: E">🍗 Eat <span style="font-size:8px;opacity:0.6">[E]</span></button>
+      <button class="cb" onclick="fleeCombat()" title="Keyboard: F">🏃 Flee <span style="font-size:8px;opacity:0.6">[F]</span></button>
       <div class="player-hp-area">
         <div>HP</div>
         <div class="php-row">
@@ -1179,6 +1186,25 @@ function init(){
 }
 
 init();
+
+// ═══════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  if(!combatState)return;
+  const key=e.key.toLowerCase();
+  if((key===' '||key==='enter')&&!combatState.attacking){
+    e.preventDefault();
+    playerAttack();
+  } else if(key==='e'){
+    e.preventDefault();
+    eatFood();
+  } else if(key==='f'){
+    e.preventDefault();
+    fleeCombat();
+  }
+});
 </script>
 </body>
 </html>
