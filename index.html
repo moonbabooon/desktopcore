@@ -2344,47 +2344,7 @@
         .word-statusbar span { border-right: 1px solid #aca899; padding-right: 12px; }
         .word-statusbar span:last-child { border-right: none; }
 
-        /* ── Desktop Sticky Notes ── */
-        .sticky-note {
-            position: absolute;
-            width: 162px;
-            background: #feff9c;
-            box-shadow: 3px 4px 10px rgba(0,0,0,0.28), inset 0 -2px 0 rgba(0,0,0,0.08);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 10.5px;
-            line-height: 1.55;
-            cursor: default;
-            z-index: 4;
-            user-select: none;
-        }
-        .sticky-note-2 { background: #c8f7c5; }
-        .sticky-note-3 { background: #c5e8f7; }
-        .sticky-note-header {
-            background: rgba(0,0,0,0.10);
-            padding: 4px 8px;
-            font-weight: bold;
-            font-size: 10.5px;
-            border-bottom: 1px solid rgba(0,0,0,0.12);
-            letter-spacing: 0.3px;
-        }
-        .sticky-note-body {
-            padding: 6px 8px 8px;
-            color: #222;
-        }
-        .sticky-note-body hr {
-            border: none;
-            border-top: 1px dashed rgba(0,0,0,0.2);
-            margin: 4px 0;
-        }
-        .sticky-note-line {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            margin-bottom: 1px;
-        }
-        @media (max-width: 768px) {
-            .sticky-note { display: none; }
-        }
+        /* sticky-note CSS removed */
 
         /* ── Pre-boot mobile ── */
         @media (max-width: 500px) {
@@ -2411,11 +2371,11 @@
             }
         }
 
-        /* ── Winamp Player (removed) ── */
-        .winamp-removed {
+        /* ── Winamp Player ── */
+        .winamp {
             position: absolute;
             left: 100px;
-            bottom: 10px;
+            bottom: 50px;
             width: 278px;
             background: #232323;
             border: 2px solid;
@@ -2627,6 +2587,340 @@
         }
         .wa-badge.active { color: #0bff0b; border-color: #0a5a0a; background: rgba(11,255,11,0.07); }
         @media (max-width: 768px) { .winamp { display: none; } }
+
+        /* ── My Computer Window ── */
+        .mycomp-toolbar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #808080;
+            padding: 2px 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .mycomp-tb-btn {
+            font-size: 10px; font-family: Tahoma, sans-serif;
+            background: #d4d0c8; border: 1px solid; border-color: #fff #808080 #808080 #fff;
+            padding: 1px 8px; cursor: pointer;
+        }
+        .mycomp-tb-btn:disabled { color: #808080; cursor: default; border-color: transparent; }
+        .mycomp-addrbar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #808080;
+            padding: 2px 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+        }
+        .mycomp-addr-label { font-size: 10px; color: #444; min-width: 48px; }
+        .mycomp-addr-val {
+            flex: 1; background: #fff;
+            border: 2px solid; border-color: #808080 #fff #fff #808080;
+            padding: 1px 4px; font-size: 11px;
+        }
+        .mycomp-drives {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+            background: #fff;
+        }
+        .mycomp-drive {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 8px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .mycomp-drive:hover { background: #e0e8f8; border: 1px dotted #000080; }
+        .mycomp-drive-icon { font-size: 28px; flex-shrink: 0; width: 36px; text-align: center; }
+        .mycomp-drive-info { flex: 1; }
+        .mycomp-drive-name { font-weight: bold; font-size: 12px; color: #000; }
+        .mycomp-drive-sub { font-size: 10px; color: #666; margin-top: 1px; }
+        .mycomp-drive-bar { height: 6px; background: #e0e0e0; border: 1px solid #aaa; margin-top: 3px; width: 120px; }
+        .mycomp-drive-fill { height: 100%; background: #0055df; }
+        .mycomp-statusbar {
+            background: #d4d0c8;
+            border-top: 1px solid #808080;
+            padding: 2px 8px;
+            font-size: 10px;
+            color: #444;
+        }
+
+        /* ── Run Dialog ── */
+        #run-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 360px;
+            background: #d4d0c8;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+            z-index: 10001;
+            display: none;
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 11px;
+        }
+        #run-dialog.run-open { display: block; }
+        .run-titlebar {
+            background: linear-gradient(180deg, #0a246a 0%, #a6caf0 100%);
+            padding: 3px 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: move;
+        }
+        .run-titlebar span { color: #fff; font-weight: bold; font-size: 11px; flex: 1; }
+        .run-titlebar-close {
+            width: 16px; height: 14px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+            border: 1px solid; border-color: #fff #606060 #606060 #fff;
+            cursor: pointer; font-size: 9px; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
+        .run-body { padding: 12px 14px; }
+        .run-desc { margin-bottom: 10px; line-height: 1.4; }
+        .run-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .run-row label { width: 60px; font-size: 11px; }
+        #run-input {
+            flex: 1;
+            border: 2px solid; border-color: #808080 #fff #fff #808080;
+            padding: 2px 4px; font-family: Tahoma, sans-serif; font-size: 11px;
+        }
+        .run-btns { display: flex; justify-content: flex-end; gap: 6px; }
+        .run-btn {
+            padding: 4px 16px;
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+            border: 2px solid; border-color: #fff #606060 #606060 #fff;
+            font-family: Tahoma, sans-serif; font-size: 11px;
+            cursor: pointer; min-width: 60px;
+        }
+        .run-btn:hover { background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%); }
+        .run-btn:active { border-color: #606060 #fff #fff #606060; }
+
+        /* ── Calendar Popup ── */
+        #cal-popup {
+            position: fixed;
+            bottom: 42px;
+            right: 10px;
+            width: 190px;
+            background: #d4d0c8;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 11px;
+            z-index: 99998;
+            display: none;
+            user-select: none;
+        }
+        #cal-popup.cal-open { display: block; }
+        .cal-header {
+            background: linear-gradient(180deg, #0a246a 0%, #a6caf0 100%);
+            color: #fff;
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .cal-nav-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 0 4px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .cal-nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .cal-grid {
+            padding: 4px 6px;
+            background: #fff;
+        }
+        .cal-dow-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-bottom: 2px;
+        }
+        .cal-dow {
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #444;
+            padding: 2px 0;
+        }
+        .cal-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .cal-day {
+            text-align: center;
+            padding: 2px 1px;
+            font-size: 11px;
+            cursor: default;
+            min-height: 18px;
+            line-height: 1.4;
+            border: 1px solid transparent;
+        }
+        .cal-day.cal-other { color: #aaa; }
+        .cal-day.cal-today {
+            background: #000080;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+        .cal-day:hover:not(.cal-today) { background: #e0e8f8; }
+        .cal-footer {
+            background: #d4d0c8;
+            border-top: 1px solid #808080;
+            padding: 3px 6px;
+            text-align: center;
+            font-size: 10px;
+            color: #444;
+        }
+        .clock { cursor: pointer; }
+        .clock:hover { text-decoration: underline; }
+
+        /* ── BSOD Easter Egg ── */
+        #bsod {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            background: #0000aa;
+            color: #c0c0c0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            padding: 60px 80px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: default;
+            overflow: hidden;
+        }
+        #bsod.bsod-visible { display: block; }
+        #bsod.bsod-fade-in { opacity: 1; }
+        #bsod h2 {
+            color: #c0c0c0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        #bsod .bsod-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 80px;
+            right: 80px;
+            border-top: 1px solid #8080ff;
+            padding-top: 16px;
+            font-size: 12px;
+            color: #aaaaff;
+        }
+
+        /* ── MSN Messenger ── */
+        #msn-window {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 320px;
+            height: 420px;
+            background: #ece9d8;
+            border: 2px solid;
+            border-color: #fff #888 #888 #fff;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+            z-index: 8000;
+            display: none;
+            flex-direction: column;
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 11px;
+        }
+        #msn-window.msn-open { display: flex; }
+        .msn-titlebar {
+            background: linear-gradient(180deg, #3c9e3c 0%, #1e6e1e 100%);
+            padding: 3px 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: move;
+        }
+        .msn-titlebar-icon { font-size: 14px; }
+        .msn-titlebar-title { color: #fff; font-weight: bold; font-size: 11px; flex: 1; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
+        .msn-titlebar-btns { display: flex; gap: 2px; }
+        .msn-titlebar-btn {
+            width: 16px; height: 14px;
+            background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%);
+            border: 1px solid; border-color: #fff #606060 #606060 #fff;
+            cursor: pointer; font-size: 9px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .msn-titlebar-btn.close-btn { background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%); color: #fff; }
+        .msn-contact-bar {
+            background: linear-gradient(180deg, #d0f0d0 0%, #b0e0b0 100%);
+            padding: 5px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #80c080;
+        }
+        .msn-online-dot { width: 9px; height: 9px; background: #00a000; border-radius: 50%; border: 1px solid #007000; flex-shrink: 0; }
+        .msn-contact-name { font-weight: bold; color: #004000; font-size: 11px; }
+        .msn-contact-status { color: #226022; font-size: 10px; }
+        #msn-chat {
+            flex: 1;
+            background: #fff;
+            overflow-y: auto;
+            padding: 6px 8px;
+            border: 1px inset #aaa;
+            margin: 0;
+        }
+        .msn-msg { margin-bottom: 6px; line-height: 1.4; }
+        .msn-msg-name { font-weight: bold; color: #00008b; font-size: 11px; }
+        .msn-msg-name.msn-user-name { color: #8b0000; }
+        .msn-msg-time { color: #888; font-size: 9px; margin-left: 4px; }
+        .msn-msg-text { color: #222; font-size: 11px; margin-left: 2px; }
+        .msn-msg-link { color: #0000ee; cursor: pointer; text-decoration: underline; font-size: 11px; }
+        .msn-typing-bar {
+            padding: 3px 8px;
+            font-style: italic;
+            color: #666;
+            font-size: 10px;
+            height: 18px;
+            background: #f0f0f0;
+            border-top: 1px solid #ccc;
+        }
+        .msn-input-area {
+            display: flex;
+            border-top: 2px solid #80c080;
+            background: #ece9d8;
+        }
+        #msn-input {
+            flex: 1;
+            border: none;
+            border-right: 1px solid #aaa;
+            padding: 4px 6px;
+            font-family: Tahoma, sans-serif;
+            font-size: 11px;
+            background: #fff;
+            outline: none;
+        }
+        #msn-send {
+            padding: 4px 10px;
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+            border: none;
+            border-left: 1px solid #fff;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            font-weight: bold;
+        }
+        #msn-send:hover { background: linear-gradient(180deg, #fff 0%, #d0d0d0 100%); }
 
         /* Toast notifications */
         .toast {
@@ -2924,44 +3218,19 @@
             </svg>
         </div>
 
-        <!-- Sticky Notes -->
-        <div class="sticky-note" style="right: 24px; top: 55px; transform: rotate(-1.2deg);">
-            <div class="sticky-note-header">📌 Writing Rules</div>
-            <div class="sticky-note-body">
-                <div class="sticky-note-line">→ Earn the scroll</div>
-                <div class="sticky-note-line">→ Say less, mean more</div>
-                <div class="sticky-note-line">→ Lead with the reader</div>
-                <div class="sticky-note-line">→ Kill your darlings</div>
-                <hr>
-                <div class="sticky-note-line">&nbsp;&nbsp;&nbsp;— me, 2am</div>
-            </div>
-        </div>
-
-        <div class="sticky-note sticky-note-2" style="right: 204px; top: 90px; transform: rotate(1.4deg);">
-            <div class="sticky-note-header">🎧 Right Now</div>
-            <div class="sticky-note-body">
-                <div class="sticky-note-line">📖 The Copy Book</div>
-                <div class="sticky-note-line">📺 The Bear</div>
-                <div class="sticky-note-line">🎵 Childish Gambino</div>
-                <hr>
-                <div class="sticky-note-line">💭 Thinking about</div>
-                <div class="sticky-note-line">&nbsp;&nbsp;&nbsp;attention spans</div>
-            </div>
-        </div>
-
-        <div class="sticky-note sticky-note-3" style="right: 30px; top: 290px; transform: rotate(-0.6deg);">
-            <div class="sticky-note-header">🎬 Top 5 Films</div>
-            <div class="sticky-note-body">
-                <div class="sticky-note-line">1. Synecdoche, NY</div>
-                <div class="sticky-note-line">2. There Will Be Blood</div>
-                <div class="sticky-note-line">3. Eyes Wide Shut</div>
-                <div class="sticky-note-line">4. Mulholland Drive</div>
-                <div class="sticky-note-line">5. The Master</div>
-            </div>
-        </div>
-
         <!-- Desktop Icons -->
         <div class="desktop-icons">
+            <div class="desktop-icon" data-window="computer">
+                <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <rect fill="#c0c0c0" x="4" y="6" width="40" height="28" rx="2"/>
+                    <rect fill="#1a5fa8" x="7" y="9" width="34" height="22"/>
+                    <rect fill="#d4d0c8" x="10" y="34" width="28" height="4"/>
+                    <rect fill="#b0aca4" x="14" y="38" width="20" height="3"/>
+                    <rect fill="#808080" x="10" y="41" width="28" height="2"/>
+                    <rect fill="#a0c0e8" x="9" y="11" width="30" height="18" opacity="0.3"/>
+                </svg>
+                <span>My Computer</span>
+            </div>
             <div class="desktop-icon" data-window="about">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%23fff' x='4' y='4' width='40' height='40'/%3E%3Crect fill='%230055df' x='8' y='8' width='32' height='24'/%3E%3Ccircle fill='%230055df' cx='24' cy='28' r='8'/%3E%3C/svg%3E" alt="My Info">
                 <span>My Info</span>
@@ -2989,6 +3258,94 @@
             <div class="desktop-icon" data-window="recycle">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Cpath fill='%23708090' d='M12,16 L14,40 L34,40 L36,16 Z M18,16 L18,12 L30,12 L30,16 M16,12 L32,12 L32,8 L16,8 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
                 <span>Recycle Bin</span>
+            </div>
+        </div>
+
+        <!-- Winamp Player -->
+        <div class="winamp" id="winamp">
+            <div class="wa-titlebar" id="wa-titlebar">
+                <span class="wa-logo">WINAMP</span>
+                <div class="wa-winctrls">
+                    <button title="Shade" onclick="document.getElementById('winamp').style.display='none'">▴</button>
+                    <button title="Minimize" onclick="document.getElementById('winamp').style.display='none'">▾</button>
+                    <button title="Close" onclick="document.getElementById('winamp').style.display='none'">×</button>
+                </div>
+            </div>
+            <div class="wa-main">
+                <!-- LCD Display -->
+                <div class="wa-lcd">
+                    <div class="wa-lcd-row1">
+                        <div class="wa-lcd-status">
+                            <span class="wa-dot" id="wa-dot"></span>
+                            <span class="wa-status-lbl" id="wa-status-lbl">STOP</span>
+                        </div>
+                        <span class="wa-time-disp" id="wa-time-disp">0:00</span>
+                    </div>
+                    <div class="wa-track-row">
+                        <span class="wa-ticker" id="wa-ticker">01. lo-fi dreams.mp3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01. lo-fi dreams.mp3</span>
+                    </div>
+                </div>
+                <!-- Visualizer -->
+                <div class="wa-viz" id="wa-viz">
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
+                </div>
+                <!-- Seek bar -->
+                <div class="wa-seekbar" id="wa-seekbar">
+                    <div class="wa-seek-fill" id="wa-seek-fill"></div>
+                </div>
+                <!-- Controls -->
+                <div class="wa-btns">
+                    <button class="wa-btn" id="wa-prev" title="Previous">|◀◀</button>
+                    <button class="wa-btn wa-playbtn" id="wa-play" title="Play">▶</button>
+                    <button class="wa-btn" id="wa-pause" title="Pause">▐▐</button>
+                    <button class="wa-btn" id="wa-stop" title="Stop">■</button>
+                    <button class="wa-btn" id="wa-next" title="Next">▶▶|</button>
+                </div>
+                <!-- Volume -->
+                <div class="wa-vol">
+                    <span class="wa-vol-lbl">VOL</span>
+                    <div class="wa-vol-track">
+                        <div class="wa-vol-fill" id="wa-vol-fill" style="width:80%"></div>
+                    </div>
+                    <input type="range" id="wa-vol-slider" min="0" max="100" value="80"
+                        style="width:80px;height:5px;accent-color:#0bff0b;background:transparent;border:none;cursor:pointer;">
+                    <span style="color:#555;font-size:14px;">🔊</span>
+                </div>
+                <!-- Badges -->
+                <div class="wa-badges">
+                    <span class="wa-badge active">128k</span>
+                    <span class="wa-badge active">44kHz</span>
+                    <span class="wa-badge">EQ</span>
+                    <span class="wa-badge">PL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MSN Messenger Window -->
+        <div id="msn-window">
+            <div class="msn-titlebar" id="msn-titlebar">
+                <span class="msn-titlebar-icon">💬</span>
+                <span class="msn-titlebar-title">Parsa Navidi — Conversation</span>
+                <div class="msn-titlebar-btns">
+                    <button class="msn-titlebar-btn" onclick="toggleMSN()">_</button>
+                    <button class="msn-titlebar-btn close-btn" onclick="toggleMSN()">×</button>
+                </div>
+            </div>
+            <div class="msn-contact-bar">
+                <div class="msn-online-dot"></div>
+                <div>
+                    <div class="msn-contact-name">parsa_writes</div>
+                    <div class="msn-contact-status">Online</div>
+                </div>
+            </div>
+            <div id="msn-chat"></div>
+            <div class="msn-typing-bar" id="msn-typing"></div>
+            <div class="msn-input-area">
+                <input type="text" id="msn-input" placeholder="Type a message..." maxlength="200">
+                <button id="msn-send">Send</button>
             </div>
         </div>
 
@@ -3684,6 +4041,68 @@
             </div>
         </div>
 
+        <!-- My Computer Window -->
+        <div class="window minimized" id="window-computer" style="top:80px;left:140px;width:420px;height:320px;">
+            <div class="window-titlebar" data-window="computer">
+                <svg width="16" height="16" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="margin-right:4px;flex-shrink:0">
+                    <rect fill="#c0c0c0" x="4" y="6" width="40" height="28" rx="2"/>
+                    <rect fill="#1a5fa8" x="7" y="9" width="34" height="22"/>
+                    <rect fill="#d4d0c8" x="10" y="34" width="28" height="4"/>
+                    <rect fill="#808080" x="10" y="41" width="28" height="2"/>
+                </svg>
+                <span>My Computer</span>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" data-window="computer">_</button>
+                    <button class="window-btn maximize-btn" data-window="computer">▢</button>
+                    <button class="window-btn close-btn" data-window="computer">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="background:#c0c0c0;padding:0;display:flex;flex-direction:column;">
+                <div class="mycomp-toolbar">
+                    <button class="mycomp-tb-btn" disabled>◄ Back</button>
+                    <button class="mycomp-tb-btn" disabled>Forward ►</button>
+                    <button class="mycomp-tb-btn" disabled>↑ Up</button>
+                </div>
+                <div class="mycomp-addrbar">
+                    <span class="mycomp-addr-label">Address</span>
+                    <span class="mycomp-addr-val">🖥️ My Computer</span>
+                </div>
+                <div class="mycomp-drives">
+                    <div class="mycomp-drive" ondblclick="openWindow('about')">
+                        <div class="mycomp-drive-icon">💾</div>
+                        <div class="mycomp-drive-info">
+                            <div class="mycomp-drive-name">Local Disk (C:) — Parsa's Brain</div>
+                            <div class="mycomp-drive-sub">Free: ∞ &nbsp;&nbsp; Total: whatever</div>
+                            <div class="mycomp-drive-bar"><div class="mycomp-drive-fill" style="width:60%"></div></div>
+                        </div>
+                    </div>
+                    <div class="mycomp-drive" ondblclick="openWindow('projects')">
+                        <div class="mycomp-drive-icon">📁</div>
+                        <div class="mycomp-drive-info">
+                            <div class="mycomp-drive-name">Portfolio (D:) — Projects &amp; Work</div>
+                            <div class="mycomp-drive-sub">Double-click to browse</div>
+                            <div class="mycomp-drive-bar"><div class="mycomp-drive-fill" style="width:40%"></div></div>
+                        </div>
+                    </div>
+                    <div class="mycomp-drive" ondblclick="openWindow('recycle')">
+                        <div class="mycomp-drive-icon">🗑️</div>
+                        <div class="mycomp-drive-info">
+                            <div class="mycomp-drive-name">Recycle Bin (E:) — Deleted Things</div>
+                            <div class="mycomp-drive-sub">8 items</div>
+                        </div>
+                    </div>
+                    <div class="mycomp-drive" ondblclick="alert('Connecting to internet... Error: Too much to read.')">
+                        <div class="mycomp-drive-icon">🌐</div>
+                        <div class="mycomp-drive-info">
+                            <div class="mycomp-drive-name">Network Drive (F:) — The Internet</div>
+                            <div class="mycomp-drive-sub">Status: Connected (barely)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mycomp-statusbar">4 object(s)</div>
+            </div>
+        </div>
+
     <!-- Right-click Context Menu -->
     <div class="context-menu" id="context-menu">
         <div class="context-menu-item disabled">View</div>
@@ -3748,6 +4167,66 @@
         </svg>
     </div>
 
+    <!-- BSOD Easter Egg -->
+    <div id="bsod">
+        <h2>Windows</h2>
+        <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) +<br>
+        00010E36. The current application will be terminated.</p>
+        <br>
+        <p>&nbsp;* imposter_syndrome.exe has caused a fatal exception.</p>
+        <p>&nbsp;* Process has been running since 2018. Cannot terminate.</p>
+        <p>&nbsp;* Confidence levels critically low.</p>
+        <p>&nbsp;* Attempting recovery... recovery.exe not found.</p>
+        <br>
+        <p>Press any key to continue, or wait for the universe to sort itself out.</p>
+        <br>
+        <p>Restart and select proper career path from the Boot Menu, or<br>
+        insert a Portfolio disk to boot from disk.</p>
+        <br>
+        <p>If this is the first time you've seen this Stop error screen,<br>
+        just know that Parsa is, in fact, doing fine. Probably.</p>
+        <div class="bsod-footer">
+            Press SPACE to restart &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ESC to stay in denial
+        </div>
+    </div>
+
+    <!-- Run Dialog -->
+    <div id="run-dialog">
+        <div class="run-titlebar" id="run-titlebar">
+            <span>🏃 Run</span>
+            <div class="run-titlebar-close" onclick="closeRunDialog()">×</div>
+        </div>
+        <div class="run-body">
+            <div class="run-desc">Type the name of a program, folder, document, or Internet resource:</div>
+            <div class="run-row">
+                <label>Open:</label>
+                <input type="text" id="run-input" placeholder="">
+            </div>
+            <div class="run-btns">
+                <button class="run-btn" id="run-ok">OK</button>
+                <button class="run-btn" onclick="closeRunDialog()">Cancel</button>
+                <button class="run-btn" onclick="alert('Browse... not available. Try typing a command instead.')">Browse...</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Popup -->
+    <div id="cal-popup">
+        <div class="cal-header">
+            <button class="cal-nav-btn" id="cal-prev">◀</button>
+            <span id="cal-month-label">March 2026</span>
+            <button class="cal-nav-btn" id="cal-next">▶</button>
+        </div>
+        <div class="cal-grid">
+            <div class="cal-dow-row">
+                <div class="cal-dow">Su</div><div class="cal-dow">Mo</div><div class="cal-dow">Tu</div>
+                <div class="cal-dow">We</div><div class="cal-dow">Th</div><div class="cal-dow">Fr</div><div class="cal-dow">Sa</div>
+            </div>
+            <div class="cal-days-grid" id="cal-days"></div>
+        </div>
+        <div class="cal-footer" id="cal-today-label"></div>
+    </div>
+
     <!-- Screensaver -->
     <div class="screensaver" id="screensaver">
         <div class="ss-text" id="ss-text">PARSA NAVIDI</div>
@@ -3761,10 +4240,11 @@
         </button>
         <div class="taskbar-items" id="taskbar-items"></div>
         <div class="system-tray">
+            <span id="msn-tray-btn" onclick="toggleMSN()" title="MSN Messenger" style="cursor:pointer;font-size:14px;padding:0 2px;">💬</span>
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23808080' d='M2,14 L14,14 L14,12 L2,12 Z M3,11 L13,11 L13,8 L3,8 Z M4,7 L12,7 L12,5 L4,5 Z'/%3E%3C/svg%3E" alt="Volume">
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' d='M1,8 L1,7 L4,4 L4,11 Z M5,6 L8,2 L8,13 Z M9,7 L15,3 L15,12 Z'/%3E%3C/svg%3E" alt="Network">
         </div>
-        <div class="clock" id="clock">12:00 PM</div>
+        <div class="clock" id="clock" onclick="toggleCalendar()" title="Click to show calendar">12:00 PM</div>
     </div>
 
     <!-- Start Menu -->
@@ -3784,6 +4264,13 @@
             <div class="sm-left">
                 <div class="sm-left-label">Programs</div>
 
+                <div class="sm-prog" onclick="openWindow('computer');document.getElementById('start-menu').classList.remove('open')">
+                    <div class="sm-prog-icon">🖥️</div>
+                    <div class="sm-prog-text">
+                        <div class="sm-prog-name">My Computer</div>
+                        <div class="sm-prog-desc">Drives and devices</div>
+                    </div>
+                </div>
                 <div class="sm-prog" onclick="window.open('snake.html','_blank')">
                     <div class="sm-prog-icon">🐍</div>
                     <div class="sm-prog-text">
@@ -3845,6 +4332,7 @@
 
         <!-- Footer -->
         <div class="sm-footer">
+            <button class="sm-foot-btn" onclick="openRunDialog()">▶ Run...</button>
             <button class="sm-foot-btn" onclick="window.close()">🔴 Log Off</button>
         </div>
     </div>
@@ -3918,6 +4406,15 @@
                 <line x1="19" y1="21" x2="17" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
                 <line x1="24" y1="21" x2="24" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
                 <line x1="29" y1="21" x2="31" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
+            </svg>`,
+
+            computer: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <rect fill="#c0c0c0" x="4" y="6" width="40" height="28" rx="2"/>
+                <rect fill="#1a5fa8" x="7" y="9" width="34" height="22"/>
+                <rect fill="#d4d0c8" x="10" y="34" width="28" height="4"/>
+                <rect fill="#b0aca4" x="14" y="38" width="20" height="3"/>
+                <rect fill="#808080" x="10" y="41" width="28" height="2"/>
+                <rect fill="#a0c0e8" x="9" y="11" width="30" height="18" opacity="0.3"/>
             </svg>`
         };
 
@@ -4033,7 +4530,8 @@
                 'contact': 'Contact',
                 'resume': 'Resume.pdf',
                 'recycle': 'Recycle Bin',
-                'tools': 'My Tools'
+                'tools': 'My Tools',
+                'computer': 'My Computer'
             };
 
             openWindows.forEach(windowId => {
@@ -4921,6 +5419,499 @@
         document.getElementById('timecapsule-overlay').addEventListener('click', function(e) {
             if (e.target === this) closeTimeCapsule();
         });
+
+        // ── Winamp Engine ─────────────────────────────────────────────
+        const WinampEngine = (function() {
+            let ctx = null, gainNode = null, masterGain = null;
+            let playing = false, startTime = 0, elapsed = 0;
+            let noteIdx = 0, bassIdx = 0;
+            let schedulerTimer = null, vizTimer = null, timeTimer = null;
+            let fakeSeekStart = 0;
+            const BPM = 128, NOTE_DUR = 60 / BPM / 2; // 0.234s per 16th note, using 0.25s
+            const melody = [523, 659, 784, 880, 784, 659, 698, 659];
+            const bass   = [131, 131, 196, 196];
+            let volPct = 0.8;
+            let schedIdx = 0, bassSIdx = 0;
+            let nextNoteTime = 0;
+            let currentLevel = 0;
+
+            function init() {
+                try {
+                    ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    masterGain = ctx.createGain();
+                    masterGain.gain.value = volPct;
+                    masterGain.connect(ctx.destination);
+                } catch(e) { console.warn('WinampEngine: Web Audio not supported'); }
+            }
+
+            function scheduleNote(freq, startT, dur, type, gain) {
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const g   = ctx.createGain();
+                osc.type = type || 'square';
+                osc.frequency.value = freq;
+                g.gain.setValueAtTime(gain, startT);
+                g.gain.exponentialRampToValueAtTime(0.001, startT + dur * 0.9);
+                osc.connect(g);
+                g.connect(masterGain);
+                osc.start(startT);
+                osc.stop(startT + dur);
+            }
+
+            function scheduler() {
+                if (!playing || !ctx) return;
+                const LOOKAHEAD = 0.2, SCHEDULE_AHEAD = 0.1;
+                while (nextNoteTime < ctx.currentTime + LOOKAHEAD) {
+                    const mFreq = melody[schedIdx % melody.length];
+                    const bFreq = bass[bassSIdx % bass.length];
+                    scheduleNote(mFreq, nextNoteTime, NOTE_DUR * 0.9, 'square', 0.25);
+                    if (schedIdx % 2 === 0) scheduleNote(bFreq, nextNoteTime, NOTE_DUR * 1.8, 'sawtooth', 0.18);
+                    currentLevel = 0.4 + 0.6 * (melody[schedIdx % melody.length] / 880);
+                    schedIdx++;
+                    if (schedIdx % 2 === 0) bassSIdx++;
+                    nextNoteTime += NOTE_DUR;
+                }
+                schedulerTimer = setTimeout(scheduler, SCHEDULE_AHEAD * 1000);
+            }
+
+            function startViz() {
+                const bars = document.querySelectorAll('#winamp .wa-bar');
+                bars.forEach(b => b.classList.add('running'));
+                vizTimer = setInterval(() => {
+                    if (!playing) return;
+                    bars.forEach((b, i) => {
+                        const h = Math.max(2, Math.round(currentLevel * 22 * (0.4 + Math.random() * 0.6)));
+                        b.style.height = h + 'px';
+                    });
+                }, 80);
+            }
+
+            function stopViz() {
+                clearInterval(vizTimer);
+                const bars = document.querySelectorAll('#winamp .wa-bar');
+                bars.forEach(b => { b.classList.remove('running'); b.style.height = '2px'; });
+            }
+
+            function startTimeDisplay() {
+                fakeSeekStart = Date.now();
+                const TOTAL = 180; // 3 min loop
+                timeTimer = setInterval(() => {
+                    if (!playing) return;
+                    const t = Math.floor((Date.now() - fakeSeekStart) / 1000) % TOTAL;
+                    const m = Math.floor(t / 60), s = t % 60;
+                    const el = document.getElementById('wa-time-disp');
+                    if (el) el.textContent = m + ':' + String(s).padStart(2, '0');
+                    const fill = document.getElementById('wa-seek-fill');
+                    if (fill) fill.style.width = (t / TOTAL * 100) + '%';
+                }, 500);
+            }
+
+            function stopTimeDisplay() {
+                clearInterval(timeTimer);
+            }
+
+            function setStatus(state) {
+                const dot = document.getElementById('wa-dot');
+                const lbl = document.getElementById('wa-status-lbl');
+                const ticker = document.getElementById('wa-ticker');
+                if (!dot || !lbl) return;
+                if (state === 'playing') {
+                    dot.className = 'wa-dot playing';
+                    lbl.textContent = 'PLAY';
+                    if (ticker) ticker.classList.add('running');
+                } else if (state === 'paused') {
+                    dot.className = 'wa-dot paused';
+                    lbl.textContent = 'PAUS';
+                    if (ticker) ticker.classList.remove('running');
+                } else {
+                    dot.className = 'wa-dot';
+                    lbl.textContent = 'STOP';
+                    if (ticker) ticker.classList.remove('running');
+                }
+            }
+
+            return {
+                play() {
+                    try {
+                        if (!ctx) init();
+                        if (!ctx) return;
+                        if (ctx.state === 'suspended') ctx.resume();
+                        if (playing) return;
+                        playing = true;
+                        nextNoteTime = ctx.currentTime + 0.05;
+                        scheduler();
+                        startViz();
+                        startTimeDisplay();
+                        setStatus('playing');
+                    } catch(e) { console.warn('Winamp play error', e); }
+                },
+                pause() {
+                    try {
+                        if (!playing) return;
+                        playing = false;
+                        clearTimeout(schedulerTimer);
+                        stopViz();
+                        stopTimeDisplay();
+                        setStatus('paused');
+                    } catch(e) {}
+                },
+                stop() {
+                    try {
+                        playing = false;
+                        clearTimeout(schedulerTimer);
+                        stopViz();
+                        stopTimeDisplay();
+                        schedIdx = 0; bassSIdx = 0; currentLevel = 0;
+                        const timeEl = document.getElementById('wa-time-disp');
+                        if (timeEl) timeEl.textContent = '0:00';
+                        const fill = document.getElementById('wa-seek-fill');
+                        if (fill) fill.style.width = '0%';
+                        setStatus('stopped');
+                    } catch(e) {}
+                },
+                setVolume(pct) {
+                    volPct = pct / 100;
+                    if (masterGain) masterGain.gain.value = volPct;
+                    const vf = document.getElementById('wa-vol-fill');
+                    if (vf) vf.style.width = pct + '%';
+                },
+                isPlaying() { return playing; }
+            };
+        })();
+
+        // Wire up Winamp controls
+        try {
+            document.getElementById('wa-play').addEventListener('click', () => WinampEngine.play());
+            document.getElementById('wa-pause').addEventListener('click', () => WinampEngine.pause());
+            document.getElementById('wa-stop').addEventListener('click', () => WinampEngine.stop());
+            document.getElementById('wa-prev').addEventListener('click', () => { WinampEngine.stop(); WinampEngine.play(); });
+            document.getElementById('wa-next').addEventListener('click', () => { WinampEngine.stop(); WinampEngine.play(); });
+            document.getElementById('wa-vol-slider').addEventListener('input', function() {
+                WinampEngine.setVolume(this.value);
+            });
+
+            // Winamp drag
+            (function() {
+                const waBar = document.getElementById('wa-titlebar');
+                const waEl  = document.getElementById('winamp');
+                let waDragging = false, waOx = 0, waOy = 0;
+                waBar.addEventListener('mousedown', e => {
+                    waDragging = true;
+                    const r = waEl.getBoundingClientRect();
+                    waOx = e.clientX - r.left; waOy = e.clientY - r.top;
+                });
+                document.addEventListener('mousemove', e => {
+                    if (!waDragging) return;
+                    waEl.style.left = (e.clientX - waOx) + 'px';
+                    waEl.style.top  = (e.clientY - waOy) + 'px';
+                    waEl.style.bottom = 'auto';
+                });
+                document.addEventListener('mouseup', () => waDragging = false);
+            })();
+        } catch(e) { console.warn('Winamp wire-up error', e); }
+
+        // ── Run Dialog ───────────────────────────────────────────────
+        (function() {
+            const dlg = document.getElementById('run-dialog');
+            const inp = document.getElementById('run-input');
+
+            window.openRunDialog = function() {
+                dlg.classList.add('run-open');
+                try { document.getElementById('start-menu').classList.remove('open'); } catch(e) {}
+                setTimeout(() => inp.focus(), 50);
+            };
+            window.closeRunDialog = function() {
+                dlg.classList.remove('run-open');
+                inp.value = '';
+            };
+
+            function runCommand() {
+                const cmd = inp.value.trim().toLowerCase().replace(/\.exe$/, '');
+                closeRunDialog();
+                switch(cmd) {
+                    case 'parsa': openWindow('about'); break;
+                    case 'projects': openWindow('projects'); break;
+                    case 'contact': case 'hire': openWindow('contact'); break;
+                    case 'resume': openWindow('resume'); break;
+                    case 'skills': openWindow('skills'); break;
+                    case 'tools': openWindow('tools'); break;
+                    case 'recycle': openWindow('recycle'); break;
+                    case 'computer': openWindow('computer'); break;
+                    case 'winamp':
+                        document.getElementById('winamp').style.display = 'block';
+                        break;
+                    case 'msn':
+                        window.toggleMSN();
+                        break;
+                    case 'notepad':
+                        alert('notepad.exe — file not found. try time_capsule.txt in the recycle bin.');
+                        break;
+                    case 'calc':
+                        alert('Error: calc.exe cannot process the ROI of good copywriting. Value: immeasurable.');
+                        break;
+                    case 'help':
+                        alert('Valid commands:\nparsa, projects, contact, hire, resume, skills, tools, recycle, computer,\nwinamp, msn, notepad, calc');
+                        break;
+                    default:
+                        if (cmd) alert('Cannot find \'' + inp.value.trim() + '\'. Make sure you typed the name correctly, and then try again.');
+                        break;
+                }
+            }
+
+            document.getElementById('run-ok').addEventListener('click', runCommand);
+            inp.addEventListener('keydown', e => { if (e.key === 'Enter') runCommand(); });
+
+            // Drag run dialog
+            const runTbar = document.getElementById('run-titlebar');
+            let runDrag = false, runOx = 0, runOy = 0;
+            runTbar.addEventListener('mousedown', e => {
+                if (e.target.classList.contains('run-titlebar-close')) return;
+                runDrag = true;
+                const r = dlg.getBoundingClientRect();
+                runOx = e.clientX - r.left; runOy = e.clientY - r.top;
+                dlg.style.transform = 'none';
+            });
+            document.addEventListener('mousemove', e => {
+                if (!runDrag) return;
+                dlg.style.left = (e.clientX - runOx) + 'px';
+                dlg.style.top  = (e.clientY - runOy) + 'px';
+            });
+            document.addEventListener('mouseup', () => runDrag = false);
+        })();
+
+        // ── Calendar Popup ────────────────────────────────────────────
+        (function() {
+            const calPopup = document.getElementById('cal-popup');
+            const calDays  = document.getElementById('cal-days');
+            const calLabel = document.getElementById('cal-month-label');
+            const calFoot  = document.getElementById('cal-today-label');
+            const today    = new Date();
+            let calYear = today.getFullYear(), calMonth = today.getMonth();
+            const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+            function renderCalendar(yr, mo) {
+                calLabel.textContent = MONTHS[mo] + ' ' + yr;
+                const first = new Date(yr, mo, 1).getDay(); // 0=Sun
+                const daysInMonth = new Date(yr, mo + 1, 0).getDate();
+                const daysInPrev  = new Date(yr, mo, 0).getDate();
+                let html = '';
+                let cellCount = 0;
+                // Previous month fill
+                for (let i = first - 1; i >= 0; i--) {
+                    html += `<div class="cal-day cal-other">${daysInPrev - i}</div>`;
+                    cellCount++;
+                }
+                // Current month
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const isToday = (yr === today.getFullYear() && mo === today.getMonth() && d === today.getDate());
+                    html += `<div class="cal-day${isToday ? ' cal-today' : ''}">${d}</div>`;
+                    cellCount++;
+                }
+                // Next month fill
+                const remaining = 42 - cellCount;
+                for (let d = 1; d <= remaining; d++) {
+                    html += `<div class="cal-day cal-other">${d}</div>`;
+                }
+                calDays.innerHTML = html;
+                calFoot.textContent = today.toDateString();
+            }
+
+            window.toggleCalendar = function(e) {
+                calPopup.classList.toggle('cal-open');
+                if (calPopup.classList.contains('cal-open')) {
+                    calYear = today.getFullYear(); calMonth = today.getMonth();
+                    renderCalendar(calYear, calMonth);
+                }
+                if (e) e.stopPropagation();
+            };
+
+            document.getElementById('cal-prev').addEventListener('click', e => {
+                e.stopPropagation();
+                calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+                renderCalendar(calYear, calMonth);
+            });
+            document.getElementById('cal-next').addEventListener('click', e => {
+                e.stopPropagation();
+                calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+                renderCalendar(calYear, calMonth);
+            });
+
+            document.addEventListener('click', e => {
+                if (!calPopup.contains(e.target) && e.target.id !== 'clock') {
+                    calPopup.classList.remove('cal-open');
+                }
+            });
+        })();
+
+        // ── BSOD Easter Egg (Konami Code) ────────────────────────────
+        (function() {
+            const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+            let kIdx = 0;
+            const bsod = document.getElementById('bsod');
+
+            function showBSOD() {
+                try { WinampEngine.stop(); } catch(e) {}
+                bsod.classList.add('bsod-visible');
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => { bsod.classList.add('bsod-fade-in'); });
+                });
+            }
+
+            function hideBSOD(reload) {
+                bsod.classList.remove('bsod-fade-in');
+                setTimeout(() => {
+                    bsod.classList.remove('bsod-visible');
+                    if (reload) location.reload();
+                }, 350);
+            }
+
+            document.addEventListener('keydown', e => {
+                if (bsod.classList.contains('bsod-visible')) {
+                    if (e.key === ' ') { e.preventDefault(); hideBSOD(true); }
+                    else if (e.key === 'Escape') hideBSOD(false);
+                    return;
+                }
+                if (e.key === KONAMI[kIdx]) {
+                    kIdx++;
+                    if (kIdx === KONAMI.length) { kIdx = 0; showBSOD(); }
+                } else {
+                    kIdx = (e.key === KONAMI[0]) ? 1 : 0;
+                }
+            });
+
+            bsod.addEventListener('click', () => hideBSOD(false));
+        })();
+
+        // ── MSN Messenger ─────────────────────────────────────────────
+        (function() {
+            const msnWin = document.getElementById('msn-window');
+            const msnChat = document.getElementById('msn-chat');
+            const msnTyping = document.getElementById('msn-typing');
+            const msnInput = document.getElementById('msn-input');
+            let msnOpened = false;
+
+            function msnTime() {
+                const now = new Date();
+                return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+            }
+
+            function msnAddMsg(name, text, isUser) {
+                const div = document.createElement('div');
+                div.className = 'msn-msg';
+                const nameSpan = `<span class="msn-msg-name${isUser ? ' msn-user-name' : ''}">${name}</span>`;
+                const timeSpan = `<span class="msn-msg-time">(${msnTime()})</span>`;
+                div.innerHTML = nameSpan + timeSpan + '<br><span class="msn-msg-text">' + text + '</span>';
+                msnChat.appendChild(div);
+                msnChat.scrollTop = msnChat.scrollHeight;
+            }
+
+            function msnAddLinkMsg(name, linkText, linkAction) {
+                const div = document.createElement('div');
+                div.className = 'msn-msg';
+                const nameSpan = `<span class="msn-msg-name">${name}</span>`;
+                const timeSpan = `<span class="msn-msg-time">(${msnTime()})</span>`;
+                div.innerHTML = nameSpan + timeSpan + '<br><span class="msn-msg-link" onclick="' + linkAction + '">' + linkText + '</span>';
+                msnChat.appendChild(div);
+                msnChat.scrollTop = msnChat.scrollHeight;
+            }
+
+            function msnShowTyping(show) {
+                msnTyping.textContent = show ? 'parsa_writes is typing...' : '';
+            }
+
+            const autoConvo = [
+                { delay: 800,  text: 'hey, saw you found the portfolio :)', isLink: false },
+                { delay: 2200, text: "i'm parsa — content strategist and copywriter based in toronto", isLink: false },
+                { delay: 4000, text: 'i help brands figure out what to say and how to say it', isLink: false },
+                { delay: 5800, text: "if you're looking for someone who can actually write, let's talk", isLink: false },
+                { delay: 7500, text: '📧 open contact form', isLink: true, action: "openWindow('contact')" },
+            ];
+
+            function runAutoConvo() {
+                autoConvo.forEach((msg, i) => {
+                    setTimeout(() => {
+                        msnShowTyping(true);
+                        setTimeout(() => {
+                            msnShowTyping(false);
+                            if (msg.isLink) {
+                                msnAddLinkMsg('parsa_writes', msg.text, msg.action);
+                            } else {
+                                msnAddMsg('parsa_writes', msg.text, false);
+                            }
+                        }, 900);
+                    }, msg.delay);
+                });
+            }
+
+            const responses = {
+                'hi': 'hey! glad you\'re here :)',
+                'hello': 'hey! glad you\'re here :)',
+                'hey': 'hey! glad you\'re here :)',
+                'hire': 'yes! open for freelance. hit the contact form and let\'s chat',
+                'work': 'yes! open for freelance. hit the contact form and let\'s chat',
+                'job': 'yes! open for freelance. hit the contact form and let\'s chat',
+                'portfolio': 'check the projects folder on the desktop — lots there',
+                'projects': 'check the projects folder on the desktop — lots there',
+                'about': 'film & media arts grad who ended up deep in copywriting. no regrets.',
+                'who': 'film & media arts grad who ended up deep in copywriting. no regrets.',
+                'runescape': 'woodcutting to 99 while we talk. multitasking.',
+                'game': 'woodcutting to 99 while we talk. multitasking.',
+                'clippy': 'clippy is my emotional support paperclip. please be kind to him.',
+                'help': "try: hi, hire, portfolio, about, runescape, or just say something",
+            };
+
+            function msnSend() {
+                const val = msnInput.value.trim();
+                if (!val) return;
+                msnAddMsg('You', val, true);
+                msnInput.value = '';
+                const key = val.toLowerCase().split(/\s+/).find(w => responses[w]);
+                setTimeout(() => {
+                    msnShowTyping(true);
+                    setTimeout(() => {
+                        msnShowTyping(false);
+                        let reply = key ? responses[key] : "lol. type 'help' if you're lost";
+                        msnAddMsg('parsa_writes', reply, false);
+                        // Side effects
+                        if (key === 'portfolio' || key === 'projects') { try { openWindow('projects'); } catch(e){} }
+                        if (key === 'about' || key === 'who') { try { openWindow('about'); } catch(e){} }
+                    }, 900);
+                }, 400);
+            }
+
+            document.getElementById('msn-send').addEventListener('click', msnSend);
+            msnInput.addEventListener('keydown', e => { if (e.key === 'Enter') msnSend(); });
+
+            // Drag MSN window
+            const msnTitlebar = document.getElementById('msn-titlebar');
+            let msnDrag = false, msnOx = 0, msnOy = 0;
+            msnTitlebar.addEventListener('mousedown', e => {
+                if (e.target.closest('.msn-titlebar-btn')) return;
+                msnDrag = true;
+                const r = msnWin.getBoundingClientRect();
+                msnOx = e.clientX - r.left; msnOy = e.clientY - r.top;
+            });
+            document.addEventListener('mousemove', e => {
+                if (!msnDrag) return;
+                msnWin.style.left = (e.clientX - msnOx) + 'px';
+                msnWin.style.top  = (e.clientY - msnOy) + 'px';
+                msnWin.style.right = 'auto';
+            });
+            document.addEventListener('mouseup', () => msnDrag = false);
+
+            window.toggleMSN = function() {
+                const isOpen = msnWin.classList.contains('msn-open');
+                if (isOpen) {
+                    msnWin.classList.remove('msn-open');
+                } else {
+                    msnWin.classList.add('msn-open');
+                    if (!msnOpened) {
+                        msnOpened = true;
+                        runAutoConvo();
+                    }
+                }
+            };
+        })();
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
         document.getElementById('ctx-crt').addEventListener('click', () => {
