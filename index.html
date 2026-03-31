@@ -2371,7 +2371,95 @@
             }
         }
 
-        /* ── Winamp Player ── */
+        /* ── Taskbar Winamp Mini-Player ── */
+        .tb-winamp {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #0a0a0a;
+            border: 1px solid #3a3a3a;
+            border-radius: 3px;
+            padding: 0 5px;
+            height: 26px;
+            width: 260px;
+            flex-shrink: 0;
+            margin-right: 6px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            font-family: 'Arial Narrow', 'Arial', sans-serif;
+            position: relative;
+            overflow: hidden;
+            /* WINAMP label on far left in green neon */
+        }
+        .tb-wa-logo {
+            color: #0bff0b;
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            text-shadow: 0 0 6px #0bff0b;
+            font-family: monospace;
+        }
+        .tb-wa-track {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+        }
+        .tb-wa-ticker {
+            color: #0bff0b;
+            font-size: 10px;
+            font-family: monospace;
+            white-space: nowrap;
+            display: inline-block;
+            animation: tbWaTick 18s linear infinite;
+        }
+        .tb-wa-ticker.paused { animation-play-state: paused; }
+        @keyframes tbWaTick {
+            0%   { transform: translateX(160px); }
+            100% { transform: translateX(-100%); }
+        }
+        .tb-wa-controls {
+            display: flex;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+        .tb-wa-btn {
+            background: #1c1c1c;
+            border: 1px solid #444;
+            color: #888;
+            font-size: 8px;
+            padding: 0 4px;
+            cursor: pointer;
+            border-radius: 2px;
+            height: 16px;
+            line-height: 14px;
+            transition: color 0.1s, background 0.1s;
+        }
+        .tb-wa-btn:hover { background: #2a2a2a; color: #0bff0b; }
+        .tb-wa-btn.active { color: #0bff0b; text-shadow: 0 0 4px #0bff0b; }
+        .tb-wa-vol {
+            width: 46px;
+            height: 3px;
+            accent-color: #0bff0b;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .tb-wa-dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: #333;
+            flex-shrink: 0;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .tb-wa-dot.playing { background: #0bff0b; box-shadow: 0 0 5px #0bff0b; }
+        .tb-wa-dot.paused  { background: #ff9900; box-shadow: 0 0 4px #ff9900; }
+        @media (max-width: 900px) { .tb-winamp { display: none; } }
+
+        /* ── OLD winamp (kept for z-index ref, hidden) ── */
         .winamp {
             position: absolute;
             left: 100px;
@@ -2381,6 +2469,7 @@
             border: 2px solid;
             border-color: #686868 #1a1a1a #1a1a1a #686868;
             box-shadow: 4px 4px 14px rgba(0,0,0,0.85), inset 1px 1px 0 #4a4a4a;
+            display: none !important;
             z-index: 5;
             user-select: none;
             cursor: default;
@@ -3261,67 +3350,9 @@
             </div>
         </div>
 
-        <!-- Winamp Player -->
-        <div class="winamp" id="winamp">
-            <div class="wa-titlebar" id="wa-titlebar">
-                <span class="wa-logo">WINAMP</span>
-                <div class="wa-winctrls">
-                    <button title="Shade" onclick="document.getElementById('winamp').style.display='none'">▴</button>
-                    <button title="Minimize" onclick="document.getElementById('winamp').style.display='none'">▾</button>
-                    <button title="Close" onclick="document.getElementById('winamp').style.display='none'">×</button>
-                </div>
-            </div>
-            <div class="wa-main">
-                <!-- LCD Display -->
-                <div class="wa-lcd">
-                    <div class="wa-lcd-row1">
-                        <div class="wa-lcd-status">
-                            <span class="wa-dot" id="wa-dot"></span>
-                            <span class="wa-status-lbl" id="wa-status-lbl">STOP</span>
-                        </div>
-                        <span class="wa-time-disp" id="wa-time-disp">0:00</span>
-                    </div>
-                    <div class="wa-track-row">
-                        <span class="wa-ticker" id="wa-ticker">01. lo-fi dreams.mp3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01. lo-fi dreams.mp3</span>
-                    </div>
-                </div>
-                <!-- Visualizer -->
-                <div class="wa-viz" id="wa-viz">
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                    <div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div><div class="wa-bar"></div>
-                </div>
-                <!-- Seek bar -->
-                <div class="wa-seekbar" id="wa-seekbar">
-                    <div class="wa-seek-fill" id="wa-seek-fill"></div>
-                </div>
-                <!-- Controls -->
-                <div class="wa-btns">
-                    <button class="wa-btn" id="wa-prev" title="Previous">|◀◀</button>
-                    <button class="wa-btn wa-playbtn" id="wa-play" title="Play">▶</button>
-                    <button class="wa-btn" id="wa-pause" title="Pause">▐▐</button>
-                    <button class="wa-btn" id="wa-stop" title="Stop">■</button>
-                    <button class="wa-btn" id="wa-next" title="Next">▶▶|</button>
-                </div>
-                <!-- Volume -->
-                <div class="wa-vol">
-                    <span class="wa-vol-lbl">VOL</span>
-                    <div class="wa-vol-track">
-                        <div class="wa-vol-fill" id="wa-vol-fill" style="width:80%"></div>
-                    </div>
-                    <input type="range" id="wa-vol-slider" min="0" max="100" value="80"
-                        style="width:80px;height:5px;accent-color:#0bff0b;background:transparent;border:none;cursor:pointer;">
-                    <span style="color:#555;font-size:14px;">🔊</span>
-                </div>
-                <!-- Badges -->
-                <div class="wa-badges">
-                    <span class="wa-badge active">128k</span>
-                    <span class="wa-badge active">44kHz</span>
-                    <span class="wa-badge">EQ</span>
-                    <span class="wa-badge">PL</span>
-                </div>
-            </div>
+        <!-- Hidden YouTube player for Winamp taskbar (off-screen) -->
+        <div id="yt-player-container" style="position:fixed;bottom:-200px;right:0;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;">
+            <div id="yt-player"></div>
         </div>
 
         <!-- MSN Messenger Window -->
@@ -4239,6 +4270,22 @@
             <span>Start</span>
         </button>
         <div class="taskbar-items" id="taskbar-items"></div>
+
+        <!-- Winamp taskbar mini-player -->
+        <div class="tb-winamp" id="tb-winamp">
+            <span class="tb-wa-logo">▶WA</span>
+            <div class="tb-wa-track">
+                <span class="tb-wa-ticker paused" id="tb-wa-ticker">─── click ▶ to play ───</span>
+            </div>
+            <span class="tb-wa-dot" id="tb-wa-dot"></span>
+            <div class="tb-wa-controls">
+                <button class="tb-wa-btn" id="tb-wa-prev" title="Previous">◀◀</button>
+                <button class="tb-wa-btn" id="tb-wa-playpause" title="Play">▶</button>
+                <button class="tb-wa-btn" id="tb-wa-next" title="Next">▶▶</button>
+            </div>
+            <input type="range" class="tb-wa-vol" id="tb-wa-vol" min="0" max="100" value="70" title="Volume">
+        </div>
+
         <div class="system-tray">
             <span id="msn-tray-btn" onclick="toggleMSN()" title="MSN Messenger" style="cursor:pointer;font-size:14px;padding:0 2px;">💬</span>
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23808080' d='M2,14 L14,14 L14,12 L2,12 Z M3,11 L13,11 L13,8 L3,8 Z M4,7 L12,7 L12,5 L4,5 Z'/%3E%3C/svg%3E" alt="Volume">
@@ -5420,195 +5467,125 @@
             if (e.target === this) closeTimeCapsule();
         });
 
-        // ── Winamp Engine ─────────────────────────────────────────────
-        const WinampEngine = (function() {
-            let ctx = null, gainNode = null, masterGain = null;
-            let playing = false, startTime = 0, elapsed = 0;
-            let noteIdx = 0, bassIdx = 0;
-            let schedulerTimer = null, vizTimer = null, timeTimer = null;
-            let fakeSeekStart = 0;
-            const BPM = 128, NOTE_DUR = 60 / BPM / 2; // 0.234s per 16th note, using 0.25s
-            const melody = [523, 659, 784, 880, 784, 659, 698, 659];
-            const bass   = [131, 131, 196, 196];
-            let volPct = 0.8;
-            let schedIdx = 0, bassSIdx = 0;
-            let nextNoteTime = 0;
-            let currentLevel = 0;
+        // ── Taskbar Winamp + YouTube IFrame Player ─────────────────────
+        (function() {
+            const PLAYLIST_ID = 'PLARr36qkoiWa2hl6cXnBxNzU_xxLcQXs0';
+            const FIRST_VID   = '-sf4tEqd7co';
+            let ytPlayer = null;
+            let ytReady  = false;
+            let stateTimer = null;
 
-            function init() {
+            // Elements
+            const dotEl    = document.getElementById('tb-wa-dot');
+            const ticker   = document.getElementById('tb-wa-ticker');
+            const btnPlay  = document.getElementById('tb-wa-playpause');
+            const btnPrev  = document.getElementById('tb-wa-prev');
+            const btnNext  = document.getElementById('tb-wa-next');
+            const volSlider= document.getElementById('tb-wa-vol');
+
+            function setDot(state) {
+                // state: 'playing' | 'paused' | 'stop'
+                if (!dotEl) return;
+                dotEl.className = 'tb-wa-dot' + (state === 'playing' ? ' playing' : state === 'paused' ? ' paused' : '');
+            }
+            function setPlayBtn(playing) {
+                if (!btnPlay) return;
+                btnPlay.textContent = playing ? '▐▐' : '▶';
+                btnPlay.title = playing ? 'Pause' : 'Play';
+                btnPlay.classList.toggle('active', playing);
+            }
+            function setTicker(text) {
+                if (!ticker) return;
+                ticker.textContent = text + '   ';
+                ticker.classList.remove('paused');
+            }
+            function pollState() {
+                if (!ytPlayer || !ytReady) return;
                 try {
-                    ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    masterGain = ctx.createGain();
-                    masterGain.gain.value = volPct;
-                    masterGain.connect(ctx.destination);
-                } catch(e) { console.warn('WinampEngine: Web Audio not supported'); }
+                    const state = ytPlayer.getPlayerState();
+                    // YT states: -1 unstarted, 0 ended, 1 playing, 2 paused, 3 buffering, 5 cued
+                    const isPlaying = (state === 1 || state === 3);
+                    const isPaused  = (state === 2);
+                    setDot(isPlaying ? 'playing' : isPaused ? 'paused' : 'stop');
+                    setPlayBtn(isPlaying);
+                    // Update ticker with current track title
+                    const data = ytPlayer.getVideoData();
+                    if (data && data.title) setTicker(data.title);
+                } catch(e) {}
             }
 
-            function scheduleNote(freq, startT, dur, type, gain) {
-                if (!ctx) return;
-                const osc = ctx.createOscillator();
-                const g   = ctx.createGain();
-                osc.type = type || 'square';
-                osc.frequency.value = freq;
-                g.gain.setValueAtTime(gain, startT);
-                g.gain.exponentialRampToValueAtTime(0.001, startT + dur * 0.9);
-                osc.connect(g);
-                g.connect(masterGain);
-                osc.start(startT);
-                osc.stop(startT + dur);
-            }
+            // Load YouTube IFrame API script
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            document.head.appendChild(tag);
 
-            function scheduler() {
-                if (!playing || !ctx) return;
-                const LOOKAHEAD = 0.2, SCHEDULE_AHEAD = 0.1;
-                while (nextNoteTime < ctx.currentTime + LOOKAHEAD) {
-                    const mFreq = melody[schedIdx % melody.length];
-                    const bFreq = bass[bassSIdx % bass.length];
-                    scheduleNote(mFreq, nextNoteTime, NOTE_DUR * 0.9, 'square', 0.25);
-                    if (schedIdx % 2 === 0) scheduleNote(bFreq, nextNoteTime, NOTE_DUR * 1.8, 'sawtooth', 0.18);
-                    currentLevel = 0.4 + 0.6 * (melody[schedIdx % melody.length] / 880);
-                    schedIdx++;
-                    if (schedIdx % 2 === 0) bassSIdx++;
-                    nextNoteTime += NOTE_DUR;
-                }
-                schedulerTimer = setTimeout(scheduler, SCHEDULE_AHEAD * 1000);
-            }
-
-            function startViz() {
-                const bars = document.querySelectorAll('#winamp .wa-bar');
-                bars.forEach(b => b.classList.add('running'));
-                vizTimer = setInterval(() => {
-                    if (!playing) return;
-                    bars.forEach((b, i) => {
-                        const h = Math.max(2, Math.round(currentLevel * 22 * (0.4 + Math.random() * 0.6)));
-                        b.style.height = h + 'px';
-                    });
-                }, 80);
-            }
-
-            function stopViz() {
-                clearInterval(vizTimer);
-                const bars = document.querySelectorAll('#winamp .wa-bar');
-                bars.forEach(b => { b.classList.remove('running'); b.style.height = '2px'; });
-            }
-
-            function startTimeDisplay() {
-                fakeSeekStart = Date.now();
-                const TOTAL = 180; // 3 min loop
-                timeTimer = setInterval(() => {
-                    if (!playing) return;
-                    const t = Math.floor((Date.now() - fakeSeekStart) / 1000) % TOTAL;
-                    const m = Math.floor(t / 60), s = t % 60;
-                    const el = document.getElementById('wa-time-disp');
-                    if (el) el.textContent = m + ':' + String(s).padStart(2, '0');
-                    const fill = document.getElementById('wa-seek-fill');
-                    if (fill) fill.style.width = (t / TOTAL * 100) + '%';
-                }, 500);
-            }
-
-            function stopTimeDisplay() {
-                clearInterval(timeTimer);
-            }
-
-            function setStatus(state) {
-                const dot = document.getElementById('wa-dot');
-                const lbl = document.getElementById('wa-status-lbl');
-                const ticker = document.getElementById('wa-ticker');
-                if (!dot || !lbl) return;
-                if (state === 'playing') {
-                    dot.className = 'wa-dot playing';
-                    lbl.textContent = 'PLAY';
-                    if (ticker) ticker.classList.add('running');
-                } else if (state === 'paused') {
-                    dot.className = 'wa-dot paused';
-                    lbl.textContent = 'PAUS';
-                    if (ticker) ticker.classList.remove('running');
-                } else {
-                    dot.className = 'wa-dot';
-                    lbl.textContent = 'STOP';
-                    if (ticker) ticker.classList.remove('running');
-                }
-            }
-
-            return {
-                play() {
-                    try {
-                        if (!ctx) init();
-                        if (!ctx) return;
-                        if (ctx.state === 'suspended') ctx.resume();
-                        if (playing) return;
-                        playing = true;
-                        nextNoteTime = ctx.currentTime + 0.05;
-                        scheduler();
-                        startViz();
-                        startTimeDisplay();
-                        setStatus('playing');
-                    } catch(e) { console.warn('Winamp play error', e); }
-                },
-                pause() {
-                    try {
-                        if (!playing) return;
-                        playing = false;
-                        clearTimeout(schedulerTimer);
-                        stopViz();
-                        stopTimeDisplay();
-                        setStatus('paused');
-                    } catch(e) {}
-                },
-                stop() {
-                    try {
-                        playing = false;
-                        clearTimeout(schedulerTimer);
-                        stopViz();
-                        stopTimeDisplay();
-                        schedIdx = 0; bassSIdx = 0; currentLevel = 0;
-                        const timeEl = document.getElementById('wa-time-disp');
-                        if (timeEl) timeEl.textContent = '0:00';
-                        const fill = document.getElementById('wa-seek-fill');
-                        if (fill) fill.style.width = '0%';
-                        setStatus('stopped');
-                    } catch(e) {}
-                },
-                setVolume(pct) {
-                    volPct = pct / 100;
-                    if (masterGain) masterGain.gain.value = volPct;
-                    const vf = document.getElementById('wa-vol-fill');
-                    if (vf) vf.style.width = pct + '%';
-                },
-                isPlaying() { return playing; }
+            // Called by YouTube API when ready
+            window.onYouTubeIframeAPIReady = function() {
+                ytPlayer = window._ytPlayer = new YT.Player('yt-player', {
+                    height: '1',
+                    width: '1',
+                    videoId: FIRST_VID,
+                    playerVars: {
+                        listType: 'playlist',
+                        list: PLAYLIST_ID,
+                        autoplay: 0,
+                        controls: 0,
+                        disablekb: 1,
+                        fs: 0,
+                        rel: 0,
+                        modestbranding: 1,
+                        playsinline: 1
+                    },
+                    events: {
+                        onReady(e) {
+                            ytReady = true;
+                            e.target.setVolume(parseInt(volSlider ? volSlider.value : 70));
+                            // Start polling state every second
+                            stateTimer = setInterval(pollState, 1000);
+                        },
+                        onStateChange(e) {
+                            pollState();
+                        },
+                        onError(e) {
+                            if (ticker) {
+                                ticker.textContent = 'error loading track — try next  ';
+                                ticker.classList.remove('paused');
+                            }
+                        }
+                    }
+                });
             };
-        })();
 
-        // Wire up Winamp controls
-        try {
-            document.getElementById('wa-play').addEventListener('click', () => WinampEngine.play());
-            document.getElementById('wa-pause').addEventListener('click', () => WinampEngine.pause());
-            document.getElementById('wa-stop').addEventListener('click', () => WinampEngine.stop());
-            document.getElementById('wa-prev').addEventListener('click', () => { WinampEngine.stop(); WinampEngine.play(); });
-            document.getElementById('wa-next').addEventListener('click', () => { WinampEngine.stop(); WinampEngine.play(); });
-            document.getElementById('wa-vol-slider').addEventListener('input', function() {
-                WinampEngine.setVolume(this.value);
+            // Button handlers
+            if (btnPlay) btnPlay.addEventListener('click', function() {
+                if (!ytReady) return;
+                try {
+                    const state = ytPlayer.getPlayerState();
+                    if (state === 1 || state === 3) {
+                        ytPlayer.pauseVideo();
+                    } else {
+                        ytPlayer.playVideo();
+                    }
+                } catch(e) {}
+            });
+            if (btnPrev) btnPrev.addEventListener('click', function() {
+                if (!ytReady) return;
+                try { ytPlayer.previousVideo(); } catch(e) {}
+            });
+            if (btnNext) btnNext.addEventListener('click', function() {
+                if (!ytReady) return;
+                try { ytPlayer.nextVideo(); } catch(e) {}
+            });
+            if (volSlider) volSlider.addEventListener('input', function() {
+                if (!ytReady) return;
+                try { ytPlayer.setVolume(parseInt(this.value)); } catch(e) {}
             });
 
-            // Winamp drag
-            (function() {
-                const waBar = document.getElementById('wa-titlebar');
-                const waEl  = document.getElementById('winamp');
-                let waDragging = false, waOx = 0, waOy = 0;
-                waBar.addEventListener('mousedown', e => {
-                    waDragging = true;
-                    const r = waEl.getBoundingClientRect();
-                    waOx = e.clientX - r.left; waOy = e.clientY - r.top;
-                });
-                document.addEventListener('mousemove', e => {
-                    if (!waDragging) return;
-                    waEl.style.left = (e.clientX - waOx) + 'px';
-                    waEl.style.top  = (e.clientY - waOy) + 'px';
-                    waEl.style.bottom = 'auto';
-                });
-                document.addEventListener('mouseup', () => waDragging = false);
-            })();
-        } catch(e) { console.warn('Winamp wire-up error', e); }
+            // Expose for run dialog
+            window.tbWinampPlay = function() {
+                if (ytReady) try { ytPlayer.playVideo(); } catch(e) {}
+            };
+        })();
 
         // ── Run Dialog ───────────────────────────────────────────────
         (function() {
@@ -5638,7 +5615,8 @@
                     case 'recycle': openWindow('recycle'); break;
                     case 'computer': openWindow('computer'); break;
                     case 'winamp':
-                        document.getElementById('winamp').style.display = 'block';
+                        document.getElementById('tb-winamp').scrollIntoView();
+                        if (window.tbWinampPlay) window.tbWinampPlay();
                         break;
                     case 'msn':
                         window.toggleMSN();
@@ -5750,7 +5728,7 @@
             const bsod = document.getElementById('bsod');
 
             function showBSOD() {
-                try { WinampEngine.stop(); } catch(e) {}
+                try { if (window._ytPlayer) window._ytPlayer.pauseVideo(); } catch(e) {}
                 bsod.classList.add('bsod-visible');
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => { bsod.classList.add('bsod-fade-in'); });
