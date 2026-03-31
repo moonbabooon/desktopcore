@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Computer - Parsa Navidi</title>
+    <title>Parsa Navidi — Portfolio</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%231565c0' width='16' height='16' rx='3'/%3E%3Ctext x='8' y='12' text-anchor='middle' fill='white' font-size='11' font-weight='bold' font-family='Arial'%3EP%3C/text%3E%3C/svg%3E">
     <style>
         * {
@@ -1089,12 +1089,12 @@
             position: absolute;
             top: 113px; /* cord + shade + bulb */
             left: 50%; transform: translateX(-50%);
-            width: 680px; height: 560px;
-            clip-path: polygon(50% 0%, 5% 100%, 95% 100%);
-            background: radial-gradient(ellipse 55% 90% at 50% 0%,
-                rgba(255,200,70,0.13) 0%,
-                rgba(255,195,60,0.07) 35%,
-                rgba(255,185,50,0.03) 65%,
+            width: 340px; height: 520px;
+            clip-path: polygon(50% 0%, 2% 100%, 98% 100%);
+            background: radial-gradient(ellipse 60% 85% at 50% 0%,
+                rgba(255,210,80,0.28) 0%,
+                rgba(255,200,60,0.15) 30%,
+                rgba(255,185,50,0.06) 60%,
                 transparent 100%);
             pointer-events: none;
         }
@@ -2375,29 +2375,45 @@
         .tb-winamp {
             display: flex;
             align-items: center;
-            gap: 4px;
-            background: #0a0a0a;
-            border: 1px solid #3a3a3a;
+            gap: 5px;
+            background: linear-gradient(180deg, #1a1a1a 0%, #111 50%, #0d0d0d 100%);
+            border: 1px solid #000;
+            border-top-color: #3a3a3a;
+            border-left-color: #2a2a2a;
             border-radius: 3px;
-            padding: 0 5px;
+            padding: 0 6px 0 5px;
             height: 26px;
-            width: 260px;
+            width: 270px;
             flex-shrink: 0;
             margin-right: 6px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 1px 4px rgba(0,0,0,0.6);
             font-family: 'Arial Narrow', 'Arial', sans-serif;
             position: relative;
             overflow: hidden;
-            /* WINAMP label on far left in green neon */
+        }
+        /* subtle scanline overlay */
+        .tb-winamp::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px);
+            pointer-events: none; z-index: 1;
         }
         .tb-wa-logo {
             color: #0bff0b;
-            font-size: 9px;
+            font-size: 8px;
             font-weight: bold;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             flex-shrink: 0;
-            text-shadow: 0 0 6px #0bff0b;
-            font-family: monospace;
+            text-shadow: 0 0 8px #0bff0b, 0 0 16px rgba(11,255,11,0.4);
+            font-family: 'Arial Black', monospace;
+            text-transform: uppercase;
+            position: relative; z-index: 2;
+        }
+        .tb-wa-sep {
+            width: 1px; height: 14px;
+            background: linear-gradient(180deg, transparent, #3a3a3a, transparent);
+            flex-shrink: 0;
+            position: relative; z-index: 2;
         }
         .tb-wa-track {
             flex: 1;
@@ -2406,57 +2422,74 @@
             height: 100%;
             display: flex;
             align-items: center;
-            mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+            z-index: 2;
         }
         .tb-wa-ticker {
             color: #0bff0b;
             font-size: 10px;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             white-space: nowrap;
             display: inline-block;
-            animation: tbWaTick 18s linear infinite;
+            animation: tbWaTick 20s linear infinite;
+            text-shadow: 0 0 6px rgba(11,255,11,0.5);
         }
-        .tb-wa-ticker.paused { animation-play-state: paused; }
+        .tb-wa-ticker.paused { animation-play-state: paused; color: #068006; text-shadow: none; }
         @keyframes tbWaTick {
-            0%   { transform: translateX(160px); }
+            0%   { transform: translateX(200px); }
             100% { transform: translateX(-100%); }
         }
         .tb-wa-controls {
             display: flex;
             gap: 2px;
             flex-shrink: 0;
+            position: relative; z-index: 2;
         }
         .tb-wa-btn {
-            background: #1c1c1c;
-            border: 1px solid #444;
-            color: #888;
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 1px solid #111;
+            border-top-color: #3a3a3a;
+            border-left-color: #333;
+            color: #777;
             font-size: 8px;
-            padding: 0 4px;
+            padding: 0 5px;
             cursor: pointer;
             border-radius: 2px;
             height: 16px;
-            line-height: 14px;
-            transition: color 0.1s, background 0.1s;
+            line-height: 15px;
+            transition: color 0.15s, background 0.15s;
+            font-family: monospace;
         }
-        .tb-wa-btn:hover { background: #2a2a2a; color: #0bff0b; }
-        .tb-wa-btn.active { color: #0bff0b; text-shadow: 0 0 4px #0bff0b; }
+        .tb-wa-btn:hover {
+            background: linear-gradient(180deg, #333 0%, #222 100%);
+            color: #0bff0b;
+            text-shadow: 0 0 5px #0bff0b;
+            border-top-color: #444;
+        }
+        .tb-wa-btn:active { background: #111; border-color: #222 #444 #444 #222; }
+        .tb-wa-btn.active { color: #0bff0b; text-shadow: 0 0 5px #0bff0b; }
         .tb-wa-vol {
-            width: 46px;
+            width: 44px;
             height: 3px;
             accent-color: #0bff0b;
             cursor: pointer;
             flex-shrink: 0;
+            position: relative; z-index: 2;
+            opacity: 0.8;
         }
+        .tb-wa-vol:hover { opacity: 1; }
         .tb-wa-dot {
             width: 5px; height: 5px;
             border-radius: 50%;
-            background: #333;
+            background: #222;
+            border: 1px solid #333;
             flex-shrink: 0;
-            transition: background 0.2s, box-shadow 0.2s;
+            transition: background 0.3s, box-shadow 0.3s;
+            position: relative; z-index: 2;
         }
-        .tb-wa-dot.playing { background: #0bff0b; box-shadow: 0 0 5px #0bff0b; }
-        .tb-wa-dot.paused  { background: #ff9900; box-shadow: 0 0 4px #ff9900; }
+        .tb-wa-dot.playing { background: #0bff0b; box-shadow: 0 0 6px #0bff0b, 0 0 12px rgba(11,255,11,0.3); border-color: #0a8a0a; }
+        .tb-wa-dot.paused  { background: #ff9900; box-shadow: 0 0 5px #ff9900; border-color: #a06000; }
         @media (max-width: 900px) { .tb-winamp { display: none; } }
 
         /* ── OLD winamp (kept for z-index ref, hidden) ── */
@@ -2677,7 +2710,7 @@
         .wa-badge.active { color: #0bff0b; border-color: #0a5a0a; background: rgba(11,255,11,0.07); }
         @media (max-width: 768px) { .winamp { display: none; } }
 
-        /* ── My Computer Window ── */
+        /* ── My Computer Window (removed) ── */
         .mycomp-toolbar {
             background: #d4d0c8;
             border-bottom: 1px solid #808080;
@@ -3309,17 +3342,6 @@
 
         <!-- Desktop Icons -->
         <div class="desktop-icons">
-            <div class="desktop-icon" data-window="computer">
-                <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <rect fill="#c0c0c0" x="4" y="6" width="40" height="28" rx="2"/>
-                    <rect fill="#1a5fa8" x="7" y="9" width="34" height="22"/>
-                    <rect fill="#d4d0c8" x="10" y="34" width="28" height="4"/>
-                    <rect fill="#b0aca4" x="14" y="38" width="20" height="3"/>
-                    <rect fill="#808080" x="10" y="41" width="28" height="2"/>
-                    <rect fill="#a0c0e8" x="9" y="11" width="30" height="18" opacity="0.3"/>
-                </svg>
-                <span>My Computer</span>
-            </div>
             <div class="desktop-icon" data-window="about">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%23fff' x='4' y='4' width='40' height='40'/%3E%3Crect fill='%230055df' x='8' y='8' width='32' height='24'/%3E%3Ccircle fill='%230055df' cx='24' cy='28' r='8'/%3E%3C/svg%3E" alt="My Info">
                 <span>My Info</span>
@@ -4072,67 +4094,6 @@
             </div>
         </div>
 
-        <!-- My Computer Window -->
-        <div class="window minimized" id="window-computer" style="top:80px;left:140px;width:420px;height:320px;">
-            <div class="window-titlebar" data-window="computer">
-                <svg width="16" height="16" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="margin-right:4px;flex-shrink:0">
-                    <rect fill="#c0c0c0" x="4" y="6" width="40" height="28" rx="2"/>
-                    <rect fill="#1a5fa8" x="7" y="9" width="34" height="22"/>
-                    <rect fill="#d4d0c8" x="10" y="34" width="28" height="4"/>
-                    <rect fill="#808080" x="10" y="41" width="28" height="2"/>
-                </svg>
-                <span>My Computer</span>
-                <div class="window-controls">
-                    <button class="window-btn minimize-btn" data-window="computer">_</button>
-                    <button class="window-btn maximize-btn" data-window="computer">▢</button>
-                    <button class="window-btn close-btn" data-window="computer">×</button>
-                </div>
-            </div>
-            <div class="window-content" style="background:#c0c0c0;padding:0;display:flex;flex-direction:column;">
-                <div class="mycomp-toolbar">
-                    <button class="mycomp-tb-btn" disabled>◄ Back</button>
-                    <button class="mycomp-tb-btn" disabled>Forward ►</button>
-                    <button class="mycomp-tb-btn" disabled>↑ Up</button>
-                </div>
-                <div class="mycomp-addrbar">
-                    <span class="mycomp-addr-label">Address</span>
-                    <span class="mycomp-addr-val">🖥️ My Computer</span>
-                </div>
-                <div class="mycomp-drives">
-                    <div class="mycomp-drive" ondblclick="openWindow('about')">
-                        <div class="mycomp-drive-icon">💾</div>
-                        <div class="mycomp-drive-info">
-                            <div class="mycomp-drive-name">Local Disk (C:) — Parsa's Brain</div>
-                            <div class="mycomp-drive-sub">Free: ∞ &nbsp;&nbsp; Total: whatever</div>
-                            <div class="mycomp-drive-bar"><div class="mycomp-drive-fill" style="width:60%"></div></div>
-                        </div>
-                    </div>
-                    <div class="mycomp-drive" ondblclick="openWindow('projects')">
-                        <div class="mycomp-drive-icon">📁</div>
-                        <div class="mycomp-drive-info">
-                            <div class="mycomp-drive-name">Portfolio (D:) — Projects &amp; Work</div>
-                            <div class="mycomp-drive-sub">Double-click to browse</div>
-                            <div class="mycomp-drive-bar"><div class="mycomp-drive-fill" style="width:40%"></div></div>
-                        </div>
-                    </div>
-                    <div class="mycomp-drive" ondblclick="openWindow('recycle')">
-                        <div class="mycomp-drive-icon">🗑️</div>
-                        <div class="mycomp-drive-info">
-                            <div class="mycomp-drive-name">Recycle Bin (E:) — Deleted Things</div>
-                            <div class="mycomp-drive-sub">8 items</div>
-                        </div>
-                    </div>
-                    <div class="mycomp-drive" ondblclick="alert('Connecting to internet... Error: Too much to read.')">
-                        <div class="mycomp-drive-icon">🌐</div>
-                        <div class="mycomp-drive-info">
-                            <div class="mycomp-drive-name">Network Drive (F:) — The Internet</div>
-                            <div class="mycomp-drive-sub">Status: Connected (barely)</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mycomp-statusbar">4 object(s)</div>
-            </div>
-        </div>
 
     <!-- Right-click Context Menu -->
     <div class="context-menu" id="context-menu">
@@ -4273,7 +4234,8 @@
 
         <!-- Winamp taskbar mini-player -->
         <div class="tb-winamp" id="tb-winamp">
-            <span class="tb-wa-logo">▶WA</span>
+            <span class="tb-wa-logo">WINAMP</span>
+            <div class="tb-wa-sep"></div>
             <div class="tb-wa-track">
                 <span class="tb-wa-ticker paused" id="tb-wa-ticker">─── click ▶ to play ───</span>
             </div>
@@ -4311,13 +4273,6 @@
             <div class="sm-left">
                 <div class="sm-left-label">Programs</div>
 
-                <div class="sm-prog" onclick="openWindow('computer');document.getElementById('start-menu').classList.remove('open')">
-                    <div class="sm-prog-icon">🖥️</div>
-                    <div class="sm-prog-text">
-                        <div class="sm-prog-name">My Computer</div>
-                        <div class="sm-prog-desc">Drives and devices</div>
-                    </div>
-                </div>
                 <div class="sm-prog" onclick="window.open('snake.html','_blank')">
                     <div class="sm-prog-icon">🐍</div>
                     <div class="sm-prog-text">
@@ -4577,8 +4532,7 @@
                 'contact': 'Contact',
                 'resume': 'Resume.pdf',
                 'recycle': 'Recycle Bin',
-                'tools': 'My Tools',
-                'computer': 'My Computer'
+                'tools': 'My Tools'
             };
 
             openWindows.forEach(windowId => {
@@ -5469,8 +5423,7 @@
 
         // ── Taskbar Winamp + YouTube IFrame Player ─────────────────────
         (function() {
-            const PLAYLIST_ID = 'PLARr36qkoiWa2hl6cXnBxNzU_xxLcQXs0';
-            const FIRST_VID   = '-sf4tEqd7co';
+            const FIRST_VID   = 'PWOQWYXiMk';
             let ytPlayer = null;
             let ytReady  = false;
             let stateTimer = null;
@@ -5526,13 +5479,13 @@
                     width: '1',
                     videoId: FIRST_VID,
                     playerVars: {
-                        listType: 'playlist',
-                        list: PLAYLIST_ID,
                         autoplay: 0,
                         controls: 0,
                         disablekb: 1,
                         fs: 0,
                         rel: 0,
+                        loop: 1,
+                        playlist: FIRST_VID,
                         modestbranding: 1,
                         playsinline: 1
                     },
@@ -5613,7 +5566,6 @@
                     case 'skills': openWindow('skills'); break;
                     case 'tools': openWindow('tools'); break;
                     case 'recycle': openWindow('recycle'); break;
-                    case 'computer': openWindow('computer'); break;
                     case 'winamp':
                         document.getElementById('tb-winamp').scrollIntoView();
                         if (window.tbWinampPlay) window.tbWinampPlay();
