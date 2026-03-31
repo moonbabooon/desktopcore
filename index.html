@@ -2370,47 +2370,41 @@
             }
         }
 
-        /* ── Taskbar Winamp Mini-Player ── */
+        /* ── Taskbar Winamp Mini-Player (classic Winamp 2.x skin) ── */
         .tb-winamp {
             display: flex;
             align-items: center;
             gap: 5px;
-            background: linear-gradient(180deg, #1a1a1a 0%, #111 50%, #0d0d0d 100%);
-            border: 1px solid #000;
-            border-top-color: #3a3a3a;
-            border-left-color: #2a2a2a;
+            /* warm charcoal body matching real Winamp classic skin */
+            background: linear-gradient(180deg, #2e2a26 0%, #231f1b 50%, #1c1814 100%);
+            border: 1px solid #0c0a08;
+            border-top-color: #524640;
+            border-left-color: #3e3630;
             border-radius: 3px;
             padding: 0 6px 0 5px;
             height: 26px;
-            width: 270px;
+            width: 275px;
             flex-shrink: 0;
             margin-right: 6px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 1px 4px rgba(0,0,0,0.6);
+            box-shadow: inset 0 1px 0 rgba(255,220,150,0.06), 0 1px 4px rgba(0,0,0,0.7);
             font-family: 'Arial Narrow', 'Arial', sans-serif;
             position: relative;
             overflow: hidden;
         }
-        /* subtle scanline overlay */
-        .tb-winamp::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px);
-            pointer-events: none; z-index: 1;
-        }
         .tb-wa-logo {
-            color: #0bff0b;
+            color: #c8922a;
             font-size: 8px;
             font-weight: bold;
             letter-spacing: 2px;
             flex-shrink: 0;
-            text-shadow: 0 0 8px #0bff0b, 0 0 16px rgba(11,255,11,0.4);
-            font-family: 'Arial Black', monospace;
+            text-shadow: 0 0 6px rgba(200,146,42,0.45);
+            font-family: 'Arial Black', 'Arial', sans-serif;
             text-transform: uppercase;
             position: relative; z-index: 2;
         }
         .tb-wa-sep {
             width: 1px; height: 14px;
-            background: linear-gradient(180deg, transparent, #3a3a3a, transparent);
+            background: linear-gradient(180deg, transparent, #4a3e30, transparent);
             flex-shrink: 0;
             position: relative; z-index: 2;
         }
@@ -2426,15 +2420,17 @@
             z-index: 2;
         }
         .tb-wa-ticker {
-            color: #0bff0b;
+            /* amber LCD — authentic Winamp display colour */
+            color: #d4a040;
             font-size: 10px;
             font-family: 'Courier New', monospace;
             white-space: nowrap;
             display: inline-block;
             animation: tbWaTick 20s linear infinite;
-            text-shadow: 0 0 6px rgba(11,255,11,0.5);
+            text-shadow: 0 0 5px rgba(210,155,40,0.45);
+            letter-spacing: 0.5px;
         }
-        .tb-wa-ticker.paused { animation-play-state: paused; color: #068006; text-shadow: none; }
+        .tb-wa-ticker.paused { animation-play-state: paused; color: #7a5a18; text-shadow: none; }
         @keyframes tbWaTick {
             0%   { transform: translateX(200px); }
             100% { transform: translateX(-100%); }
@@ -2445,50 +2441,51 @@
             flex-shrink: 0;
             position: relative; z-index: 2;
         }
+        /* Win98-style silver beveled buttons — exactly like real Winamp */
         .tb-wa-btn {
-            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
-            border: 1px solid #111;
-            border-top-color: #3a3a3a;
-            border-left-color: #333;
-            color: #777;
+            background: linear-gradient(180deg, #d8d4cc 0%, #c4c0b8 100%);
+            border: 1px solid;
+            border-color: #f0ece4 #6a6660 #6a6660 #f0ece4;
+            color: #1a1610;
             font-size: 8px;
             padding: 0 5px;
             cursor: pointer;
-            border-radius: 2px;
+            border-radius: 1px;
             height: 16px;
             line-height: 15px;
-            transition: color 0.15s, background 0.15s;
             font-family: monospace;
+            transition: background 0.1s;
         }
         .tb-wa-btn:hover {
-            background: linear-gradient(180deg, #333 0%, #222 100%);
-            color: #0bff0b;
-            text-shadow: 0 0 5px #0bff0b;
-            border-top-color: #444;
+            background: linear-gradient(180deg, #e4e0d8 0%, #d0ccc4 100%);
+            color: #000060;
         }
-        .tb-wa-btn:active { background: #111; border-color: #222 #444 #444 #222; }
-        .tb-wa-btn.active { color: #0bff0b; text-shadow: 0 0 5px #0bff0b; }
+        .tb-wa-btn:active {
+            background: #b8b4ac;
+            border-color: #6a6660 #f0ece4 #f0ece4 #6a6660;
+        }
+        .tb-wa-btn.active { color: #8b4400; font-weight: bold; }
         .tb-wa-vol {
             width: 44px;
             height: 3px;
-            accent-color: #0bff0b;
+            accent-color: #c8922a;
             cursor: pointer;
             flex-shrink: 0;
             position: relative; z-index: 2;
-            opacity: 0.8;
+            opacity: 0.75;
         }
         .tb-wa-vol:hover { opacity: 1; }
         .tb-wa-dot {
             width: 5px; height: 5px;
             border-radius: 50%;
-            background: #222;
-            border: 1px solid #333;
+            background: #3a3028;
+            border: 1px solid #524640;
             flex-shrink: 0;
             transition: background 0.3s, box-shadow 0.3s;
             position: relative; z-index: 2;
         }
-        .tb-wa-dot.playing { background: #0bff0b; box-shadow: 0 0 6px #0bff0b, 0 0 12px rgba(11,255,11,0.3); border-color: #0a8a0a; }
-        .tb-wa-dot.paused  { background: #ff9900; box-shadow: 0 0 5px #ff9900; border-color: #a06000; }
+        .tb-wa-dot.playing { background: #d49020; box-shadow: 0 0 5px #d49020, 0 0 10px rgba(210,144,32,0.35); border-color: #a06010; }
+        .tb-wa-dot.paused  { background: #786050; border-color: #5a4838; box-shadow: none; }
         @media (max-width: 900px) { .tb-winamp { display: none; } }
 
         /* ── OLD winamp (kept for z-index ref, hidden) ── */
