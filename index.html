@@ -3247,6 +3247,82 @@
             0%, 100% { filter: brightness(1); }
             50%       { filter: brightness(0.97); }
         }
+        /* ── Mobile polish (comprehensive) ── */
+        @media (max-width: 768px) {
+
+            /* IE About window: drop chrome that wastes space */
+            .ie-menubar, .ie-toolbar { display: none !important; }
+            /* Full-width main column when sidebar is hidden */
+            .ie-layout-table td.ie-main { display: block; width: 100%; box-sizing: border-box; }
+            .ie-layout-table { display: block; }
+            .ie-layout-table tr, .ie-layout-table tbody { display: block; }
+            .ie-banner-title { font-size: 12px; }
+            .ie-counterbar { display: none; } /* too cluttered on small screen */
+
+            /* Explorer (Projects): hide address bar chrome too */
+            .exp-addrbar { display: none; }
+            .exp-menubar { display: none; }
+
+            /* Contact (OE): hide toolbar chrome */
+            .oe-toolbar, .oe-menubar { display: none !important; }
+
+            /* Recycle Bin toolbar: wrap on small screens */
+            .bin-toolbar { flex-wrap: wrap; gap: 2px; }
+            .bin-menubar { font-size: 10px; }
+
+            /* MSN Messenger: center + nearly full-width */
+            #msn-window {
+                right: 8px !important;
+                left: 8px !important;
+                width: calc(100vw - 16px) !important;
+                top: 60px !important;
+                bottom: 50px !important;
+                height: auto !important;
+            }
+
+            /* Run dialog: fit narrow screens */
+            #run-dialog { width: calc(100vw - 24px) !important; }
+
+            /* System Properties: fit narrow screens */
+            #sys-prop-dialog { width: calc(100vw - 24px) !important; }
+            #sys-prop-dialog [style*="grid-template-columns"] {
+                grid-template-columns: 100px 1fr !important;
+            }
+
+            /* Time Capsule overlay (Recycle Bin easter egg) */
+            #timecapsule-overlay .window { width: calc(100vw - 16px) !important; max-width: none !important; }
+
+            /* Calendar popup: full-width above taskbar */
+            #cal-popup {
+                right: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-radius: 0 !important;
+            }
+
+            /* Taskbar: tighten up */
+            .start-button span { display: none; } /* just the logo on tiny screens */
+            .start-button { padding: 3px 8px !important; }
+            .clock { font-size: 10px; padding: 0 4px; }
+
+            /* Desktop icons: 3 cols on small phones, 4 on tablets */
+            .desktop-icons {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+            .desktop-icon span { font-size: 9px; }
+        }
+
+        @media (max-width: 380px) {
+            .desktop-icons { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+
+        @media (max-width: 500px) {
+            /* Start menu: single column on very small phones */
+            .sm-right { display: none; }
+            .sm-body { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
@@ -3470,26 +3546,26 @@
                             </td>
                             <!-- Main content -->
                             <td class="ie-main">
-                                <h2 class="ie-main-h2">Hey, I'm <span class="ie-name-red">Parsa</span>.</h2>
-                                <p class="ie-main-p">I'm a writer and content strategist based in Toronto. I studied Cinema &amp; Media Arts at York University, which sounds like a weird path to marketing — but it actually makes a lot of sense if you think about it. Everything is storytelling. I just happen to do mine in landing pages and brand copy instead of film.</p>
-                                <p class="ie-main-p">Right now I write full-time at <b><a href="https://www.yardi.com/blog/" target="_blank" class="ie-link">Yardi</a></b> and take on freelance projects on the side. The freelance stuff is usually copywriting, content strategy, and occasionally helping someone figure out what their brand is actually trying to say.</p>
-                                <p class="ie-main-p">I like working with people who have something real to say but need help saying it in a way that lands. That's the job, honestly.</p>
+                                <h2 class="ie-main-h2">Hi, I'm <span class="ie-name-red">Parsa</span>.</h2>
+                                <p class="ie-main-p">I'm a writer and content strategist based in Toronto. I studied Cinema and Media Arts at York University, which turned out to be surprisingly useful — good storytelling follows the same rules whether it's a screenplay or a product page.</p>
+                                <p class="ie-main-p">I currently write full-time at <b><a href="https://www.yardi.com/blog/" target="_blank" class="ie-link">Yardi</a></b> and take on freelance projects on the side. The freelance work is mostly copywriting, content strategy, and helping brands get clear on what they're actually trying to say.</p>
+                                <p class="ie-main-p">I'm at my best working with people who have something real to communicate and need it done well.</p>
                                 <hr class="ie-hr">
                                 <h3 class="ie-main-h3">// currently</h3>
                                 <ul class="ie-main-ul">
                                     <li>Writer at <b>Yardi</b> (full-time)</li>
                                     <li>Freelance copywriting &amp; content strategy</li>
-                                    <li>Building things like this website at 1am</li>
+                                    <li>Side projects — this site being one of them</li>
                                 </ul>
                                 <hr class="ie-hr">
-                                <h3 class="ie-main-h3">// also true</h3>
+                                <h3 class="ie-main-h3">// published work</h3>
                                 <ul class="ie-main-ul">
-                                    <li>Published in Yardi, Shoplazza &amp; REC Canada</li>
-                                    <li>Film degree that turned out to be about narrative structure all along</li>
-                                    <li>Toronto born, Toronto based, probably not leaving</li>
-                                    <li>Yes this whole site is one HTML file</li>
+                                    <li>Yardi Breeze blog &amp; Yardi corporate editorial</li>
+                                    <li>Shoplazza merchant resources</li>
+                                    <li>REC Canada editorial</li>
+                                    <li>Toronto, Canada</li>
                                 </ul>
-                                <div class="ie-blink-text">&#9733; Thanks for stopping by. The guestbook is open. &#9733;</div>
+                                <div class="ie-blink-text">&#9733; Thanks for stopping by. &#9733;</div>
                             </td>
                         </tr>
                     </table>
