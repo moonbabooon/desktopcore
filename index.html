@@ -965,7 +965,14 @@
         /* ─── PRE-BOOT INTRO ─── */
         #pre-boot {
             position: fixed; inset: 0; z-index: 10000;
-            background: #070705;
+            /* Spotlight from lamp above: brightest at center, fades to near-black */
+            background:
+                radial-gradient(ellipse 46% 42% at 50% 48%,
+                    rgba(255,205,70,0.11) 0%,
+                    rgba(255,190,50,0.06) 35%,
+                    rgba(255,175,40,0.02) 58%,
+                    transparent 75%),
+                #070705;
             display: flex; align-items: center; justify-content: center;
             cursor: default;
         }
@@ -987,7 +994,12 @@
             border: 3px solid #0d0d0b;
             border-radius: 6px 6px 3px 3px;
             padding: 10px;
-            box-shadow: 0 0 60px rgba(0,0,0,0.95), inset 0 0 10px rgba(0,0,0,0.6), 0 0 120px rgba(0,0,0,0.8);
+            box-shadow:
+                0 0 60px rgba(0,0,0,0.95),
+                inset 0 0 10px rgba(0,0,0,0.6),
+                0 0 120px rgba(0,0,0,0.8),
+                0 -8px 40px rgba(255,195,60,0.08),
+                0 0 60px rgba(255,185,50,0.04);
         }
         .pb-screen {
             width: 300px; height: 210px;
@@ -1084,19 +1096,6 @@
             background: #ffe898;
             box-shadow: 0 0 6px 3px rgba(255,215,80,0.65), 0 0 18px 10px rgba(255,190,40,0.22);
             margin-top: 1px;
-        }
-        .pb-lamp-cone {
-            position: absolute;
-            top: 113px; /* cord + shade + bulb */
-            left: 50%; transform: translateX(-50%);
-            width: 340px; height: 520px;
-            clip-path: polygon(50% 0%, 2% 100%, 98% 100%);
-            background: radial-gradient(ellipse 60% 85% at 50% 0%,
-                rgba(255,210,80,0.28) 0%,
-                rgba(255,200,60,0.15) 30%,
-                rgba(255,185,50,0.06) 60%,
-                transparent 100%);
-            pointer-events: none;
         }
 
         /* ─── Win98 error dialog ─── */
@@ -3261,7 +3260,6 @@
         <div class="pb-lamp-cord"></div>
         <div class="pb-lamp-shade"></div>
         <div class="pb-lamp-bulb"></div>
-        <div class="pb-lamp-cone"></div>
       </div>
       <div class="pb-room">
         <div class="pb-monitor">
@@ -5423,7 +5421,7 @@
 
         // ── Taskbar Winamp + YouTube IFrame Player ─────────────────────
         (function() {
-            const FIRST_VID   = 'PWOQWYXiMk';
+            const FIRST_VID   = 'PWOQWUYXiMk';
             let ytPlayer = null;
             let ytReady  = false;
             let stateTimer = null;
