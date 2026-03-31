@@ -1063,6 +1063,88 @@
             transition: opacity 0.15s;
         }
 
+        /* ─── Hanging lamp ─── */
+        .pb-lamp-wrap {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center;
+            pointer-events: none; z-index: 2;
+        }
+        .pb-lamp-cord {
+            width: 1px; height: 90px;
+            background: linear-gradient(180deg, #1a1a18 0%, #2e2e28 100%);
+        }
+        .pb-lamp-shade {
+            width: 38px; height: 22px;
+            background: linear-gradient(180deg, #1a1a18, #242420);
+            clip-path: polygon(16% 0%, 84% 0%, 100% 100%, 0% 100%);
+            border-bottom: 1px solid #383830;
+        }
+        .pb-lamp-bulb {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #ffe898;
+            box-shadow: 0 0 6px 3px rgba(255,215,80,0.65), 0 0 18px 10px rgba(255,190,40,0.22);
+            margin-top: 1px;
+        }
+        .pb-lamp-cone {
+            position: absolute;
+            top: 113px; /* cord + shade + bulb */
+            left: 50%; transform: translateX(-50%);
+            width: 680px; height: 560px;
+            clip-path: polygon(50% 0%, 5% 100%, 95% 100%);
+            background: radial-gradient(ellipse 55% 90% at 50% 0%,
+                rgba(255,200,70,0.13) 0%,
+                rgba(255,195,60,0.07) 35%,
+                rgba(255,185,50,0.03) 65%,
+                transparent 100%);
+            pointer-events: none;
+        }
+
+        /* ─── Win98 error dialog ─── */
+        .win-error-overlay {
+            position: fixed; inset: 0; z-index: 99999;
+            display: none; align-items: center; justify-content: center;
+        }
+        .win-error-overlay.open { display: flex; }
+        .win-error-box {
+            background: #c0c0c0;
+            border: 2px solid #fff; border-right-color: #000; border-bottom-color: #000;
+            box-shadow: 2px 2px 0 #000;
+            width: 320px; font-family: Tahoma, sans-serif;
+        }
+        .win-error-title {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: #fff; font-size: 11px; font-weight: bold;
+            padding: 3px 6px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .win-error-title-left { display: flex; align-items: center; gap: 5px; }
+        .win-error-close {
+            width: 16px; height: 14px; background: #c0c0c0;
+            border: 1px solid #fff; border-right-color: #000; border-bottom-color: #000;
+            font-size: 9px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #000; font-weight: bold;
+        }
+        .win-error-body {
+            padding: 14px 16px 10px; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .win-error-icon { font-size: 28px; flex-shrink: 0; line-height: 1; }
+        .win-error-msg {
+            font-size: 11px; line-height: 1.6; color: #000;
+            white-space: pre-line;
+        }
+        .win-error-footer {
+            padding: 6px 12px 10px; display: flex; justify-content: center;
+        }
+        .win-error-ok {
+            font-family: Tahoma, sans-serif; font-size: 11px;
+            background: #c0c0c0; border: 1px solid #fff;
+            border-right-color: #000; border-bottom-color: #000;
+            padding: 3px 22px; cursor: pointer; min-width: 72px;
+        }
+        .win-error-ok:active {
+            border-color: #000; border-right-color: #fff; border-bottom-color: #fff;
+        }
+
         /* Boot Screen */
         .boot-screen {
             position: fixed;
@@ -2722,6 +2804,13 @@
 <body>
     <!-- Pre-Boot Intro -->
     <div id="pre-boot">
+      <!-- Hanging lamp -->
+      <div class="pb-lamp-wrap" aria-hidden="true">
+        <div class="pb-lamp-cord"></div>
+        <div class="pb-lamp-shade"></div>
+        <div class="pb-lamp-bulb"></div>
+        <div class="pb-lamp-cone"></div>
+      </div>
       <div class="pb-room">
         <div class="pb-monitor">
           <div class="pb-screen">
@@ -2747,6 +2836,23 @@
         <div class="pb-hint">PRESS POWER TO INITIALIZE</div>
       </div>
       <div class="pb-flash" id="pbFlash"></div>
+    </div>
+
+    <!-- Win98 error dialog (shared, used by Recycle Bin files) -->
+    <div class="win-error-overlay" id="win-error-overlay" onclick="if(event.target===this)closeWinError()">
+      <div class="win-error-box">
+        <div class="win-error-title">
+          <div class="win-error-title-left"><span id="win-error-app-icon">&#9888;</span> <span id="win-error-app-name">Error</span></div>
+          <div class="win-error-close" onclick="closeWinError()">&#10005;</div>
+        </div>
+        <div class="win-error-body">
+          <div class="win-error-icon" id="win-error-icon">&#10060;</div>
+          <div class="win-error-msg" id="win-error-msg"></div>
+        </div>
+        <div class="win-error-footer">
+          <button class="win-error-ok" onclick="closeWinError()">OK</button>
+        </div>
+      </div>
     </div>
 
     <!-- Boot Screen -->
@@ -3296,25 +3402,25 @@
                     <button class="bin-tb-btn" onclick="alert('Recycle Bin cannot be emptied.\nimposter_syndrome.exe is still running.')">Empty Recycle Bin</button>
                 </div>
                 <div id="bin-files" style="flex:1;overflow-y:auto;padding:8px;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;background:#fff">
-                    <div class="bin-item" onclick="binClick(this)">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Notepad','📄','Cannot open file.\n\nThis document contains levels of\ncringe that exceed safe display limits.\n\nConsider leaving it in the bin.')">
                         <div class="bin-icon">📄</div><div class="bin-name">bio_draft_v1.txt</div>
                     </div>
-                    <div class="bin-item" onclick="binClick(this)">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('WordPad','📝','File protected by dignity.exe\n\ndiginity.exe was not found.\n\nThis file cannot be opened.')">
                         <div class="bin-icon">📝</div><div class="bin-name">cover_letter_<br>desperate.doc</div>
                     </div>
-                    <div class="bin-item" onclick="binClick(this)">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Windows','⚙️','This program is already running.\n\nIt has been running since 2018.\nTask Manager cannot end this process.\n\nThis is fine.')">
                         <div class="bin-icon">⚙️</div><div class="bin-name">imposter_<br>syndrome.exe</div>
                     </div>
-                    <div class="bin-item" onclick="binClick(this)">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Internet Explorer','🌐','Internet Explorer is required\nto open this file.\n\nInternet Explorer is no longer available.\nInternet Explorer has been discontinued.\nInternet Explorer is gone.')">
                         <div class="bin-icon">🌐</div><div class="bin-name">portfolio_<br>2019_v1.html</div>
                     </div>
-                    <div class="bin-item" onclick="binClick(this)">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Notepad','📋','File is empty.\n\nThis file has always been empty.\nThis file will always be empty.\n\n[0 bytes] [847 attempts]')">
                         <div class="bin-icon">📋</div><div class="bin-name">writers_<br>block.log</div>
                     </div>
-                    <div class="bin-item" onclick="binClick(this)">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Final Draft','🎬','Act 3 not found.\n\nThis error has persisted since 2021.\nWould you like to continue without Act 3?\n\n(You always continue without Act 3.)')">
                         <div class="bin-icon">🎬</div><div class="bin-name">unfinished_<br>screenplay.fdx</div>
                     </div>
-                    <div class="bin-item" onclick="binClick(this)">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Notepad','🐦','Access denied.\n\nThese were deleted for a reason.\nSome things are better left unsent.')">
                         <div class="bin-icon">🐦</div><div class="bin-name">deleted_tweet_<br>drafts.txt</div>
                     </div>
                     <div class="bin-item bin-item-special" onclick="binClick(this)" ondblclick="openTimeCapsule()" title="double-click to open">
@@ -4721,6 +4827,16 @@
         function binClick(el) {
             document.querySelectorAll('.bin-item').forEach(i => i.classList.remove('selected'));
             el.classList.add('selected');
+        }
+        function showWinError(app, icon, msg) {
+            document.getElementById('win-error-app-name').textContent = app;
+            document.getElementById('win-error-app-icon').textContent = icon;
+            document.getElementById('win-error-msg').textContent = msg;
+            document.getElementById('win-error-overlay').classList.add('open');
+            SFX.notify();
+        }
+        function closeWinError() {
+            document.getElementById('win-error-overlay').classList.remove('open');
         }
         function openTimeCapsule() {
             const ov = document.getElementById('timecapsule-overlay');
