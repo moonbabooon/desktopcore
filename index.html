@@ -1990,6 +1990,9 @@
             cursor: pointer;
         }
         .exp-card-link:hover { background: linear-gradient(180deg, #1976d2 0%, #1565c0 100%); }
+        .exp-section-lbl { font-size: 10px; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; padding: 10px 4px 4px; border-top: 1px solid #d0d0d0; margin-top: 4px; }
+        .exp-card-archived { opacity: 0.6; cursor: default; pointer-events: none; }
+        .exp-card-offline { background: #888 !important; font-size: 10px; cursor: default; }
         @media (max-width: 768px) {
             .exp-tree { display: none !important; }
             .exp-card { padding: 12px 14px; gap: 10px; }
@@ -3563,7 +3566,6 @@
                                     <li>Yardi Breeze blog &amp; Yardi corporate editorial</li>
                                     <li>Shoplazza merchant resources</li>
                                     <li>REC Canada editorial</li>
-                                    <li>Toronto, Canada</li>
                                 </ul>
                                 <div class="ie-blink-text">&#9733; Thanks for stopping by. &#9733;</div>
                             </td>
@@ -5359,13 +5361,6 @@
                 url:  'https://info.yardi.com/multifamily-market-reports-for-canada'
             },
             {
-                icon: '🎙️',
-                name: 'Jas Takhar Podcast',
-                meta: 'Copywriting · Podcast Production · 2022–2023',
-                desc: 'Scripted and produced episodic content for one of Canada\'s most-followed real estate voices. Interview frameworks, show notes, and cross-channel promotional copy across email, LinkedIn, and social.',
-                url:  'https://meetjastakhar.com/'
-            },
-            {
                 icon: '🔧',
                 name: 'Plumb Wize',
                 meta: 'SEO Copywriting · Conversion · 2023',
@@ -5378,6 +5373,15 @@
                 meta: 'Brand Voice · Web Copy · 2023',
                 desc: 'Built brand voice, website copy, and core messaging framework for a Canadian clean energy company scaling to new markets. First formal brand document they had — built from scratch via customer research and competitive audit.',
                 url:  'https://www.mysolargroup.ca/'
+            }
+        ];
+
+        const expArchived = [
+            {
+                icon: '🎙️',
+                name: 'Jas Takhar Podcast',
+                meta: 'Copywriting · Podcast Production · 2022–2023',
+                desc: 'Scripted and produced episodic content for one of Canada\'s most-followed real estate voices. Interview frameworks, show notes, and cross-channel promotional copy across email, LinkedIn, and social.',
             }
         ];
 
@@ -5425,7 +5429,7 @@
             addr.textContent = section === 'projects'
                 ? '📁 C:\\My Portfolio\\Projects'
                 : '📄 C:\\My Portfolio\\Articles';
-            pane.innerHTML = data.map(item =>
+            let html = data.map(item =>
                 `<a class="exp-card" href="${item.url}" target="_blank" rel="noopener">
                     <div class="exp-card-icon">${item.icon}</div>
                     <div class="exp-card-body">
@@ -5436,6 +5440,21 @@
                     <span class="exp-card-link">Open&nbsp;→</span>
                 </a>`
             ).join('');
+            if (section === 'projects' && expArchived.length) {
+                html += `<div class="exp-section-lbl">📦 Archived</div>`;
+                html += expArchived.map(item =>
+                    `<div class="exp-card exp-card-archived">
+                        <div class="exp-card-icon">${item.icon}</div>
+                        <div class="exp-card-body">
+                            <div class="exp-card-title">${item.name}</div>
+                            <div class="exp-card-meta">${item.meta}</div>
+                            <div class="exp-card-desc">${item.desc}</div>
+                        </div>
+                        <span class="exp-card-link exp-card-offline">Site offline</span>
+                    </div>`
+                ).join('');
+            }
+            pane.innerHTML = html;
             status.innerHTML = `<span>${data.length} object(s)</span><span>My Portfolio</span>`;
             SFX.click();
         }
