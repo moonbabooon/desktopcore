@@ -399,8 +399,12 @@ function startGame() {
     document.getElementById('timer').textContent = timeLeft;
     if (timeLeft <= 0) endGame();
     else {
-      clearInterval(spawnInterval);
-      startSpawn();
+      // Only restart spawn when speed tier changes (at 20s and 40s elapsed)
+      const elapsed = 60 - timeLeft;
+      if (elapsed === 20 || elapsed === 40) {
+        clearInterval(spawnInterval);
+        startSpawn();
+      }
     }
   }, 1000);
 

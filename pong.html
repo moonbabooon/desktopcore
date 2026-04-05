@@ -339,18 +339,16 @@ function update() {
     beep(200, 0.3);
     updateScore();
     if (cpuScore >= WIN_SCORE) { endGame('CPU'); return; }
-    setTimeout(() => { if (gameRunning) { resetBall(1); initPaddles(); } }, 600);
     gameRunning = false;
-    setTimeout(() => { gameRunning = true; gameLoop(); }, 600);
+    setTimeout(() => { resetBall(1); initPaddles(); gameRunning = true; gameLoop(); }, 800);
   }
   if (ball.x > W) {
     playerScore++;
     beep(200, 0.3);
     updateScore();
     if (playerScore >= WIN_SCORE) { endGame('PLAYER'); return; }
-    setTimeout(() => { if (gameRunning) { resetBall(-1); initPaddles(); } }, 600);
     gameRunning = false;
-    setTimeout(() => { gameRunning = true; gameLoop(); }, 600);
+    setTimeout(() => { resetBall(-1); initPaddles(); gameRunning = true; gameLoop(); }, 800);
   }
 }
 
