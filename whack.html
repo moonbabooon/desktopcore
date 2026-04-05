@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whack-a-Client v1.0</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #008080;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 11px;
+  }
+  .window {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    box-shadow: 3px 3px 0 #000;
+    width: 600px;
+  }
+  .title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    padding: 3px 6px;
+    font-weight: bold;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+  .title-bar-buttons {
+    display: flex;
+    gap: 2px;
+  }
+  .title-btn {
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #fff #808080 #808080 #fff;
+    width: 16px;
+    height: 14px;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #000;
+    font-weight: bold;
+    line-height: 1;
+  }
+  .window-content {
+    padding: 12px;
+  }
+  .stats-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    justify-content: center;
+  }
+  .stat-box {
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 3px 10px;
+    background: #c0c0c0;
+    font-size: 11px;
+    min-width: 100px;
+    text-align: center;
+  }
+  .stat-label { color: #444; }
+  .stat-value { font-weight: bold; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 12px;
+    background: #aaa;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    margin-bottom: 12px;
+  }
+  .hole-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 110px;
+    justify-content: flex-end;
+  }
+  .speech-bubble {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffc0;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 9px;
+    white-space: nowrap;
+    max-width: 160px;
+    white-space: normal;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    display: none;
+    line-height: 1.3;
+  }
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #ffffc0;
+  }
+  .hole {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    background: #5a5a5a;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .hole.flash {
+    background: #cc0000 !important;
+  }
+  .client {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: bottom 0.2s ease-out;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .client.visible {
+    bottom: 0;
+  }
+  .whacked-text {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 20;
+    white-space: nowrap;
+  }
+  .whacked-text.show {
+    opacity: 1;
+  }
+  .btn {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    padding: 4px 16px;
+    cursor: pointer;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 11px;
+    display: block;
+    margin: 0 auto;
+    font-weight: bold;
+  }
+  .btn:active {
+    border-color: #808080 #fff #fff #808080;
+  }
+  .btn-start {
+    padding: 6px 32px;
+    font-size: 13px;
+  }
+  .overlay {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(192,192,192,0.97);
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  .overlay.active {
+    display: flex;
+  }
+  .overlay h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #000080;
+    border-bottom: 2px solid #000080;
+    padding-bottom: 6px;
+    width: 100%;
+  }
+  .overlay .result-row {
+    margin: 5px 0;
+    font-size: 12px;
+  }
+  .overlay .clippy-msg {
+    margin: 14px 0;
+    font-size: 11px;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 8px 12px;
+    background: #ffffc0;
+    max-width: 360px;
+    font-style: italic;
+  }
+  .score-anim {
+    position: fixed;
+    pointer-events: none;
+    color: #000080;
+    font-weight: bold;
+    font-size: 18px;
+    animation: floatUp 0.7s ease-out forwards;
+    z-index: 999;
+  }
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-50px); }
+  }
+  .game-area {
+    position: relative;
+  }
+  .back-link {
+    margin-top: 10px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <span>Whack-a-Client v1.0</span>
+    <div class="title-bar-buttons">
+      <div class="title-btn">_</div>
+      <div class="title-btn">□</div>
+      <div class="title-btn">✕</div>
+    </div>
+  </div>
+  <div class="window-content">
+    <div class="stats-bar">
+      <div class="stat-box">
+        <span class="stat-label">Score: </span><span class="stat-value" id="score">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Time: </span><span class="stat-value" id="timer">60</span><span class="stat-label">s</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Best: </span><span class="stat-value" id="best">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Misses: </span><span class="stat-value" id="misses">0</span>
+      </div>
+    </div>
+
+    <div class="game-area" id="gameArea">
+      <div class="grid" id="grid">
+        <!-- Holes generated by JS -->
+      </div>
+      <div class="overlay" id="startOverlay">
+        <h2>Whack-a-Client!</h2>
+        <p style="margin-bottom:16px;max-width:340px;line-height:1.5;">
+          Bad clients are swarming. Whack them before they escape!<br>
+          You have <strong>60 seconds</strong>. Click the clients as they pop up.
+        </p>
+        <button class="btn btn-start" onclick="startGame()">START GAME</button>
+      </div>
+      <div class="overlay" id="endOverlay">
+        <h2>Game Over!</h2>
+        <div class="result-row">Final Score: <strong id="finalScore">0</strong></div>
+        <div class="result-row">Misses: <strong id="finalMisses">0</strong></div>
+        <div class="clippy-msg" id="clippyMsg"></div>
+        <button class="btn btn-start" onclick="startGame()">PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:8px;">
+      <button class="btn btn-start" id="startBtn" onclick="startGame()">START GAME</button>
+    </div>
+  </div>
+</div>
+<div class="back-link">
+  <a href="index.html" style="color:#fff;font-size:10px;text-decoration:none;opacity:0.7;">← Back to Desktop</a>
+</div>
+
+<script>
+const QUOTES = [
+  "Can we make the logo bigger?",
+  "My wife doesn't like the color.",
+  "Make it pop more.",
+  "What if we tried a different font?",
+  "Can we add more content AND simplify it?",
+  "The CEO wants Comic Sans.",
+  "Can we just copy what our competitor does?",
+  "Can you make it more... viral?",
+  "I'll know it when I see it.",
+  "It needs to feel more premium but also approachable.",
+  "Can we get this done by Friday? It's Wednesday.",
+  "We don't have a budget for that."
+];
+
+const CLIENT_SVG = `<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="25" cy="25" r="22" fill="#f5d5b0" stroke="#999" stroke-width="1.5"/>
+  <circle cx="18" cy="22" r="3" fill="#333"/>
+  <circle cx="32" cy="22" r="3" fill="#333"/>
+  <path d="M18 33 Q25 29 32 33" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <rect x="8" y="10" width="34" height="12" rx="2" fill="#4a5568" opacity="0.8"/>
+</svg>`;
+
+let score = 0;
+let misses = 0;
+let best = 0;
+let timeLeft = 60;
+let gameActive = false;
+let timerInterval = null;
+let spawnInterval = null;
+let holes = [];
+let activeClients = [];
+
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  holes = [];
+  for (let i = 0; i < 9; i++) {
+    const wrap = document.createElement('div');
+    wrap.className = 'hole-wrap';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'speech-bubble';
+    bubble.id = `bubble-${i}`;
+
+    const hole = document.createElement('div');
+    hole.className = 'hole';
+    hole.id = `hole-${i}`;
+
+    const client = document.createElement('div');
+    client.className = 'client';
+    client.id = `client-${i}`;
+    client.innerHTML = CLIENT_SVG;
+    client.addEventListener('click', (e) => whack(i, e));
+
+    const whackedText = document.createElement('div');
+    whackedText.className = 'whacked-text';
+    whackedText.id = `whacked-${i}`;
+    whackedText.textContent = 'WHACKED!';
+
+    hole.appendChild(client);
+    hole.appendChild(whackedText);
+    hole.addEventListener('click', (e) => {
+      if (activeClients.includes(i)) whack(i, e);
+    });
+
+    wrap.appendChild(bubble);
+    wrap.appendChild(hole);
+    holes.push({ hole, client, bubble, active: false, timeout: null });
+    grid.appendChild(wrap);
+  }
+}
+
+function startGame() {
+  score = 0;
+  misses = 0;
+  timeLeft = 60;
+  gameActive = true;
+  activeClients = [];
+
+  document.getElementById('score').textContent = '0';
+  document.getElementById('misses').textContent = '0';
+  document.getElementById('timer').textContent = '60';
+  document.getElementById('startOverlay').classList.remove('active');
+  document.getElementById('endOverlay').classList.remove('active');
+  document.getElementById('startBtn').style.display = 'none';
+
+  buildGrid();
+
+  clearInterval(timerInterval);
+  clearInterval(spawnInterval);
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer').textContent = timeLeft;
+    if (timeLeft <= 0) endGame();
+    else {
+      clearInterval(spawnInterval);
+      startSpawn();
+    }
+  }, 1000);
+
+  startSpawn();
+}
+
+function getSpawnInterval() {
+  const elapsed = 60 - timeLeft;
+  if (elapsed >= 40) return 650;
+  if (elapsed >= 20) return 900;
+  return 1200;
+}
+
+function getVisibleDuration() {
+  const elapsed = 60 - timeLeft;
+  if (elapsed >= 40) return 900;
+  if (elapsed >= 20) return 1200;
+  return 1500;
+}
+
+function startSpawn() {
+  const interval = getSpawnInterval();
+  spawnInterval = setInterval(spawnClient, interval);
+}
+
+function spawnClient() {
+  if (!gameActive) return;
+  const maxActive = timeLeft < 20 ? 2 : 1;
+  if (activeClients.length >= maxActive) return;
+
+  const available = holes.map((h, i) => i).filter(i => !activeClients.includes(i));
+  if (available.length === 0) return;
+
+  const idx = available[Math.floor(Math.random() * available.length)];
+  const h = holes[idx];
+  const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+
+  h.bubble.textContent = quote;
+  h.bubble.style.display = 'block';
+  h.client.classList.add('visible');
+  activeClients.push(idx);
+
+  h.timeout = setTimeout(() => {
+    if (activeClients.includes(idx)) {
+      retractClient(idx, true);
+    }
+  }, getVisibleDuration());
+}
+
+function retractClient(idx, missed) {
+  const h = holes[idx];
+  h.client.classList.remove('visible');
+  h.bubble.style.display = 'none';
+  activeClients = activeClients.filter(i => i !== idx);
+  if (missed) {
+    misses++;
+    document.getElementById('misses').textContent = misses;
+  }
+}
+
+function whack(idx, e) {
+  if (!gameActive) return;
+  if (!activeClients.includes(idx)) return;
+
+  clearTimeout(holes[idx].timeout);
+  retractClient(idx, false);
+
+  score++;
+  document.getElementById('score').textContent = score;
+
+  const hole = document.getElementById(`hole-${idx}`);
+  hole.classList.add('flash');
+  setTimeout(() => hole.classList.remove('flash'), 200);
+
+  const wt = document.getElementById(`whacked-${idx}`);
+  wt.classList.add('show');
+  setTimeout(() => wt.classList.remove('show'), 500);
+
+  if (e) {
+    const anim = document.createElement('div');
+    anim.className = 'score-anim';
+    anim.textContent = '+1';
+    anim.style.left = (e.clientX - 10) + 'px';
+    anim.style.top = (e.clientY - 10) + 'px';
+    document.body.appendChild(anim);
+    setTimeout(() => anim.remove(), 700);
+  }
+}
+
+function endGame() {
+  gameActive = false;
+  clearInterval(timerInterval);
+  clearInterval(spawnInterval);
+
+  holes.forEach((h, i) => {
+    clearTimeout(h.timeout);
+    h.client.classList.remove('visible');
+    h.bubble.style.display = 'none';
+  });
+  activeClients = [];
+
+  if (score > best) {
+    best = score;
+    document.getElementById('best').textContent = best;
+  }
+
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalMisses').textContent = misses;
+
+  let msg = '';
+  if (score <= 5) msg = '"You have the reaction time of a legal review cycle."';
+  else if (score <= 15) msg = '"Room for improvement. Like the logo they keep asking about."';
+  else if (score <= 25) msg = '"Solid. You\'ve been in enough revision meetings."';
+  else msg = '"You\'ve been waiting for this your whole career."';
+
+  document.getElementById('clippyMsg').textContent = msg;
+  document.getElementById('endOverlay').classList.add('active');
+  document.getElementById('startBtn').style.display = 'block';
+  document.getElementById('startBtn').textContent = 'PLAY AGAIN';
+}
+
+// Init
+buildGrid();
+document.getElementById('startOverlay').classList.add('active');
+</script>
+</body>
+</html>

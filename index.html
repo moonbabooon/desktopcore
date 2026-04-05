@@ -3570,6 +3570,10 @@
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23222244' x='4' y='14' width='40' height='20' rx='6'/%3E%3Crect fill='%23444488' x='4' y='14' width='40' height='10' rx='6'/%3E%3Crect fill='%23fff' x='11' y='22' width='3' height='7' rx='1'/%3E%3Crect fill='%23fff' x='8' y='25' width='9' height='3' rx='1'/%3E%3Ccircle fill='%23ff4444' cx='34' cy='24' r='2.5'/%3E%3Ccircle fill='%2344cc44' cx='40' cy='24' r='2.5'/%3E%3Ccircle fill='%234444ff' cx='37' cy='29' r='2.5'/%3E%3C/svg%3E" alt="Games">
                 <span>Games</span>
             </div>
+            <div class="desktop-icon" data-window="cmd" title="MS-DOS Prompt">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%23000080'/%3E%3Crect x='2' y='2' width='28' height='28' rx='1' fill='%23000'/%3E%3Ctext x='4' y='15' font-size='9' fill='%23c0c0c0' font-family='monospace'%3EC:\%3E_%3C/text%3E%3Crect x='4' y='18' width='12' height='2' fill='%23c0c0c0' opacity='0.4'/%3E%3Crect x='4' y='22' width='18' height='2' fill='%23c0c0c0' opacity='0.3'/%3E%3C/svg%3E" alt="MS-DOS Prompt" style="width:32px;height:32px;">
+              <span>MS-DOS Prompt</span>
+            </div>
         </div>
 
         <!-- Hidden YouTube player for Winamp taskbar (off-screen) -->
@@ -4352,6 +4356,27 @@
         </div>
     </div>
 
+    <!-- MS-DOS Prompt Window -->
+    <div class="window minimized" id="window-cmd" style="top:80px;left:160px;width:560px;height:340px;">
+      <div class="window-titlebar inactive" data-window="cmd">
+        <div style="display:flex;align-items:center;gap:5px;">
+          <svg width="14" height="14" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><rect fill="#000080" width="16" height="16" rx="1"/><rect fill="#000" x="1" y="1" width="14" height="14" rx="0.5"/><text x="2" y="10" font-size="7" fill="#c0c0c0" font-family="monospace">C:\</text></svg>
+          MS-DOS Prompt
+        </div>
+        <div class="window-controls">
+          <button class="window-btn minimize-btn" data-window="cmd">_</button>
+          <button class="window-btn close-btn" data-window="cmd">×</button>
+        </div>
+      </div>
+      <div class="window-content" style="padding:0;display:flex;flex-direction:column;height:calc(100% - 22px);background:#000;font-family:'Courier New',monospace;font-size:12px;color:#c0c0c0;">
+        <div id="cmd-output" style="flex:1;padding:8px 10px;overflow-y:auto;white-space:pre-wrap;line-height:1.6;word-break:break-all;"></div>
+        <div style="display:flex;align-items:center;padding:4px 10px;border-top:1px solid #1a1a1a;flex-shrink:0;">
+          <span id="cmd-prompt-label" style="color:#c0c0c0;margin-right:4px;white-space:nowrap;">C:\&gt;</span>
+          <input id="cmd-input" type="text" style="flex:1;background:transparent;border:none;outline:none;color:#c0c0c0;font-family:'Courier New',monospace;font-size:12px;caret-color:#c0c0c0;" autocomplete="off" spellcheck="false" placeholder="">
+        </div>
+      </div>
+    </div>
+
     <!-- Games Window -->
     <div class="window minimized" id="window-games" style="top:90px;left:200px;width:420px;height:270px;">
         <div class="window-titlebar inactive" data-window="games">
@@ -4383,10 +4408,30 @@
                         <div class="game-tile-icon">⚔️</div>
                         <div class="game-tile-name">Skills Cape</div>
                     </div>
+                    <div class="game-tile" ondblclick="window.open('clippy-clicker.html','_blank')">
+                      <div class="game-tile-icon">🖇️</div>
+                      <div class="game-tile-name">Clippy Clicker</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('password-game.html','_blank')">
+                      <div class="game-tile-icon">🔐</div>
+                      <div class="game-tile-name">Password Game</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('whack.html','_blank')">
+                      <div class="game-tile-icon">🔨</div>
+                      <div class="game-tile-name">Whack-a-Client</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('pong.html','_blank')">
+                      <div class="game-tile-icon">🏓</div>
+                      <div class="game-tile-name">Pong</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('typing-test.html','_blank')">
+                      <div class="game-tile-icon">⌨️</div>
+                      <div class="game-tile-name">Typing Test</div>
+                    </div>
                 </div>
             </div>
             <div class="games-statusbar">
-                <div class="sp">4 object(s) &nbsp; Double-click to launch</div>
+                <div class="sp">9 object(s) &nbsp; Double-click to launch</div>
             </div>
         </div>
     </div>
@@ -6557,6 +6602,203 @@ Results:
                 localStorage.setItem('pv_visited', '1');
             };
         })();
+
+        // ── "Type HIRE" easter egg ─────────────────────────────────────
+        (function() {
+            let typed = '';
+            const COLORS = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff69b4','#c77dff'];
+            function launchConfetti() {
+                const c = document.getElementById('hire-confetti-container');
+                if (!c) return;
+                for (let i = 0; i < 30; i++) {
+                    const d = document.createElement('div');
+                    d.style.cssText = `position:absolute;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;background:${COLORS[Math.floor(Math.random()*COLORS.length)]};left:${Math.random()*100}%;top:-10px;opacity:1;border-radius:${Math.random()>0.5?'50%':'2px'};animation:confettiFall ${1.5+Math.random()*2}s ease-in forwards;animation-delay:${Math.random()*0.5}s`;
+                    c.appendChild(d);
+                }
+                setTimeout(() => { c.innerHTML = ''; }, 4000);
+            }
+            // Add confetti keyframe if not present
+            if (!document.querySelector('#confetti-style')) {
+                const st = document.createElement('style');
+                st.id = 'confetti-style';
+                st.textContent = '@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}';
+                document.head.appendChild(st);
+            }
+            document.addEventListener('keydown', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                typed = (typed + e.key).slice(-6).toUpperCase();
+                if (typed.includes('HIRE')) {
+                    typed = '';
+                    const overlay = document.getElementById('hire-dialog-overlay');
+                    if (overlay) { overlay.style.display = 'flex'; launchConfetti(); if (typeof SFX !== 'undefined') SFX.notify(); }
+                }
+            });
+        })();
+
+        // ── Alt+F4 intercept ──────────────────────────────────────────
+        (function() {
+            document.addEventListener('keydown', function(e) {
+                if (e.altKey && e.key === 'F4') {
+                    e.preventDefault(); e.stopPropagation();
+                    document.getElementById('altf4-overlay').style.display = 'flex';
+                }
+            });
+            document.getElementById('altf4-ok').addEventListener('click', function() {
+                document.getElementById('altf4-overlay').style.display = 'none';
+                document.getElementById('altf4-overlay2').style.display = 'flex';
+            });
+        })();
+
+        // ── Triple-click clock easter egg ────────────────────────────
+        (function() {
+            const GLITCH_MSGS = ['ERROR: TIME NOT FOUND', '∞:∞∞ AM', '3:AM — TOO LATE', 'HIRE:ME', "COFFEE O'CLOCK", 'NOW:00'];
+            let glitchIdx = 0, clickTimes = [];
+            const clockEl = document.getElementById('clock');
+            if (!clockEl) return;
+            clockEl.addEventListener('click', function(e) {
+                // Don't interfere with calendar toggle if it exists beyond 3 clicks
+                const now = Date.now();
+                clickTimes = clickTimes.filter(t => now - t < 1200);
+                clickTimes.push(now);
+                if (clickTimes.length >= 3) {
+                    clickTimes = [];
+                    e.stopImmediatePropagation();
+                    const orig = clockEl.textContent;
+                    clockEl.textContent = GLITCH_MSGS[glitchIdx++ % GLITCH_MSGS.length];
+                    clockEl.style.color = '#ff4444';
+                    if (typeof SFX !== 'undefined') SFX.error();
+                    setTimeout(() => { clockEl.style.color = ''; }, 3000);
+                }
+            }, true);
+        })();
+
+        // ── MS-DOS Prompt (fake terminal) ────────────────────────────
+        (function() {
+            const RESPONSES = {
+                help: `Available commands:\n  whoami    Display current user\n  dir       List directory contents\n  cd        Change to directory\n  ping      Test network connection\n  hire      Execute hire protocol\n  cls       Clear screen\n  ver       Display version info\n  exit      Close terminal\n  date      Show current date`,
+                whoami: `parsanavidi\\writer\n\nTip: elevated privileges not required. Just good taste.`,
+                ver: `Microsoft Windows [Version 98.4.10.1998]\nDesktopCore Build 2025.04\nLicensed to: Whoever is reading this`,
+                date: () => `Current date is: ${new Date().toDateString()}\nThe time is: ${new Date().toLocaleTimeString()}\n\n(No, really. That's the actual time.)`,
+                dir: `Volume in drive C is PARSA_SSD\nVolume Serial No. is 1998-2025\n\nDirectory of C:\\\n\n04-05-2025  02:44 PM    <DIR>          My Documents\n04-05-2025  02:44 PM    <DIR>          My Projects\n04-05-2025  02:44 PM    <DIR>          Games\n04-05-2025  02:44 PM    <DIR>          Secrets\n11-12-2024  11:59 PM       112,384     resume.pdf\n04-05-2025  02:44 PM     6,200,041     portfolio.html\n04-05-2025  02:44 PM         3,072     impostor_syndrome.exe\n\n               3 File(s)      6,315,497 bytes\n               4 Dir(s)               ∞ bytes free`,
+                'cd my documents': `C:\\My Documents>`,
+                'cd games': `C:\\Games>`,
+                'cd secrets': `Access denied.\n\nHint: You already found them.`,
+                'cd ..': `C:\\>`,
+                'ping parsanavidi.ca': `Pinging parsanavidi.ca [104.21.x.x] with 32 bytes of data:\nReply from 104.21.x.x: bytes=32 time=12ms TTL=64\nReply from 104.21.x.x: bytes=32 time=11ms TTL=64\nReply from 104.21.x.x: bytes=32 time=13ms TTL=64\n\nPing statistics for parsanavidi.ca:\n    Packets: Sent = 3, Received = 3, Lost = 0 (0% loss)\n\nHe's online. He's responsive. You should reach out.`,
+                'ping google.com': `Pinging google.com [142.250.x.x]:\nReply from 142.250.x.x: bytes=32 time=8ms TTL=118\n\nWhy are you pinging Google? Parsa is right here.`,
+                hire: `Executing hire.exe...\n\nChecking availability............. [OK]\nVerifying skill set............... [OK]\nChecking portfolio................. [OK]\nCalculating value.................. [OK]\nChecking references................ [OK]\n\nResult: Strong candidate.\nRecommended action: HIRE IMMEDIATELY.\n\nOpening contact form...`,
+                cls: '__cls__',
+                exit: '__exit__',
+                'ls': `This is Windows, not Linux.\nBut fine. Try DIR instead.\n\n(He knows both.)`,
+                'sudo': `sudo: command not found\n\nAlso: you don't need root access to hire someone. Just an email.`,
+                'rm -rf /': `No.`,
+                'npm install': `Installing packages...\n\nAdded 847 packages in 0ms.\n\nThis solved nothing. This never solves anything.`,
+            };
+
+            function initCmd() {
+                const output = document.getElementById('cmd-output');
+                const input  = document.getElementById('cmd-input');
+                if (!output || !input) return;
+
+                let history = [], histIdx = -1, initialized = false;
+
+                function boot() {
+                    if (initialized) return;
+                    initialized = true;
+                    output.textContent = `Microsoft(R) Windows 98\n(C)Copyright Microsoft Corp 1981-1998.\n\nType HELP for available commands.\n\nC:\\>`;
+                }
+
+                function print(text) {
+                    output.textContent += text + '\n\nC:\\>';
+                    output.scrollTop = output.scrollHeight;
+                }
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        const raw = input.value;
+                        const cmd = raw.trim().toLowerCase();
+                        input.value = '';
+                        if (cmd) { history.unshift(cmd); histIdx = -1; }
+                        output.textContent += raw + '\n';
+                        if (!cmd) { output.textContent += 'C:\\>'; output.scrollTop = output.scrollHeight; return; }
+
+                        if (cmd === 'cls') { output.textContent = 'C:\\>'; return; }
+                        if (cmd === 'exit') { if (typeof closeWindow === 'function') closeWindow('cmd'); return; }
+
+                        const resp = RESPONSES[cmd];
+                        const text = typeof resp === 'function' ? resp() : (resp || `'${raw.trim()}' is not recognized as an internal or external command.\nType HELP for available commands.`);
+                        print(text);
+
+                        if (cmd === 'hire') {
+                            setTimeout(() => { if (typeof openWindow === 'function') openWindow('contact'); }, 2000);
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (histIdx < history.length - 1) input.value = history[++histIdx];
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        histIdx > 0 ? (input.value = history[--histIdx]) : (histIdx = -1, input.value = '');
+                    }
+                });
+
+                // Focus + boot when window opens
+                const cmdWin = document.getElementById('window-cmd');
+                if (cmdWin) {
+                    new MutationObserver(() => {
+                        if (!cmdWin.classList.contains('minimized')) {
+                            boot();
+                            setTimeout(() => input.focus(), 100);
+                        }
+                    }).observe(cmdWin, { attributes: true, attributeFilter: ['class'] });
+                }
+            }
+
+            initCmd();
+        })();
     </script>
+
+<div id="hire-dialog-overlay" style="display:none;position:fixed;inset:0;z-index:99997;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;">
+  <div style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:4px 4px 0 #000;width:340px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;">
+    <div style="background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:3px 6px;display:flex;align-items:center;justify-content:space-between;font-weight:bold;">
+      <span>💼 System Alert</span>
+      <div onclick="document.getElementById('hire-dialog-overlay').style.display='none'" style="cursor:pointer;background:#c0c0c0;border:1px solid;border-color:#fff #808080 #808080 #fff;width:16px;height:14px;display:flex;align-items:center;justify-content:center;color:#000;font-size:10px;">✕</div>
+    </div>
+    <div style="padding:16px 14px;display:flex;gap:12px;align-items:flex-start;">
+      <div style="font-size:28px;flex-shrink:0;">💼</div>
+      <div style="line-height:1.7;">It looks like you typed <strong>HIRE</strong>.<br><br>Have you considered... hiring Parsa?<br>He's available. He's good. He replies to emails.</div>
+    </div>
+    <div style="padding:8px 14px 12px;display:flex;gap:8px;justify-content:flex-end;">
+      <button onclick="document.getElementById('hire-dialog-overlay').style.display='none';openWindow('contact')" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 12px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;">Open Contact</button>
+      <button onclick="document.getElementById('hire-dialog-overlay').style.display='none'" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 12px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;">I'll Think About It</button>
+    </div>
+  </div>
+</div>
+<div id="hire-confetti-container" style="position:fixed;inset:0;pointer-events:none;z-index:99996;overflow:hidden;"></div>
+
+<div id="altf4-overlay" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+  <div style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:4px 4px 0 #000;width:320px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;">
+    <div style="background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:3px 6px;font-weight:bold;font-size:11px;">Confirm Exit</div>
+    <div style="padding:16px 14px;display:flex;gap:12px;align-items:flex-start;">
+      <div style="font-size:28px;">⚠️</div>
+      <div style="line-height:1.7;">Are you sure you want to close<br><strong>Parsa's Portfolio</strong>?<br><br><em style="color:#666">Note: You haven't hired him yet.</em></div>
+    </div>
+    <div style="padding:8px 14px 12px;display:flex;gap:8px;justify-content:center;">
+      <button id="altf4-ok" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 24px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;min-width:75px;">OK</button>
+      <button onclick="document.getElementById('altf4-overlay').style.display='none'" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 24px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;min-width:75px;">Cancel</button>
+    </div>
+  </div>
+</div>
+<div id="altf4-overlay2" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+  <div style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:4px 4px 0 #000;width:300px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;">
+    <div style="background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:3px 6px;font-weight:bold;">System</div>
+    <div style="padding:16px 14px;display:flex;gap:12px;align-items:center;">
+      <div style="font-size:28px;">ℹ️</div>
+      <div style="line-height:1.7;">Nice try.<br><br>Also, please hire Parsa.</div>
+    </div>
+    <div style="padding:8px 14px 12px;display:flex;justify-content:center;">
+      <button onclick="document.getElementById('altf4-overlay2').style.display='none'" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 24px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;min-width:75px;">OK</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

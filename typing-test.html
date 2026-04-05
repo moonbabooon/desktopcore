@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typing Test — How Fast Do You Write?</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #008080;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 11px;
+  }
+  .window {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    box-shadow: 3px 3px 0 #000;
+    width: 640px;
+  }
+  .title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    padding: 3px 6px;
+    font-weight: bold;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+  .title-bar-buttons {
+    display: flex;
+    gap: 2px;
+  }
+  .title-btn {
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #fff #808080 #808080 #fff;
+    width: 16px;
+    height: 14px;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #000;
+    font-weight: bold;
+  }
+  .window-content {
+    padding: 12px;
+  }
+  .stats-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .stat-box {
+    flex: 1;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 4px 8px;
+    background: #c0c0c0;
+    text-align: center;
+    font-size: 11px;
+  }
+  .stat-label { color: #555; }
+  .stat-value { font-weight: bold; font-size: 14px; display: block; }
+  .word-display {
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    background: #fff;
+    padding: 12px;
+    height: 130px;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+    position: relative;
+    word-wrap: break-word;
+  }
+  .word {
+    display: inline-block;
+    padding: 1px 3px;
+    margin: 1px 2px;
+    border-radius: 2px;
+    color: #888;
+    white-space: nowrap;
+  }
+  .word.current {
+    background: #000080;
+    color: #fff;
+  }
+  .word.correct {
+    color: #006400;
+  }
+  .word.wrong {
+    color: #cc0000;
+    text-decoration: line-through;
+  }
+  .input-wrap {
+    margin-bottom: 10px;
+  }
+  .type-input {
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 6px 8px;
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    background: #fff;
+    outline: none;
+    color: #000;
+  }
+  .type-input:focus {
+    border-color: #000080 #c0c0c0 #c0c0c0 #000080;
+  }
+  .type-input.error {
+    background: #ffe0e0;
+  }
+  .bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .btn {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    padding: 4px 16px;
+    cursor: pointer;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+  }
+  .btn:active { border-color: #808080 #fff #fff #808080; }
+  .hint-text {
+    font-size: 10px;
+    color: #555;
+    font-style: italic;
+  }
+  .overlay {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(192,192,192,0.97);
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+  .overlay.active { display: flex; }
+  .overlay h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000080;
+    margin-bottom: 14px;
+    border-bottom: 2px solid #000080;
+    padding-bottom: 6px;
+    width: 100%;
+  }
+  .result-row {
+    margin: 5px 0;
+    font-size: 12px;
+  }
+  .result-big {
+    font-size: 32px;
+    font-weight: bold;
+    color: #000080;
+    margin: 4px 0;
+  }
+  .clippy-msg {
+    margin: 12px 0;
+    font-size: 11px;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 8px 12px;
+    background: #ffffc0;
+    font-style: italic;
+    max-width: 400px;
+    line-height: 1.4;
+  }
+  .game-area {
+    position: relative;
+  }
+  .back-link {
+    margin-top: 10px;
+    text-align: center;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .cursor-blink::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: #000080;
+    font-weight: normal;
+  }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <span>Typing Test — How Fast Do You Write?</span>
+    <div class="title-bar-buttons">
+      <div class="title-btn">_</div>
+      <div class="title-btn">□</div>
+      <div class="title-btn">✕</div>
+    </div>
+  </div>
+  <div class="window-content">
+    <div class="stats-bar">
+      <div class="stat-box">
+        <span class="stat-label">WPM</span>
+        <span class="stat-value" id="wpm">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Accuracy</span>
+        <span class="stat-value" id="accuracy">100%</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Time Left</span>
+        <span class="stat-value" id="timeLeft">60s</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Words</span>
+        <span class="stat-value" id="wordsCorrect">0</span>
+      </div>
+    </div>
+
+    <div class="game-area" id="gameArea">
+      <div class="word-display" id="wordDisplay"></div>
+      <div class="input-wrap">
+        <input type="text" class="type-input" id="typeInput" placeholder="Start typing to begin..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="bottom-row">
+        <span class="hint-text">Space or Enter to advance · Timer starts on first keypress</span>
+        <button class="btn" onclick="resetTest()">RESTART</button>
+      </div>
+
+      <div class="overlay active" id="startOverlay">
+        <h2>Typing Test</h2>
+        <p style="margin-bottom:14px;max-width:360px;line-height:1.5;font-size:12px;">
+          Type the highlighted word. Press <strong>Space</strong> or <strong>Enter</strong> to advance.<br>
+          Timer starts on your first keypress. You have <strong>60 seconds</strong>.
+        </p>
+        <p style="margin-bottom:16px;font-size:11px;color:#555;">Words are copywriting &amp; marketing themed.</p>
+        <button class="btn" style="padding:6px 32px;font-size:13px;" onclick="beginTest()">START TEST</button>
+      </div>
+      <div class="overlay" id="endOverlay">
+        <h2>Time's Up!</h2>
+        <div class="result-big" id="finalWpm">0</div>
+        <div class="result-row" style="color:#555;margin-bottom:8px;">words per minute</div>
+        <div class="result-row">Accuracy: <strong id="finalAccuracy">0%</strong></div>
+        <div class="result-row">Words correct: <strong id="finalWords">0 / 0</strong></div>
+        <div class="clippy-msg" id="clippyResult"></div>
+        <button class="btn" style="padding:6px 24px;font-size:12px;" onclick="resetTest()">TRY AGAIN</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="back-link">
+  <a href="index.html" style="color:#fff;font-size:10px;text-decoration:none;opacity:0.7;">← Back to Desktop</a>
+</div>
+
+<script>
+const WORDS = [
+  "brand","voice","tone","copy","write","brief","audit","strategy","persona","funnel",
+  "content","campaign","headline","tagline","publish","draft","edit","revise",
+  "deliver","feedback","iterate","launch","pivot","refine","scope","pitch",
+  "client","keyword","organic","traffic","conversion","landing","page","retention",
+  "newsletter","inbox","open","rate","click","subject","line","preview",
+  "storytelling","narrative","arc","emotion","reader","trust","authority",
+  "portfolio","freelance","contract","retainer",
+  "deadline","deliverable","revision","approval","stakeholder",
+  "clarity","concise","punchy","hook","lede","above","fold",
+  "engagement","reach","impression","viral","authentic",
+  "value","proposition","message","framework","pillar",
+  "SEO","ranking","intent","search","crawl","index",
+  "copywriter","editor","strategist","researcher","creator",
+  "onboarding","workflow","process","system",
+  "style","guide","human","genuine",
+  "brand","voice","campaign","headline","strategy","content","brief","funnel",
+  "clarity","concise","authentic","storytelling","engagement","conversion"
+];
+
+const POOL_SIZE = 200;
+
+let wordPool = [];
+let currentIndex = 0;
+let startTime = null;
+let timerInterval = null;
+let timeLeft = 60;
+let testActive = false;
+let testStarted = false;
+
+let correctWords = 0;
+let wrongWords = 0;
+let totalAttempted = 0;
+let totalCharsTyped = 0;
+let correctCharsTyped = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateWordPool() {
+  let pool = [];
+  while (pool.length < POOL_SIZE) {
+    pool = pool.concat(shuffle(WORDS));
+  }
+  return pool.slice(0, POOL_SIZE);
+}
+
+function renderWords() {
+  const display = document.getElementById('wordDisplay');
+  display.innerHTML = '';
+  const start = Math.max(0, currentIndex - 30);
+  const end = Math.min(wordPool.length, currentIndex + 60);
+
+  for (let i = start; i < end; i++) {
+    const span = document.createElement('span');
+    span.className = 'word';
+    span.id = `word-${i}`;
+    span.textContent = wordPool[i];
+
+    if (i < currentIndex) {
+      const state = wordStates[i];
+      if (state === 'correct') span.classList.add('correct');
+      else if (state === 'wrong') span.classList.add('wrong');
+    } else if (i === currentIndex) {
+      span.classList.add('current');
+    }
+
+    display.appendChild(span);
+  }
+
+  // Scroll current word into view
+  const curr = document.getElementById(`word-${currentIndex}`);
+  if (curr) {
+    const dispRect = display.getBoundingClientRect();
+    const wordRect = curr.getBoundingClientRect();
+    if (wordRect.bottom > dispRect.bottom - 10 || wordRect.top < dispRect.top + 10) {
+      curr.scrollIntoView({ block: 'nearest' });
+    }
+  }
+}
+
+let wordStates = {};
+
+function beginTest() {
+  document.getElementById('startOverlay').classList.remove('active');
+  initTest();
+  document.getElementById('typeInput').focus();
+}
+
+function initTest() {
+  wordPool = generateWordPool();
+  currentIndex = 0;
+  wordStates = {};
+  correctWords = 0;
+  wrongWords = 0;
+  totalAttempted = 0;
+  totalCharsTyped = 0;
+  correctCharsTyped = 0;
+  timeLeft = 60;
+  testActive = true;
+  testStarted = false;
+  startTime = null;
+
+  document.getElementById('wpm').textContent = '0';
+  document.getElementById('accuracy').textContent = '100%';
+  document.getElementById('timeLeft').textContent = '60s';
+  document.getElementById('wordsCorrect').textContent = '0';
+  document.getElementById('typeInput').value = '';
+  document.getElementById('typeInput').classList.remove('error');
+
+  clearInterval(timerInterval);
+  renderWords();
+}
+
+function resetTest() {
+  document.getElementById('endOverlay').classList.remove('active');
+  document.getElementById('startOverlay').classList.remove('active');
+  clearInterval(timerInterval);
+  initTest();
+  document.getElementById('typeInput').focus();
+}
+
+function startTimer() {
+  if (testStarted) return;
+  testStarted = true;
+  startTime = Date.now();
+  timerInterval = setInterval(() => {
+    const elapsed = (Date.now() - startTime) / 1000;
+    timeLeft = Math.max(0, 60 - Math.floor(elapsed));
+    document.getElementById('timeLeft').textContent = timeLeft + 's';
+
+    // Update WPM in real time
+    if (elapsed > 0) {
+      const wpm = Math.round((correctWords / elapsed) * 60);
+      document.getElementById('wpm').textContent = wpm;
+    }
+
+    if (timeLeft <= 0) endTest();
+  }, 200);
+}
+
+function endTest() {
+  clearInterval(timerInterval);
+  testActive = false;
+  document.getElementById('typeInput').value = '';
+
+  const elapsed = startTime ? (Date.now() - startTime) / 1000 : 1;
+  const wpm = Math.round((correctWords / Math.max(elapsed, 1)) * 60);
+  const acc = totalCharsTyped > 0 ? Math.round((correctCharsTyped / totalCharsTyped) * 100) : 100;
+  const totalAtt = correctWords + wrongWords;
+
+  let msg = '';
+  if (wpm < 30) msg = 'It looks like you\'re composing, not typing. That\'s fine. Parsa edits too.';
+  else if (wpm <= 60) msg = 'Solid. You type faster than most briefs get approved.';
+  else if (wpm <= 90) msg = 'Very good. You clearly live in Google Docs.';
+  else msg = "That's inhuman. Are you Clippy?";
+
+  document.getElementById('finalWpm').textContent = wpm;
+  document.getElementById('finalAccuracy').textContent = acc + '%';
+  document.getElementById('finalWords').textContent = `${correctWords} / ${totalAtt}`;
+  document.getElementById('clippyResult').textContent = '"' + msg + '"';
+  document.getElementById('endOverlay').classList.add('active');
+}
+
+const typeInput = document.getElementById('typeInput');
+
+typeInput.addEventListener('input', (e) => {
+  if (!testActive) return;
+  startTimer();
+  updateInputStyle();
+});
+
+typeInput.addEventListener('keydown', (e) => {
+  if (!testActive) return;
+
+  if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    const typed = typeInput.value.trim();
+    if (typed === '') return;
+
+    startTimer();
+    advanceWord(typed);
+    typeInput.value = '';
+    typeInput.classList.remove('error');
+  }
+});
+
+function updateInputStyle() {
+  const typed = typeInput.value;
+  if (typed === '') {
+    typeInput.classList.remove('error');
+    return;
+  }
+  const target = wordPool[currentIndex] || '';
+  if (!target.startsWith(typed)) {
+    typeInput.classList.add('error');
+  } else {
+    typeInput.classList.remove('error');
+  }
+}
+
+function advanceWord(typed) {
+  const target = wordPool[currentIndex];
+  totalAttempted++;
+
+  const minLen = Math.min(typed.length, target.length);
+  totalCharsTyped += typed.length;
+  let correct = 0;
+  for (let i = 0; i < minLen; i++) {
+    if (typed[i] === target[i]) correct++;
+  }
+  correctCharsTyped += correct;
+
+  if (typed === target) {
+    wordStates[currentIndex] = 'correct';
+    correctWords++;
+  } else {
+    wordStates[currentIndex] = 'wrong';
+    wrongWords++;
+  }
+
+  const acc = totalCharsTyped > 0 ? Math.round((correctCharsTyped / totalCharsTyped) * 100) : 100;
+  document.getElementById('accuracy').textContent = acc + '%';
+  document.getElementById('wordsCorrect').textContent = correctWords;
+
+  currentIndex++;
+  if (currentIndex >= wordPool.length) {
+    endTest();
+    return;
+  }
+  renderWords();
+}
+
+// Init
+initTest();
+</script>
+</body>
+</html>
