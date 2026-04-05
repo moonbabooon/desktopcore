@@ -3156,6 +3156,83 @@
             filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
             transform-origin: bottom center;
         }
+        /* Docked state — locked to top-right corner */
+        .clippy-wrap.clippy-docked {
+            left: auto !important;
+            bottom: auto !important;
+            top: 52px !important;
+            right: 10px !important;
+            transition: opacity 0.4s !important;
+        }
+
+        /* Mobile dismiss button */
+        .clippy-close-btn {
+            display: none;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #808080 #808080 #fff;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            color: #000;
+            line-height: 1;
+        }
+        @media (max-width: 768px) {
+            .clippy-close-btn { display: flex; }
+        }
+
+        /* Desktop dock sign */
+        .clippy-dock-sign {
+            position: fixed;
+            top: 8px;
+            right: 8px;
+            z-index: 99993;
+            width: 38px;
+            height: 44px;
+            background: linear-gradient(180deg, #1a66dd 0%, #1244bb 100%);
+            border: 2px solid;
+            border-color: #66aaff #001888 #001888 #66aaff;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            user-select: none;
+            box-shadow: 1px 1px 0 #000;
+            transition: background 0.25s, border-color 0.25s;
+        }
+        .clippy-dock-sign:hover { opacity: 0.88; }
+        .clippy-dock-sign.occupied {
+            background: linear-gradient(180deg, #22aa44 0%, #116622 100%);
+            border-color: #66ff88 #003311 #003311 #66ff88;
+        }
+        .clippy-dock-sign .ds-p {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            line-height: 1;
+        }
+        .clippy-dock-sign .ds-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 7px;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
+            letter-spacing: 0.5px;
+            line-height: 1;
+        }
+        @media (max-width: 768px) {
+            .clippy-dock-sign { display: none; }
+        }
+
         .clippy-wrap.clippy-dragging { cursor: grabbing; }
         .clippy-wrap.clippy-dragging .clippy-svg {
             animation: none !important;
@@ -4241,8 +4318,15 @@
         <div class="context-menu-item" id="ctx-crt">Enable CRT Mode</div>
     </div>
 
+    <!-- Clippy dock sign (desktop only) -->
+    <div class="clippy-dock-sign" id="clippy-dock-sign" title="Park Clippy here" onclick="clippyToggleDock()">
+        <div class="ds-p">P</div>
+        <div class="ds-label">CLIPPY</div>
+    </div>
+
     <!-- Clippy -->
     <div class="clippy-wrap" id="clippy-wrap">
+        <button class="clippy-close-btn" id="clippy-close-btn" onclick="document.getElementById('clippy-wrap').style.display='none'" title="Close Clippy">✕</button>
         <div class="clippy-bubble" id="clippy-bubble">It looks like you're viewing a portfolio. Would you like help finding the right section?</div>
         <svg class="clippy-svg" id="clippy-svg" viewBox="0 0 80 110" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -5260,9 +5344,31 @@
 
             const isMobile = () => window.innerWidth <= 768;
 
+            /* ── Dock sign toggle ── */
+            let clippyDocked = false;
+            const dockSign = document.getElementById('clippy-dock-sign');
+            window.clippyToggleDock = function() {
+                clippyDocked = !clippyDocked;
+                if (clippyDocked) {
+                    wrap.classList.add('clippy-docked');
+                    wrap.style.left = '';
+                    wrap.style.bottom = '';
+                    dockSign.classList.add('occupied');
+                    dockSign.title = 'Release Clippy';
+                    bubble.style.display = 'none';
+                } else {
+                    wrap.classList.remove('clippy-docked');
+                    wrap.style.left   = Math.max(20, window.innerWidth * 0.35) + 'px';
+                    wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
+                    dockSign.classList.remove('occupied');
+                    dockSign.title = 'Park Clippy here';
+                    bubble.style.display = '';
+                }
+            };
+
             /* ── Dodge: move Clippy away from an open window ── */
             function dodgeWindow(windowId) {
-                if (isMobile()) return; // windows are full-screen on mobile; nowhere to dodge
+                if (isMobile() || clippyDocked) return;
                 const win = document.getElementById('window-' + windowId);
                 if (!win || win.classList.contains('minimized')) return;
                 requestAnimationFrame(() => {
@@ -5287,7 +5393,7 @@
 
             /* ── Wandering ── */
             function wander() {
-                if (isMobile() || dragging) return;
+                if (isMobile() || dragging || clippyDocked) return;
                 const pad  = 120;
                 const maxX = window.innerWidth  - pad;
                 const newL = Math.max(20, Math.min(maxX, 80 + Math.random() * (maxX - 80)));
@@ -5313,7 +5419,7 @@
             const idleAnims = ['wiggle','dance','bounce','wave','wiggle','dance'];
             let idleAnimIdx = 0;
             setInterval(() => {
-                if (!wrap.classList.contains('visible') || dragging) return;
+                if (!wrap.classList.contains('visible') || dragging || clippyDocked) return;
                 idleIdx = (idleIdx + 1) % idleMsgs.length;
                 setMsg(idleMsgs[idleIdx]);
                 const anim = idleAnims[idleAnimIdx++ % idleAnims.length];
