@@ -3394,6 +3394,55 @@
             .sm-right { display: none; }
             .sm-body { flex-direction: column; }
         }
+        /* ── Wallpaper themes ── */
+        body[data-wallpaper='night'] .wallpaper-svg,
+        body[data-wallpaper='slate'] .wallpaper-svg,
+        body[data-wallpaper='sunset'] .wallpaper-svg { display: none; }
+        body[data-wallpaper='night'] .wallpaper {
+            background: radial-gradient(ellipse at 40% 20%, #1e1060 0%, #0a0820 60%, #000010 100%);
+        }
+        body[data-wallpaper='slate'] .wallpaper {
+            background: linear-gradient(180deg, #2c3e55 0%, #1d2d40 50%, #152030 100%);
+        }
+        body[data-wallpaper='sunset'] .wallpaper {
+            background: linear-gradient(180deg, #ff6b35 0%, #f7931e 35%, #c0392b 65%, #6a0f1a 100%);
+        }
+        .wallpaper-stars { position: absolute; inset: 0; pointer-events: none; display: none; }
+        body[data-wallpaper='night'] .wallpaper-stars { display: block; }
+        .wallpaper-star { position: absolute; background: #fff; border-radius: 50%; }
+
+        /* ── My Documents window ── */
+        .mydocs-list { padding: 2px; }
+        .mydocs-file { display: flex; align-items: center; gap: 10px; padding: 5px 8px; cursor: default; user-select: none; border: 1px solid transparent; }
+        .mydocs-file:hover { background: #000080; border-color: #000080; }
+        .mydocs-file:hover .mydocs-fname, .mydocs-file:hover .mydocs-fmeta { color: #fff; }
+        .mydocs-file-icon { font-size: 22px; flex-shrink: 0; width: 26px; text-align: center; }
+        .mydocs-fname { font-size: 11px; color: #000; flex: 1; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+        .mydocs-ftype { font-size: 10px; color: #666; width: 100px; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+        .mydocs-fsize { font-size: 10px; color: #666; width: 60px; text-align: right; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+
+        /* ── My Documents file popup ── */
+        .mydocs-popup-overlay { display: none; position: fixed; inset: 0; z-index: 99996; background: rgba(0,0,0,0.3); align-items: center; justify-content: center; }
+        .mydocs-popup-overlay.open { display: flex; }
+        .mydocs-popup { background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; box-shadow: 3px 3px 0 #000; width: 440px; max-width: calc(100vw - 20px); display: flex; flex-direction: column; font-family: 'MS Sans Serif', Tahoma, sans-serif; font-size: 11px; }
+        .mydocs-popup-title { background: linear-gradient(90deg, #000080, #1084d0); color: #fff; padding: 3px 6px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: bold; flex-shrink: 0; }
+        .mydocs-popup-close { cursor: pointer; background: linear-gradient(180deg,#d4d0c8,#b8b4ac); border: 1px solid; border-color: #fff #808080 #808080 #fff; width: 16px; height: 14px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #000; line-height: 1; }
+        .mydocs-popup-body { background: #fff; padding: 12px 14px; overflow-y: auto; max-height: 340px; font-family: 'Courier New', monospace; font-size: 11px; line-height: 1.7; white-space: pre-wrap; color: #000; }
+        .mydocs-popup-word { background: #fff; padding: 20px 24px; overflow-y: auto; max-height: 340px; font-family: 'Times New Roman', serif; font-size: 12px; line-height: 1.8; color: #000; }
+        .mydocs-popup-footer { padding: 6px 8px; border-top: 1px solid #808080; display: flex; justify-content: flex-end; }
+        .mdp-ok { background: linear-gradient(180deg, #d4d0c8 0%, #c0bdb4 100%); border: 2px solid; border-color: #fff #808080 #808080 #fff; padding: 3px 20px; font-size: 11px; cursor: pointer; font-family: 'MS Sans Serif', sans-serif; }
+        .mdp-ok:active { border-color: #808080 #fff #fff #808080; padding: 4px 19px 2px 21px; }
+
+        /* ── Games window ── */
+        .games-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 12px; }
+        @media (max-width: 500px) { .games-grid { grid-template-columns: repeat(2, 1fr); } }
+        .game-tile { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; cursor: pointer; border: 1px solid transparent; user-select: none; }
+        .game-tile:hover { background: rgba(0,0,136,0.1); border-color: #000088; }
+        .game-tile-icon { font-size: 38px; line-height: 1; }
+        .game-tile-name { font-size: 10px; color: #000; text-align: center; line-height: 1.3; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+        .games-statusbar { border-top: 1px solid #808080; padding: 2px 6px; font-size: 10px; color: #444; display: flex; gap: 4px; flex-shrink: 0; }
+        .games-statusbar .sp { border: 1px inset #808080; padding: 1px 6px; flex: 1; }
+
     </style>
 </head>
 <body>
@@ -3480,6 +3529,7 @@
                 <!-- Subtle shadow at very bottom -->
                 <path fill="#2a7010" opacity="0.5" d="M0 480 L1440 480 L1440 465 C1100 472 800 478 400 475 Z"/>
             </svg>
+            <div class="wallpaper-stars" id="wallpaper-stars"></div>
         </div>
 
         <!-- Desktop Icons -->
@@ -3511,6 +3561,14 @@
             <div class="desktop-icon" data-window="recycle">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Cpath fill='%23708090' d='M12,16 L14,40 L34,40 L36,16 Z M18,16 L18,12 L30,12 L30,16 M16,12 L32,12 L32,8 L16,8 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
                 <span>Recycle Bin</span>
+            </div>
+            <div class="desktop-icon" data-window="docs">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23ffcc00' x='4' y='10' width='40' height='32' rx='2'/%3E%3Crect fill='%23ffe566' x='4' y='10' width='18' height='8' rx='2'/%3E%3Crect fill='%23fff' x='10' y='20' width='28' height='3' rx='1'/%3E%3Crect fill='%23fff' x='10' y='27' width='28' height='3' rx='1'/%3E%3Crect fill='%23fff' x='10' y='34' width='18' height='3' rx='1'/%3E%3C/svg%3E" alt="My Documents">
+                <span>My Documents</span>
+            </div>
+            <div class="desktop-icon" data-window="games">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23222244' x='4' y='14' width='40' height='20' rx='6'/%3E%3Crect fill='%23444488' x='4' y='14' width='40' height='10' rx='6'/%3E%3Crect fill='%23fff' x='11' y='22' width='3' height='7' rx='1'/%3E%3Crect fill='%23fff' x='8' y='25' width='9' height='3' rx='1'/%3E%3Ccircle fill='%23ff4444' cx='34' cy='24' r='2.5'/%3E%3Ccircle fill='%2344cc44' cx='40' cy='24' r='2.5'/%3E%3Ccircle fill='%234444ff' cx='37' cy='29' r='2.5'/%3E%3C/svg%3E" alt="Games">
+                <span>Games</span>
             </div>
         </div>
 
@@ -3597,7 +3655,32 @@
                             <!-- Sidebar -->
                             <td class="ie-sidebar">
                                 <div class="ie-profile-pic-wrap">
-                                    <img src="images/portrait1.png" class="ie-profile-pic" onerror="this.style.display='none'">
+                                    <svg class="ie-profile-pic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                                        <rect width="100" height="100" fill="#1e3a6e"/>
+                                        <rect width="100" height="52" fill="#244485"/>
+                                        <rect x="10" y="74" width="80" height="30" rx="6" fill="#1e3a8a"/>
+                                        <polygon points="40,74 50,86 60,74" fill="#fff" opacity="0.9"/>
+                                        <rect x="42" y="62" width="16" height="15" rx="4" fill="#c8855a"/>
+                                        <rect x="26" y="26" width="48" height="42" rx="14" fill="#c8855a"/>
+                                        <rect x="22" y="18" width="56" height="24" rx="12" fill="#1c0a00"/>
+                                        <rect x="22" y="28" width="8" height="22" rx="4" fill="#1c0a00"/>
+                                        <rect x="70" y="28" width="8" height="22" rx="4" fill="#1c0a00"/>
+                                        <rect x="22" y="38" width="6" height="12" rx="3" fill="#c8855a"/>
+                                        <rect x="72" y="38" width="6" height="12" rx="3" fill="#c8855a"/>
+                                        <rect x="34" y="38" width="12" height="10" rx="4" fill="#fff"/>
+                                        <rect x="54" y="38" width="12" height="10" rx="4" fill="#fff"/>
+                                        <rect x="37" y="40" width="6" height="6" rx="2" fill="#2a1808"/>
+                                        <rect x="57" y="40" width="6" height="6" rx="2" fill="#2a1808"/>
+                                        <rect x="38" y="41" width="3" height="3" rx="1" fill="#000"/>
+                                        <rect x="58" y="41" width="3" height="3" rx="1" fill="#000"/>
+                                        <rect x="40" y="41" width="1.5" height="1.5" fill="#fff"/>
+                                        <rect x="60" y="41" width="1.5" height="1.5" fill="#fff"/>
+                                        <rect x="33" y="32" width="14" height="4" rx="2" fill="#1c0a00"/>
+                                        <rect x="53" y="32" width="14" height="4" rx="2" fill="#1c0a00"/>
+                                        <rect x="47" y="50" width="6" height="5" rx="2" fill="#b87550" opacity="0.45"/>
+                                        <path d="M38 58 Q50 65 62 58" stroke="#a06040" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                        <path d="M42 58 Q50 63 58 58" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+                                    </svg>
                                     <div class="ie-profile-name">~*~ Parsa ~*~</div>
                                 </div>
                                 <hr class="ie-hr">
@@ -4238,6 +4321,90 @@
         </div>
 
 
+    <!-- My Documents Window -->
+    <div class="window minimized" id="window-docs" style="top:80px;left:180px;width:520px;height:340px;">
+        <div class="window-titlebar inactive" data-window="docs">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23ffcc00' x='1' y='4' width='14' height='11' rx='1'/%3E%3Crect fill='%23ffe566' x='1' y='4' width='6' height='4' rx='1'/%3E%3C/svg%3E">
+            <span>My Documents — C:\Parsa\My Documents\</span>
+            <div class="window-controls">
+                <button class="window-btn minimize-btn" data-window="docs">_</button>
+                <button class="window-btn maximize-btn" data-window="docs">▢</button>
+                <button class="window-btn close-btn" data-window="docs">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="exp-menubar"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
+            <div class="exp-addrbar">
+                <span class="exp-addr-label">Address</span>
+                <div class="exp-addr-input">📁 C:\Parsa\My Documents</div>
+            </div>
+            <div style="background:#fff;border:2px inset #808080;flex:1;overflow-y:auto;margin:0 2px 2px;">
+                <div style="display:flex;background:#c0c0c0;border-bottom:1px solid #808080;font-size:10px;font-family:'MS Sans Serif',Tahoma,sans-serif;padding:2px 8px 2px 46px;gap:0;">
+                    <span style="flex:1;color:#000">Name</span>
+                    <span style="width:100px;color:#000">Type</span>
+                    <span style="width:60px;color:#000;text-align:right">Size</span>
+                </div>
+                <div class="mydocs-list" id="mydocs-list"></div>
+            </div>
+            <div style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 6px;font-size:10px;font-family:'MS Sans Serif',Tahoma,sans-serif;color:#444;flex-shrink:0;">
+                5 object(s) &nbsp;&nbsp; Double-click to open
+            </div>
+        </div>
+    </div>
+
+    <!-- Games Window -->
+    <div class="window minimized" id="window-games" style="top:90px;left:200px;width:420px;height:270px;">
+        <div class="window-titlebar inactive" data-window="games">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23222244' x='1' y='4' width='14' height='8' rx='3'/%3E%3Crect fill='%23fff' x='3' y='7' width='1.5' height='3' rx='.5'/%3E%3Crect fill='%23fff' x='2' y='8' width='3.5' height='1.5' rx='.5'/%3E%3Ccircle fill='%23f44' cx='12' cy='7' r='1'/%3E%3Ccircle fill='%234f4' cx='13.5' cy='8.5' r='1'/%3E%3C/svg%3E">
+            <span>Games — C:\Parsa\Games\</span>
+            <div class="window-controls">
+                <button class="window-btn minimize-btn" data-window="games">_</button>
+                <button class="window-btn maximize-btn" data-window="games">▢</button>
+                <button class="window-btn close-btn" data-window="games">×</button>
+            </div>
+        </div>
+        <div class="window-content" style="display:flex;flex-direction:column;">
+            <div class="exp-menubar"><span>File</span><span>View</span><span>Help</span></div>
+            <div style="flex:1;background:#fff;border:2px inset #808080;margin:2px;overflow:auto;">
+                <div class="games-grid">
+                    <div class="game-tile" ondblclick="window.open('snake.html','_blank')">
+                        <div class="game-tile-icon">🐍</div>
+                        <div class="game-tile-name">Snake</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('minesweeper.html','_blank')">
+                        <div class="game-tile-icon">💣</div>
+                        <div class="game-tile-name">Minesweeper</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('reelmaker.html','_blank')">
+                        <div class="game-tile-icon">🎬</div>
+                        <div class="game-tile-name">Reel Maker 2000</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('runescape.html','_blank')">
+                        <div class="game-tile-icon">⚔️</div>
+                        <div class="game-tile-name">Skills Cape</div>
+                    </div>
+                </div>
+            </div>
+            <div class="games-statusbar">
+                <div class="sp">4 object(s) &nbsp; Double-click to launch</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Documents file popup -->
+    <div class="mydocs-popup-overlay" id="mydocs-popup-overlay" onclick="if(event.target===this)closeMydocsPopup()">
+        <div class="mydocs-popup">
+            <div class="mydocs-popup-title">
+                <span id="mydocs-popup-titletext">Document</span>
+                <div class="mydocs-popup-close" onclick="closeMydocsPopup()">✕</div>
+            </div>
+            <div id="mydocs-popup-body" class="mydocs-popup-body"></div>
+            <div class="mydocs-popup-footer">
+                <button class="mdp-ok" onclick="closeMydocsPopup()">OK</button>
+            </div>
+        </div>
+    </div>
+
     <!-- System Properties Dialog -->
     <div id="sys-prop-overlay" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.25);display:none;align-items:center;justify-content:center;" onclick="if(event.target===this)closeSysProp()">
         <div id="sys-prop-dialog" style="width:420px;background:#d4d0c8;border:2px solid;border-color:#ffffff #808080 #808080 #ffffff;box-shadow:2px 2px 0 #000;font-family:Tahoma,Arial,sans-serif;font-size:11px;">
@@ -4300,6 +4467,7 @@
         <div class="context-menu-item disabled">Sort Icons By</div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" id="ctx-refresh">Refresh</div>
+        <div class="context-menu-item" id="ctx-wallpaper">Change Wallpaper</div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" id="ctx-about">About Parsa...</div>
         <div class="context-menu-item" id="ctx-contact">Get in Touch</div>
@@ -4434,7 +4602,7 @@
 
     <!-- Screensaver -->
     <div class="screensaver" id="screensaver">
-        <div class="ss-text" id="ss-text">PARSA NAVIDI</div>
+        <div class="ss-text" id="ss-text">PARSA.EXE</div>
     </div>
 
     <!-- Taskbar -->
@@ -6108,6 +6276,287 @@
             const on = document.body.classList.toggle('crt-mode');
             document.getElementById('ctx-crt').textContent = on ? 'Disable CRT Mode' : 'Enable CRT Mode';
         });
+
+        // ── Wallpaper system ──────────────────────────────────────────
+        (function () {
+            const WALLPAPERS = ['default', 'night', 'slate', 'sunset'];
+            const WALLPAPER_LABELS = { default: 'Classic Teal', night: 'Midnight', slate: 'Slate Blue', sunset: 'Sunset' };
+            let currentWallpaper = localStorage.getItem('pv_wallpaper') || 'default';
+
+            function generateStars() {
+                const container = document.getElementById('wallpaper-stars');
+                if (!container || container.children.length) return;
+                for (let i = 0; i < 80; i++) {
+                    const s = document.createElement('div');
+                    s.className = 'wallpaper-star';
+                    const size = Math.random() < 0.3 ? 2 : 1;
+                    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;opacity:${0.4+Math.random()*0.6}`;
+                    container.appendChild(s);
+                }
+            }
+
+            function applyWallpaper(name) {
+                currentWallpaper = name;
+                document.body.setAttribute('data-wallpaper', name);
+                localStorage.setItem('pv_wallpaper', name);
+                if (name === 'night') generateStars();
+                // Update context menu label
+                const ctxItem = document.getElementById('ctx-wallpaper');
+                if (ctxItem) {
+                    const next = WALLPAPERS[(WALLPAPERS.indexOf(name) + 1) % WALLPAPERS.length];
+                    ctxItem.textContent = 'Wallpaper: ' + WALLPAPER_LABELS[next];
+                }
+            }
+
+            function cycleWallpaper() {
+                const idx = WALLPAPERS.indexOf(currentWallpaper);
+                applyWallpaper(WALLPAPERS[(idx + 1) % WALLPAPERS.length]);
+            }
+
+            // Apply saved wallpaper on load
+            applyWallpaper(currentWallpaper);
+
+            document.getElementById('ctx-wallpaper').addEventListener('click', () => {
+                document.getElementById('context-menu').classList.remove('visible');
+                cycleWallpaper();
+            });
+        })();
+
+        // ── My Documents: file data + renderer ──────────────────────
+        (function () {
+            const MYDOCS_FILES = [
+                {
+                    icon: '📄', name: 'creative_brief_v7_FINAL.doc', type: 'Word Document', size: '48 KB',
+                    style: 'word',
+                    content: `CREATIVE BRIEF — v7 FINAL (please stop renaming this)
+
+Project: Parsa Navidi — Personal Brand
+Date: Sometime in 2024
+Status: Ship it.
+
+OBJECTIVE
+Stop underselling. Start saying the thing clearly.
+
+TARGET AUDIENCE
+Marketing leads, content directors, founders who have been burned
+by writers who can't think strategically.
+
+TONE
+Direct. A little dry. Warm when it counts. Never try-hard.
+
+KEY MESSAGE
+Good writing isn't about words. It's about decisions — what to say,
+what to cut, and why it matters to the person reading it.
+
+DELIVERABLES
+- Updated website copy
+- Bio that doesn't make me cringe
+- Tagline that actually works
+
+NOTES
+v1: too formal
+v2: too casual
+v3: overdesigned
+v4-v6: don't ask
+v7: this is the one.`
+                },
+                {
+                    icon: '📝', name: 'email_i_never_sent.txt', type: 'Text Document', size: '2 KB',
+                    style: 'mono',
+                    content: `From: parsanavidi@hotmail.ca
+To: [redacted]
+Subject: Re: the project
+
+Hey,
+
+I've been sitting on this email for a few weeks now.
+
+I think we both knew the project wasn't going the direction either of us
+wanted. And I think we were too polite to say it out loud.
+
+Anyway — I hope it worked out on your end.
+
+Take care,
+Parsa
+
+---
+[draft — never sent — 2023-11-02 11:47 PM]`
+                },
+                {
+                    icon: '📊', name: 'rate_card_2025.pdf', type: 'PDF Document', size: '112 KB',
+                    style: 'mono',
+                    content: `PARSA NAVIDI — RATE CARD 2025
+Freelance Copywriting & Content Strategy
+─────────────────────────────────────────
+
+CONTENT STRATEGY
+  Strategy session (90 min) ........... by quote
+  Content audit + recommendations ..... by quote
+  Full content strategy ............... by quote
+
+COPYWRITING
+  Web page ............................ by quote
+  Blog post / article ................. by quote
+  Email sequence ...................... by quote
+  Brand voice document ................ by quote
+
+ONGOING RETAINERS
+  Available on request.
+
+─────────────────────────────────────────
+Rates vary by scope, complexity, and timeline.
+For a quote, reach out at parsanavidi@hotmail.ca
+
+Minimum engagement: 1 project or 1 strategy session.
+Rush fees may apply for under 72-hour turnarounds.`
+                },
+                {
+                    icon: '💡', name: 'portfolio_ideas.txt', type: 'Text Document', size: '3 KB',
+                    style: 'mono',
+                    content: `PORTFOLIO IDEAS — running list
+last updated: whenever
+─────────────────────────────
+
+[DONE]
+  [x] windows 98 theme
+  [x] clippy
+  [x] sound effects
+  [x] screensaver
+  [x] easter eggs
+  [x] runescape page
+  [x] my documents (meta, i know)
+
+[IN PROGRESS]
+  [ ] time capsule section
+  [ ] wallpaper switcher
+
+[MAYBE]
+  [ ] fake BSOD if you stay too long
+  [ ] cursor trail
+  [ ] win98 startup sound on load
+  [ ] hidden chat with clippy
+  [ ] minesweeper but every mine is a bad client
+  [ ] 404 page that is just clippy shrugging
+
+[PROBABLY NOT]
+  [ ] make it actually win95-accurate
+      (life is too short)`
+                },
+                {
+                    icon: '⚠️', name: 'impostor_syndrome.exe', type: 'Application', size: '???',
+                    style: 'mono',
+                    content: `> Running impostor_syndrome.exe...
+
+Initialising doubt engine...          [OK]
+Loading comparison database...        [OK]
+Scanning credentials...               [OK]
+
+WARNING: Credentials appear legitimate.
+Overriding with subjective feeling...  [OK]
+
+Checking portfolio...                 [OK]
+Checking client list...               [OK]
+Generating irrational concern...      [OK]
+
+Results:
+  You are probably fine.
+  The work is good.
+  Send the email.
+
+> Process complete. Press any key to close.
+  (Or just... keep the tab open. Classic.)
+
+[application terminated]`
+                }
+            ];
+
+            window.openMydocsFile = function(idx) {
+                const f = MYDOCS_FILES[idx];
+                if (!f) return;
+                const overlay = document.getElementById('mydocs-popup-overlay');
+                document.getElementById('mydocs-popup-titletext').textContent = f.name;
+                const body = document.getElementById('mydocs-popup-body');
+                body.className = f.style === 'word' ? 'mydocs-popup-word' : 'mydocs-popup-body';
+                body.textContent = f.content;
+                overlay.classList.add('open');
+                SFX.open();
+            };
+
+            window.closeMydocsPopup = function() {
+                document.getElementById('mydocs-popup-overlay').classList.remove('open');
+                SFX.close();
+            };
+
+            // Populate list when docs window opens
+            const origOpen = window._origOpenDocs || openWindow;
+            const docsEl = document.getElementById('mydocs-list');
+            function populateDocs() {
+                if (!docsEl || docsEl.children.length) return;
+                docsEl.innerHTML = MYDOCS_FILES.map((f, i) =>
+                    `<div class="mydocs-file" ondblclick="openMydocsFile(${i})">
+                        <div class="mydocs-file-icon">${f.icon}</div>
+                        <div class="mydocs-fname">${f.name}</div>
+                        <div class="mydocs-ftype">${f.type}</div>
+                        <div class="mydocs-fsize">${f.size}</div>
+                    </div>`
+                ).join('');
+            }
+
+            // Hook into openWindow for docs
+            const _baseOpen = openWindow;
+            window.openWindow = openWindow; // make sure it's global
+            const docsWin = document.getElementById('window-docs');
+            if (docsWin) {
+                const docObserver = new MutationObserver(() => {
+                    if (!docsWin.classList.contains('minimized')) populateDocs();
+                });
+                docObserver.observe(docsWin, { attributes: true, attributeFilter: ['class'] });
+            }
+        })();
+
+        // ── Clippy messages: add docs + games ───────────────────────
+        (function patchClippyMsgs() {
+            const origReact = window.clippyReact;
+            if (!origReact) return;
+            const extra = {
+                docs:  "It looks like you're snooping through someone's files. Totally normal.",
+                games: "Games? Shouldn't you be reviewing his portfolio?",
+            };
+            window.clippyReact = function(windowId) {
+                if (extra[windowId]) {
+                    const wrap   = document.getElementById('clippy-wrap');
+                    const bubble = document.getElementById('clippy-bubble');
+                    if (wrap && wrap.classList.contains('visible') && bubble) {
+                        bubble.style.opacity = '0';
+                        setTimeout(() => { bubble.textContent = extra[windowId]; bubble.style.opacity = '1'; }, 250);
+                    }
+                } else {
+                    origReact(windowId);
+                }
+            };
+        })();
+
+        // ── Return-visitor Clippy greeting ───────────────────────────
+        (function () {
+            const visited = localStorage.getItem('pv_visited');
+            const orig_showClippy = window._showClippy;
+            window._showClippy = function() {
+                orig_showClippy();
+                const bubble = document.getElementById('clippy-bubble');
+                if (!bubble) return;
+                if (visited) {
+                    // Return visitor
+                    setTimeout(() => {
+                        bubble.style.opacity = '0';
+                        setTimeout(() => {
+                            bubble.textContent = "Oh, you're back. Missed me?";
+                            bubble.style.opacity = '1';
+                        }, 260);
+                    }, 1200);
+                }
+                localStorage.setItem('pv_visited', '1');
+            };
+        })();
     </script>
 </body>
 </html>
