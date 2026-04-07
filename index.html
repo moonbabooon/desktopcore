@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Computer - Parsa Navidi</title>
+    <title>Parsa Navidi — Portfolio</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%231565c0' width='16' height='16' rx='3'/%3E%3Ctext x='8' y='12' text-anchor='middle' fill='white' font-size='11' font-weight='bold' font-family='Arial'%3EP%3C/text%3E%3C/svg%3E">
     <style>
         * {
@@ -125,7 +125,13 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            max-height: calc(100vh - 52px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
+        .desktop-icons::-webkit-scrollbar { display: none; }
 
         .desktop-icon {
             display: flex;
@@ -135,6 +141,7 @@
             padding: 4px;
             cursor: pointer;
             border: 1px solid transparent;
+            flex-shrink: 0;
         }
 
         .desktop-icon:hover, .desktop-icon.selected {
@@ -156,6 +163,19 @@
             font-size: 11px;
             word-wrap: break-word;
             max-width: 70px;
+        }
+
+        /* Shrink icons on shorter screens so the column fits without scrolling */
+        @media (max-height: 800px) {
+            .desktop-icons { gap: 5px; top: 8px; }
+            .desktop-icon img { width: 42px; height: 42px; }
+            .desktop-icon span { font-size: 10px; }
+        }
+        @media (max-height: 700px) {
+            .desktop-icons { gap: 3px; top: 6px; }
+            .desktop-icon { padding: 2px 4px; }
+            .desktop-icon img { width: 36px; height: 36px; }
+            .desktop-icon span { font-size: 9px; }
         }
 
         /* Taskbar — Windows XP style */
@@ -802,6 +822,54 @@
             color: #0000ff;
         }
 
+        /* Recycle Bin file explorer */
+        .bin-menubar {
+            background: #c0c0c0; font-family: Tahoma, sans-serif; font-size: 11px;
+            padding: 1px 6px; border-bottom: 1px solid #808080;
+            display: flex; gap: 14px; flex-shrink: 0;
+        }
+        .bin-menubar span { cursor: default; padding: 1px 3px; }
+        .bin-menubar span:hover { background: #000080; color: #fff; }
+        .bin-toolbar {
+            background: #c0c0c0; border-bottom: 1px solid #808080;
+            padding: 2px 6px; display: flex; gap: 4px; align-items: center; flex-shrink: 0;
+        }
+        .bin-tb-btn {
+            font-family: Tahoma, sans-serif; font-size: 10px;
+            background: #c0c0c0; border: 1px solid #fff;
+            border-right-color: #000; border-bottom-color: #000;
+            padding: 1px 8px; cursor: pointer;
+        }
+        .bin-tb-btn:disabled { color: #808080; cursor: default; }
+        .bin-tb-btn:not(:disabled):hover { background: #d4d0c8; }
+        .bin-item {
+            width: 72px; text-align: center; cursor: pointer; padding: 4px 2px;
+            border: 1px solid transparent; user-select: none; font-family: Tahoma, sans-serif;
+        }
+        .bin-item:hover { background: rgba(0,0,128,0.12); border-color: #000080; }
+        .bin-item.selected { background: #000080; border-color: #000080; }
+        .bin-item.selected .bin-name { color: #fff; }
+        .bin-icon { font-size: 26px; margin-bottom: 2px; line-height: 1; }
+        .bin-name { font-size: 9px; color: #000; line-height: 1.2; word-break: break-all; }
+        .bin-item-special .bin-name { color: #000080; font-weight: bold; }
+        .bin-item-special.selected .bin-name { color: #fff; }
+
+        /* Recycle Bin graveyard cards */
+        .rip-card {
+            background: #1a1a2e; color: #ccc; border: 1px solid #333;
+            padding: 8px 10px; font-size: 10px; font-family: 'Courier New', monospace;
+            line-height: 1.6; border-left: 3px solid #533483;
+        }
+        .rip-card b { color: #e0e0ff; }
+        .rip-card span { color: #888; font-size: 9px; }
+        .rip-card i { color: #aaa; font-size: 9px; }
+        .alive-badge {
+            background: #006600; color: #fff; font-size: 9px;
+            font-family: 'Courier New', monospace; padding: 2px 8px;
+            border: 1px solid #004400;
+        }
+
+        /* Bin File Viewer */
         /* Recycle Bin */
         .recycle-content {
             text-align: center;
@@ -912,6 +980,188 @@
         .browser-content ul {
             margin-left: 20px;
             font-size: 11px;
+        }
+
+        /* ─── PRE-BOOT INTRO ─── */
+        #pre-boot {
+            position: fixed; inset: 0; z-index: 10000;
+            /* Spotlight from lamp above: brightest at center, fades to near-black */
+            background:
+                radial-gradient(ellipse 46% 42% at 50% 48%,
+                    rgba(255,205,70,0.11) 0%,
+                    rgba(255,190,50,0.06) 35%,
+                    rgba(255,175,40,0.02) 58%,
+                    transparent 75%),
+                #070705;
+            display: flex; align-items: center; justify-content: center;
+            cursor: default;
+        }
+        #pre-boot.off { display: none; }
+        .pb-room {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .pb-desk {
+            width: 500px; height: 6px;
+            background: linear-gradient(90deg, #111110 0%, #1e1e1a 30%, #161614 70%, #0e0e0c 100%);
+            border-top: 1px solid #2a2a22;
+            margin-top: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        .pb-monitor {
+            position: relative;
+            background: #141412;
+            border: 3px solid #0d0d0b;
+            border-radius: 6px 6px 3px 3px;
+            padding: 10px;
+            box-shadow:
+                0 0 60px rgba(0,0,0,0.95),
+                inset 0 0 10px rgba(0,0,0,0.6),
+                0 0 120px rgba(0,0,0,0.8),
+                0 -8px 40px rgba(255,195,60,0.08),
+                0 0 60px rgba(255,185,50,0.04);
+        }
+        .pb-screen {
+            width: 300px; height: 210px;
+            background: #04060a;
+            border: 2px solid #060606;
+            border-radius: 2px;
+            position: relative; overflow: hidden;
+        }
+        .pb-scanlines {
+            position: absolute; inset: 0; z-index: 2; pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px);
+        }
+        .pb-screen-glow {
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(ellipse at 50% 50%, rgba(0,20,40,0.15) 0%, transparent 70%);
+        }
+        .pb-cursor {
+            position: absolute; top: 14px; left: 10px; z-index: 3;
+            width: 7px; height: 13px;
+            background: #0a180a;
+            animation: pbBlink 1.4s step-end infinite;
+        }
+        @keyframes pbBlink { 0%,100%{opacity:0.2} 50%{opacity:0} }
+        .pb-ghost-text {
+            position: absolute; bottom: 20px; left: 0; right: 0;
+            text-align: center; z-index: 3;
+            font-family: 'Courier New', monospace; font-size: 9px;
+            color: #0a1a0a; letter-spacing: 3px;
+            animation: pbGhost 6s ease-in-out infinite;
+        }
+        @keyframes pbGhost { 0%,100%{opacity:0.08} 50%{opacity:0.22} }
+        .pb-front {
+            background: #121210; height: 26px; margin-top: 6px;
+            border-radius: 0 0 3px 3px;
+            display: flex; align-items: center; padding: 0 10px; gap: 8px;
+        }
+        .pb-led {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #5a2800;
+            box-shadow: 0 0 3px #5a2800;
+            animation: pbLed 3.5s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes pbLed {
+            0%,100%{ background:#3a1800; box-shadow:0 0 3px #3a1800; }
+            50%{ background:#cc6600; box-shadow:0 0 8px #cc6600, 0 0 16px #ff880033; }
+        }
+        .pb-deco { display:flex; gap:5px; margin-left:auto; }
+        .pb-btn-deco { width:18px;height:5px;background:#1e1e1c;border-radius:1px; }
+        .pb-power-btn {
+            position: absolute;
+            bottom: -2px; left: 10px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #181816;
+            border: 1.5px solid #2a2a26;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .pb-power-btn:hover { border-color: #cc6600; box-shadow: 0 0 10px #cc660044; }
+        .pb-power-btn svg { pointer-events: none; }
+        .pb-neck { width: 36px; height: 22px; background: #111110; margin: 0 auto; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); }
+        .pb-base { width: 110px; height: 10px; background: #111110; border-radius: 3px; margin: 0 auto; }
+        .pb-hint {
+            margin-top: 28px; font-family: 'Courier New', monospace;
+            font-size: 10px; letter-spacing: 3px; color: #1a1a16;
+            animation: pbHint 5s ease-in-out infinite;
+        }
+        @keyframes pbHint { 0%,100%{opacity:0.04} 60%{opacity:0.18} }
+        .pb-flash {
+            position: fixed; inset: 0; background: #fff;
+            opacity: 0; pointer-events: none; z-index: 10001;
+            transition: opacity 0.15s;
+        }
+
+        /* ─── Hanging lamp ─── */
+        .pb-lamp-wrap {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center;
+            pointer-events: none; z-index: 2;
+        }
+        .pb-lamp-cord {
+            width: 1px; height: 90px;
+            background: linear-gradient(180deg, #1a1a18 0%, #2e2e28 100%);
+        }
+        .pb-lamp-shade {
+            width: 38px; height: 22px;
+            background: linear-gradient(180deg, #1a1a18, #242420);
+            clip-path: polygon(16% 0%, 84% 0%, 100% 100%, 0% 100%);
+            border-bottom: 1px solid #383830;
+        }
+        .pb-lamp-bulb {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #ffe898;
+            box-shadow: 0 0 6px 3px rgba(255,215,80,0.65), 0 0 18px 10px rgba(255,190,40,0.22);
+            margin-top: 1px;
+        }
+
+        /* ─── Win98 error dialog ─── */
+        .win-error-overlay {
+            position: fixed; inset: 0; z-index: 99999;
+            display: none; align-items: center; justify-content: center;
+        }
+        .win-error-overlay.open { display: flex; }
+        .win-error-box {
+            background: #c0c0c0;
+            border: 2px solid #fff; border-right-color: #000; border-bottom-color: #000;
+            box-shadow: 2px 2px 0 #000;
+            width: 320px; font-family: Tahoma, sans-serif;
+        }
+        .win-error-title {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: #fff; font-size: 11px; font-weight: bold;
+            padding: 3px 6px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .win-error-title-left { display: flex; align-items: center; gap: 5px; }
+        .win-error-close {
+            width: 16px; height: 14px; background: #c0c0c0;
+            border: 1px solid #fff; border-right-color: #000; border-bottom-color: #000;
+            font-size: 9px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #000; font-weight: bold;
+        }
+        .win-error-body {
+            padding: 14px 16px 10px; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .win-error-icon { font-size: 28px; flex-shrink: 0; line-height: 1; }
+        .win-error-msg {
+            font-size: 11px; line-height: 1.6; color: #000;
+            white-space: pre-line;
+        }
+        .win-error-footer {
+            padding: 6px 12px 10px; display: flex; justify-content: center;
+        }
+        .win-error-ok {
+            font-family: Tahoma, sans-serif; font-size: 11px;
+            background: #c0c0c0; border: 1px solid #fff;
+            border-right-color: #000; border-bottom-color: #000;
+            padding: 3px 22px; cursor: pointer; min-width: 72px;
+        }
+        .win-error-ok:active {
+            border-color: #000; border-right-color: #fff; border-bottom-color: #fff;
         }
 
         /* Boot Screen */
@@ -1760,6 +2010,9 @@
             cursor: pointer;
         }
         .exp-card-link:hover { background: linear-gradient(180deg, #1976d2 0%, #1565c0 100%); }
+        .exp-section-lbl { font-size: 10px; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 1px; padding: 10px 4px 4px; border-top: 1px solid #d0d0d0; margin-top: 4px; }
+        .exp-card-archived { opacity: 0.6; cursor: default; pointer-events: none; }
+        .exp-card-offline { background: #888 !important; font-size: 10px; cursor: default; }
         @media (max-width: 768px) {
             .exp-tree { display: none !important; }
             .exp-card { padding: 12px 14px; gap: 10px; }
@@ -2113,58 +2366,162 @@
         .word-statusbar span { border-right: 1px solid #aca899; padding-right: 12px; }
         .word-statusbar span:last-child { border-right: none; }
 
-        /* ── Desktop Sticky Notes ── */
-        .sticky-note {
-            position: absolute;
-            width: 162px;
-            background: #feff9c;
-            box-shadow: 3px 4px 10px rgba(0,0,0,0.28), inset 0 -2px 0 rgba(0,0,0,0.08);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 10.5px;
-            line-height: 1.55;
-            cursor: default;
-            z-index: 4;
-            user-select: none;
-        }
-        .sticky-note-2 { background: #c8f7c5; }
-        .sticky-note-3 { background: #c5e8f7; }
-        .sticky-note-header {
-            background: rgba(0,0,0,0.10);
-            padding: 4px 8px;
-            font-weight: bold;
-            font-size: 10.5px;
-            border-bottom: 1px solid rgba(0,0,0,0.12);
-            letter-spacing: 0.3px;
-        }
-        .sticky-note-body {
-            padding: 6px 8px 8px;
-            color: #222;
-        }
-        .sticky-note-body hr {
-            border: none;
-            border-top: 1px dashed rgba(0,0,0,0.2);
-            margin: 4px 0;
-        }
-        .sticky-note-line {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            margin-bottom: 1px;
-        }
-        @media (max-width: 768px) {
-            .sticky-note { display: none; }
+        /* sticky-note CSS removed */
+
+        /* ── Pre-boot mobile ── */
+        @media (max-width: 500px) {
+            .pb-room { transform: scale(0.72); transform-origin: center center; }
+            .pb-desk { width: 100vw; }
         }
 
-        /* ── Winamp Player (removed) ── */
-        .winamp-removed {
+        /* ── Clippy mobile ── */
+        @media (max-width: 768px) {
+            .clippy-wrap {
+                /* Pin to bottom-left corner above taskbar, no wandering */
+                left: 10px !important;
+                right: auto !important;
+                bottom: 50px !important;
+                transform: scale(0.78);
+                transform-origin: bottom left;
+                transition: opacity 0.5s;
+            }
+            .clippy-bubble {
+                max-width: 170px;
+                font-size: 10px;
+                left: 0;
+                right: auto;
+            }
+        }
+
+        /* ── Taskbar Winamp Mini-Player (classic Winamp 2.x skin) ── */
+        .tb-winamp {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            /* warm charcoal body matching real Winamp classic skin */
+            background: linear-gradient(180deg, #2e2a26 0%, #231f1b 50%, #1c1814 100%);
+            border: 1px solid #0c0a08;
+            border-top-color: #524640;
+            border-left-color: #3e3630;
+            border-radius: 3px;
+            padding: 0 6px 0 5px;
+            height: 26px;
+            width: 275px;
+            flex-shrink: 0;
+            margin-right: 6px;
+            box-shadow: inset 0 1px 0 rgba(255,220,150,0.06), 0 1px 4px rgba(0,0,0,0.7);
+            font-family: 'Arial Narrow', 'Arial', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .tb-wa-logo {
+            color: #c8922a;
+            font-size: 8px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            flex-shrink: 0;
+            text-shadow: 0 0 6px rgba(200,146,42,0.45);
+            font-family: 'Arial Black', 'Arial', sans-serif;
+            text-transform: uppercase;
+            position: relative; z-index: 2;
+        }
+        .tb-wa-sep {
+            width: 1px; height: 14px;
+            background: linear-gradient(180deg, transparent, #4a3e30, transparent);
+            flex-shrink: 0;
+            position: relative; z-index: 2;
+        }
+        .tb-wa-track {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+            z-index: 2;
+        }
+        .tb-wa-ticker {
+            /* amber LCD — authentic Winamp display colour */
+            color: #d4a040;
+            font-size: 10px;
+            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            display: inline-block;
+            animation: tbWaTick 20s linear infinite;
+            text-shadow: 0 0 5px rgba(210,155,40,0.45);
+            letter-spacing: 0.5px;
+        }
+        .tb-wa-ticker.paused { animation-play-state: paused; color: #7a5a18; text-shadow: none; }
+        @keyframes tbWaTick {
+            0%   { transform: translateX(200px); }
+            100% { transform: translateX(-100%); }
+        }
+        .tb-wa-controls {
+            display: flex;
+            gap: 2px;
+            flex-shrink: 0;
+            position: relative; z-index: 2;
+        }
+        /* Win98-style silver beveled buttons — exactly like real Winamp */
+        .tb-wa-btn {
+            background: linear-gradient(180deg, #d8d4cc 0%, #c4c0b8 100%);
+            border: 1px solid;
+            border-color: #f0ece4 #6a6660 #6a6660 #f0ece4;
+            color: #1a1610;
+            font-size: 8px;
+            padding: 0 5px;
+            cursor: pointer;
+            border-radius: 1px;
+            height: 16px;
+            line-height: 15px;
+            font-family: monospace;
+            transition: background 0.1s;
+        }
+        .tb-wa-btn:hover {
+            background: linear-gradient(180deg, #e4e0d8 0%, #d0ccc4 100%);
+            color: #000060;
+        }
+        .tb-wa-btn:active {
+            background: #b8b4ac;
+            border-color: #6a6660 #f0ece4 #f0ece4 #6a6660;
+        }
+        .tb-wa-btn.active { color: #8b4400; font-weight: bold; }
+        .tb-wa-vol {
+            width: 44px;
+            height: 3px;
+            accent-color: #c8922a;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative; z-index: 2;
+            opacity: 0.75;
+        }
+        .tb-wa-vol:hover { opacity: 1; }
+        .tb-wa-dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: #3a3028;
+            border: 1px solid #524640;
+            flex-shrink: 0;
+            transition: background 0.3s, box-shadow 0.3s;
+            position: relative; z-index: 2;
+        }
+        .tb-wa-dot.playing { background: #d49020; box-shadow: 0 0 5px #d49020, 0 0 10px rgba(210,144,32,0.35); border-color: #a06010; }
+        .tb-wa-dot.paused  { background: #786050; border-color: #5a4838; box-shadow: none; }
+        @media (max-width: 900px) { .tb-winamp { display: none; } }
+
+        /* ── OLD winamp (kept for z-index ref, hidden) ── */
+        .winamp {
             position: absolute;
             left: 100px;
-            bottom: 10px;
+            bottom: 50px;
             width: 278px;
             background: #232323;
             border: 2px solid;
             border-color: #686868 #1a1a1a #1a1a1a #686868;
             box-shadow: 4px 4px 14px rgba(0,0,0,0.85), inset 1px 1px 0 #4a4a4a;
+            display: none !important;
             z-index: 5;
             user-select: none;
             cursor: default;
@@ -2372,6 +2729,340 @@
         .wa-badge.active { color: #0bff0b; border-color: #0a5a0a; background: rgba(11,255,11,0.07); }
         @media (max-width: 768px) { .winamp { display: none; } }
 
+        /* ── My Computer Window (removed) ── */
+        .mycomp-toolbar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #808080;
+            padding: 2px 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .mycomp-tb-btn {
+            font-size: 10px; font-family: Tahoma, sans-serif;
+            background: #d4d0c8; border: 1px solid; border-color: #fff #808080 #808080 #fff;
+            padding: 1px 8px; cursor: pointer;
+        }
+        .mycomp-tb-btn:disabled { color: #808080; cursor: default; border-color: transparent; }
+        .mycomp-addrbar {
+            background: #d4d0c8;
+            border-bottom: 1px solid #808080;
+            padding: 2px 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+        }
+        .mycomp-addr-label { font-size: 10px; color: #444; min-width: 48px; }
+        .mycomp-addr-val {
+            flex: 1; background: #fff;
+            border: 2px solid; border-color: #808080 #fff #fff #808080;
+            padding: 1px 4px; font-size: 11px;
+        }
+        .mycomp-drives {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+            background: #fff;
+        }
+        .mycomp-drive {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 8px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .mycomp-drive:hover { background: #e0e8f8; border: 1px dotted #000080; }
+        .mycomp-drive-icon { font-size: 28px; flex-shrink: 0; width: 36px; text-align: center; }
+        .mycomp-drive-info { flex: 1; }
+        .mycomp-drive-name { font-weight: bold; font-size: 12px; color: #000; }
+        .mycomp-drive-sub { font-size: 10px; color: #666; margin-top: 1px; }
+        .mycomp-drive-bar { height: 6px; background: #e0e0e0; border: 1px solid #aaa; margin-top: 3px; width: 120px; }
+        .mycomp-drive-fill { height: 100%; background: #0055df; }
+        .mycomp-statusbar {
+            background: #d4d0c8;
+            border-top: 1px solid #808080;
+            padding: 2px 8px;
+            font-size: 10px;
+            color: #444;
+        }
+
+        /* ── Run Dialog ── */
+        #run-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 360px;
+            background: #d4d0c8;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+            z-index: 10001;
+            display: none;
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 11px;
+        }
+        #run-dialog.run-open { display: block; }
+        .run-titlebar {
+            background: linear-gradient(180deg, #0a246a 0%, #a6caf0 100%);
+            padding: 3px 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: move;
+        }
+        .run-titlebar span { color: #fff; font-weight: bold; font-size: 11px; flex: 1; }
+        .run-titlebar-close {
+            width: 16px; height: 14px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%);
+            border: 1px solid; border-color: #fff #606060 #606060 #fff;
+            cursor: pointer; font-size: 9px; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
+        .run-body { padding: 12px 14px; }
+        .run-desc { margin-bottom: 10px; line-height: 1.4; }
+        .run-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .run-row label { width: 60px; font-size: 11px; }
+        #run-input {
+            flex: 1;
+            border: 2px solid; border-color: #808080 #fff #fff #808080;
+            padding: 2px 4px; font-family: Tahoma, sans-serif; font-size: 11px;
+        }
+        .run-btns { display: flex; justify-content: flex-end; gap: 6px; }
+        .run-btn {
+            padding: 4px 16px;
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+            border: 2px solid; border-color: #fff #606060 #606060 #fff;
+            font-family: Tahoma, sans-serif; font-size: 11px;
+            cursor: pointer; min-width: 60px;
+        }
+        .run-btn:hover { background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%); }
+        .run-btn:active { border-color: #606060 #fff #fff #606060; }
+
+        /* ── Calendar Popup ── */
+        #cal-popup {
+            position: fixed;
+            bottom: 42px;
+            right: 10px;
+            width: 190px;
+            background: #d4d0c8;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 11px;
+            z-index: 99998;
+            display: none;
+            user-select: none;
+        }
+        #cal-popup.cal-open { display: block; }
+        .cal-header {
+            background: linear-gradient(180deg, #0a246a 0%, #a6caf0 100%);
+            color: #fff;
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .cal-nav-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 0 4px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .cal-nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .cal-grid {
+            padding: 4px 6px;
+            background: #fff;
+        }
+        .cal-dow-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-bottom: 2px;
+        }
+        .cal-dow {
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #444;
+            padding: 2px 0;
+        }
+        .cal-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .cal-day {
+            text-align: center;
+            padding: 2px 1px;
+            font-size: 11px;
+            cursor: default;
+            min-height: 18px;
+            line-height: 1.4;
+            border: 1px solid transparent;
+        }
+        .cal-day.cal-other { color: #aaa; }
+        .cal-day.cal-today {
+            background: #000080;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+        .cal-day:hover:not(.cal-today) { background: #e0e8f8; }
+        .cal-footer {
+            background: #d4d0c8;
+            border-top: 1px solid #808080;
+            padding: 3px 6px;
+            text-align: center;
+            font-size: 10px;
+            color: #444;
+        }
+        .clock { cursor: pointer; }
+        .clock:hover { text-decoration: underline; }
+
+        /* ── BSOD Easter Egg ── */
+        #bsod {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            background: #0000aa;
+            color: #c0c0c0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            padding: 60px 80px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: default;
+            overflow: hidden;
+        }
+        #bsod.bsod-visible { display: block; }
+        #bsod.bsod-fade-in { opacity: 1; }
+        #bsod h2 {
+            color: #c0c0c0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        #bsod .bsod-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 80px;
+            right: 80px;
+            border-top: 1px solid #8080ff;
+            padding-top: 16px;
+            font-size: 12px;
+            color: #aaaaff;
+        }
+
+        /* ── MSN Messenger ── */
+        #msn-window {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 320px;
+            height: 420px;
+            background: #ece9d8;
+            border: 2px solid;
+            border-color: #fff #888 #888 #fff;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+            z-index: 8000;
+            display: none;
+            flex-direction: column;
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 11px;
+        }
+        #msn-window.msn-open { display: flex; }
+        .msn-titlebar {
+            background: linear-gradient(180deg, #3c9e3c 0%, #1e6e1e 100%);
+            padding: 3px 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: move;
+        }
+        .msn-titlebar-icon { font-size: 14px; }
+        .msn-titlebar-title { color: #fff; font-weight: bold; font-size: 11px; flex: 1; text-shadow: 1px 1px 1px rgba(0,0,0,0.5); }
+        .msn-titlebar-btns { display: flex; gap: 2px; }
+        .msn-titlebar-btn {
+            width: 16px; height: 14px;
+            background: linear-gradient(180deg, #fff 0%, #d4d4d4 100%);
+            border: 1px solid; border-color: #fff #606060 #606060 #fff;
+            cursor: pointer; font-size: 9px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .msn-titlebar-btn.close-btn { background: linear-gradient(180deg, #ff6b6b 0%, #ee5a5a 100%); color: #fff; }
+        .msn-contact-bar {
+            background: linear-gradient(180deg, #d0f0d0 0%, #b0e0b0 100%);
+            padding: 5px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #80c080;
+        }
+        .msn-online-dot { width: 9px; height: 9px; background: #00a000; border-radius: 50%; border: 1px solid #007000; flex-shrink: 0; }
+        .msn-contact-name { font-weight: bold; color: #004000; font-size: 11px; }
+        .msn-contact-status { color: #226022; font-size: 10px; }
+        #msn-chat {
+            flex: 1;
+            background: #fff;
+            overflow-y: auto;
+            padding: 6px 8px;
+            border: 1px inset #aaa;
+            margin: 0;
+        }
+        .msn-msg { margin-bottom: 6px; line-height: 1.4; }
+        .msn-msg-name { font-weight: bold; color: #00008b; font-size: 11px; }
+        .msn-msg-name.msn-user-name { color: #8b0000; }
+        .msn-msg-time { color: #888; font-size: 9px; margin-left: 4px; }
+        .msn-msg-text { color: #222; font-size: 11px; margin-left: 2px; }
+        .msn-msg-link { color: #0000ee; cursor: pointer; text-decoration: underline; font-size: 11px; }
+        .msn-typing-bar {
+            padding: 3px 8px;
+            font-style: italic;
+            color: #666;
+            font-size: 10px;
+            height: 18px;
+            background: #f0f0f0;
+            border-top: 1px solid #ccc;
+        }
+        .msn-input-area {
+            display: flex;
+            border-top: 2px solid #80c080;
+            background: #ece9d8;
+        }
+        #msn-input {
+            flex: 1;
+            border: none;
+            border-right: 1px solid #aaa;
+            padding: 4px 6px;
+            font-family: Tahoma, sans-serif;
+            font-size: 11px;
+            background: #fff;
+            outline: none;
+        }
+        #msn-send {
+            padding: 4px 10px;
+            background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+            border: none;
+            border-left: 1px solid #fff;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: Tahoma, sans-serif;
+            font-weight: bold;
+        }
+        #msn-send:hover { background: linear-gradient(180deg, #fff 0%, #d0d0d0 100%); }
+
         /* Toast notifications */
         .toast {
             position: fixed;
@@ -2481,49 +3172,153 @@
         .clippy-svg {
             width: 72px;
             height: 90px;
-            cursor: pointer;
+            cursor: grab;
             filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
             transform-origin: bottom center;
         }
+        /* Docked state — locked to top-right corner */
+        .clippy-wrap.clippy-docked {
+            left: auto !important;
+            bottom: auto !important;
+            top: 88px !important;
+            right: 10px !important;
+            transition: opacity 0.4s !important;
+        }
 
-        /* Idle float */
+        /* Mobile dismiss button */
+        .clippy-close-btn {
+            display: none;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #808080 #808080 #fff;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            color: #000;
+            line-height: 1;
+        }
+        @media (max-width: 768px) {
+            .clippy-close-btn { display: flex; }
+        }
+
+        /* Desktop dock sign — Win98 toolbar button style */
+        .clippy-dock-sign {
+            position: fixed;
+            top: 38px;
+            right: 10px;
+            z-index: 9999;          /* below pre-boot (10000) so it's hidden during boot */
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(180deg, #d8d4cc 0%, #c4c0b8 100%);
+            border: 2px solid;
+            border-color: #f0ece4 #6a6660 #6a6660 #f0ece4;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .clippy-dock-sign.ready {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .clippy-dock-sign:hover {
+            background: linear-gradient(180deg, #e0dcd4 0%, #ccc8c0 100%);
+        }
+        .clippy-dock-sign.occupied {
+            border-color: #6a6660 #f0ece4 #f0ece4 #6a6660;
+            background: linear-gradient(180deg, #b8b4ac 0%, #c8c4bc 100%);
+        }
+        @media (max-width: 768px) {
+            .clippy-dock-sign { display: none; }
+        }
+
+        .clippy-wrap.clippy-dragging { cursor: grabbing; }
+        .clippy-wrap.clippy-dragging .clippy-svg {
+            animation: none !important;
+            transform: rotate(-10deg) scale(1.08) !important;
+            transition: transform 0.12s;
+            filter: drop-shadow(4px 8px 10px rgba(0,0,0,0.45));
+            cursor: grabbing;
+        }
+
+        /* Idle sway — gentle float with tilt */
         @keyframes clippyFloat {
-            0%,100% { transform: translateY(0); }
-            50%      { transform: translateY(-6px); }
+            0%   { transform: translateY(0)     rotate(0deg); }
+            18%  { transform: translateY(-5px)  rotate(2deg); }
+            36%  { transform: translateY(-10px) rotate(0deg); }
+            54%  { transform: translateY(-6px)  rotate(-2.5deg); }
+            72%  { transform: translateY(-11px) rotate(1deg); }
+            88%  { transform: translateY(-3px)  rotate(-1deg); }
+            100% { transform: translateY(0)     rotate(0deg); }
         }
-        /* Excited bounce */
+        /* Bounce with squish */
         @keyframes clippyBounce {
-            0%,100% { transform: translateY(0) rotate(0deg); }
-            20%     { transform: translateY(-14px) rotate(-8deg); }
-            40%     { transform: translateY(-6px) rotate(6deg); }
-            60%     { transform: translateY(-10px) rotate(-4deg); }
-            80%     { transform: translateY(-4px) rotate(3deg); }
+            0%   { transform: translateY(0)     scaleX(1)    scaleY(1); }
+            18%  { transform: translateY(-22px) scaleX(0.87) scaleY(1.13); }
+            35%  { transform: translateY(-32px) scaleX(0.84) scaleY(1.16); }
+            50%  { transform: translateY(-18px) scaleX(1.07) scaleY(0.94); }
+            62%  { transform: translateY(-26px) scaleX(0.91) scaleY(1.09); }
+            73%  { transform: translateY(-10px) scaleX(1.04) scaleY(0.97); }
+            83%  { transform: translateY(-16px) scaleX(0.97) scaleY(1.03); }
+            92%  { transform: translateY(-4px)  scaleX(1.01) scaleY(0.99); }
+            100% { transform: translateY(0)     scaleX(1)    scaleY(1); }
         }
-        /* Wiggle */
+        /* Wiggle — snappy with size pulse */
         @keyframes clippyWiggle {
-            0%,100% { transform: rotate(0deg); }
-            20%     { transform: rotate(-12deg); }
-            40%     { transform: rotate(10deg); }
-            60%     { transform: rotate(-8deg); }
-            80%     { transform: rotate(6deg); }
+            0%,100% { transform: rotate(0deg)   scale(1); }
+            15%     { transform: rotate(-14deg)  scale(1.05); }
+            30%     { transform: rotate(12deg)   scale(0.97); }
+            45%     { transform: rotate(-10deg)  scale(1.04); }
+            60%     { transform: rotate(8deg)    scale(0.98); }
+            75%     { transform: rotate(-5deg)   scale(1.01); }
+            88%     { transform: rotate(3deg)    scale(1); }
         }
         /* Wave */
         @keyframes clippyWave {
-            0%,100% { transform: rotate(0deg) translateY(0); }
-            25%     { transform: rotate(-15deg) translateY(-8px); }
-            75%     { transform: rotate(15deg) translateY(-8px); }
+            0%,100% { transform: rotate(0deg)   translateY(0); }
+            20%     { transform: rotate(-16deg)  translateY(-10px); }
+            40%     { transform: rotate(14deg)   translateY(-6px); }
+            60%     { transform: rotate(-12deg)  translateY(-12px); }
+            80%     { transform: rotate(10deg)   translateY(-5px); }
+        }
+        /* Dance — full body groove */
+        @keyframes clippyDance {
+            0%   { transform: rotate(0deg)   translateY(0)     scaleX(1); }
+            10%  { transform: rotate(-16deg) translateY(-8px)  scaleX(0.93); }
+            22%  { transform: rotate(14deg)  translateY(-14px) scaleX(1.07); }
+            34%  { transform: rotate(-12deg) translateY(-6px)  scaleX(0.96); }
+            46%  { transform: rotate(18deg)  translateY(-16px) scaleX(1.06); }
+            58%  { transform: rotate(-10deg) translateY(-4px)  scaleX(0.97); }
+            70%  { transform: rotate(14deg)  translateY(-12px) scaleX(1.04); }
+            82%  { transform: rotate(-8deg)  translateY(-6px)  scaleX(0.98); }
+            92%  { transform: rotate(5deg)   translateY(-3px)  scaleX(1.01); }
+            100% { transform: rotate(0deg)   translateY(0)     scaleX(1); }
         }
         /* Shock */
         @keyframes clippyShock {
-            0%,100% { transform: scale(1); }
-            30%     { transform: scale(1.25) rotate(-5deg); }
-            60%     { transform: scale(0.9) rotate(3deg); }
+            0%,100% { transform: scale(1)    rotate(0deg); }
+            25%     { transform: scale(1.3)  rotate(-6deg); }
+            50%     { transform: scale(0.88) rotate(4deg); }
+            75%     { transform: scale(1.15) rotate(-3deg); }
         }
 
-        .clippy-anim-float   { animation: clippyFloat   2.8s ease-in-out infinite; }
-        .clippy-anim-bounce  { animation: clippyBounce  0.7s ease-in-out; }
-        .clippy-anim-wiggle  { animation: clippyWiggle  0.6s ease-in-out; }
-        .clippy-anim-wave    { animation: clippyWave    0.9s ease-in-out; }
+        .clippy-anim-float   { animation: clippyFloat   3.4s ease-in-out infinite; }
+        .clippy-anim-bounce  { animation: clippyBounce  0.85s cubic-bezier(0.36,0,0.66,1.4); }
+        .clippy-anim-wiggle  { animation: clippyWiggle  0.65s ease-in-out; }
+        .clippy-anim-wave    { animation: clippyWave    0.95s ease-in-out; }
+        .clippy-anim-dance   { animation: clippyDance   0.9s ease-in-out; }
         .clippy-anim-shock   { animation: clippyShock   0.5s ease-in-out; }
 
         /* CRT Mode */
@@ -2543,11 +3338,188 @@
             0%, 100% { filter: brightness(1); }
             50%       { filter: brightness(0.97); }
         }
+        /* ── Mobile polish (comprehensive) ── */
+        @media (max-width: 768px) {
+
+            /* IE About window: drop chrome that wastes space */
+            .ie-menubar, .ie-toolbar { display: none !important; }
+            /* Full-width main column when sidebar is hidden */
+            .ie-layout-table td.ie-main { display: block; width: 100%; box-sizing: border-box; }
+            .ie-layout-table { display: block; }
+            .ie-layout-table tr, .ie-layout-table tbody { display: block; }
+            .ie-banner-title { font-size: 12px; }
+            .ie-counterbar { display: none; } /* too cluttered on small screen */
+
+            /* Explorer (Projects): hide address bar chrome too */
+            .exp-addrbar { display: none; }
+            .exp-menubar { display: none; }
+
+            /* Contact (OE): hide toolbar chrome */
+            .oe-toolbar, .oe-menubar { display: none !important; }
+
+            /* Recycle Bin toolbar: wrap on small screens */
+            .bin-toolbar { flex-wrap: wrap; gap: 2px; }
+            .bin-menubar { font-size: 10px; }
+
+            /* MSN Messenger: center + nearly full-width */
+            #msn-window {
+                right: 8px !important;
+                left: 8px !important;
+                width: calc(100vw - 16px) !important;
+                top: 60px !important;
+                bottom: 50px !important;
+                height: auto !important;
+            }
+
+            /* Run dialog: fit narrow screens */
+            #run-dialog { width: calc(100vw - 24px) !important; }
+
+            /* System Properties: fit narrow screens */
+            #sys-prop-dialog { width: calc(100vw - 24px) !important; }
+            #sys-prop-dialog [style*="grid-template-columns"] {
+                grid-template-columns: 100px 1fr !important;
+            }
+
+            /* Time Capsule overlay (Recycle Bin easter egg) */
+            #timecapsule-overlay .window { width: calc(100vw - 16px) !important; max-width: none !important; }
+
+            /* Calendar popup: full-width above taskbar */
+            #cal-popup {
+                right: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-radius: 0 !important;
+            }
+
+            /* Taskbar: tighten up */
+            .start-button span { display: none; } /* just the logo on tiny screens */
+            .start-button { padding: 3px 8px !important; }
+            .clock { font-size: 10px; padding: 0 4px; }
+
+            /* Desktop icons: 3 cols on small phones, 4 on tablets */
+            .desktop-icons {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+            .desktop-icon span { font-size: 9px; }
+        }
+
+        @media (max-width: 380px) {
+            .desktop-icons { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+
+        @media (max-width: 500px) {
+            /* Start menu: single column on very small phones */
+            .sm-right { display: none; }
+            .sm-body { flex-direction: column; }
+        }
+        /* ── Wallpaper themes ── */
+        body[data-wallpaper='night'] .wallpaper-svg,
+        body[data-wallpaper='slate'] .wallpaper-svg,
+        body[data-wallpaper='sunset'] .wallpaper-svg { display: none; }
+        body[data-wallpaper='night'] .wallpaper {
+            background: radial-gradient(ellipse at 40% 20%, #1e1060 0%, #0a0820 60%, #000010 100%);
+        }
+        body[data-wallpaper='slate'] .wallpaper {
+            background: linear-gradient(180deg, #2c3e55 0%, #1d2d40 50%, #152030 100%);
+        }
+        body[data-wallpaper='sunset'] .wallpaper {
+            background: linear-gradient(180deg, #ff6b35 0%, #f7931e 35%, #c0392b 65%, #6a0f1a 100%);
+        }
+        .wallpaper-stars { position: absolute; inset: 0; pointer-events: none; display: none; }
+        body[data-wallpaper='night'] .wallpaper-stars { display: block; }
+        .wallpaper-star { position: absolute; background: #fff; border-radius: 50%; }
+
+        /* ── My Documents window ── */
+        .mydocs-list { padding: 2px; }
+        .mydocs-file { display: flex; align-items: center; gap: 10px; padding: 5px 8px; cursor: default; user-select: none; border: 1px solid transparent; }
+        .mydocs-file:hover { background: #000080; border-color: #000080; }
+        .mydocs-file:hover .mydocs-fname, .mydocs-file:hover .mydocs-fmeta { color: #fff; }
+        .mydocs-file-icon { font-size: 22px; flex-shrink: 0; width: 26px; text-align: center; }
+        .mydocs-fname { font-size: 11px; color: #000; flex: 1; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+        .mydocs-ftype { font-size: 10px; color: #666; width: 100px; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+        .mydocs-fsize { font-size: 10px; color: #666; width: 60px; text-align: right; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+
+        /* ── My Documents file popup ── */
+        .mydocs-popup-overlay { display: none; position: fixed; inset: 0; z-index: 99996; background: rgba(0,0,0,0.3); align-items: center; justify-content: center; }
+        .mydocs-popup-overlay.open { display: flex; }
+        .mydocs-popup { background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; box-shadow: 3px 3px 0 #000; width: 440px; max-width: calc(100vw - 20px); display: flex; flex-direction: column; font-family: 'MS Sans Serif', Tahoma, sans-serif; font-size: 11px; }
+        .mydocs-popup-title { background: linear-gradient(90deg, #000080, #1084d0); color: #fff; padding: 3px 6px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: bold; flex-shrink: 0; }
+        .mydocs-popup-close { cursor: pointer; background: linear-gradient(180deg,#d4d0c8,#b8b4ac); border: 1px solid; border-color: #fff #808080 #808080 #fff; width: 16px; height: 14px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #000; line-height: 1; }
+        .mydocs-popup-body { background: #fff; padding: 12px 14px; overflow-y: auto; max-height: 340px; font-family: 'Courier New', monospace; font-size: 11px; line-height: 1.7; white-space: pre-wrap; color: #000; }
+        .mydocs-popup-word { background: #fff; padding: 20px 24px; overflow-y: auto; max-height: 340px; font-family: 'Times New Roman', serif; font-size: 12px; line-height: 1.8; color: #000; }
+        .mydocs-popup-footer { padding: 6px 8px; border-top: 1px solid #808080; display: flex; justify-content: flex-end; }
+        .mdp-ok { background: linear-gradient(180deg, #d4d0c8 0%, #c0bdb4 100%); border: 2px solid; border-color: #fff #808080 #808080 #fff; padding: 3px 20px; font-size: 11px; cursor: pointer; font-family: 'MS Sans Serif', sans-serif; }
+        .mdp-ok:active { border-color: #808080 #fff #fff #808080; padding: 4px 19px 2px 21px; }
+
+        /* ── Games window ── */
+        .games-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 12px; }
+        @media (max-width: 500px) { .games-grid { grid-template-columns: repeat(2, 1fr); } }
+        .game-tile { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; cursor: pointer; border: 1px solid transparent; user-select: none; }
+        .game-tile:hover { background: rgba(0,0,136,0.1); border-color: #000088; }
+        .game-tile-icon { font-size: 38px; line-height: 1; }
+        .game-tile-name { font-size: 10px; color: #000; text-align: center; line-height: 1.3; font-family: 'MS Sans Serif', Tahoma, sans-serif; }
+        .games-statusbar { border-top: 1px solid #808080; padding: 2px 6px; font-size: 10px; color: #444; display: flex; gap: 4px; flex-shrink: 0; }
+        .games-statusbar .sp { border: 1px inset #808080; padding: 1px 6px; flex: 1; }
+
     </style>
 </head>
 <body>
+    <!-- Pre-Boot Intro -->
+    <div id="pre-boot">
+      <!-- Hanging lamp -->
+      <div class="pb-lamp-wrap" aria-hidden="true">
+        <div class="pb-lamp-cord"></div>
+        <div class="pb-lamp-shade"></div>
+        <div class="pb-lamp-bulb"></div>
+      </div>
+      <div class="pb-room">
+        <div class="pb-monitor">
+          <div class="pb-screen">
+            <div class="pb-scanlines"></div>
+            <div class="pb-screen-glow"></div>
+            <div class="pb-cursor"></div>
+            <div class="pb-ghost-text">SYSTEM OFFLINE</div>
+          </div>
+          <div class="pb-front">
+            <div class="pb-led"></div>
+            <div class="pb-deco"><div class="pb-btn-deco"></div><div class="pb-btn-deco"></div><div class="pb-btn-deco"></div></div>
+          </div>
+          <div class="pb-power-btn" id="pbPowerBtn" onclick="pbPowerOn()">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 1 L5.5 5.5" stroke="#7a3800" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M3 2.8 A3.5 3.5 0 1 0 8 2.8" stroke="#7a3800" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="pb-neck"></div>
+        <div class="pb-base"></div>
+        <div class="pb-desk"></div>
+        <div class="pb-hint">PRESS POWER TO INITIALIZE</div>
+      </div>
+      <div class="pb-flash" id="pbFlash"></div>
+    </div>
+
+    <!-- Win98 error dialog (shared, used by Recycle Bin files) -->
+    <div class="win-error-overlay" id="win-error-overlay" onclick="if(event.target===this)closeWinError()">
+      <div class="win-error-box">
+        <div class="win-error-title">
+          <div class="win-error-title-left"><span id="win-error-app-icon">&#9888;</span> <span id="win-error-app-name">Error</span></div>
+          <div class="win-error-close" onclick="closeWinError()">&#10005;</div>
+        </div>
+        <div class="win-error-body">
+          <div class="win-error-icon" id="win-error-icon">&#10060;</div>
+          <div class="win-error-msg" id="win-error-msg"></div>
+        </div>
+        <div class="win-error-footer">
+          <button class="win-error-ok" onclick="closeWinError()">OK</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Boot Screen -->
-    <div class="boot-screen" id="boot-screen">
+    <div class="boot-screen hidden" id="boot-screen">
         <div class="boot-logo">
             PARSA<span class="version">97</span><span class="tm">™</span>
         </div>
@@ -2577,42 +3549,7 @@
                 <!-- Subtle shadow at very bottom -->
                 <path fill="#2a7010" opacity="0.5" d="M0 480 L1440 480 L1440 465 C1100 472 800 478 400 475 Z"/>
             </svg>
-        </div>
-
-        <!-- Sticky Notes -->
-        <div class="sticky-note" style="right: 24px; top: 55px; transform: rotate(-1.2deg);">
-            <div class="sticky-note-header">📌 Writing Rules</div>
-            <div class="sticky-note-body">
-                <div class="sticky-note-line">→ Earn the scroll</div>
-                <div class="sticky-note-line">→ Say less, mean more</div>
-                <div class="sticky-note-line">→ Lead with the reader</div>
-                <div class="sticky-note-line">→ Kill your darlings</div>
-                <hr>
-                <div class="sticky-note-line">&nbsp;&nbsp;&nbsp;— me, 2am</div>
-            </div>
-        </div>
-
-        <div class="sticky-note sticky-note-2" style="right: 204px; top: 90px; transform: rotate(1.4deg);">
-            <div class="sticky-note-header">🎧 Right Now</div>
-            <div class="sticky-note-body">
-                <div class="sticky-note-line">📖 The Copy Book</div>
-                <div class="sticky-note-line">📺 The Bear</div>
-                <div class="sticky-note-line">🎵 Childish Gambino</div>
-                <hr>
-                <div class="sticky-note-line">💭 Thinking about</div>
-                <div class="sticky-note-line">&nbsp;&nbsp;&nbsp;attention spans</div>
-            </div>
-        </div>
-
-        <div class="sticky-note sticky-note-3" style="right: 30px; top: 290px; transform: rotate(-0.6deg);">
-            <div class="sticky-note-header">🎬 Top 5 Films</div>
-            <div class="sticky-note-body">
-                <div class="sticky-note-line">1. Synecdoche, NY</div>
-                <div class="sticky-note-line">2. There Will Be Blood</div>
-                <div class="sticky-note-line">3. Eyes Wide Shut</div>
-                <div class="sticky-note-line">4. Mulholland Drive</div>
-                <div class="sticky-note-line">5. The Master</div>
-            </div>
+            <div class="wallpaper-stars" id="wallpaper-stars"></div>
         </div>
 
         <!-- Desktop Icons -->
@@ -2641,9 +3578,47 @@
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Crect fill='%230055df' x='6' y='6' width='16' height='16'/%3E%3Crect fill='%23e91e63' x='26' y='6' width='16' height='16'/%3E%3Crect fill='%23ff9800' x='6' y='26' width='16' height='16'/%3E%3Crect fill='%234caf50' x='26' y='26' width='16' height='16'/%3E%3C/svg%3E" alt="My Tools">
                 <span>My Tools</span>
             </div>
-            <div class="desktop-icon" data-action="recycle">
+            <div class="desktop-icon" data-window="docs">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23ffcc00' x='4' y='10' width='40' height='32' rx='2'/%3E%3Crect fill='%23ffe566' x='4' y='10' width='18' height='8' rx='2'/%3E%3Crect fill='%23fff' x='10' y='20' width='28' height='3' rx='1'/%3E%3Crect fill='%23fff' x='10' y='27' width='28' height='3' rx='1'/%3E%3Crect fill='%23fff' x='10' y='34' width='18' height='3' rx='1'/%3E%3C/svg%3E" alt="My Documents">
+                <span>My Documents</span>
+            </div>
+            <div class="desktop-icon" data-window="games">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23222244' x='4' y='14' width='40' height='20' rx='6'/%3E%3Crect fill='%23444488' x='4' y='14' width='40' height='10' rx='6'/%3E%3Crect fill='%23fff' x='11' y='22' width='3' height='7' rx='1'/%3E%3Crect fill='%23fff' x='8' y='25' width='9' height='3' rx='1'/%3E%3Ccircle fill='%23ff4444' cx='34' cy='24' r='2.5'/%3E%3Ccircle fill='%2344cc44' cx='40' cy='24' r='2.5'/%3E%3Ccircle fill='%234444ff' cx='37' cy='29' r='2.5'/%3E%3C/svg%3E" alt="Games">
+                <span>Games</span>
+            </div>
+            <div class="desktop-icon" data-window="recycle">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect fill='%23c0c0c0' width='48' height='48'/%3E%3Cpath fill='%23708090' d='M12,16 L14,40 L34,40 L36,16 Z M18,16 L18,12 L30,12 L30,16 M16,12 L32,12 L32,8 L16,8 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
                 <span>Recycle Bin</span>
+            </div>
+        </div>
+
+        <!-- Hidden YouTube player for Winamp taskbar (off-screen) -->
+        <div id="yt-player-container" style="position:fixed;bottom:-200px;right:0;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;">
+            <div id="yt-player"></div>
+        </div>
+
+        <!-- MSN Messenger Window -->
+        <div id="msn-window">
+            <div class="msn-titlebar" id="msn-titlebar">
+                <span class="msn-titlebar-icon">💬</span>
+                <span class="msn-titlebar-title">Parsa Navidi — Conversation</span>
+                <div class="msn-titlebar-btns">
+                    <button class="msn-titlebar-btn" onclick="toggleMSN()">_</button>
+                    <button class="msn-titlebar-btn close-btn" onclick="toggleMSN()">×</button>
+                </div>
+            </div>
+            <div class="msn-contact-bar">
+                <div class="msn-online-dot"></div>
+                <div>
+                    <div class="msn-contact-name">parsa_writes</div>
+                    <div class="msn-contact-status">Online</div>
+                </div>
+            </div>
+            <div id="msn-chat"></div>
+            <div class="msn-typing-bar" id="msn-typing"></div>
+            <div class="msn-input-area">
+                <input type="text" id="msn-input" placeholder="Type a message..." maxlength="200">
+                <button id="msn-send">Send</button>
             </div>
         </div>
 
@@ -2685,7 +3660,7 @@
                 <div class="ie-page" id="ie-page">
                     <!-- Banner -->
                     <div class="ie-banner">
-                        <div class="ie-banner-title">&#10022;&#9733;&#10022; Welcome to Parsa's Corner of the Internet! &#10022;&#9733;&#10022;</div>
+                        <div class="ie-banner-title">&#10022;&#9733;&#10022; Parsa's Corner of the Internet &#10022;&#9733;&#10022;</div>
                         <div class="ie-banner-sub">Est. 2021 &nbsp;&bull;&nbsp; Toronto, Canada &nbsp;&bull;&nbsp; Best viewed in 800&times;600</div>
                     </div>
                     <!-- Counter bar -->
@@ -2700,52 +3675,77 @@
                             <!-- Sidebar -->
                             <td class="ie-sidebar">
                                 <div class="ie-profile-pic-wrap">
-                                    <img src="images/portrait1.png" class="ie-profile-pic" onerror="this.style.display='none'">
+                                    <svg class="ie-profile-pic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                                        <rect width="100" height="100" fill="#1e3a6e"/>
+                                        <rect width="100" height="52" fill="#244485"/>
+                                        <rect x="10" y="74" width="80" height="30" rx="6" fill="#1e3a8a"/>
+                                        <polygon points="40,74 50,86 60,74" fill="#fff" opacity="0.9"/>
+                                        <rect x="42" y="62" width="16" height="15" rx="4" fill="#c8855a"/>
+                                        <rect x="26" y="26" width="48" height="42" rx="14" fill="#c8855a"/>
+                                        <rect x="22" y="18" width="56" height="24" rx="12" fill="#1c0a00"/>
+                                        <rect x="22" y="28" width="8" height="22" rx="4" fill="#1c0a00"/>
+                                        <rect x="70" y="28" width="8" height="22" rx="4" fill="#1c0a00"/>
+                                        <rect x="22" y="38" width="6" height="12" rx="3" fill="#c8855a"/>
+                                        <rect x="72" y="38" width="6" height="12" rx="3" fill="#c8855a"/>
+                                        <rect x="34" y="38" width="12" height="10" rx="4" fill="#fff"/>
+                                        <rect x="54" y="38" width="12" height="10" rx="4" fill="#fff"/>
+                                        <rect x="37" y="40" width="6" height="6" rx="2" fill="#2a1808"/>
+                                        <rect x="57" y="40" width="6" height="6" rx="2" fill="#2a1808"/>
+                                        <rect x="38" y="41" width="3" height="3" rx="1" fill="#000"/>
+                                        <rect x="58" y="41" width="3" height="3" rx="1" fill="#000"/>
+                                        <rect x="40" y="41" width="1.5" height="1.5" fill="#fff"/>
+                                        <rect x="60" y="41" width="1.5" height="1.5" fill="#fff"/>
+                                        <rect x="33" y="32" width="14" height="4" rx="2" fill="#1c0a00"/>
+                                        <rect x="53" y="32" width="14" height="4" rx="2" fill="#1c0a00"/>
+                                        <rect x="47" y="50" width="6" height="5" rx="2" fill="#b87550" opacity="0.45"/>
+                                        <path d="M38 58 Q50 65 62 58" stroke="#a06040" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                        <path d="M42 58 Q50 63 58 58" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+                                    </svg>
                                     <div class="ie-profile-name">~*~ Parsa ~*~</div>
                                 </div>
                                 <hr class="ie-hr">
                                 <div class="ie-online-badge">&#9679; STATUS: ONLINE</div>
                                 <div class="ie-sidebar-facts">
                                     <b>&#127758; Location:</b><br>Toronto, Canada<br><br>
-                                    <b>&#128188; Status:</b><br><span style="color:#006600;font-weight:bold">Available for hire!</span><br><br>
-                                    <b>&#127891; Degree:</b><br>Film &amp; Media Arts<br>York University
+                                    <b>&#128188; Status:</b><br><span style="color:#006600;font-weight:bold">Open to freelance</span><br><br>
+                                    <b>&#127891; School:</b><br>Cinema &amp; Media Arts<br>York University
                                 </div>
                                 <hr class="ie-hr">
                                 <div class="ie-construction">
                                     &#128679; ALWAYS BUILDING &#128679;
                                 </div>
                                 <hr class="ie-hr">
-                                <a href="#" class="ie-sidebar-btn ie-sidebar-btn-blue" onclick="openWindow('contact');return false;">&#128231; Email Me!</a>
-                                <a href="#" class="ie-sidebar-btn ie-sidebar-btn-red" onclick="openWindow('contact');return false;">&#9997;&#65039; Sign Guestbook</a>
+                                <a href="#" class="ie-sidebar-btn ie-sidebar-btn-blue" onclick="openWindow('contact');return false;">&#128231; Get in Touch</a>
+                                <a href="#" class="ie-sidebar-btn ie-sidebar-btn-red" onclick="openWindow('projects');return false;">&#128193; See the Work</a>
                             </td>
                             <!-- Main content -->
                             <td class="ie-main">
-                                <h2 class="ie-main-h2">Hi there! I'm <span class="ie-name-red">Parsa Navidi</span> &#128075;</h2>
-                                <p class="ie-main-p">Welcome to my little corner of the internet! I'm a <b>Creative Strategist</b> and <b>Content Designer</b> based in Toronto, Canada. From York University's Cinema and Media Arts to the front lines of digital marketing, my journey has been defined by one obsession: <i>the power of story</i>.</p>
-                                <p class="ie-main-p">Today, I help brands find their voice. Whether it's a landing page that needs to convert, a blog that demands attention, or a brand that needs to stand for something — I'm the guy who figures out <b>what to say and how to say it</b>.</p>
+                                <h2 class="ie-main-h2">Hi, I'm <span class="ie-name-red">Parsa</span>.</h2>
+                                <p class="ie-main-p">I'm a writer and content strategist based in Toronto. I studied Cinema and Media Arts at York University, which turned out to be surprisingly useful — good storytelling follows the same rules whether it's a screenplay or a product page.</p>
+                                <p class="ie-main-p">I currently write full-time at <b><a href="https://www.yardi.com/blog/" target="_blank" class="ie-link">Yardi</a></b> and take on freelance projects on the side. The freelance work is mostly copywriting, content strategy, and helping brands get clear on what they're actually trying to say.</p>
+                                <p class="ie-main-p">I'm at my best working with people who have something real to communicate and need it done well.</p>
                                 <hr class="ie-hr">
-                                <h3 class="ie-main-h3">&#9889; What I'm Up To</h3>
+                                <h3 class="ie-main-h3">// currently</h3>
                                 <ul class="ie-main-ul">
-                                    <li>&#9997;&#65039; Writer at <b><a href="https://www.yardi.com/blog/" target="_blank" class="ie-link">Yardi</a></b></li>
-                                    <li>&#127919; Freelance Copywriter &amp; Creative Strategist</li>
-                                    <li>&#128218; Always reading, always learning</li>
+                                    <li>Writer at <b>Yardi</b> (full-time)</li>
+                                    <li>Freelance copywriting &amp; content strategy</li>
+                                    <li>Side projects — this site being one of them</li>
                                 </ul>
                                 <hr class="ie-hr">
-                                <h3 class="ie-main-h3">&#127775; Fun Facts</h3>
+                                <h3 class="ie-main-h3">// published work</h3>
                                 <ul class="ie-main-ul">
-                                    <li>&#127916; Cinema &amp; Media Arts @ York University</li>
-                                    <li>&#128240; Published on Yardi, Shoplazza &amp; REC Canada</li>
-                                    <li>&#127961;&#65039; Based in Toronto &#127809;</li>
-                                    <li>&#128161; Believes great copy can change the world</li>
+                                    <li>Yardi Breeze blog &amp; Yardi corporate editorial</li>
+                                    <li>Shoplazza merchant resources</li>
+                                    <li>REC Canada editorial</li>
                                 </ul>
-                                <div class="ie-blink-text">&#9733; Thanks for visiting! Don't forget to sign the guestbook! &#9733;</div>
+                                <div class="ie-blink-text">&#9733; Thanks for stopping by. &#9733;</div>
                             </td>
                         </tr>
                     </table>
                     <!-- Footer -->
                     <div class="ie-footer">
-                        &copy; 2025 Parsa Navidi Productions&#8482; &nbsp;|&nbsp; Best viewed in Internet Explorer 4.0+ &nbsp;|&nbsp; 800&times;600 resolution<br>
-                        <span style="color:#00ff88">&#128154; This page has been visited by real humans since 2021 &#128154;</span>
+                        &copy; 2025 Parsa Navidi &nbsp;|&nbsp; Best viewed in Internet Explorer 4.0+ &nbsp;|&nbsp; 800&times;600 resolution<br>
+                        <span style="color:#00ff88">&#128154; Real humans only since 2021 &#128154;</span>
                     </div>
                 </div>
                 <!-- IE Status bar -->
@@ -3072,7 +4072,7 @@
             </div>
         </div>
 
-        <div class="window recycle-window minimized" id="window-recycle" style="top: 80px; left: 220px; width: 300px; height: 220px;">
+        <div class="window minimized" id="window-recycle" style="top:60px;left:180px;width:360px;height:280px;">
             <div class="window-titlebar inactive" data-window="recycle">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23708090' d='M3,5 L4,13 L12,13 L13,5 Z M6,5 L6,3 L10,3 L10,5 M4,3 L4,2 L12,2 L12,3'/%3E%3C/svg%3E">
                 <span>Recycle Bin</span>
@@ -3082,10 +4082,126 @@
                     <button class="window-btn close-btn" data-window="recycle">×</button>
                 </div>
             </div>
-            <div class="window-content">
-                <div class="recycle-content">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23708090' d='M18,20 L22,52 L42,52 L46,20 Z M26,20 L26,16 L38,16 L38,20 M22,16 L42,16 L42,12 L22,12 Z'/%3E%3C/svg%3E" alt="Recycle Bin">
-                    <p>Recycle Bin is empty</p>
+            <div class="window-content" style="padding:0;display:flex;flex-direction:column;height:100%">
+                <div class="bin-menubar">
+                    <span>File</span><span>Edit</span><span>View</span><span>Help</span>
+                </div>
+                <div class="bin-toolbar">
+                    <button class="bin-tb-btn" disabled>&#9664; Back</button>
+                    <button class="bin-tb-btn" disabled>Forward &#9654;</button>
+                    <div style="flex:1"></div>
+                    <button class="bin-tb-btn" onclick="alert('Recycle Bin cannot be emptied.\nimposter_syndrome.exe is still running.')">Empty Recycle Bin</button>
+                </div>
+                <div id="bin-files" style="flex:1;overflow-y:auto;padding:8px;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;background:#fff">
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Notepad','📄','Cannot open file.\n\nThis document contains levels of\ncringe that exceed safe display limits.\n\nConsider leaving it in the bin.')">
+                        <div class="bin-icon">📄</div><div class="bin-name">bio_draft_v1.txt</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('WordPad','📝','File protected by dignity.exe\n\ndiginity.exe was not found.\n\nThis file cannot be opened.')">
+                        <div class="bin-icon">📝</div><div class="bin-name">cover_letter_<br>desperate.doc</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Windows','⚙️','This program is already running.\n\nIt has been running since 2018.\nTask Manager cannot end this process.\n\nThis is fine.')">
+                        <div class="bin-icon">⚙️</div><div class="bin-name">imposter_<br>syndrome.exe</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Internet Explorer','🌐','Internet Explorer is required\nto open this file.\n\nInternet Explorer is no longer available.\nInternet Explorer has been discontinued.\nInternet Explorer is gone.')">
+                        <div class="bin-icon">🌐</div><div class="bin-name">portfolio_<br>2019_v1.html</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Notepad','📋','File is empty.\n\nThis file has always been empty.\nThis file will always be empty.\n\n[0 bytes] [847 attempts]')">
+                        <div class="bin-icon">📋</div><div class="bin-name">writers_<br>block.log</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Final Draft','🎬','Act 3 not found.\n\nThis error has persisted since 2021.\nWould you like to continue without Act 3?\n\n(You always continue without Act 3.)')">
+                        <div class="bin-icon">🎬</div><div class="bin-name">unfinished_<br>screenplay.fdx</div>
+                    </div>
+                    <div class="bin-item" onclick="binClick(this)" ondblclick="showWinError('Notepad','🐦','Access denied.\n\nThese were deleted for a reason.\nSome things are better left unsent.')">
+                        <div class="bin-icon">🐦</div><div class="bin-name">deleted_tweet_<br>drafts.txt</div>
+                    </div>
+                    <div class="bin-item bin-item-special" onclick="binClick(this)" ondblclick="openTimeCapsule()" title="double-click to open">
+                        <div class="bin-icon">📓</div><div class="bin-name">time_capsule<br>.txt</div>
+                    </div>
+                </div>
+                <div id="bin-statusbar" style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 8px;font-size:10px;font-family:Tahoma,sans-serif;flex-shrink:0">
+                    8 object(s) &nbsp;&nbsp; <span style="color:#555">Double-click time_capsule.txt to open</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Capsule overlay (IE-style story window) -->
+        <div id="timecapsule-overlay" style="display:none;position:fixed;inset:0;z-index:99997;align-items:center;justify-content:center;background:rgba(0,0,0,0.45)">
+            <div class="window" style="position:relative;width:680px;max-width:calc(100vw - 24px);height:540px;max-height:calc(100vh - 40px)">
+                <div class="window-titlebar" style="background:linear-gradient(90deg,#000080,#1084d0)">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23c8a000' x='1' y='4' width='14' height='10' rx='1'/%3E%3Cpath fill='%23a07800' d='M1 7h14v2H1z'/%3E%3C/svg%3E">
+                    <span>time_capsule.txt — Notepad</span>
+                    <div class="window-controls">
+                        <button class="window-btn" onclick="closeTimeCapsule()">×</button>
+                    </div>
+                </div>
+                <div class="window-content ie-window-content" style="height:calc(100% - 28px)">
+                    <div class="ie-menubar"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>
+                    <div class="ie-addressbar">
+                        <span class="ie-addr-label">Path</span>
+                        <input class="ie-addr-input" value="C:\RECYCLER\time_capsule.txt" readonly>
+                    </div>
+                    <div class="ie-page" style="height:calc(100% - 52px);overflow-y:auto">
+                        <div class="ie-banner">
+                            <div class="ie-banner-title">* * * why does this look like 1999? * * *</div>
+                            <div class="ie-banner-sub">a note from parsa &nbsp;&bull;&nbsp; you found it &nbsp;&bull;&nbsp; best viewed with the sound on</div>
+                        </div>
+                        <div class="ie-counterbar">
+                            <span class="ie-counter-green">READERS: <b>001,994</b></span>
+                            <span class="ie-counter-orange">:-) you found the easter egg!</span>
+                            <span class="ie-counter-cyan">[*] dial-up recommended</span>
+                        </div>
+                        <table class="ie-layout-table" cellpadding="8" cellspacing="4">
+                            <tr valign="top">
+                                <td class="ie-sidebar">
+                                    <div class="ie-profile-pic-wrap">
+                                        <div style="font-size:36px;text-align:center;line-height:1.4">&#128421;</div>
+                                        <div class="ie-profile-name">~*~ the old web ~*~</div>
+                                    </div>
+                                    <hr class="ie-hr">
+                                    <div class="ie-sidebar-facts" style="font-size:10px">
+                                        <b>soundtrack:</b><br>some MIDI autoplay-ing<br><br>
+                                        <b>grew up on:</b><br>Newgrounds<br>MapleStory<br>RuneScape<br>Neopets<br>GeoCities<br>MSN Messenger<br><br>
+                                        <b>first website:</b><br>Microsoft FrontPage<br>tiled flames GIF bg<br>font: Comic Sans
+                                    </div>
+                                    <hr class="ie-hr">
+                                    <div class="ie-construction">[*] ALWAYS BUILDING [*]</div>
+                                    <hr class="ie-hr">
+                                    <div style="font-size:9px;color:#666;text-align:center;font-family:'Courier New',monospace;line-height:1.7">
+                                        [##########]<br>nostalgia: 100%<br><br>
+                                        [#####.....]<br>cringe: 50% (rising)
+                                    </div>
+                                </td>
+                                <td class="ie-main">
+                                    <h2 class="ie-main-h2">I grew up on the internet when it still felt <span class="ie-name-red">personal.</span></h2>
+                                    <p class="ie-main-p">I'm talking about GeoCities pages with tiled backgrounds and a MIDI file playing whether you wanted it or not. Newgrounds Flash games that took four minutes to load and crashed your browser half the time. MSN Messenger nudges. AIM away messages that were basically diary entries for anyone who cared to look.</p>
+                                    <p class="ie-main-p">Every page looked like a real person made it. Sometimes badly. But that was kind of the point. You could tell there was a kid behind it who really cared about something, even if that something was just having the coolest "about me" section on their profile.</p>
+                                    <hr class="ie-hr">
+                                    <h3 class="ie-main-h3">that internet taught me how to write.</h3>
+                                    <p class="ie-main-p">Not in school, not from a book. I learned by watching what worked. Which Newgrounds submissions got frontpaged. Which RuneScape forum posts got replies. Which GeoCities profiles got bookmarked. It was always the ones with a real voice. The ones that sounded like a person, not a page.</p>
+                                    <p class="ie-main-p">That stuck with me. It's basically the whole reason I ended up doing what I do now.</p>
+                                    <hr class="ie-hr">
+                                    <h3 class="ie-main-h3">so why does this portfolio look like Windows 98?</h3>
+                                    <p class="ie-main-p">Honestly, I got tired of looking at the same Notion-style portfolio over and over. Clean grid, neutral colors, three bullet points under each job. They all look fine. None of them look like anyone in particular.</p>
+                                    <p class="ie-main-p">I wanted mine to feel like something. And the thing that has always felt like something to me is that era of the internet, before everything got smoothed out and optimized. This is just my version of a GeoCities page. It takes itself seriously in the exact same way those did, which is to say, not that seriously at all.</p>
+                                    <p class="ie-main-p">The fact that you clicked the Recycle Bin and then opened this file tells me you're the kind of person who actually looks around. That's the kind of person I like working with. :)</p>
+                                    <div class="ie-blink-text">* thanks for poking around. hope it was worth the click. *</div>
+                                    <hr class="ie-hr">
+                                    <h3 class="ie-main-h3">// guestbook</h3>
+                                    <div style="font-size:10px;font-family:'Courier New',monospace;background:#fff;border:1px inset #ccc;padding:8px;line-height:2">
+                                        <b style="color:#000080">xX_WebMaster_Xx</b> <span style="color:#888">(2004)</span>: this site is so cool!! bookmarked!! tell ur friends!!<br>
+                                        <b style="color:#800000">MapleStory_grl</b> <span style="color:#888">(2007)</span>: omg i miss newgrounds so much... henrystickmin was everything<br>
+                                        <b style="color:#006600">RuneScape_legend</b> <span style="color:#888">(2009)</span>: woodcutting to 99 while reading this. respect.<br>
+                                        <b style="color:#884400">h2o_grl</b> <span style="color:#888">(2011)</span>: honestly the best advice i ever got was just drink more <span onclick="location.href='secret1.html'" style="color:#888;cursor:default;text-decoration:none">water</span>. anyway. cool site.<br>
+                                        <b style="color:#660066">parsa</b> <span style="color:#888">(today)</span>: still building. always will be.
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="ie-footer">
+                            &copy; 2025 Parsa Navidi &nbsp;|&nbsp; built by hand &nbsp;|&nbsp; best viewed in Internet Explorer 4.0+<br>
+                            <span style="color:#00ff88">this file was in the Recycle Bin. you opened it anyway. good.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3224,12 +4340,195 @@
             </div>
         </div>
 
+
+    <!-- My Documents Window -->
+    <div class="window minimized" id="window-docs" style="top:80px;left:180px;width:520px;height:340px;">
+        <div class="window-titlebar inactive" data-window="docs">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23ffcc00' x='1' y='4' width='14' height='11' rx='1'/%3E%3Crect fill='%23ffe566' x='1' y='4' width='6' height='4' rx='1'/%3E%3C/svg%3E">
+            <span>My Documents — C:\Parsa\My Documents\</span>
+            <div class="window-controls">
+                <button class="window-btn minimize-btn" data-window="docs">_</button>
+                <button class="window-btn maximize-btn" data-window="docs">▢</button>
+                <button class="window-btn close-btn" data-window="docs">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="exp-menubar"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
+            <div class="exp-addrbar">
+                <span class="exp-addr-label">Address</span>
+                <div class="exp-addr-input">📁 C:\Parsa\My Documents</div>
+            </div>
+            <div style="background:#fff;border:2px inset #808080;flex:1;overflow-y:auto;margin:0 2px 2px;">
+                <div style="display:flex;background:#c0c0c0;border-bottom:1px solid #808080;font-size:10px;font-family:'MS Sans Serif',Tahoma,sans-serif;padding:2px 8px 2px 46px;gap:0;">
+                    <span style="flex:1;color:#000">Name</span>
+                    <span style="width:100px;color:#000">Type</span>
+                    <span style="width:60px;color:#000;text-align:right">Size</span>
+                </div>
+                <div class="mydocs-list" id="mydocs-list"></div>
+            </div>
+            <div style="background:#c0c0c0;border-top:1px solid #808080;padding:2px 6px;font-size:10px;font-family:'MS Sans Serif',Tahoma,sans-serif;color:#444;flex-shrink:0;">
+                5 object(s) &nbsp;&nbsp; Double-click to open
+            </div>
+        </div>
+    </div>
+
+    <!-- MS-DOS Prompt Window -->
+    <div class="window minimized" id="window-cmd" style="top:80px;left:160px;width:560px;height:340px;">
+      <div class="window-titlebar inactive" data-window="cmd">
+        <div style="display:flex;align-items:center;gap:5px;">
+          <svg width="14" height="14" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><rect fill="#000080" width="16" height="16" rx="1"/><rect fill="#000" x="1" y="1" width="14" height="14" rx="0.5"/><text x="2" y="10" font-size="7" fill="#c0c0c0" font-family="monospace">C:\</text></svg>
+          MS-DOS Prompt
+        </div>
+        <div class="window-controls">
+          <button class="window-btn minimize-btn" data-window="cmd">_</button>
+          <button class="window-btn close-btn" data-window="cmd">×</button>
+        </div>
+      </div>
+      <div class="window-content" style="padding:0;display:flex;flex-direction:column;height:calc(100% - 22px);background:#000;font-family:'Courier New',monospace;font-size:12px;color:#c0c0c0;">
+        <div id="cmd-output" style="flex:1;padding:8px 10px;overflow-y:auto;white-space:pre-wrap;line-height:1.6;word-break:break-all;"></div>
+        <div style="display:flex;align-items:center;padding:4px 10px;border-top:1px solid #1a1a1a;flex-shrink:0;">
+          <span id="cmd-prompt-label" style="color:#c0c0c0;margin-right:4px;white-space:nowrap;">C:\&gt;</span>
+          <input id="cmd-input" type="text" style="flex:1;background:transparent;border:none;outline:none;color:#c0c0c0;font-family:'Courier New',monospace;font-size:12px;caret-color:#c0c0c0;" autocomplete="off" spellcheck="false" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <!-- Games Window -->
+    <div class="window minimized" id="window-games" style="top:90px;left:200px;width:420px;height:270px;">
+        <div class="window-titlebar inactive" data-window="games">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23222244' x='1' y='4' width='14' height='8' rx='3'/%3E%3Crect fill='%23fff' x='3' y='7' width='1.5' height='3' rx='.5'/%3E%3Crect fill='%23fff' x='2' y='8' width='3.5' height='1.5' rx='.5'/%3E%3Ccircle fill='%23f44' cx='12' cy='7' r='1'/%3E%3Ccircle fill='%234f4' cx='13.5' cy='8.5' r='1'/%3E%3C/svg%3E">
+            <span>Games — C:\Parsa\Games\</span>
+            <div class="window-controls">
+                <button class="window-btn minimize-btn" data-window="games">_</button>
+                <button class="window-btn maximize-btn" data-window="games">▢</button>
+                <button class="window-btn close-btn" data-window="games">×</button>
+            </div>
+        </div>
+        <div class="window-content" style="display:flex;flex-direction:column;">
+            <div class="exp-menubar"><span>File</span><span>View</span><span>Help</span></div>
+            <div style="flex:1;background:#fff;border:2px inset #808080;margin:2px;overflow:auto;">
+                <div class="games-grid">
+                    <div class="game-tile" ondblclick="window.open('snake.html','_blank')">
+                        <div class="game-tile-icon">🐍</div>
+                        <div class="game-tile-name">Snake</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('minesweeper.html','_blank')">
+                        <div class="game-tile-icon">💣</div>
+                        <div class="game-tile-name">Minesweeper</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('reelmaker.html','_blank')">
+                        <div class="game-tile-icon">🎬</div>
+                        <div class="game-tile-name">Reel Maker 2000</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('runescape.html','_blank')">
+                        <div class="game-tile-icon">⚔️</div>
+                        <div class="game-tile-name">Skills Cape</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('clippy-clicker.html','_blank')">
+                      <div class="game-tile-icon">🖇️</div>
+                      <div class="game-tile-name">Clippy Clicker</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('password-game.html','_blank')">
+                      <div class="game-tile-icon">🔐</div>
+                      <div class="game-tile-name">Password Game</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('whack.html','_blank')">
+                      <div class="game-tile-icon">🔨</div>
+                      <div class="game-tile-name">Whack-a-Client</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('pong.html','_blank')">
+                      <div class="game-tile-icon">🏓</div>
+                      <div class="game-tile-name">Pong</div>
+                    </div>
+                    <div class="game-tile" ondblclick="window.open('typing-test.html','_blank')">
+                      <div class="game-tile-icon">⌨️</div>
+                      <div class="game-tile-name">Typing Test</div>
+                    </div>
+                </div>
+            </div>
+            <div class="games-statusbar">
+                <div class="sp">9 object(s) &nbsp; Double-click to launch</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Documents file popup -->
+    <div class="mydocs-popup-overlay" id="mydocs-popup-overlay" onclick="if(event.target===this)closeMydocsPopup()">
+        <div class="mydocs-popup">
+            <div class="mydocs-popup-title">
+                <span id="mydocs-popup-titletext">Document</span>
+                <div class="mydocs-popup-close" onclick="closeMydocsPopup()">✕</div>
+            </div>
+            <div id="mydocs-popup-body" class="mydocs-popup-body"></div>
+            <div class="mydocs-popup-footer">
+                <button class="mdp-ok" onclick="closeMydocsPopup()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Properties Dialog -->
+    <div id="sys-prop-overlay" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.25);display:none;align-items:center;justify-content:center;" onclick="if(event.target===this)closeSysProp()">
+        <div id="sys-prop-dialog" style="width:420px;background:#d4d0c8;border:2px solid;border-color:#ffffff #808080 #808080 #ffffff;box-shadow:2px 2px 0 #000;font-family:Tahoma,Arial,sans-serif;font-size:11px;">
+            <!-- Title bar -->
+            <div style="background:linear-gradient(90deg,#0a246a,#3a6ea5);padding:3px 5px;display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:bold;">
+                    <svg width="16" height="16" viewBox="0 0 16 16"><rect fill="#c0c0c0" x="1" y="2" width="14" height="10" rx="1"/><rect fill="#1a5fa8" x="3" y="4" width="10" height="6"/><rect fill="#d4d0c8" x="3" y="12" width="10" height="2"/></svg>
+                    System Properties
+                </div>
+                <button onclick="closeSysProp()" style="background:linear-gradient(180deg,#d4d0c8,#b8b4ac);border:1px solid;border-color:#fff #808080 #808080 #fff;width:16px;height:14px;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;">×</button>
+            </div>
+            <!-- Fake tab row -->
+            <div style="display:flex;border-bottom:2px solid #808080;padding:4px 6px 0;gap:2px;background:#d4d0c8;">
+                <div style="background:#d4d0c8;border:1px solid;border-color:#fff #808080 #d4d0c8 #fff;padding:2px 10px;font-size:11px;position:relative;top:2px;z-index:1;">General</div>
+                <div style="background:#b8b4ac;border:1px solid;border-color:#fff #808080 #808080 #fff;padding:2px 10px;font-size:11px;color:#666;">Hardware</div>
+                <div style="background:#b8b4ac;border:1px solid;border-color:#fff #808080 #808080 #fff;padding:2px 10px;font-size:11px;color:#666;">Advanced</div>
+            </div>
+            <!-- Content panel -->
+            <div style="padding:14px 16px;background:#d4d0c8;">
+                <!-- Top row: logo + system name -->
+                <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;">
+                    <svg width="56" height="56" viewBox="0 0 56 56"><rect fill="#c0c0c0" x="4" y="8" width="48" height="32" rx="2"/><rect fill="#1a5fa8" x="8" y="12" width="40" height="24"/><rect fill="#d4d0c8" x="12" y="40" width="32" height="5"/><rect fill="#808080" x="12" y="48" width="32" height="3"/><rect fill="#90b8e0" x="10" y="14" width="36" height="20" opacity="0.3"/></svg>
+                    <div>
+                        <div style="font-weight:bold;font-size:13px;margin-bottom:3px;">DesktopCore OS</div>
+                        <div style="color:#444;font-size:10px;">Version 98.parsa.2</div>
+                        <div style="color:#444;font-size:10px;margin-top:2px;">Registered to: Parsa Navidi</div>
+                        <div style="color:#444;font-size:10px;">Toronto, Canada</div>
+                    </div>
+                </div>
+                <hr style="border:none;border-top:1px solid #808080;border-bottom:1px solid #fff;margin:0 0 10px;">
+                <!-- Computer specs -->
+                <div style="font-weight:bold;margin-bottom:6px;">Computer:</div>
+                <div style="display:grid;grid-template-columns:120px 1fr;row-gap:5px;padding-left:10px;color:#222;">
+                    <span style="color:#555;">Processor:</span>
+                    <span>One overworked creative brain @ variable GHz</span>
+                    <span style="color:#555;">RAM:</span>
+                    <span>8 years of experience installed</span>
+                    <span style="color:#555;">Storage:</span>
+                    <span>Unlimited ideas, limited time</span>
+                    <span style="color:#555;">OS:</span>
+                    <span>DesktopCore 98 (built in one .html file)</span>
+                    <span style="color:#555;">Location:</span>
+                    <span>Toronto, Canada</span>
+                    <span style="color:#555;">Status:</span>
+                    <span style="color:#006600;font-weight:bold;">Open to freelance work</span>
+                </div>
+                <hr style="border:none;border-top:1px solid #808080;border-bottom:1px solid #fff;margin:10px 0;">
+                <!-- Buttons row -->
+                <div style="display:flex;justify-content:flex-end;gap:6px;margin-top:4px;">
+                    <button onclick="openWindow('contact');closeSysProp();" style="padding:3px 16px;background:linear-gradient(180deg,#d4d0c8,#b8b4ac);border:1px solid;border-color:#fff #808080 #808080 #fff;cursor:pointer;font-size:11px;min-width:72px;">Hire Me</button>
+                    <button onclick="closeSysProp()" style="padding:3px 16px;background:linear-gradient(180deg,#d4d0c8,#b8b4ac);border:1px solid;border-color:#fff #808080 #808080 #fff;cursor:pointer;font-size:11px;min-width:72px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Right-click Context Menu -->
     <div class="context-menu" id="context-menu">
         <div class="context-menu-item disabled">View</div>
         <div class="context-menu-item disabled">Sort Icons By</div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" id="ctx-refresh">Refresh</div>
+        <div class="context-menu-item" id="ctx-wallpaper">Change Wallpaper</div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" id="ctx-about">About Parsa...</div>
         <div class="context-menu-item" id="ctx-contact">Get in Touch</div>
@@ -3239,8 +4538,22 @@
         <div class="context-menu-item" id="ctx-crt">Enable CRT Mode</div>
     </div>
 
+    <!-- Clippy dock sign (desktop only) -->
+    <div class="clippy-dock-sign" id="clippy-dock-sign" title="Park Clippy here" onclick="clippyToggleDock()">
+        <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <!-- pin head -->
+            <rect x="4" y="1" width="8" height="7" rx="2" fill="#1a56cc"/>
+            <rect x="5" y="2" width="6" height="5" rx="1.5" fill="#3a76ec"/>
+            <!-- pin shaft -->
+            <rect x="7" y="8" width="2" height="4" fill="#444"/>
+            <!-- pin point -->
+            <polygon points="8,12 6.5,16 9.5,16" fill="#444"/>
+        </svg>
+    </div>
+
     <!-- Clippy -->
     <div class="clippy-wrap" id="clippy-wrap">
+        <button class="clippy-close-btn" id="clippy-close-btn" onclick="document.getElementById('clippy-wrap').style.display='none'" title="Close Clippy">✕</button>
         <div class="clippy-bubble" id="clippy-bubble">It looks like you're viewing a portfolio. Would you like help finding the right section?</div>
         <svg class="clippy-svg" id="clippy-svg" viewBox="0 0 80 110" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -3288,9 +4601,69 @@
         </svg>
     </div>
 
+    <!-- BSOD Easter Egg -->
+    <div id="bsod">
+        <h2>Windows</h2>
+        <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) +<br>
+        00010E36. The current application will be terminated.</p>
+        <br>
+        <p>&nbsp;* imposter_syndrome.exe has caused a fatal exception.</p>
+        <p>&nbsp;* Process has been running since 2018. Cannot terminate.</p>
+        <p>&nbsp;* Confidence levels critically low.</p>
+        <p>&nbsp;* Attempting recovery... recovery.exe not found.</p>
+        <br>
+        <p>Press any key to continue, or wait for the universe to sort itself out.</p>
+        <br>
+        <p>Restart and select proper career path from the Boot Menu, or<br>
+        insert a Portfolio disk to boot from disk.</p>
+        <br>
+        <p>If this is the first time you've seen this Stop error screen,<br>
+        just know that Parsa is, in fact, doing fine. Probably.</p>
+        <div class="bsod-footer">
+            Press SPACE to restart &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ESC to stay in denial
+        </div>
+    </div>
+
+    <!-- Run Dialog -->
+    <div id="run-dialog">
+        <div class="run-titlebar" id="run-titlebar">
+            <span>🏃 Run</span>
+            <div class="run-titlebar-close" onclick="closeRunDialog()">×</div>
+        </div>
+        <div class="run-body">
+            <div class="run-desc">Type the name of a program, folder, document, or Internet resource:</div>
+            <div class="run-row">
+                <label>Open:</label>
+                <input type="text" id="run-input" placeholder="">
+            </div>
+            <div class="run-btns">
+                <button class="run-btn" id="run-ok">OK</button>
+                <button class="run-btn" onclick="closeRunDialog()">Cancel</button>
+                <button class="run-btn" onclick="alert('Browse... not available. Try typing a command instead.')">Browse...</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Popup -->
+    <div id="cal-popup">
+        <div class="cal-header">
+            <button class="cal-nav-btn" id="cal-prev">◀</button>
+            <span id="cal-month-label">March 2026</span>
+            <button class="cal-nav-btn" id="cal-next">▶</button>
+        </div>
+        <div class="cal-grid">
+            <div class="cal-dow-row">
+                <div class="cal-dow">Su</div><div class="cal-dow">Mo</div><div class="cal-dow">Tu</div>
+                <div class="cal-dow">We</div><div class="cal-dow">Th</div><div class="cal-dow">Fr</div><div class="cal-dow">Sa</div>
+            </div>
+            <div class="cal-days-grid" id="cal-days"></div>
+        </div>
+        <div class="cal-footer" id="cal-today-label"></div>
+    </div>
+
     <!-- Screensaver -->
     <div class="screensaver" id="screensaver">
-        <div class="ss-text" id="ss-text">PARSA NAVIDI</div>
+        <div class="ss-text" id="ss-text">PARSA.EXE</div>
     </div>
 
     <!-- Taskbar -->
@@ -3300,11 +4673,29 @@
             <span>Start</span>
         </button>
         <div class="taskbar-items" id="taskbar-items"></div>
+
+        <!-- Winamp taskbar mini-player -->
+        <div class="tb-winamp" id="tb-winamp">
+            <span class="tb-wa-logo">WINAMP</span>
+            <div class="tb-wa-sep"></div>
+            <div class="tb-wa-track">
+                <span class="tb-wa-ticker paused" id="tb-wa-ticker">─── click ▶ to play ───</span>
+            </div>
+            <span class="tb-wa-dot" id="tb-wa-dot"></span>
+            <div class="tb-wa-controls">
+                <button class="tb-wa-btn" id="tb-wa-prev" title="Previous">◀◀</button>
+                <button class="tb-wa-btn" id="tb-wa-playpause" title="Play">▶</button>
+                <button class="tb-wa-btn" id="tb-wa-next" title="Next">▶▶</button>
+            </div>
+            <input type="range" class="tb-wa-vol" id="tb-wa-vol" min="0" max="100" value="70" title="Volume">
+        </div>
+
         <div class="system-tray">
+            <span id="msn-tray-btn" onclick="toggleMSN()" title="MSN Messenger" style="cursor:pointer;font-size:14px;padding:0 2px;">💬</span>
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23808080' d='M2,14 L14,14 L14,12 L2,12 Z M3,11 L13,11 L13,8 L3,8 Z M4,7 L12,7 L12,5 L4,5 Z'/%3E%3C/svg%3E" alt="Volume">
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' d='M1,8 L1,7 L4,4 L4,11 Z M5,6 L8,2 L8,13 Z M9,7 L15,3 L15,12 Z'/%3E%3C/svg%3E" alt="Network">
         </div>
-        <div class="clock" id="clock">12:00 PM</div>
+        <div class="clock" id="clock" onclick="toggleCalendar()" title="Click to show calendar">12:00 PM</div>
     </div>
 
     <!-- Start Menu -->
@@ -3345,13 +4736,6 @@
                         <div class="sm-prog-desc">Windows Movie Maker, basically</div>
                     </div>
                 </div>
-                <div class="sm-prog" onclick="window.open('maple.html','_blank')">
-                    <div class="sm-prog-icon">🍁</div>
-                    <div class="sm-prog-text">
-                        <div class="sm-prog-name">MapleWorld</div>
-                        <div class="sm-prog-desc">Pick your class, adventurer</div>
-                    </div>
-                </div>
                 <div class="sm-prog" onclick="window.open('runescape.html','_blank')">
                     <div class="sm-prog-icon">⚔️</div>
                     <div class="sm-prog-text">
@@ -3359,7 +4743,14 @@
                         <div class="sm-prog-desc">RuneScape stats, IRL</div>
                     </div>
                 </div>
-
+                <div class="sm-prog" onclick="openWindow('cmd');document.getElementById('start-menu').classList.remove('open')">
+                    <div class="sm-prog-icon">🖥️</div>
+                    <div class="sm-prog-text">
+                        <div class="sm-prog-name">MS-DOS Prompt</div>
+                        <div class="sm-prog-desc">Command line interface</div>
+                    </div>
+                </div>
+                <div class="sm-sep"></div>
                 <div class="sm-all-progs">
                     <span>📂</span> All Programs &rsaquo;
                 </div>
@@ -3369,7 +4760,7 @@
             <div class="sm-right">
                 <div class="sm-right-label">My Portfolio</div>
                 <div class="sm-nav" data-window="about">
-                    <span class="sm-nav-icon">👤</span> My Info
+                    <span class="sm-nav-icon">👤</span> About Me
                 </div>
                 <div class="sm-nav" data-window="projects">
                     <span class="sm-nav-icon">📂</span> Projects
@@ -3387,15 +4778,12 @@
                 <div class="sm-nav" data-window="resume">
                     <span class="sm-nav-icon">📄</span> Resume
                 </div>
-                <div class="sm-nav-sep"></div>
-                <div class="sm-nav" data-window="recycle">
-                    <span class="sm-nav-icon">🗑️</span> Recycle Bin
-                </div>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="sm-footer">
+            <button class="sm-foot-btn" onclick="openRunDialog()">▶ Run...</button>
             <button class="sm-foot-btn" onclick="window.close()">🔴 Log Off</button>
         </div>
     </div>
@@ -3469,6 +4857,15 @@
                 <line x1="19" y1="21" x2="17" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
                 <line x1="24" y1="21" x2="24" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
                 <line x1="29" y1="21" x2="31" y2="38" stroke="#90a4ae" stroke-width="1.5"/>
+            </svg>`,
+
+            computer: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <rect fill="#c0c0c0" x="4" y="6" width="40" height="28" rx="2"/>
+                <rect fill="#1a5fa8" x="7" y="9" width="34" height="22"/>
+                <rect fill="#d4d0c8" x="10" y="34" width="28" height="4"/>
+                <rect fill="#b0aca4" x="14" y="38" width="20" height="3"/>
+                <rect fill="#808080" x="10" y="41" width="28" height="2"/>
+                <rect fill="#a0c0e8" x="9" y="11" width="30" height="18" opacity="0.3"/>
             </svg>`
         };
 
@@ -3519,6 +4916,8 @@
             win.addEventListener('animationend', () => win.classList.remove('opening'), { once: true });
             win.style.zIndex = ++windowZIndex;
             startMenu.classList.remove('open');
+            document.body.style.cursor = 'wait';
+            setTimeout(() => { document.body.style.cursor = ''; }, 450);
             SFX.open();
 
             // On desktop: center + cascade windows on first open
@@ -3788,8 +5187,11 @@
 
             document.getElementById('ctx-properties').addEventListener('click', () => {
                 menu.classList.remove('visible');
-                openWindow('about');
+                document.getElementById('sys-prop-overlay').style.display = 'flex';
             });
+            window.closeSysProp = function() {
+                document.getElementById('sys-prop-overlay').style.display = 'none';
+            };
         })();
 
         // ── IE loading effect when About window opens ────────────
@@ -3888,8 +5290,39 @@
             };
         })();
 
+        // Pre-Boot Power On
+        function pbPowerOn() {
+            const btn = document.getElementById('pbPowerBtn');
+            const led = document.querySelector('.pb-led');
+            const flash = document.getElementById('pbFlash');
+            const preBoot = document.getElementById('pre-boot');
+            const screen = document.querySelector('.pb-screen');
+            btn.style.pointerEvents = 'none';
+            // Reveal boot screen behind pre-boot now so desktop never flashes through
+            document.getElementById('boot-screen').classList.remove('hidden');
+            // LED goes bright green
+            led.style.animation = 'none';
+            led.style.background = '#00cc44';
+            led.style.boxShadow = '0 0 10px #00cc44, 0 0 20px #00cc4466';
+            // Power icon brightens
+            btn.querySelectorAll('svg path').forEach(p => p.setAttribute('stroke','#00cc44'));
+            // Screen flickers on
+            setTimeout(() => { screen.style.background = '#e8f0ff'; screen.style.transition='background 0.08s'; }, 120);
+            setTimeout(() => { screen.style.background = '#c0d4ff'; }, 200);
+            setTimeout(() => { screen.style.background = '#d8e8ff'; }, 260);
+            setTimeout(() => { screen.style.background = '#b0c8ff'; }, 310);
+            // White flash
+            setTimeout(() => { flash.style.opacity = '1'; }, 380);
+            setTimeout(() => {
+                preBoot.style.transition = 'opacity 0.5s';
+                preBoot.style.opacity = '0';
+                preBoot.style.pointerEvents = 'none';
+            }, 600);
+            setTimeout(() => { preBoot.classList.add('off'); startBoot(); }, 1100);
+        }
+
         // Boot Animation
-        (function() {
+        function startBoot() {
             const bootScreen = document.getElementById('boot-screen');
             const progressBar = document.getElementById('boot-progress-bar');
             const bootMessage = document.getElementById('boot-message');
@@ -3913,7 +5346,7 @@
             const bootInterval = setInterval(() => {
                 progress += Math.random() * 8 + 2;
                 if (progress > 100) progress = 100;
-                
+
                 progressBar.style.width = progress + '%';
 
                 if (progress > (messageIndex + 1) * 10 && messageIndex < messages.length) {
@@ -3925,15 +5358,31 @@
                 if (progress >= 100) {
                     clearInterval(bootInterval);
                     setTimeout(() => {
-                        bootScreen.classList.add('hidden');
-                        SFX.startup();
-                        setTimeout(() => showToast('Parsa Navidi\u2122', '\uD83D\uDC4B Welcome! Double-click any icon to explore.'), 3500);
-                        setTimeout(() => showToast('\uD83D\uDCBC Available for Work', 'Open for freelance copywriting & creative strategy projects.'), 7000);
-                        setTimeout(() => showToast('\uD83D\uDCEC New Message', 'Parsa recently published on Yardi & REC Canada. Check Projects!'), 13000);
-                    }, 800);
+                        // Fade boot screen out instead of instant hide
+                        bootScreen.style.transition = 'opacity 0.8s';
+                        bootScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            bootScreen.classList.add('hidden');
+                            bootScreen.style.opacity = '';
+                            bootScreen.style.transition = '';
+                            // Fade desktop in
+                            const desk = document.querySelector('.desktop');
+                            desk.style.opacity = '0';
+                            desk.style.transition = 'opacity 1s';
+                            requestAnimationFrame(() => requestAnimationFrame(() => { desk.style.opacity = '1'; }));
+                            setTimeout(() => { desk.style.opacity = ''; desk.style.transition = ''; }, 1200);
+                            SFX.startup();
+                            setTimeout(() => showToast('Parsa Navidi\u2122', '\uD83D\uDC4B Welcome! Double-click any icon to explore.'), 3500);
+                            setTimeout(() => showToast('\uD83D\uDCBC Available for Work', 'Open for freelance copywriting & creative strategy projects.'), 7000);
+                            setTimeout(() => showToast('\uD83D\uDCEC New Message', 'Parsa recently published on Yardi & REC Canada. Check Projects!'), 13000);
+                            // Signal Clippy it can appear now
+                            window._desktopReady = true;
+                            if (window._showClippy) setTimeout(window._showClippy, 5000);
+                        }, 900);
+                    }, 2000);
                 }
             }, 150);
-        })();
+        }
 
         // ── Toast notifications ───────────────────────────────────────
         let activeToast = null;
@@ -4014,21 +5463,22 @@
 
             /* ── Messages per window ── */
             const windowMsgs = {
-                about:    "Oh! Getting to know Parsa? Great choice — he's pretty impressive! 👀",
-                projects: "Whoa, look at all this work! Parsa really knows how to ship things. 🚀",
-                skills:   "Expert at Copywriting AND Brand Storytelling? This person means business! ⭐",
-                contact:  "Ooh, reaching out? Don't be shy — Parsa loves meeting new people! 📬",
-                resume:   "The résumé! A classic. (Spoiler: it's a really good one) 📄",
-                tools:    "Figma, Notion, Claude, Perplexity… this toolkit is no joke. 🛠️",
-                recycle:  "The Recycle Bin? Nothing here… just like Parsa's rejection pile. 😏",
+                about:    "It looks like you're reading about Parsa. Good call.",
+                projects: "These are the projects. Some shipped, some still living rent-free in his head.",
+                skills:   "Copywriting, brand voice, content strategy... he's been at this a while.",
+                contact:  "Oh — reaching out? He's pretty responsive. Usually.",
+                resume:   "Classic move. The resume. It holds up.",
+                tools:    "Figma, Notion, Claude AI... the usual suspects.",
+                recycle:  "The Recycle Bin. Nothing to see here. Please move along.",
             };
 
             const idleMsgs = [
-                "It looks like you're exploring a portfolio. Can I help? 😊",
-                "Did you know? Parsa has published articles for Yardi, Shoplazza & REC Canada.",
-                "Tip: Right-click the desktop for secret options! 🤫",
-                "Still here? Parsa is open for freelance work. Hit Contact! 📬",
-                "Fun fact: This whole site was built in one HTML file. Wild, right?",
+                "It looks like you're exploring someone's portfolio. Need help?",
+                "Parsa writes for Yardi, Shoplazza, and REC Canada. In case you were wondering.",
+                "Tip: right-click the desktop. There's stuff there.",
+                "He's open for freelance. Just saying.",
+                "This whole site is one HTML file. Don't tell anyone.",
+                "Try the Konami code. I'm not going to tell you what it does.",
             ];
             let idleIdx = 0;
 
@@ -4039,8 +5489,8 @@
             }
 
             function playAnim(name) {
-                svg.classList.remove('clippy-anim-float','clippy-anim-bounce','clippy-anim-wiggle','clippy-anim-wave','clippy-anim-shock');
-                void svg.offsetWidth; // reflow to restart animation
+                svg.classList.remove('clippy-anim-float','clippy-anim-bounce','clippy-anim-wiggle','clippy-anim-wave','clippy-anim-shock','clippy-anim-dance');
+                void svg.offsetWidth;
                 svg.classList.add('clippy-anim-' + name);
                 if (name !== 'float') {
                     svg.addEventListener('animationend', () => {
@@ -4067,9 +5517,42 @@
                 }
             }
 
+            /* ── Drag ── */
+            let dragging = false, dragOffX = 0, dragOffY = 0, dragMoved = false;
+
+            function startDrag(clientX, clientY) {
+                dragging = true; dragMoved = false;
+                const r = wrap.getBoundingClientRect();
+                dragOffX = clientX - r.left;
+                dragOffY = clientY - r.top;
+                wrap.classList.add('clippy-dragging');
+                wrap.style.transition = 'opacity 0.5s'; // drop position transitions while dragging
+            }
+            function moveDrag(clientX, clientY) {
+                if (!dragging) return;
+                dragMoved = true;
+                const newL = Math.max(0, Math.min(window.innerWidth  - wrap.offsetWidth,  clientX - dragOffX));
+                const newB = Math.max(0, Math.min(window.innerHeight - wrap.offsetHeight, window.innerHeight - clientY - (wrap.offsetHeight - dragOffY)));
+                wrap.style.left   = newL + 'px';
+                wrap.style.bottom = newB + 'px';
+            }
+            function endDrag() {
+                if (!dragging) return;
+                dragging = false;
+                wrap.classList.remove('clippy-dragging');
+                wrap.style.transition = ''; // restore
+            }
+
+            wrap.addEventListener('mousedown',  e => { if (e.button === 0) { startDrag(e.clientX, e.clientY); e.preventDefault(); } });
+            document.addEventListener('mousemove', e => { moveDrag(e.clientX, e.clientY); });
+            document.addEventListener('mouseup',   endDrag);
+            wrap.addEventListener('touchstart', e => { const t = e.touches[0]; startDrag(t.clientX, t.clientY); }, { passive: true });
+            document.addEventListener('touchmove', e => { const t = e.touches[0]; moveDrag(t.clientX, t.clientY); }, { passive: true });
+            document.addEventListener('touchend',  endDrag);
+
             /* ── Eye cursor tracking ── */
             document.addEventListener('mousemove', e => {
-                if (!wrap.classList.contains('visible')) return;
+                if (dragging || !wrap.classList.contains('visible')) return;
                 const r = svg.getBoundingClientRect();
                 const ex = r.left + r.width * 0.35;
                 const ey = r.top  + r.height * 0.18;
@@ -4093,23 +5576,44 @@
             }
             setTimeout(blink, 3000);
 
+            const isMobile = () => window.innerWidth <= 768;
+
+            /* ── Dock sign toggle ── */
+            let clippyDocked = false;
+            const dockSign = document.getElementById('clippy-dock-sign');
+            window.clippyToggleDock = function() {
+                clippyDocked = !clippyDocked;
+                if (clippyDocked) {
+                    wrap.classList.add('clippy-docked');
+                    wrap.style.left = '';
+                    wrap.style.bottom = '';
+                    dockSign.classList.add('occupied');
+                    dockSign.title = 'Release Clippy';
+                    bubble.style.display = 'none';
+                } else {
+                    wrap.classList.remove('clippy-docked');
+                    wrap.style.left   = Math.max(20, window.innerWidth * 0.35) + 'px';
+                    wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
+                    dockSign.classList.remove('occupied');
+                    dockSign.title = 'Park Clippy here';
+                    bubble.style.display = '';
+                }
+            };
+
             /* ── Dodge: move Clippy away from an open window ── */
             function dodgeWindow(windowId) {
+                if (isMobile() || clippyDocked) return;
                 const win = document.getElementById('window-' + windowId);
                 if (!win || win.classList.contains('minimized')) return;
-                // Give the window a frame to paint before measuring
                 requestAnimationFrame(() => {
                     const wr  = win.getBoundingClientRect();
                     const cr  = wrap.getBoundingClientRect();
                     const sw  = window.innerWidth;
-                    const sh  = window.innerHeight;
-                    // Check overlap (with 20px cushion)
                     const overlap = !(cr.right  < wr.left  - 20 ||
                                       cr.left   > wr.right + 20 ||
                                       cr.bottom < wr.top   - 20 ||
                                       cr.top    > wr.bottom + 20);
                     if (!overlap) return;
-                    // Move to the side of the screen with more space
                     const spaceRight = sw - wr.right;
                     const spaceLeft  = wr.left;
                     const safeX = spaceRight > spaceLeft
@@ -4123,6 +5627,7 @@
 
             /* ── Wandering ── */
             function wander() {
+                if (isMobile() || dragging || clippyDocked) return;
                 const pad  = 120;
                 const maxX = window.innerWidth  - pad;
                 const newL = Math.max(20, Math.min(maxX, 80 + Math.random() * (maxX - 80)));
@@ -4145,37 +5650,46 @@
             };
 
             /* ── Idle message cycling ── */
+            const idleAnims = ['wiggle','dance','bounce','wave','wiggle','dance'];
+            let idleAnimIdx = 0;
             setInterval(() => {
-                if (!wrap.classList.contains('visible')) return;
+                if (!wrap.classList.contains('visible') || dragging || clippyDocked) return;
                 idleIdx = (idleIdx + 1) % idleMsgs.length;
                 setMsg(idleMsgs[idleIdx]);
-                playAnim('wiggle');
-                setExpression('neutral');
+                const anim = idleAnims[idleAnimIdx++ % idleAnims.length];
+                playAnim(anim);
+                setExpression(anim === 'bounce' ? 'happy' : 'neutral');
             }, 12000);
 
             /* ── Initial position: right-middle ── */
-            wrap.style.left   = (window.innerWidth  - 115) + 'px';
-            wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
+            if (!isMobile()) {
+                wrap.style.left   = (window.innerWidth  - 115) + 'px';
+                wrap.style.bottom = Math.round((window.innerHeight - 180) / 2) + 'px';
+            }
 
             /* ── First appearance ── */
-            setTimeout(() => {
+            window._showClippy = function() {
                 wrap.classList.add('visible');
+                dockSign.classList.add('ready');
                 SFX.clippy();
                 playAnim('wave');
                 setExpression('happy');
                 setTimeout(() => playAnim('float'), 1000);
-            }, 6000);
+            };
+            // Fallback: if desktop was already ready before this IIFE ran
+            if (window._desktopReady) setTimeout(window._showClippy, 5000);
 
             /* ── Click interactions ── */
-            bubble.addEventListener('click', () => openWindow('contact'));
+            bubble.addEventListener('click', () => { if (!dragMoved) openWindow('contact'); });
             svg.addEventListener('click', () => {
+                if (dragMoved) { dragMoved = false; return; } // was a drag, skip
                 const hidden = bubble.style.display === 'none';
                 bubble.style.display = hidden ? 'block' : 'none';
-                playAnim(hidden ? 'wave' : 'wiggle');
+                playAnim(hidden ? 'wave' : 'dance');
                 setExpression(hidden ? 'happy' : 'neutral');
             });
-            svg.addEventListener('mouseenter', () => setExpression('happy'));
-            svg.addEventListener('mouseleave', () => setExpression('neutral'));
+            svg.addEventListener('mouseenter', () => { if (!dragging) setExpression('happy'); });
+            svg.addEventListener('mouseleave', () => { if (!dragging) setExpression('neutral'); });
         })();
 
         // ── Windows Explorer: Projects window logic ────────────────────
@@ -4186,13 +5700,6 @@
                 meta: 'Content Strategy · 2024–Present',
                 desc: 'Wrote and redesigned quarterly multifamily market reports for Canada\'s largest property management software company. Complex housing data turned into narrative intelligence consumed by thousands of property managers coast-to-coast.',
                 url:  'https://info.yardi.com/multifamily-market-reports-for-canada'
-            },
-            {
-                icon: '🎙️',
-                name: 'Jas Takhar Podcast',
-                meta: 'Copywriting · Podcast Production · 2022–2023',
-                desc: 'Scripted and produced episodic content for one of Canada\'s most-followed real estate voices. Interview frameworks, show notes, and cross-channel promotional copy across email, LinkedIn, and social.',
-                url:  'https://meetjastakhar.com/'
             },
             {
                 icon: '🔧',
@@ -4207,6 +5714,15 @@
                 meta: 'Brand Voice · Web Copy · 2023',
                 desc: 'Built brand voice, website copy, and core messaging framework for a Canadian clean energy company scaling to new markets. First formal brand document they had — built from scratch via customer research and competitive audit.',
                 url:  'https://www.mysolargroup.ca/'
+            }
+        ];
+
+        const expArchived = [
+            {
+                icon: '🎙️',
+                name: 'Jas Takhar Podcast',
+                meta: 'Copywriting · Podcast Production · 2022–2023',
+                desc: 'Scripted and produced episodic content for one of Canada\'s most-followed real estate voices. Interview frameworks, show notes, and cross-channel promotional copy across email, LinkedIn, and social.',
             }
         ];
 
@@ -4254,7 +5770,7 @@
             addr.textContent = section === 'projects'
                 ? '📁 C:\\My Portfolio\\Projects'
                 : '📄 C:\\My Portfolio\\Articles';
-            pane.innerHTML = data.map(item =>
+            let html = data.map(item =>
                 `<a class="exp-card" href="${item.url}" target="_blank" rel="noopener">
                     <div class="exp-card-icon">${item.icon}</div>
                     <div class="exp-card-body">
@@ -4265,6 +5781,21 @@
                     <span class="exp-card-link">Open&nbsp;→</span>
                 </a>`
             ).join('');
+            if (section === 'projects' && expArchived.length) {
+                html += `<div class="exp-section-lbl">📦 Archived</div>`;
+                html += expArchived.map(item =>
+                    `<div class="exp-card exp-card-archived">
+                        <div class="exp-card-icon">${item.icon}</div>
+                        <div class="exp-card-body">
+                            <div class="exp-card-title">${item.name}</div>
+                            <div class="exp-card-meta">${item.meta}</div>
+                            <div class="exp-card-desc">${item.desc}</div>
+                        </div>
+                        <span class="exp-card-link exp-card-offline">Site offline</span>
+                    </div>`
+                ).join('');
+            }
+            pane.innerHTML = html;
             status.innerHTML = `<span>${data.length} object(s)</span><span>My Portfolio</span>`;
             SFX.click();
         }
@@ -4354,10 +5885,458 @@
             document.getElementById('cp-detail').innerHTML = `
                 <div class="cp-detail-title">${ap.icon} ${ap.title}</div>
                 <div class="cp-detail-desc">${ap.desc}</div>
-                <div class="cp-detail-tags">${ap.tags.map(t => `<span class="cp-tag">${t}</span>`).join('')}</div>`;
-            document.getElementById('cp-status').textContent = ap.title + ' — ' + ap.tags.length + ' capabilities';
+                <div class="cp-detail-tags">${ap.tags.slice(0,5).map(t => `<span class="cp-tag">${t}</span>`).join('')}</div>`;
+            document.getElementById('cp-status').textContent = ap.title + ' — ' + Math.min(5, ap.tags.length) + ' capabilities';
             SFX.click();
         }
+
+        // ── Recycle Bin ───────────────────────────────────────────────
+        function binClick(el) {
+            document.querySelectorAll('.bin-item').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+        function showWinError(app, icon, msg) {
+            document.getElementById('win-error-app-name').textContent = app;
+            document.getElementById('win-error-app-icon').textContent = icon;
+            document.getElementById('win-error-msg').textContent = msg;
+            document.getElementById('win-error-overlay').classList.add('open');
+            SFX.notify();
+        }
+        function closeWinError() {
+            document.getElementById('win-error-overlay').classList.remove('open');
+        }
+        function openTimeCapsule() {
+            const ov = document.getElementById('timecapsule-overlay');
+            ov.style.display = 'flex';
+        }
+        function closeTimeCapsule() {
+            document.getElementById('timecapsule-overlay').style.display = 'none';
+        }
+        document.getElementById('timecapsule-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeTimeCapsule();
+        });
+
+        // ── Taskbar Winamp + YouTube IFrame Player ─────────────────────
+        (function() {
+            const FIRST_VID   = 'PWOQWUYXiMk';
+            let ytPlayer = null;
+            let ytReady  = false;
+            let stateTimer = null;
+
+            // Elements
+            const dotEl    = document.getElementById('tb-wa-dot');
+            const ticker   = document.getElementById('tb-wa-ticker');
+            const btnPlay  = document.getElementById('tb-wa-playpause');
+            const btnPrev  = document.getElementById('tb-wa-prev');
+            const btnNext  = document.getElementById('tb-wa-next');
+            const volSlider= document.getElementById('tb-wa-vol');
+
+            function setDot(state) {
+                // state: 'playing' | 'paused' | 'stop'
+                if (!dotEl) return;
+                dotEl.className = 'tb-wa-dot' + (state === 'playing' ? ' playing' : state === 'paused' ? ' paused' : '');
+            }
+            function setPlayBtn(playing) {
+                if (!btnPlay) return;
+                btnPlay.textContent = playing ? '▐▐' : '▶';
+                btnPlay.title = playing ? 'Pause' : 'Play';
+                btnPlay.classList.toggle('active', playing);
+            }
+            function setTicker(text) {
+                if (!ticker) return;
+                ticker.textContent = text + '   ';
+                ticker.classList.remove('paused');
+            }
+            function pollState() {
+                if (!ytPlayer || !ytReady) return;
+                try {
+                    const state = ytPlayer.getPlayerState();
+                    // YT states: -1 unstarted, 0 ended, 1 playing, 2 paused, 3 buffering, 5 cued
+                    const isPlaying = (state === 1 || state === 3);
+                    const isPaused  = (state === 2);
+                    setDot(isPlaying ? 'playing' : isPaused ? 'paused' : 'stop');
+                    setPlayBtn(isPlaying);
+                    // Update ticker with current track title
+                    const data = ytPlayer.getVideoData();
+                    if (data && data.title) setTicker(data.title);
+                } catch(e) {}
+            }
+
+            // Load YouTube IFrame API script
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            document.head.appendChild(tag);
+
+            // Called by YouTube API when ready
+            window.onYouTubeIframeAPIReady = function() {
+                ytPlayer = window._ytPlayer = new YT.Player('yt-player', {
+                    height: '1',
+                    width: '1',
+                    videoId: FIRST_VID,
+                    playerVars: {
+                        autoplay: 0,
+                        controls: 0,
+                        disablekb: 1,
+                        fs: 0,
+                        rel: 0,
+                        loop: 1,
+                        playlist: FIRST_VID,
+                        modestbranding: 1,
+                        playsinline: 1
+                    },
+                    events: {
+                        onReady(e) {
+                            ytReady = true;
+                            e.target.setVolume(parseInt(volSlider ? volSlider.value : 70));
+                            // Start polling state every second
+                            stateTimer = setInterval(pollState, 1000);
+                        },
+                        onStateChange(e) {
+                            pollState();
+                        },
+                        onError(e) {
+                            if (ticker) {
+                                ticker.textContent = 'error loading track — try next  ';
+                                ticker.classList.remove('paused');
+                            }
+                        }
+                    }
+                });
+            };
+
+            // Button handlers
+            if (btnPlay) btnPlay.addEventListener('click', function() {
+                if (!ytReady) return;
+                try {
+                    const state = ytPlayer.getPlayerState();
+                    if (state === 1 || state === 3) {
+                        ytPlayer.pauseVideo();
+                    } else {
+                        ytPlayer.playVideo();
+                    }
+                } catch(e) {}
+            });
+            if (btnPrev) btnPrev.addEventListener('click', function() {
+                if (!ytReady) return;
+                try { ytPlayer.previousVideo(); } catch(e) {}
+            });
+            if (btnNext) btnNext.addEventListener('click', function() {
+                if (!ytReady) return;
+                try { ytPlayer.nextVideo(); } catch(e) {}
+            });
+            if (volSlider) volSlider.addEventListener('input', function() {
+                if (!ytReady) return;
+                try { ytPlayer.setVolume(parseInt(this.value)); } catch(e) {}
+            });
+
+            // Expose for run dialog
+            window.tbWinampPlay = function() {
+                if (ytReady) try { ytPlayer.playVideo(); } catch(e) {}
+            };
+        })();
+
+        // ── Run Dialog ───────────────────────────────────────────────
+        (function() {
+            const dlg = document.getElementById('run-dialog');
+            const inp = document.getElementById('run-input');
+
+            window.openRunDialog = function() {
+                dlg.classList.add('run-open');
+                try { document.getElementById('start-menu').classList.remove('open'); } catch(e) {}
+                setTimeout(() => inp.focus(), 50);
+            };
+            window.closeRunDialog = function() {
+                dlg.classList.remove('run-open');
+                inp.value = '';
+            };
+
+            function runCommand() {
+                const cmd = inp.value.trim().toLowerCase().replace(/\.exe$/, '');
+                closeRunDialog();
+                switch(cmd) {
+                    case 'parsa': openWindow('about'); break;
+                    case 'projects': openWindow('projects'); break;
+                    case 'contact': case 'hire': openWindow('contact'); break;
+                    case 'resume': openWindow('resume'); break;
+                    case 'skills': openWindow('skills'); break;
+                    case 'tools': openWindow('tools'); break;
+                    case 'recycle': openWindow('recycle'); break;
+                    case 'winamp':
+                        document.getElementById('tb-winamp').scrollIntoView();
+                        if (window.tbWinampPlay) window.tbWinampPlay();
+                        break;
+                    case 'msn':
+                        window.toggleMSN();
+                        break;
+                    case 'notepad':
+                        alert('notepad.exe — file not found. try time_capsule.txt in the recycle bin.');
+                        break;
+                    case 'calc':
+                        alert('Error: calc.exe cannot process the ROI of good copywriting. Value: immeasurable.');
+                        break;
+                    case 'help':
+                        alert('Valid commands:\nparsa, projects, contact, hire, resume, skills, tools, recycle, computer,\nwinamp, msn, notepad, calc');
+                        break;
+                    default:
+                        if (cmd) alert('Cannot find \'' + inp.value.trim() + '\'. Make sure you typed the name correctly, and then try again.');
+                        break;
+                }
+            }
+
+            document.getElementById('run-ok').addEventListener('click', runCommand);
+            inp.addEventListener('keydown', e => { if (e.key === 'Enter') runCommand(); });
+
+            // Drag run dialog
+            const runTbar = document.getElementById('run-titlebar');
+            let runDrag = false, runOx = 0, runOy = 0;
+            runTbar.addEventListener('mousedown', e => {
+                if (e.target.classList.contains('run-titlebar-close')) return;
+                runDrag = true;
+                const r = dlg.getBoundingClientRect();
+                runOx = e.clientX - r.left; runOy = e.clientY - r.top;
+                dlg.style.transform = 'none';
+            });
+            document.addEventListener('mousemove', e => {
+                if (!runDrag) return;
+                dlg.style.left = (e.clientX - runOx) + 'px';
+                dlg.style.top  = (e.clientY - runOy) + 'px';
+            });
+            document.addEventListener('mouseup', () => runDrag = false);
+        })();
+
+        // ── Calendar Popup ────────────────────────────────────────────
+        (function() {
+            const calPopup = document.getElementById('cal-popup');
+            const calDays  = document.getElementById('cal-days');
+            const calLabel = document.getElementById('cal-month-label');
+            const calFoot  = document.getElementById('cal-today-label');
+            const today    = new Date();
+            let calYear = today.getFullYear(), calMonth = today.getMonth();
+            const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+            function renderCalendar(yr, mo) {
+                calLabel.textContent = MONTHS[mo] + ' ' + yr;
+                const first = new Date(yr, mo, 1).getDay(); // 0=Sun
+                const daysInMonth = new Date(yr, mo + 1, 0).getDate();
+                const daysInPrev  = new Date(yr, mo, 0).getDate();
+                let html = '';
+                let cellCount = 0;
+                // Previous month fill
+                for (let i = first - 1; i >= 0; i--) {
+                    html += `<div class="cal-day cal-other">${daysInPrev - i}</div>`;
+                    cellCount++;
+                }
+                // Current month
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const isToday = (yr === today.getFullYear() && mo === today.getMonth() && d === today.getDate());
+                    html += `<div class="cal-day${isToday ? ' cal-today' : ''}">${d}</div>`;
+                    cellCount++;
+                }
+                // Next month fill
+                const remaining = 42 - cellCount;
+                for (let d = 1; d <= remaining; d++) {
+                    html += `<div class="cal-day cal-other">${d}</div>`;
+                }
+                calDays.innerHTML = html;
+                calFoot.textContent = today.toDateString();
+            }
+
+            window.toggleCalendar = function(e) {
+                calPopup.classList.toggle('cal-open');
+                if (calPopup.classList.contains('cal-open')) {
+                    calYear = today.getFullYear(); calMonth = today.getMonth();
+                    renderCalendar(calYear, calMonth);
+                }
+                if (e) e.stopPropagation();
+            };
+
+            document.getElementById('cal-prev').addEventListener('click', e => {
+                e.stopPropagation();
+                calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+                renderCalendar(calYear, calMonth);
+            });
+            document.getElementById('cal-next').addEventListener('click', e => {
+                e.stopPropagation();
+                calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+                renderCalendar(calYear, calMonth);
+            });
+
+            document.addEventListener('click', e => {
+                if (!calPopup.contains(e.target) && e.target.id !== 'clock') {
+                    calPopup.classList.remove('cal-open');
+                }
+            });
+        })();
+
+        // ── BSOD Easter Egg (Konami Code) ────────────────────────────
+        (function() {
+            const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+            let kIdx = 0;
+            const bsod = document.getElementById('bsod');
+
+            function showBSOD() {
+                try { if (window._ytPlayer) window._ytPlayer.pauseVideo(); } catch(e) {}
+                bsod.classList.add('bsod-visible');
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => { bsod.classList.add('bsod-fade-in'); });
+                });
+            }
+
+            function hideBSOD(reload) {
+                bsod.classList.remove('bsod-fade-in');
+                setTimeout(() => {
+                    bsod.classList.remove('bsod-visible');
+                    if (reload) location.reload();
+                }, 350);
+            }
+
+            document.addEventListener('keydown', e => {
+                if (bsod.classList.contains('bsod-visible')) {
+                    if (e.key === ' ') { e.preventDefault(); hideBSOD(true); }
+                    else if (e.key === 'Escape') hideBSOD(false);
+                    return;
+                }
+                if (e.key === KONAMI[kIdx]) {
+                    kIdx++;
+                    if (kIdx === KONAMI.length) { kIdx = 0; showBSOD(); }
+                } else {
+                    kIdx = (e.key === KONAMI[0]) ? 1 : 0;
+                }
+            });
+
+            bsod.addEventListener('click', () => hideBSOD(false));
+        })();
+
+        // ── MSN Messenger ─────────────────────────────────────────────
+        (function() {
+            const msnWin = document.getElementById('msn-window');
+            const msnChat = document.getElementById('msn-chat');
+            const msnTyping = document.getElementById('msn-typing');
+            const msnInput = document.getElementById('msn-input');
+            let msnOpened = false;
+
+            function msnTime() {
+                const now = new Date();
+                return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+            }
+
+            function msnAddMsg(name, text, isUser) {
+                const div = document.createElement('div');
+                div.className = 'msn-msg';
+                const nameSpan = `<span class="msn-msg-name${isUser ? ' msn-user-name' : ''}">${name}</span>`;
+                const timeSpan = `<span class="msn-msg-time">(${msnTime()})</span>`;
+                div.innerHTML = nameSpan + timeSpan + '<br><span class="msn-msg-text">' + text + '</span>';
+                msnChat.appendChild(div);
+                msnChat.scrollTop = msnChat.scrollHeight;
+            }
+
+            function msnAddLinkMsg(name, linkText, linkAction) {
+                const div = document.createElement('div');
+                div.className = 'msn-msg';
+                const nameSpan = `<span class="msn-msg-name">${name}</span>`;
+                const timeSpan = `<span class="msn-msg-time">(${msnTime()})</span>`;
+                div.innerHTML = nameSpan + timeSpan + '<br><span class="msn-msg-link" onclick="' + linkAction + '">' + linkText + '</span>';
+                msnChat.appendChild(div);
+                msnChat.scrollTop = msnChat.scrollHeight;
+            }
+
+            function msnShowTyping(show) {
+                msnTyping.textContent = show ? 'parsa_writes is typing...' : '';
+            }
+
+            const autoConvo = [
+                { delay: 800,  text: 'hey, saw you found the portfolio :)', isLink: false },
+                { delay: 2200, text: "i'm parsa — content strategist and copywriter based in toronto", isLink: false },
+                { delay: 4000, text: 'i help brands figure out what to say and how to say it', isLink: false },
+                { delay: 5800, text: "if you're looking for someone who can actually write, let's talk", isLink: false },
+                { delay: 7500, text: '📧 open contact form', isLink: true, action: "openWindow('contact')" },
+            ];
+
+            function runAutoConvo() {
+                autoConvo.forEach((msg, i) => {
+                    setTimeout(() => {
+                        msnShowTyping(true);
+                        setTimeout(() => {
+                            msnShowTyping(false);
+                            if (msg.isLink) {
+                                msnAddLinkMsg('parsa_writes', msg.text, msg.action);
+                            } else {
+                                msnAddMsg('parsa_writes', msg.text, false);
+                            }
+                        }, 900);
+                    }, msg.delay);
+                });
+            }
+
+            const responses = {
+                'hi': 'hey! glad you\'re here :)',
+                'hello': 'hey! glad you\'re here :)',
+                'hey': 'hey! glad you\'re here :)',
+                'hire': 'yes! open for freelance. hit the contact form and let\'s chat',
+                'work': 'yes! open for freelance. hit the contact form and let\'s chat',
+                'job': 'yes! open for freelance. hit the contact form and let\'s chat',
+                'portfolio': 'check the projects folder on the desktop — lots there',
+                'projects': 'check the projects folder on the desktop — lots there',
+                'about': 'film & media arts grad who ended up deep in copywriting. no regrets.',
+                'who': 'film & media arts grad who ended up deep in copywriting. no regrets.',
+                'runescape': 'woodcutting to 99 while we talk. multitasking.',
+                'game': 'woodcutting to 99 while we talk. multitasking.',
+                'clippy': 'clippy is my emotional support paperclip. please be kind to him.',
+                'help': "try: hi, hire, portfolio, about, runescape, or just say something",
+            };
+
+            function msnSend() {
+                const val = msnInput.value.trim();
+                if (!val) return;
+                msnAddMsg('You', val, true);
+                msnInput.value = '';
+                const key = val.toLowerCase().split(/\s+/).find(w => responses[w]);
+                setTimeout(() => {
+                    msnShowTyping(true);
+                    setTimeout(() => {
+                        msnShowTyping(false);
+                        let reply = key ? responses[key] : "lol. type 'help' if you're lost";
+                        msnAddMsg('parsa_writes', reply, false);
+                        // Side effects
+                        if (key === 'portfolio' || key === 'projects') { try { openWindow('projects'); } catch(e){} }
+                        if (key === 'about' || key === 'who') { try { openWindow('about'); } catch(e){} }
+                    }, 900);
+                }, 400);
+            }
+
+            document.getElementById('msn-send').addEventListener('click', msnSend);
+            msnInput.addEventListener('keydown', e => { if (e.key === 'Enter') msnSend(); });
+
+            // Drag MSN window
+            const msnTitlebar = document.getElementById('msn-titlebar');
+            let msnDrag = false, msnOx = 0, msnOy = 0;
+            msnTitlebar.addEventListener('mousedown', e => {
+                if (e.target.closest('.msn-titlebar-btn')) return;
+                msnDrag = true;
+                const r = msnWin.getBoundingClientRect();
+                msnOx = e.clientX - r.left; msnOy = e.clientY - r.top;
+            });
+            document.addEventListener('mousemove', e => {
+                if (!msnDrag) return;
+                msnWin.style.left = (e.clientX - msnOx) + 'px';
+                msnWin.style.top  = (e.clientY - msnOy) + 'px';
+                msnWin.style.right = 'auto';
+            });
+            document.addEventListener('mouseup', () => msnDrag = false);
+
+            window.toggleMSN = function() {
+                const isOpen = msnWin.classList.contains('msn-open');
+                if (isOpen) {
+                    msnWin.classList.remove('msn-open');
+                } else {
+                    msnWin.classList.add('msn-open');
+                    if (!msnOpened) {
+                        msnOpened = true;
+                        runAutoConvo();
+                    }
+                }
+            };
+        })();
 
         // ── CRT mode (wired into context menu IIFE above) ─────────────
         document.getElementById('ctx-crt').addEventListener('click', () => {
@@ -4365,6 +6344,484 @@
             const on = document.body.classList.toggle('crt-mode');
             document.getElementById('ctx-crt').textContent = on ? 'Disable CRT Mode' : 'Enable CRT Mode';
         });
+
+        // ── Wallpaper system ──────────────────────────────────────────
+        (function () {
+            const WALLPAPERS = ['default', 'night', 'slate', 'sunset'];
+            const WALLPAPER_LABELS = { default: 'Classic Teal', night: 'Midnight', slate: 'Slate Blue', sunset: 'Sunset' };
+            let currentWallpaper = localStorage.getItem('pv_wallpaper') || 'default';
+
+            function generateStars() {
+                const container = document.getElementById('wallpaper-stars');
+                if (!container || container.children.length) return;
+                for (let i = 0; i < 80; i++) {
+                    const s = document.createElement('div');
+                    s.className = 'wallpaper-star';
+                    const size = Math.random() < 0.3 ? 2 : 1;
+                    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;opacity:${0.4+Math.random()*0.6}`;
+                    container.appendChild(s);
+                }
+            }
+
+            function applyWallpaper(name) {
+                currentWallpaper = name;
+                document.body.setAttribute('data-wallpaper', name);
+                localStorage.setItem('pv_wallpaper', name);
+                if (name === 'night') generateStars();
+                // Update context menu label
+                const ctxItem = document.getElementById('ctx-wallpaper');
+                if (ctxItem) {
+                    const next = WALLPAPERS[(WALLPAPERS.indexOf(name) + 1) % WALLPAPERS.length];
+                    ctxItem.textContent = 'Wallpaper: ' + WALLPAPER_LABELS[next];
+                }
+            }
+
+            function cycleWallpaper() {
+                const idx = WALLPAPERS.indexOf(currentWallpaper);
+                applyWallpaper(WALLPAPERS[(idx + 1) % WALLPAPERS.length]);
+            }
+
+            // Apply saved wallpaper on load
+            applyWallpaper(currentWallpaper);
+
+            document.getElementById('ctx-wallpaper').addEventListener('click', () => {
+                document.getElementById('context-menu').classList.remove('visible');
+                cycleWallpaper();
+            });
+        })();
+
+        // ── My Documents: file data + renderer ──────────────────────
+        (function () {
+            const MYDOCS_FILES = [
+                {
+                    icon: '📄', name: 'creative_brief_v7_FINAL.doc', type: 'Word Document', size: '48 KB',
+                    style: 'word',
+                    content: `CREATIVE BRIEF — v7 FINAL (please stop renaming this)
+
+Project: Parsa Navidi — Personal Brand
+Date: Sometime in 2024
+Status: Ship it.
+
+OBJECTIVE
+Stop underselling. Start saying the thing clearly.
+
+TARGET AUDIENCE
+Marketing leads, content directors, founders who have been burned
+by writers who can't think strategically.
+
+TONE
+Direct. A little dry. Warm when it counts. Never try-hard.
+
+KEY MESSAGE
+Good writing isn't about words. It's about decisions — what to say,
+what to cut, and why it matters to the person reading it.
+
+DELIVERABLES
+- Updated website copy
+- Bio that doesn't make me cringe
+- Tagline that actually works
+
+NOTES
+v1: too formal
+v2: too casual
+v3: overdesigned
+v4-v6: don't ask
+v7: this is the one.`
+                },
+                {
+                    icon: '📝', name: 'email_i_never_sent.txt', type: 'Text Document', size: '2 KB',
+                    style: 'mono',
+                    content: `From: parsanavidi@hotmail.ca
+To: [redacted]
+Subject: Re: the project
+
+Hey,
+
+I've been sitting on this email for a few weeks now.
+
+I think we both knew the project wasn't going the direction either of us
+wanted. And I think we were too polite to say it out loud.
+
+Anyway — I hope it worked out on your end.
+
+Take care,
+Parsa
+
+---
+[draft — never sent — 2023-11-02 11:47 PM]`
+                },
+                {
+                    icon: '📊', name: 'rate_card_2025.pdf', type: 'PDF Document', size: '112 KB',
+                    style: 'mono',
+                    content: `PARSA NAVIDI — RATE CARD 2025
+Freelance Copywriting & Content Strategy
+─────────────────────────────────────────
+
+CONTENT STRATEGY
+  Strategy session (90 min) ........... by quote
+  Content audit + recommendations ..... by quote
+  Full content strategy ............... by quote
+
+COPYWRITING
+  Web page ............................ by quote
+  Blog post / article ................. by quote
+  Email sequence ...................... by quote
+  Brand voice document ................ by quote
+
+ONGOING RETAINERS
+  Available on request.
+
+─────────────────────────────────────────
+Rates vary by scope, complexity, and timeline.
+For a quote, reach out at parsanavidi@hotmail.ca
+
+Minimum engagement: 1 project or 1 strategy session.
+Rush fees may apply for under 72-hour turnarounds.`
+                },
+                {
+                    icon: '💡', name: 'portfolio_ideas.txt', type: 'Text Document', size: '3 KB',
+                    style: 'mono',
+                    content: `PORTFOLIO IDEAS — running list
+last updated: whenever
+─────────────────────────────
+
+[DONE]
+  [x] windows 98 theme
+  [x] clippy
+  [x] sound effects
+  [x] screensaver
+  [x] easter eggs
+  [x] runescape page
+  [x] my documents (meta, i know)
+
+[IN PROGRESS]
+  [ ] time capsule section
+  [ ] wallpaper switcher
+
+[MAYBE]
+  [ ] fake BSOD if you stay too long
+  [ ] cursor trail
+  [ ] win98 startup sound on load
+  [ ] hidden chat with clippy
+  [ ] minesweeper but every mine is a bad client
+  [ ] 404 page that is just clippy shrugging
+
+[PROBABLY NOT]
+  [ ] make it actually win95-accurate
+      (life is too short)`
+                },
+                {
+                    icon: '⚠️', name: 'impostor_syndrome.exe', type: 'Application', size: '???',
+                    style: 'mono',
+                    content: `> Running impostor_syndrome.exe...
+
+Initialising doubt engine...          [OK]
+Loading comparison database...        [OK]
+Scanning credentials...               [OK]
+
+WARNING: Credentials appear legitimate.
+Overriding with subjective feeling...  [OK]
+
+Checking portfolio...                 [OK]
+Checking client list...               [OK]
+Generating irrational concern...      [OK]
+
+Results:
+  You are probably fine.
+  The work is good.
+  Send the email.
+
+> Process complete. Press any key to close.
+  (Or just... keep the tab open. Classic.)
+
+[application terminated]`
+                }
+            ];
+
+            window.openMydocsFile = function(idx) {
+                const f = MYDOCS_FILES[idx];
+                if (!f) return;
+                const overlay = document.getElementById('mydocs-popup-overlay');
+                document.getElementById('mydocs-popup-titletext').textContent = f.name;
+                const body = document.getElementById('mydocs-popup-body');
+                body.className = f.style === 'word' ? 'mydocs-popup-word' : 'mydocs-popup-body';
+                body.textContent = f.content;
+                overlay.classList.add('open');
+                SFX.open();
+            };
+
+            window.closeMydocsPopup = function() {
+                document.getElementById('mydocs-popup-overlay').classList.remove('open');
+                SFX.close();
+            };
+
+            // Populate list when docs window opens
+            const origOpen = window._origOpenDocs || openWindow;
+            const docsEl = document.getElementById('mydocs-list');
+            function populateDocs() {
+                if (!docsEl || docsEl.children.length) return;
+                docsEl.innerHTML = MYDOCS_FILES.map((f, i) =>
+                    `<div class="mydocs-file" ondblclick="openMydocsFile(${i})">
+                        <div class="mydocs-file-icon">${f.icon}</div>
+                        <div class="mydocs-fname">${f.name}</div>
+                        <div class="mydocs-ftype">${f.type}</div>
+                        <div class="mydocs-fsize">${f.size}</div>
+                    </div>`
+                ).join('');
+            }
+
+            // Hook into openWindow for docs
+            const _baseOpen = openWindow;
+            window.openWindow = openWindow; // make sure it's global
+            const docsWin = document.getElementById('window-docs');
+            if (docsWin) {
+                const docObserver = new MutationObserver(() => {
+                    if (!docsWin.classList.contains('minimized')) populateDocs();
+                });
+                docObserver.observe(docsWin, { attributes: true, attributeFilter: ['class'] });
+            }
+        })();
+
+        // ── Clippy messages: add docs + games ───────────────────────
+        (function patchClippyMsgs() {
+            const origReact = window.clippyReact;
+            if (!origReact) return;
+            const extra = {
+                docs:  "It looks like you're snooping through someone's files. Totally normal.",
+                games: "Games? Shouldn't you be reviewing his portfolio?",
+            };
+            window.clippyReact = function(windowId) {
+                if (extra[windowId]) {
+                    const wrap   = document.getElementById('clippy-wrap');
+                    const bubble = document.getElementById('clippy-bubble');
+                    if (wrap && wrap.classList.contains('visible') && bubble) {
+                        bubble.style.opacity = '0';
+                        setTimeout(() => { bubble.textContent = extra[windowId]; bubble.style.opacity = '1'; }, 250);
+                    }
+                } else {
+                    origReact(windowId);
+                }
+            };
+        })();
+
+        // ── Return-visitor Clippy greeting ───────────────────────────
+        (function () {
+            const visited = localStorage.getItem('pv_visited');
+            const orig_showClippy = window._showClippy;
+            window._showClippy = function() {
+                orig_showClippy();
+                const bubble = document.getElementById('clippy-bubble');
+                if (!bubble) return;
+                if (visited) {
+                    // Return visitor
+                    setTimeout(() => {
+                        bubble.style.opacity = '0';
+                        setTimeout(() => {
+                            bubble.textContent = "Oh, you're back. Missed me?";
+                            bubble.style.opacity = '1';
+                        }, 260);
+                    }, 1200);
+                }
+                localStorage.setItem('pv_visited', '1');
+            };
+        })();
+
+        // ── "Type HIRE" easter egg ─────────────────────────────────────
+        (function() {
+            let typed = '';
+            const COLORS = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff69b4','#c77dff'];
+            function launchConfetti() {
+                const c = document.getElementById('hire-confetti-container');
+                if (!c) return;
+                for (let i = 0; i < 30; i++) {
+                    const d = document.createElement('div');
+                    d.style.cssText = `position:absolute;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;background:${COLORS[Math.floor(Math.random()*COLORS.length)]};left:${Math.random()*100}%;top:-10px;opacity:1;border-radius:${Math.random()>0.5?'50%':'2px'};animation:confettiFall ${1.5+Math.random()*2}s ease-in forwards;animation-delay:${Math.random()*0.5}s`;
+                    c.appendChild(d);
+                }
+                setTimeout(() => { c.innerHTML = ''; }, 4000);
+            }
+            // Add confetti keyframe if not present
+            if (!document.querySelector('#confetti-style')) {
+                const st = document.createElement('style');
+                st.id = 'confetti-style';
+                st.textContent = '@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}';
+                document.head.appendChild(st);
+            }
+            document.addEventListener('keydown', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                typed = (typed + e.key).slice(-6).toUpperCase();
+                if (typed.includes('HIRE')) {
+                    typed = '';
+                    const overlay = document.getElementById('hire-dialog-overlay');
+                    if (overlay) { overlay.style.display = 'flex'; launchConfetti(); if (typeof SFX !== 'undefined') SFX.notify(); }
+                }
+            });
+        })();
+
+        // ── Alt+F4 intercept ──────────────────────────────────────────
+        (function() {
+            document.addEventListener('keydown', function(e) {
+                if (e.altKey && e.key === 'F4') {
+                    e.preventDefault(); e.stopPropagation();
+                    document.getElementById('altf4-overlay').style.display = 'flex';
+                }
+            });
+            document.getElementById('altf4-ok').addEventListener('click', function() {
+                document.getElementById('altf4-overlay').style.display = 'none';
+                document.getElementById('altf4-overlay2').style.display = 'flex';
+            });
+        })();
+
+        // ── Triple-click clock easter egg ────────────────────────────
+        (function() {
+            const GLITCH_MSGS = ['ERROR: TIME NOT FOUND', '∞:∞∞ AM', '3:AM — TOO LATE', 'HIRE:ME', "COFFEE O'CLOCK", 'NOW:00'];
+            let glitchIdx = 0, clickTimes = [];
+            const clockEl = document.getElementById('clock');
+            if (!clockEl) return;
+            clockEl.addEventListener('click', function(e) {
+                // Don't interfere with calendar toggle if it exists beyond 3 clicks
+                const now = Date.now();
+                clickTimes = clickTimes.filter(t => now - t < 1200);
+                clickTimes.push(now);
+                if (clickTimes.length >= 3) {
+                    clickTimes = [];
+                    e.stopImmediatePropagation();
+                    const orig = clockEl.textContent;
+                    clockEl.textContent = GLITCH_MSGS[glitchIdx++ % GLITCH_MSGS.length];
+                    clockEl.style.color = '#ff4444';
+                    if (typeof SFX !== 'undefined') SFX.error();
+                    setTimeout(() => { clockEl.style.color = ''; }, 3000);
+                }
+            }, true);
+        })();
+
+        // ── MS-DOS Prompt (fake terminal) ────────────────────────────
+        (function() {
+            const RESPONSES = {
+                help: `Available commands:\n  whoami    Display current user\n  dir       List directory contents\n  cd        Change to directory\n  ping      Test network connection\n  hire      Execute hire protocol\n  cls       Clear screen\n  ver       Display version info\n  exit      Close terminal\n  date      Show current date`,
+                whoami: `parsanavidi\\writer\n\nTip: elevated privileges not required. Just good taste.`,
+                ver: `Microsoft Windows [Version 98.4.10.1998]\nDesktopCore Build 2025.04\nLicensed to: Whoever is reading this`,
+                date: () => `Current date is: ${new Date().toDateString()}\nThe time is: ${new Date().toLocaleTimeString()}\n\n(No, really. That's the actual time.)`,
+                dir: `Volume in drive C is PARSA_SSD\nVolume Serial No. is 1998-2025\n\nDirectory of C:\\\n\n04-05-2025  02:44 PM    <DIR>          My Documents\n04-05-2025  02:44 PM    <DIR>          My Projects\n04-05-2025  02:44 PM    <DIR>          Games\n04-05-2025  02:44 PM    <DIR>          Secrets\n11-12-2024  11:59 PM       112,384     resume.pdf\n04-05-2025  02:44 PM     6,200,041     portfolio.html\n04-05-2025  02:44 PM         3,072     impostor_syndrome.exe\n\n               3 File(s)      6,315,497 bytes\n               4 Dir(s)               ∞ bytes free`,
+                'cd my documents': `C:\\My Documents>`,
+                'cd games': `C:\\Games>`,
+                'cd secrets': `Access denied.\n\nHint: You already found them.`,
+                'cd ..': `C:\\>`,
+                'ping parsanavidi.ca': `Pinging parsanavidi.ca [104.21.x.x] with 32 bytes of data:\nReply from 104.21.x.x: bytes=32 time=12ms TTL=64\nReply from 104.21.x.x: bytes=32 time=11ms TTL=64\nReply from 104.21.x.x: bytes=32 time=13ms TTL=64\n\nPing statistics for parsanavidi.ca:\n    Packets: Sent = 3, Received = 3, Lost = 0 (0% loss)\n\nHe's online. He's responsive. You should reach out.`,
+                'ping google.com': `Pinging google.com [142.250.x.x]:\nReply from 142.250.x.x: bytes=32 time=8ms TTL=118\n\nWhy are you pinging Google? Parsa is right here.`,
+                hire: `Executing hire.exe...\n\nChecking availability............. [OK]\nVerifying skill set............... [OK]\nChecking portfolio................. [OK]\nCalculating value.................. [OK]\nChecking references................ [OK]\n\nResult: Strong candidate.\nRecommended action: HIRE IMMEDIATELY.\n\nOpening contact form...`,
+                cls: '__cls__',
+                exit: '__exit__',
+                'ls': `This is Windows, not Linux.\nBut fine. Try DIR instead.\n\n(He knows both.)`,
+                'sudo': `sudo: command not found\n\nAlso: you don't need root access to hire someone. Just an email.`,
+                'rm -rf /': `No.`,
+                'npm install': `Installing packages...\n\nAdded 847 packages in 0ms.\n\nThis solved nothing. This never solves anything.`,
+            };
+
+            function initCmd() {
+                const output = document.getElementById('cmd-output');
+                const input  = document.getElementById('cmd-input');
+                if (!output || !input) return;
+
+                let history = [], histIdx = -1, initialized = false;
+
+                function boot() {
+                    if (initialized) return;
+                    initialized = true;
+                    output.textContent = `Microsoft(R) Windows 98\n(C)Copyright Microsoft Corp 1981-1998.\n\nType HELP for available commands.\n\nC:\\>`;
+                }
+
+                function print(text) {
+                    output.textContent += text + '\n\nC:\\>';
+                    output.scrollTop = output.scrollHeight;
+                }
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        const raw = input.value;
+                        const cmd = raw.trim().toLowerCase();
+                        input.value = '';
+                        if (cmd) { history.unshift(cmd); histIdx = -1; }
+                        output.textContent += raw + '\n';
+                        if (!cmd) { output.textContent += 'C:\\>'; output.scrollTop = output.scrollHeight; return; }
+
+                        if (cmd === 'cls') { output.textContent = 'C:\\>'; return; }
+                        if (cmd === 'exit') { if (typeof closeWindow === 'function') closeWindow('cmd'); return; }
+
+                        const resp = RESPONSES[cmd];
+                        const text = typeof resp === 'function' ? resp() : (resp || `'${raw.trim()}' is not recognized as an internal or external command.\nType HELP for available commands.`);
+                        print(text);
+
+                        if (cmd === 'hire') {
+                            setTimeout(() => { if (typeof openWindow === 'function') openWindow('contact'); }, 2000);
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (histIdx < history.length - 1) input.value = history[++histIdx];
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        histIdx > 0 ? (input.value = history[--histIdx]) : (histIdx = -1, input.value = '');
+                    }
+                });
+
+                // Focus + boot when window opens
+                const cmdWin = document.getElementById('window-cmd');
+                if (cmdWin) {
+                    new MutationObserver(() => {
+                        if (!cmdWin.classList.contains('minimized')) {
+                            boot();
+                            setTimeout(() => input.focus(), 100);
+                        }
+                    }).observe(cmdWin, { attributes: true, attributeFilter: ['class'] });
+                }
+            }
+
+            initCmd();
+        })();
     </script>
+
+<div id="hire-dialog-overlay" style="display:none;position:fixed;inset:0;z-index:99997;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;">
+  <div style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:4px 4px 0 #000;width:340px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;">
+    <div style="background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:3px 6px;display:flex;align-items:center;justify-content:space-between;font-weight:bold;">
+      <span>💼 System Alert</span>
+      <div onclick="document.getElementById('hire-dialog-overlay').style.display='none'" style="cursor:pointer;background:#c0c0c0;border:1px solid;border-color:#fff #808080 #808080 #fff;width:16px;height:14px;display:flex;align-items:center;justify-content:center;color:#000;font-size:10px;">✕</div>
+    </div>
+    <div style="padding:16px 14px;display:flex;gap:12px;align-items:flex-start;">
+      <div style="font-size:28px;flex-shrink:0;">💼</div>
+      <div style="line-height:1.7;">It looks like you typed <strong>HIRE</strong>.<br><br>Have you considered... hiring Parsa?<br>He's available. He's good. He replies to emails.</div>
+    </div>
+    <div style="padding:8px 14px 12px;display:flex;gap:8px;justify-content:flex-end;">
+      <button onclick="document.getElementById('hire-dialog-overlay').style.display='none';openWindow('contact')" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 12px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;">Open Contact</button>
+      <button onclick="document.getElementById('hire-dialog-overlay').style.display='none'" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 12px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;">I'll Think About It</button>
+    </div>
+  </div>
+</div>
+<div id="hire-confetti-container" style="position:fixed;inset:0;pointer-events:none;z-index:99996;overflow:hidden;"></div>
+
+<div id="altf4-overlay" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+  <div style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:4px 4px 0 #000;width:320px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;">
+    <div style="background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:3px 6px;font-weight:bold;font-size:11px;">Confirm Exit</div>
+    <div style="padding:16px 14px;display:flex;gap:12px;align-items:flex-start;">
+      <div style="font-size:28px;">⚠️</div>
+      <div style="line-height:1.7;">Are you sure you want to close<br><strong>Parsa's Portfolio</strong>?<br><br><em style="color:#666">Note: You haven't hired him yet.</em></div>
+    </div>
+    <div style="padding:8px 14px 12px;display:flex;gap:8px;justify-content:center;">
+      <button id="altf4-ok" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 24px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;min-width:75px;">OK</button>
+      <button onclick="document.getElementById('altf4-overlay').style.display='none'" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 24px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;min-width:75px;">Cancel</button>
+    </div>
+  </div>
+</div>
+<div id="altf4-overlay2" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+  <div style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:4px 4px 0 #000;width:300px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;">
+    <div style="background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:3px 6px;font-weight:bold;">System</div>
+    <div style="padding:16px 14px;display:flex;gap:12px;align-items:center;">
+      <div style="font-size:28px;">ℹ️</div>
+      <div style="line-height:1.7;">Nice try.<br><br>Also, please hire Parsa.</div>
+    </div>
+    <div style="padding:8px 14px 12px;display:flex;justify-content:center;">
+      <button onclick="document.getElementById('altf4-overlay2').style.display='none'" style="background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:3px 24px;font-family:'MS Sans Serif',Tahoma,sans-serif;font-size:11px;cursor:pointer;min-width:75px;">OK</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -3,286 +3,1337 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MapleWorld — parsa.exe</title>
+<title>MapleStory Forums — Bera World</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-  background: #1a0a2e;
-  display: flex; align-items: center; justify-content: center;
+  background: #0d0d1a;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  color: #c0c0d0;
   min-height: 100vh;
-  font-family: 'MS Sans Serif', Arial, sans-serif; font-size: 11px;
-  background-image:
-    radial-gradient(ellipse 300px 200px at 20% 80%, rgba(100,20,180,0.3) 0%, transparent 70%),
-    radial-gradient(ellipse 200px 150px at 80% 20%, rgba(20,80,180,0.3) 0%, transparent 70%);
 }
-.window {
-  background: #c0c0c0;
-  border: 2px solid; border-color: #fff #808080 #808080 #fff;
-  box-shadow: 3px 3px 0 #000;
-  width: min(580px, 98vw);
+
+/* ─── SITE HEADER ─── */
+.site-header {
+  background: linear-gradient(180deg, #1a0a3a 0%, #0d0820 100%);
+  border-bottom: 3px solid #ff6600;
+  padding: 0;
 }
-.title-bar {
-  background: linear-gradient(90deg, #000080, #1084d0);
-  color: #fff; padding: 3px 4px;
+.header-top {
+  background: linear-gradient(90deg, #1a0a3a, #2a1060, #1a0a3a);
+  padding: 12px 20px 8px;
   display: flex; align-items: center; justify-content: space-between;
-  font-weight: bold; font-size: 11px; user-select: none;
+  flex-wrap: wrap; gap: 8px;
 }
-.title-left { display: flex; align-items: center; gap: 4px; }
-.tb-btns { display: flex; gap: 2px; }
-.tb-btn {
-  width: 16px; height: 14px; background: #c0c0c0;
-  border: 1px solid; border-color: #fff #808080 #808080 #fff;
-  font-size: 9px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; color: #000; text-decoration: none;
+.logo-area { display: flex; align-items: center; gap: 14px; }
+.maple-leaf-big {
+  font-size: 44px;
+  filter: drop-shadow(0 0 12px rgba(255,100,0,0.8));
+  animation: leafPulse 2s ease-in-out infinite alternate;
 }
-.tb-btn:active { border-color: #808080 #fff #fff #808080; }
-.menu-bar { background: #c0c0c0; border-bottom: 1px solid #808080; display: flex; padding: 2px 2px 0; }
-.mi { padding: 2px 8px; cursor: pointer; }
-.mi:hover { background: #000080; color: #fff; }
-
-/* Maple header */
-.maple-header {
-  background: linear-gradient(135deg, #1a0a3e 0%, #2a1060 50%, #0a1a4e 100%);
-  padding: 16px 12px 12px;
-  text-align: center; position: relative; overflow: hidden;
-}
-.maple-header::before {
-  content: '🍁🌟🍁🌟🍁🌟🍁🌟🍁🌟🍁🌟🍁';
-  position: absolute; top: 4px; left: 0; right: 0;
-  font-size: 10px; opacity: 0.3; letter-spacing: 4px;
-}
-.maple-logo {
-  font-size: 13px; font-weight: bold; letter-spacing: 3px;
-  background: linear-gradient(90deg, #ff4444, #ffaa00, #ffff44, #44ff44, #4488ff, #aa44ff);
+@keyframes leafPulse { from { filter: drop-shadow(0 0 8px rgba(255,100,0,0.6)); } to { filter: drop-shadow(0 0 18px rgba(255,160,0,0.9)); } }
+.logo-text { line-height: 1.1; }
+.logo-main {
+  font-size: 22px; font-weight: bold;
+  background: linear-gradient(90deg, #ff6600, #ffcc00, #ff6600);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; margin-bottom: 4px;
+  background-clip: text;
   text-shadow: none;
+  letter-spacing: 1px;
 }
-.maple-sub { color: #88aaff; font-size: 10px; }
+.logo-sub { font-size: 10px; color: #8877aa; margin-top: 2px; }
 
-/* Intro text */
-.intro { padding: 12px 16px; background: #f0f0f0; border-bottom: 1px solid #d0d0d0; font-size: 11px; line-height: 1.5; color: #333; text-align: center; }
+.user-bar { text-align: right; font-size: 10px; color: #8877aa; line-height: 1.6; }
+.user-bar strong { color: #ffcc44; }
+.ms-pts { color: #ff9900; }
 
-/* Class picker */
-.class-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 6px; padding: 12px;
+.nav-bar {
+  background: #0a0818;
+  border-top: 1px solid #2a1a5a;
+  display: flex; gap: 0; overflow-x: auto;
 }
-@media (max-width: 400px) { .class-grid { grid-template-columns: repeat(3, 1fr); } }
-
-.class-card {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 8px 4px; cursor: pointer;
-  border: 2px solid; border-color: #fff #808080 #808080 #fff;
-  background: #c0c0c0; transition: none; text-align: center;
-  user-select: none;
+.nav-item {
+  padding: 7px 16px; font-size: 11px; color: #aa99cc;
+  border-right: 1px solid #2a1a5a;
+  cursor: pointer; white-space: nowrap;
+  text-decoration: none; display: block;
 }
-.class-card:hover { background: #d8d8ff; border-color: #8888ff #3333cc #3333cc #8888ff; }
-.class-card.selected { background: #000080; color: #fff; border-color: #aaccff #002266 #002266 #aaccff; }
+.nav-item:hover { background: #1a0a3a; color: #ffcc44; }
+.nav-item.active { background: #1a0a3a; color: #ffcc44; border-bottom: 2px solid #ff6600; }
 
-/* Pixel characters — pure CSS art */
-.pixel-char {
-  width: 36px; height: 44px; position: relative; margin-bottom: 4px; image-rendering: pixelated;
+.breadcrumb {
+  background: #0a0818; border-bottom: 1px solid #1a1a3a;
+  padding: 5px 16px; font-size: 10px; color: #665577;
 }
-/* Each character is drawn via layered box-shadows on a 1px div */
-.px { width: 4px; height: 4px; position: absolute; }
+.breadcrumb a { color: #8866aa; text-decoration: none; }
+.breadcrumb a:hover { color: #ffcc44; }
 
-.class-name { font-size: 9px; font-weight: bold; line-height: 1.2; }
-.class-card.selected .class-name { color: #fff; }
+/* ─── MAIN LAYOUT ─── */
+.page-wrap { display: flex; gap: 0; min-height: calc(100vh - 120px); }
 
-/* Detail panel */
-.detail-panel {
-  min-height: 160px; padding: 14px 16px;
-  background: #fff;
-  border-top: 2px solid; border-color: #808080 #fff #fff #808080;
+.sidebar {
+  width: 180px; flex-shrink: 0;
+  background: #0a0818;
+  border-right: 1px solid #1a1a3a;
+  padding: 10px 8px;
+}
+@media (max-width: 600px) { .sidebar { display: none; } }
+
+.main-col { flex: 1; min-width: 0; padding: 12px; }
+
+/* ─── SIDEBAR WIDGETS ─── */
+.widget { margin-bottom: 12px; }
+.widget-title {
+  background: linear-gradient(90deg, #2a0a50, #1a0a38);
+  color: #ffcc44; font-size: 10px; font-weight: bold;
+  padding: 4px 8px; border-bottom: 1px solid #ff6600;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.widget-body { background: #0d0d22; border: 1px solid #1a1a3a; border-top: none; padding: 8px; }
+.widget-row { font-size: 10px; padding: 2px 0; color: #887799; }
+.widget-row strong { color: #ffcc44; }
+.online-dot { display: inline-block; width: 6px; height: 6px; background: #44cc44; border-radius: 50%; margin-right: 4px; }
+.offline-dot { display: inline-block; width: 6px; height: 6px; background: #555; border-radius: 50%; margin-right: 4px; }
+
+/* ─── FORUM BOARD LIST ─── */
+.board-section { margin-bottom: 16px; }
+.board-section-title {
+  background: linear-gradient(90deg, #3a1060, #1a0838);
+  color: #cc88ff; font-size: 12px; font-weight: bold;
+  padding: 6px 10px; border: 1px solid #4a1a7a;
+  border-bottom: 2px solid #ff6600;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+}
+.board-table { width: 100%; border-collapse: collapse; }
+.board-row {
+  background: #0d0d22; border-bottom: 1px solid #1a1a3a;
+  cursor: pointer;
+}
+.board-row:hover { background: #12102a; }
+.board-icon-cell { width: 40px; padding: 8px; text-align: center; font-size: 20px; }
+.board-info { padding: 8px 4px; }
+.board-name { color: #88aaff; font-weight: bold; font-size: 11px; }
+.board-name:hover { color: #ffcc44; text-decoration: underline; }
+.board-desc { color: #665577; font-size: 10px; margin-top: 2px; }
+.board-stats { width: 140px; padding: 8px; text-align: center; }
+.board-stats-num { color: #ffcc44; font-size: 13px; font-weight: bold; }
+.board-stats-lbl { color: #665577; font-size: 9px; }
+.board-last { width: 160px; padding: 8px; font-size: 9px; color: #665577; }
+.board-last strong { color: #88aaff; }
+
+/* ─── THREAD LIST ─── */
+.thread-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+.thread-header-row { background: #1a0838; }
+.thread-header-row th { padding: 6px 8px; color: #cc88ff; font-size: 10px; text-align: left; border-bottom: 2px solid #ff6600; }
+.thread-row { background: #0d0d22; border-bottom: 1px solid #151530; }
+.thread-row:hover { background: #121228; }
+.thread-row.sticky { background: #0f0d28; }
+.thread-row.hot   { background: #180d1a; }
+.t-icon { width: 30px; padding: 8px 4px; text-align: center; font-size: 16px; }
+.t-info { padding: 8px 6px; }
+.t-title { color: #88aaff; font-weight: bold; font-size: 11px; cursor: pointer; }
+.t-title:hover { color: #ffcc44; text-decoration: underline; }
+.t-title.sticky-title { color: #ffcc44; }
+.t-badges { display: inline-flex; gap: 3px; margin-right: 4px; }
+.badge {
+  font-size: 8px; padding: 1px 4px; border-radius: 2px;
+  font-weight: bold;
+}
+.badge-sticky { background: #cc3300; color: #fff; }
+.badge-hot    { background: #aa5500; color: #fff; }
+.badge-guide  { background: #005588; color: #aaddff; }
+.badge-new    { background: #005500; color: #aaffaa; }
+.t-sub { color: #665577; font-size: 10px; margin-top: 2px; }
+.t-by  { font-size: 9px; color: #554466; margin-top: 2px; }
+.t-by strong { color: #8866aa; }
+.t-stats { width: 80px; padding: 8px; text-align: center; color: #554466; font-size: 10px; }
+.t-stats strong { display: block; color: #aaa; font-size: 12px; }
+.t-last { width: 140px; padding: 8px; font-size: 9px; color: #554466; }
+.t-last strong { color: #88aaff; display: block; }
+
+/* ─── EXPANDED THREAD / POSTS ─── */
+.thread-expand {
+  display: none;
+  background: #0a0818;
+  border: 1px solid #2a1a5a;
+  border-top: 3px solid #ff6600;
+  margin-bottom: 2px;
+}
+.thread-expand.open { display: block; }
+.post { display: flex; gap: 0; border-bottom: 1px solid #151530; }
+.post:last-child { border-bottom: none; }
+.post-sidebar {
+  width: 140px; flex-shrink: 0;
+  background: #0d0820;
+  border-right: 1px solid #1a1a3a;
+  padding: 10px 8px;
+  text-align: center;
+}
+.post-avatar {
+  width: 72px; height: 88px;
+  margin: 0 auto 6px;
+  position: relative;
+  display: flex; align-items: flex-end; justify-content: center;
+  background: linear-gradient(180deg, #1a1060 0%, #0d0828 100%);
+  border: 1px solid #2a1a5a;
+}
+.post-avatar img {
+  height: 84px; width: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.post-avatar .av-fallback {
+  font-size: 44px; line-height: 1;
+  padding-bottom: 4px;
   display: none;
 }
-.detail-panel.visible { display: block; }
-.detail-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.detail-icon { font-size: 36px; }
-.detail-class { font-weight: bold; font-size: 14px; color: #000080; }
-.detail-tagline { font-size: 10px; color: #666; font-style: italic; }
-.detail-body { font-size: 11px; line-height: 1.7; color: #333; margin-bottom: 10px; }
-.detail-stats { display: flex; gap: 8px; flex-wrap: wrap; }
-.stat-bar { flex: 1; min-width: 100px; }
-.stat-label { font-size: 9px; color: #555; margin-bottom: 2px; }
-.stat-track {
-  height: 8px; background: #d0d0d0;
-  border: 1px solid; border-color: #808080 #fff #fff #808080;
+.post-username { color: #ffcc44; font-weight: bold; font-size: 11px; margin-bottom: 3px; }
+.post-rank { color: #cc88ff; font-size: 9px; margin-bottom: 6px; }
+.post-stats-row { font-size: 9px; color: #554466; padding: 1px 0; }
+.post-stats-row strong { color: #8877aa; }
+.post-maple-lvl {
+  margin-top: 6px; padding: 4px;
+  background: #1a0a3a; border: 1px solid #2a1a5a;
+  font-size: 9px; color: #aaa;
 }
-.stat-fill { height: 100%; }
+.post-maple-lvl .lvl-num { color: #ff9900; font-weight: bold; font-size: 12px; }
 
-.choose-prompt { padding: 12px 16px; color: #666; font-size: 11px; text-align: center; font-style: italic; display: block; }
-
-.status-bar { border-top: 1px solid #808080; padding: 2px 4px; display: flex; gap: 4px; }
-.sp { flex:1; border:1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 4px; color:#444; }
-.back {
-  display: block; text-align: center; padding: 5px; font-size: 10px;
-  color: #000080; text-decoration: underline; cursor: pointer;
-  background: #c0c0c0; border-top: 1px solid #dfdfdf;
+.post-body { flex: 1; min-width: 0; padding: 10px 12px; }
+.post-meta {
+  font-size: 9px; color: #554466;
+  border-bottom: 1px solid #1a1a3a;
+  padding-bottom: 6px; margin-bottom: 8px;
+  display: flex; justify-content: space-between;
 }
+.post-meta .post-num { color: #ff6600; font-weight: bold; }
+.post-content {
+  font-size: 11px; color: #c0b8d0;
+  line-height: 1.7;
+}
+.post-content p { margin-bottom: 8px; }
+.post-content .quote {
+  background: #0d0d22; border-left: 3px solid #4a1a7a;
+  padding: 6px 10px; margin: 8px 0; font-size: 10px; color: #887799;
+}
+.post-content .quote strong { color: #cc88ff; }
+.post-content a { color: #88aaff; text-decoration: none; }
+.post-content a:hover { color: #ffcc44; text-decoration: underline; }
+.post-content .highlight { color: #ffcc44; font-weight: bold; }
+.post-content .red { color: #ff6644; }
+.post-content .green { color: #44dd88; }
+.post-content ul { margin: 6px 0 8px 18px; }
+.post-content li { margin-bottom: 3px; }
+
+.post-sig {
+  margin-top: 10px; padding-top: 8px;
+  border-top: 1px dotted #2a1a5a;
+  font-size: 10px; color: #554466;
+}
+.sig-bar {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(90deg, #1a0a3a, #0a0818);
+  border: 1px solid #2a1a5a; padding: 4px 8px;
+  border-radius: 2px;
+}
+.sig-bar img { height: 28px; image-rendering: pixelated; }
+.sig-bar .sig-fallback { font-size: 18px; }
+.sig-text { font-size: 9px; color: #887799; line-height: 1.4; }
+
+/* ─── QUICK REPLY ─── */
+.quick-reply {
+  background: #0d0d22; border: 1px solid #2a1a5a;
+  border-top: 2px solid #ff6600; padding: 10px;
+  margin-top: 8px; display: none;
+}
+.quick-reply.visible { display: block; }
+.qr-label { color: #cc88ff; font-size: 11px; margin-bottom: 6px; }
+.qr-box {
+  width: 100%; background: #0a0818; color: #c0b8d0;
+  border: 1px solid #2a1a5a; padding: 6px;
+  font-family: Verdana, Arial, sans-serif; font-size: 11px;
+  resize: vertical; min-height: 60px;
+}
+.qr-box:focus { outline: 1px solid #ff6600; }
+.qr-submit {
+  background: linear-gradient(180deg, #cc5500, #882200);
+  color: #fff; border: 1px solid #ff8800;
+  padding: 5px 16px; font-size: 11px; cursor: pointer;
+  margin-top: 6px;
+}
+.qr-submit:hover { background: linear-gradient(180deg, #dd6600, #993300); }
+
+/* ─── FOOTER ─── */
+.site-footer {
+  background: #080810; border-top: 1px solid #1a1a3a;
+  padding: 10px 16px; font-size: 10px; color: #443355; text-align: center;
+}
+
+/* ─── BACK LINK ─── */
+.back-bar {
+  background: #0a0818; border-top: 1px solid #1a1a3a;
+  padding: 6px 12px; text-align: center;
+}
+.back-bar a { color: #8866aa; font-size: 10px; text-decoration: none; }
+.back-bar a:hover { color: #ffcc44; }
+
+/* ─── ONLINE USERS MARQUEE ─── */
+.ticker {
+  background: #0a0818; border-bottom: 1px solid #1a1a3a;
+  padding: 3px 10px; font-size: 9px; color: #554466;
+  overflow: hidden; white-space: nowrap;
+}
+.ticker-inner { display: inline-block; animation: ticker 30s linear infinite; }
+@keyframes ticker { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
+
+/* ─── PAGE SYSTEM ─── */
+.mp-page { display: block; }
+.mp-page.hidden { display: none; }
+
+/* ─── CHARACTERS PAGE ─── */
+.class-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 12px; }
+@media(max-width:600px) { .class-grid { grid-template-columns: repeat(3, 1fr); } }
+.class-card { background: #0d0d22; border: 2px solid #2a1a5a; padding: 8px 4px; text-align: center; cursor: pointer; transition: border-color .2s; }
+.class-card:hover, .class-card.sel { border-color: #ff6600; background: #12102a; }
+.class-sprite-wrap { height: 120px; display: flex; align-items: flex-end; justify-content: center; background: linear-gradient(180deg,#1a1060 0%,#0d0828 100%); border: 1px solid #2a1a5a; margin-bottom: 6px; overflow: hidden; }
+.class-sprite-wrap img { height: 116px; width: auto; image-rendering: pixelated; image-rendering: crisp-edges; }
+.class-sprite-fb { font-size: 52px; display: none; align-items: center; justify-content: center; height: 100%; }
+.class-card-name { color: #ffcc44; font-size: 11px; font-weight: bold; }
+.class-card-jobs { color: #8877aa; font-size: 9px; margin-top: 2px; line-height: 1.4; }
+.class-stat { display: inline-block; font-size: 8px; padding: 1px 5px; border-radius: 2px; margin-top: 4px; font-weight: bold; }
+.cs-str { background: #7a1100; color: #ffaaaa; }
+.cs-int { background: #001177; color: #aaccff; }
+.cs-dex { background: #115500; color: #aaffcc; }
+.cs-luk { background: #553300; color: #ffddaa; }
+
+.class-detail { background: #0a0818; border: 1px solid #2a1a5a; border-top: 3px solid #ff6600; padding: 12px; margin-bottom: 12px; display: none; }
+.class-detail.open { display: block; }
+.cd-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #1a1a3a; }
+.cd-portrait { width: 88px; height: 110px; background: linear-gradient(180deg,#1a1060,#0d0828); border: 1px solid #2a1a5a; display: flex; align-items: flex-end; justify-content: center; flex-shrink: 0; overflow: hidden; }
+.cd-portrait img { height: 108px; width: auto; image-rendering: pixelated; }
+.cd-meta { flex: 1; }
+.cd-name { color: #ffcc44; font-size: 15px; font-weight: bold; }
+.cd-role { color: #cc88ff; font-size: 10px; margin-top: 2px; }
+.cd-stats-row { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+.cd-body { font-size: 11px; color: #c0b8d0; line-height: 1.7; }
+.cd-body p { margin-bottom: 8px; }
+.cd-body ul { margin: 4px 0 8px 16px; }
+.cd-body li { margin-bottom: 3px; }
+
+/* ─── ITEM DB PAGE ─── */
+.idb-section { margin-bottom: 14px; }
+.idb-title { background: linear-gradient(90deg,#3a1060,#1a0838); color: #cc88ff; font-size: 11px; font-weight: bold; padding: 6px 10px; border: 1px solid #4a1a7a; border-bottom: 2px solid #ff6600; }
+.item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 3px; border: 1px solid #1a1a3a; border-top: none; }
+.item-card { background: #0d0d22; padding: 8px 4px; text-align: center; cursor: default; }
+.item-card:hover { background: #12102a; }
+.ic-icon { height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+.ic-icon img { max-height: 40px; max-width: 40px; image-rendering: pixelated; image-rendering: crisp-edges; }
+.ic-emoji { font-size: 28px; }
+.ic-name { color: #88aaff; font-size: 9px; line-height: 1.3; }
+.ic-rare { font-size: 8px; margin-top: 2px; }
+.ir-common { color: #888; }
+.ir-rare { color: #4488ff; }
+.ir-epic { color: #aa44ff; }
+.ir-unique { color: #ffcc00; }
+
+/* ─── MARKET PAGE ─── */
+.mkt-header { background: linear-gradient(90deg,#2a0a50,#1a0838); border: 1px solid #4a1a7a; border-bottom: 2px solid #ff6600; padding: 8px 12px; }
+.mkt-title { color: #ffcc44; font-size: 14px; font-weight: bold; }
+.mkt-sub { color: #8877aa; font-size: 10px; margin-top: 2px; }
+.mkt-listings { border: 1px solid #1a1a3a; border-top: none; }
+.mkt-row { display: flex; align-items: center; gap: 8px; background: #0d0d22; border-bottom: 1px solid #151530; padding: 7px 10px; }
+.mkt-row:nth-child(even) { background: #0f0f28; }
+.mkt-row:hover { background: #141230; }
+.mkt-ico { font-size: 20px; width: 26px; text-align: center; flex-shrink: 0; }
+.mkt-ico img { max-height: 24px; max-width: 24px; image-rendering: pixelated; vertical-align: middle; }
+.mkt-name { color: #88aaff; font-size: 11px; font-weight: bold; flex: 1; }
+.mkt-qty { color: #665577; font-size: 10px; }
+.mkt-seller { color: #8877aa; font-size: 9px; width: 100px; }
+.mkt-price { color: #ffcc44; font-size: 11px; font-weight: bold; text-align: right; white-space: nowrap; }
+.mkt-mesos { font-size: 9px; color: #ff9900; }
+.mkt-notice { background: #1a0a3a; border: 1px solid #2a1a5a; padding: 8px 12px; font-size: 10px; color: #8877aa; border-bottom: none; }
+.mkt-notice strong { color: #ffcc44; }
+
+/* ─── GUILD WARS PAGE ─── */
+.gw-page { padding: 0; }
+.gw-season { background: linear-gradient(90deg,#3a1060,#1a0838); border: 1px solid #4a1a7a; border-bottom: 2px solid #ff6600; padding: 8px 12px; margin-bottom: 10px; }
+.gw-season-title { color: #ffcc44; font-size: 13px; font-weight: bold; }
+.gw-bracket { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.gw-match { background: #0d0d22; border: 1px solid #2a1a5a; padding: 10px; }
+.gw-match-lbl { color: #665577; font-size: 9px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.gw-team { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; font-size: 10px; border: 1px solid transparent; }
+.gw-team.win { background: #1a0a38; color: #ffcc44; font-weight: bold; border-color: #2a1a5a; }
+.gw-team.lose { color: #4a3a5a; }
+.gw-vs { text-align: center; color: #ff6600; font-size: 9px; padding: 2px 0; }
+.gw-score { font-size: 12px; font-weight: bold; font-family: 'Courier New', monospace; }
+
+/* ─── COMMUNITY PAGE ─── */
+.community-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media(max-width:500px) { .community-grid { grid-template-columns: 1fr; } }
+.community-card { background: #0d0d22; border: 1px solid #2a1a5a; padding: 10px 12px; }
+.comm-title { color: #ffcc44; font-size: 11px; font-weight: bold; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #1a1a3a; }
+.comm-body { font-size: 10px; color: #c0b8d0; line-height: 1.6; }
+.comm-body a { color: #88aaff; text-decoration: none; }
+.comm-body a:hover { color: #ffcc44; text-decoration: underline; }
+.ss-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 6px; }
+.ss-thumb { background: linear-gradient(135deg, #1a1060, #0d0820); border: 1px solid #2a1a5a; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; }
+.ss-thumb:hover { border-color: #ff6600; }
+
+/* ─── PAGE SECTION HEADER ─── */
+.page-sec-head { background: linear-gradient(90deg,#2a0a50,#1a0838); border: 1px solid #4a1a7a; border-bottom: 2px solid #ff6600; padding: 8px 12px; margin-bottom: 10px; }
+.page-sec-head h2 { color: #ffcc44; font-size: 13px; margin: 0; }
+.page-sec-head p { color: #8877aa; font-size: 10px; margin: 2px 0 0; }
 </style>
 </head>
 <body>
-<div class="window">
-  <div class="title-bar">
-    <div class="title-left">🍁 MapleWorld — parsa.exe</div>
-    <div class="tb-btns">
-      <a class="tb-btn" href="index.html">✕</a>
-    </div>
-  </div>
-  <div class="menu-bar">
-    <div class="mi">Character</div>
-    <div class="mi">World</div>
-    <div class="mi">Help</div>
-  </div>
 
-  <div class="maple-header">
-    <div class="maple-logo">✦ MAPLE WORLD ✦</div>
-    <div class="maple-sub">Choose Your Class, Adventurer</div>
-  </div>
-
-  <div class="intro">
-    Every great copywriter has a class. Which one fits?
-  </div>
-
-  <div class="class-grid" id="classGrid"></div>
-
-  <div id="choosePrompt" class="choose-prompt">↑ Pick a class to see your stats ↑</div>
-  <div class="detail-panel" id="detailPanel">
-    <div class="detail-header">
-      <div class="detail-icon" id="dIcon"></div>
-      <div>
-        <div class="detail-class" id="dClass"></div>
-        <div class="detail-tagline" id="dTag"></div>
+<!-- Site Header -->
+<div class="site-header">
+  <div class="header-top">
+    <div class="logo-area">
+      <div class="maple-leaf-big">🍁</div>
+      <div class="logo-text">
+        <div class="logo-main">MapleStory Forums</div>
+        <div class="logo-sub">Bera World · Est. 2003 · Your #1 Maple Community</div>
       </div>
     </div>
-    <div class="detail-body" id="dBody"></div>
-    <div class="detail-stats" id="dStats"></div>
+    <div class="user-bar">
+      Welcome, <strong>ParsaNavidi</strong> &nbsp;·&nbsp;
+      <span class="ms-pts">2,400 ⭐ Maple Points</span><br>
+      <span style="color:#554466">Last visited: Today, 2:47 AM &nbsp;|&nbsp; </span>
+      <span style="color:#88aaff">Messages: 3 &nbsp;|&nbsp; </span>
+      <a href="index.html" style="color:#ff9900;text-decoration:none">← Back to Desktop</a>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <a class="nav-item active" data-page="forums" onclick="showPage('forums')">Forums</a>
+    <a class="nav-item" data-page="characters" onclick="showPage('characters')">Characters</a>
+    <a class="nav-item" data-page="itemdb" onclick="showPage('itemdb')">Item Database</a>
+    <a class="nav-item" data-page="market" onclick="showPage('market')">Market</a>
+    <a class="nav-item" data-page="guildwars" onclick="showPage('guildwars')">Guild Wars</a>
+    <a class="nav-item" data-page="community" onclick="showPage('community')">Community</a>
+  </div>
+</div>
+
+<!-- Ticker -->
+<div class="ticker">
+  <span class="ticker-inner">
+    🟢 Online Now: Grendel_theReally &nbsp;·&nbsp; Jr_Necki_Bera &nbsp;·&nbsp; DarkLord_v3 &nbsp;·&nbsp; ParsaNavidi &nbsp;·&nbsp; xXWordsmithXx &nbsp;·&nbsp; BowmasterPro &nbsp;·&nbsp; MapleAdmin &nbsp;·&nbsp; ThiefGuild_Boss &nbsp;·&nbsp; Buccaneer99 &nbsp;·&nbsp; ContentWarrior &nbsp;·&nbsp; PixelArtist2003 &nbsp;·&nbsp; Jr_Necki_Bera2 &nbsp;· ★ [New] Market Report Season 3 is live! Check the guides section ★
+  </span>
+</div>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="#">MapleStory Forums</a> &rsaquo; <strong style="color:#c0b8d0">Bera World</strong>
+</div>
+
+<!-- Page -->
+<div class="page-wrap">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="widget">
+      <div class="widget-title">🟢 Who's Online</div>
+      <div class="widget-body">
+        <div class="widget-row"><span class="online-dot"></span><strong>ParsaNavidi</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Grendel_theReally</div>
+        <div class="widget-row"><span class="online-dot"></span>Jr_Necki_Bera</div>
+        <div class="widget-row"><span class="online-dot"></span>xXWordsmithXx</div>
+        <div class="widget-row"><span class="offline-dot"></span>DarkLord_v3</div>
+        <div class="widget-row"><span class="offline-dot"></span>MapleAdmin</div>
+        <div class="widget-row" style="margin-top:4px;color:#554466">12 guests browsing</div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">📊 Forum Stats</div>
+      <div class="widget-body">
+        <div class="widget-row">Threads: <strong>14,882</strong></div>
+        <div class="widget-row">Posts: <strong>287,441</strong></div>
+        <div class="widget-row">Members: <strong>38,204</strong></div>
+        <div class="widget-row">Newest: <strong>ContentWarrior</strong></div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">🏆 Top Posters</div>
+      <div class="widget-body">
+        <div class="widget-row">1. <strong>MapleAdmin</strong></div>
+        <div class="widget-row">2. <strong>ParsaNavidi</strong></div>
+        <div class="widget-row">3. Grendel_theReally</div>
+        <div class="widget-row">4. Jr_Necki_Bera</div>
+        <div class="widget-row">5. DarkLord_v3</div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">🍁 Server Status</div>
+      <div class="widget-body">
+        <div class="widget-row"><span class="online-dot"></span>Bera: <strong style="color:#44cc44">ONLINE</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Broa: <strong style="color:#44cc44">ONLINE</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Windia: <strong style="color:#44cc44">ONLINE</strong></div>
+        <div class="widget-row"><span class="online-dot"></span>Khaini: <strong style="color:#ffcc44">LAG</strong></div>
+      </div>
+    </div>
   </div>
 
-  <div class="status-bar">
-    <div class="sp" id="msg">Welcome to MapleWorld · Choose your class</div>
-  </div>
-  <a class="back" href="index.html">← Back to Desktop</a>
+  <!-- Main -->
+  <div class="main-col">
+  <div id="page-forums" class="mp-page">
+
+    <!-- BOARD: Announcements -->
+    <div class="board-section">
+      <div class="board-section-title">📋 ANNOUNCEMENTS &amp; INTRODUCTIONS</div>
+      <table class="board-table">
+        <tr class="board-row" onclick="toggleBoard('board-announce')">
+          <td class="board-icon-cell">📌</td>
+          <td class="board-info">
+            <div class="board-name">Introductions &amp; About Me</div>
+            <div class="board-desc">New to the forums? Introduce yourself here. Tell us your class and server!</div>
+          </td>
+          <td class="board-stats"><div class="board-stats-num">89</div><div class="board-stats-lbl">threads</div></td>
+          <td class="board-last">Last post by <strong>ParsaNavidi</strong><br>Today, 2:47 AM</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Board 1 threads -->
+    <div id="board-announce" style="display:none;margin-bottom:16px">
+      <table class="thread-table">
+        <tr class="thread-header-row">
+          <th style="width:30px"></th>
+          <th>Thread</th>
+          <th style="width:80px">Replies</th>
+          <th style="width:140px">Last Post</th>
+        </tr>
+        <tr class="thread-row sticky" onclick="toggleThread('t1')">
+          <td class="t-icon">📌</td>
+          <td class="t-info">
+            <div class="t-title sticky-title">
+              <span class="t-badges"><span class="badge badge-sticky">STICKY</span></span>
+              Hello everyone! Introduction + who I am
+            </div>
+            <div class="t-by">by <strong>ParsaNavidi</strong> · Junior Maple Admin</div>
+          </td>
+          <td class="t-stats"><strong>47</strong> replies</td>
+          <td class="t-last"><strong>ParsaNavidi</strong>Today, 2:47 AM</td>
+        </tr>
+      </table>
+
+      <div id="t1" class="thread-expand">
+        <!-- Post 1 -->
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+            <div class="post-stats-row">Joined: <strong>Oct 2018</strong></div>
+            <div class="post-stats-row">Server: <strong>Bera</strong></div>
+            <div class="post-maple-lvl">
+              Class: <span style="color:#88aaff">Copywriter</span><br>
+              Lv. <span class="lvl-num">200</span> ⭐
+            </div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; Today, 2:47 AM</span>
+              <span style="color:#665577">Bera · Guild: The Wordsmiths</span>
+            </div>
+            <div class="post-content">
+              <p>hey everyone!! 👋 figured I'd make an intro post since I've been lurking for ages lol</p>
+              <p>I'm <span class="highlight">Parsa Navidi</span> — content strategist and copywriter based in <span class="highlight">Toronto</span>. Been grinding this class since 2018 and hit 200 a while back (still can't believe it tbh 😂)</p>
+              <p>Main spec is <span class="highlight">Brand Voice</span> with points into <span class="highlight">SEO</span> and <span class="highlight">Long-form Storytelling</span>. Currently working as content lead at Yardi Canada — mostly doing market reports, editorial features, and strategy work across the brand.</p>
+              <p>Before that I ran the full production pipeline for the Jas Takhar Podcast (scripts, show notes, scheduling — full end-to-end). Also did conversion copy for a plumbing company and a solar energy brand which sounds random but was honestly great for the portfolio diversity 😅</p>
+              <p>If you need someone to duo a brand voice dungeon or just want to talk shop about writing, HMU. Always down to party with serious players 🍁</p>
+              <p class="green">GoodLuckHaveMaple, everyone.</p>
+            </div>
+            <div class="post-sig">
+              <div class="sig-bar">
+                <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" alt="">
+                <span class="sig-fallback" style="display:none">✍️</span>
+                <div class="sig-text">
+                  ParsaNavidi · Lv.200 Copywriter · Bera<br>
+                  <span style="color:#ff9900">▰▰▰▰▰▰▰▰▰▰</span> Copywriting 99/99<br>
+                  <a href="https://www.linkedin.com/in/parsanavidi/" target="_blank" style="color:#88aaff">linkedin.com/in/parsanavidi</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Reply 1 -->
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2001,30020,20001,1050147,1060090,1003823,1372000/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧙</div>
+            </div>
+            <div class="post-username">Grendel_theReally</div>
+            <div class="post-rank">⭐ Senior Member</div>
+            <div class="post-stats-row">Posts: <strong>11,209</strong></div>
+            <div class="post-stats-row">Joined: <strong>Mar 2005</strong></div>
+            <div class="post-stats-row">Server: <strong>Bera</strong></div>
+            <div class="post-maple-lvl">
+              Class: <span style="color:#cc88ff">Archmage</span><br>
+              Lv. <span class="lvl-num">200</span> ⭐
+            </div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span>Post <span class="post-num">#2</span> &nbsp;·&nbsp; Today, 3:12 AM</span>
+              <span style="color:#665577">Bera · Guild: Ossyria Elite</span>
+            </div>
+            <div class="post-content">
+              <p>Welcome to the forums Parsa!! Always good to have more content mains around here — the SEO class is seriously underrated. People sleep on it but the passive XP gain over time is insane 📈</p>
+              <div class="quote"><strong>ParsaNavidi wrote:</strong><br>If you need someone to duo a brand voice dungeon</div>
+              <p>Lmao yes please, I've been trying to clear the "Consistent Brand Tone" dungeon for weeks and my party keeps breaking formation in the 3rd room 😭</p>
+              <p>Also — market reports for Yardi is solid content endgame content. Good luck on the grind!! 🍁</p>
+            </div>
+            <div class="post-sig">
+              <div class="sig-bar">
+                <img src="https://maplestory.io/api/GMS/latest/character/2001,30020,20001,1050147,1060090,1003823,1372000/stand1/0"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" alt="">
+                <span class="sig-fallback" style="display:none">🔮</span>
+                <div class="sig-text">Grendel · Lv.200 Archmage (F/P) · Bera<br>The original magician since GMS Beta 🧙</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:right;padding:8px;background:#0a0818;border-top:1px solid #1a1a3a">
+          <button class="qr-submit" onclick="showReply('qr1')">+ Quick Reply</button>
+        </div>
+        <div id="qr1" class="quick-reply">
+          <div class="qr-label">Quick Reply to: <strong>Hello everyone! Introduction + who I am</strong></div>
+          <textarea class="qr-box" placeholder="Type your reply... (this is a read-only portfolio — replies won't post 😄)"></textarea><br>
+          <button class="qr-submit">Post Reply</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOARD: Projects / Guild -->
+    <div class="board-section">
+      <div class="board-section-title">⚔️ CLASS GUIDES &amp; PROJECTS</div>
+      <table class="board-table">
+        <tr class="board-row" onclick="toggleBoard('board-proj')">
+          <td class="board-icon-cell">🖊️</td>
+          <td class="board-info">
+            <div class="board-name">Copywriter's Lounge — Guides &amp; Showcases</div>
+            <div class="board-desc">Strategy guides, DPM calculators, boss runs, and class showcases for writers.</div>
+          </td>
+          <td class="board-stats"><div class="board-stats-num">241</div><div class="board-stats-lbl">threads</div></td>
+          <td class="board-last">Last post by <strong>xXWordsmithXx</strong><br>2 days ago</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="board-proj" style="display:none;margin-bottom:16px">
+      <table class="thread-table">
+        <tr class="thread-header-row">
+          <th style="width:30px"></th>
+          <th>Thread</th>
+          <th style="width:80px">Replies</th>
+          <th style="width:140px">Last Post</th>
+        </tr>
+        <tr class="thread-row hot" onclick="toggleThread('t2')">
+          <td class="t-icon">🔥</td>
+          <td class="t-info">
+            <div class="t-title">
+              <span class="t-badges"><span class="badge badge-guide">GUIDE</span><span class="badge badge-hot">HOT</span></span>
+              The Copywriter Build 2024 — Full Progression Guide
+            </div>
+            <div class="t-sub">From Beginner to Lv.200 — every skill point explained with real project examples</div>
+            <div class="t-by">by <strong>ParsaNavidi</strong></div>
+          </td>
+          <td class="t-stats"><strong>184</strong> replies</td>
+          <td class="t-last"><strong>ContentWarrior</strong>Yesterday</td>
+        </tr>
+        <tr class="thread-row" onclick="toggleThread('t3')">
+          <td class="t-icon">🏰</td>
+          <td class="t-info">
+            <div class="t-title">
+              <span class="t-badges"><span class="badge badge-new">NEW</span></span>
+              [Guild Recruitment] The Wordsmiths — Top Content Guild on Bera
+            </div>
+            <div class="t-by">by <strong>ParsaNavidi</strong></div>
+          </td>
+          <td class="t-stats"><strong>32</strong> replies</td>
+          <td class="t-last"><strong>ParsaNavidi</strong>Today</td>
+        </tr>
+      </table>
+
+      <!-- Thread 2 -->
+      <div id="t2" class="thread-expand">
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; Dec 2, 2024</span></div>
+            <div class="post-content">
+              <p><span class="highlight">THE COPYWRITER — COMPLETE 2024 PROGRESSION GUIDE</span></p>
+              <p>Ok so I've been getting a lot of DMs asking how I structured my build so I figured I'd write the definitive guide. This is the path I took and it's working really well.</p>
+              <p><span class="highlight">📊 Active Projects (Boss Runs):</span></p>
+              <ul>
+                <li><span class="green">✅ Yardi Canada Market Reports</span> — Monthly real estate intelligence series. Built the full content framework: data sourcing, narrative structure, design briefs, distribution. <a href="https://info.yardi.com/multifamily-market-reports-for-canada" target="_blank">↗ View Reports</a></li>
+                <li><span class="green">✅ Jas Takhar Podcast</span> — Ran full production end-to-end: scripts, show notes, guest outreach, social amplification. <a href="https://meetjastakhar.com/" target="_blank">↗ Listen</a></li>
+                <li><span class="green">✅ Plumb Wize</span> — SEO conversion copy for plumbing. Structured around actual 2am pipe burst search queries. <a href="https://www.plumbwize.ca/drain-services/drain-repair/" target="_blank">↗ View</a></li>
+                <li><span class="green">✅ My Solar Group</span> — Brand voice + full website copy. Made technical solar concepts human without dumbing them down. <a href="https://www.mysolargroup.ca/" target="_blank">↗ View</a></li>
+              </ul>
+              <p><span class="highlight">📰 Published Articles (Side Quests):</span></p>
+              <ul>
+                <li><a href="https://blog.shoplazza.com/what-is-buyer-persona" target="_blank">Shoplazza — Buyer Personas Guide</a></li>
+                <li><a href="https://www.yardibreeze.ca/blog/2025/02/women-in-tech-parisa/" target="_blank">Yardi Breeze — Women in Tech Feature</a></li>
+                <li><a href="https://www.yardi.com/blog/yasc-canada-2025/" target="_blank">Yardi — YASC Canada 2025 Coverage</a></li>
+                <li><a href="https://www.reccanada.com/blog/28doors" target="_blank">REC Canada — 28 Doors Editorial</a></li>
+              </ul>
+              <p>lmk if you have questions!! GL on your content grind 🍁</p>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2002,30040,20002,1060091,1003021,1452002/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🏹</div>
+            </div>
+            <div class="post-username">xXWordsmithXx</div>
+            <div class="post-rank">🌟 Veteran Member</div>
+            <div class="post-stats-row">Posts: <strong>4,392</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#2</span> &nbsp;·&nbsp; Dec 3, 2024</span></div>
+            <div class="post-content">
+              <div class="quote"><strong>ParsaNavidi wrote:</strong><br>Structured around actual 2am pipe burst search queries</div>
+              <p>bro this is actually galaxy brain SEO strategy 😭 who else is writing copy at the emotional peak moment of a customer's pain?? This is advanced stuff.</p>
+              <p>Bookmarking this whole thread. The Yardi market reports are a seriously smart recurring content piece — monthly cadence, data-driven, builds authority over time. Classic grinding strategy tbh</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thread 3: Guild Recruitment -->
+      <div id="t3" class="thread-expand">
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; Today</span></div>
+            <div class="post-content">
+              <p><span class="highlight">🏰 THE WORDSMITHS — NOW RECRUITING (Serious Players Only)</span></p>
+              <p>Guild tier: <span class="highlight">Diamond</span> · Server: Bera · Active members: 12</p>
+              <p>We're a tight-knit content guild that runs regular boss clears and theory crafts builds together. Looking for players who take their class seriously.</p>
+              <p><span class="highlight">Requirements:</span></p>
+              <ul>
+                <li>Lv.80+ in any writing class (Copywriter, Content Strategist, SEO Ranger, Brand Voice Mage)</li>
+                <li>Active 3x per week minimum</li>
+                <li>No drama. Good vibes only 🍁</li>
+              </ul>
+              <p>To apply — send a DM or find me in-game on <strong>Bera</strong>.</p>
+              <p>Real talk: I'm open to freelance collabs, content partnerships, and brand work. If you're a brand or agency looking for a content lead — <a href="mailto:hello@parsanavidi.com">send me a message</a> 📬</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOARD: Off-Topic -->
+    <div class="board-section">
+      <div class="board-section-title">💬 OFF-TOPIC &amp; NOSTALGIA</div>
+      <table class="board-table">
+        <tr class="board-row" onclick="toggleBoard('board-ot')">
+          <td class="board-icon-cell">🎮</td>
+          <td class="board-info">
+            <div class="board-name">Nostalgia Lounge — Remember When?</div>
+            <div class="board-desc">Pre-BB memories, Henesys Hunting Ground stories, and classic Maple moments.</div>
+          </td>
+          <td class="board-stats"><div class="board-stats-num">8,441</div><div class="board-stats-lbl">posts</div></td>
+          <td class="board-last">Last post by <strong>Jr_Necki_Bera</strong><br>Just now</td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="board-ot" style="display:none;margin-bottom:16px">
+      <table class="thread-table">
+        <tr class="thread-header-row">
+          <th style="width:30px"></th>
+          <th>Thread</th>
+          <th style="width:80px">Replies</th>
+          <th style="width:140px">Last Post</th>
+        </tr>
+        <tr class="thread-row hot" onclick="toggleThread('t4')">
+          <td class="t-icon">🔥</td>
+          <td class="t-info">
+            <div class="t-title">What was your FIRST piece of content? (nostalgia thread)</div>
+            <div class="t-sub">Share your very first project — doesn't matter how bad it was 😂</div>
+            <div class="t-by">by <strong>Jr_Necki_Bera</strong></div>
+          </td>
+          <td class="t-stats"><strong>892</strong> replies</td>
+          <td class="t-last"><strong>ParsaNavidi</strong>Today</td>
+        </tr>
+      </table>
+      <div id="t4" class="thread-expand">
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2003,30050,20003,1070114,1060163,1332025/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🗡️</div>
+            </div>
+            <div class="post-username">Jr_Necki_Bera</div>
+            <div class="post-rank">🌙 Senior Member</div>
+            <div class="post-stats-row">Posts: <strong>6,771</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#1</span> &nbsp;·&nbsp; 4 days ago</span></div>
+            <div class="post-content">
+              <p>ok we're all doing this. What was your FIRST piece of content? The one that made you go "ok I think I can actually do this"</p>
+              <p>Mine was a terrible product description for a small clothing brand. Zero strategy. No brief. Just me writing what sounded cool. Looking back it was so bad but it got me started 😭</p>
+              <p><span class="highlight">Drop yours below!!</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-sidebar">
+            <div class="post-avatar">
+              <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'" alt="char">
+              <div class="av-fallback">🧑‍💻</div>
+            </div>
+            <div class="post-username">ParsaNavidi</div>
+            <div class="post-rank">✦ Junior Maple Admin</div>
+            <div class="post-stats-row">Posts: <strong>2,847</strong></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta"><span>Post <span class="post-num">#847</span> &nbsp;·&nbsp; Just now</span></div>
+            <div class="post-content">
+              <p>lmaoo ok I'll bite</p>
+              <p>My first published piece was a buyer persona guide for <span class="highlight">Shoplazza</span> in 2022. I was so worried it was too long but they loved it and it's still one of the most-read posts on their blog 😅</p>
+              <p>Before that I'd done some ghostwriting and brand copy stuff but that was the first thing with my name on it. The feeling of seeing it live was actually kind of unreal??</p>
+              <p>The weird thing is looking back it still holds up. Maybe beginner instincts aren't always wrong. Or maybe I was just lucky idk 🍁</p>
+              <p class="green">Anyway — this thread is sending me. Keep them coming!!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- page-forums -->
+
+  <!-- ═══ CHARACTERS PAGE ═══ -->
+  <div id="page-characters" class="mp-page hidden">
+    <div class="page-sec-head"><h2>⚔️ Class Browser — Bera World</h2><p>v83 Pre-Big Bang · 5 Base Classes · Choose your path</p></div>
+
+    <div class="class-grid">
+      <!-- Warrior -->
+      <div class="class-card" id="cc-warrior" onclick="selectClass('warrior')">
+        <div class="class-sprite-wrap">
+          <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+          <div class="class-sprite-fb">⚔️</div>
+        </div>
+        <div class="class-card-name">Warrior</div>
+        <div class="class-card-jobs">Fighter → Crusader<br>Dark Knight · Hero · Paladin</div>
+        <span class="class-stat cs-str">STR PRIMARY</span>
+      </div>
+      <!-- Magician -->
+      <div class="class-card" id="cc-mage" onclick="selectClass('mage')">
+        <div class="class-sprite-wrap">
+          <img src="https://maplestory.io/api/GMS/latest/character/2001,30020,20001,1050147,1060090,1003823,1372000/stand1/0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+          <div class="class-sprite-fb">🔮</div>
+        </div>
+        <div class="class-card-name">Magician</div>
+        <div class="class-card-jobs">Wizard → Mage<br>Bishop · Arch Mage (F/P) · (I/L)</div>
+        <span class="class-stat cs-int">INT PRIMARY</span>
+      </div>
+      <!-- Archer -->
+      <div class="class-card" id="cc-archer" onclick="selectClass('archer')">
+        <div class="class-sprite-wrap">
+          <img src="https://maplestory.io/api/GMS/latest/character/2002,30040,20002,1060091,1003021,1452002/stand1/0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+          <div class="class-sprite-fb">🏹</div>
+        </div>
+        <div class="class-card-name">Bowman</div>
+        <div class="class-card-jobs">Hunter → Ranger<br>Bowmaster · Marksman</div>
+        <span class="class-stat cs-dex">DEX PRIMARY</span>
+      </div>
+      <!-- Thief -->
+      <div class="class-card" id="cc-thief" onclick="selectClass('thief')">
+        <div class="class-sprite-wrap">
+          <img src="https://maplestory.io/api/GMS/latest/character/2003,30050,20003,1070114,1060163,1332025/stand1/0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+          <div class="class-sprite-fb">🗡️</div>
+        </div>
+        <div class="class-card-name">Thief</div>
+        <div class="class-card-jobs">Rogue → Assassin<br>Shadower · Night Lord</div>
+        <span class="class-stat cs-luk">LUK PRIMARY</span>
+      </div>
+      <!-- Pirate -->
+      <div class="class-card" id="cc-pirate" onclick="selectClass('pirate')">
+        <div class="class-sprite-wrap">
+          <img src="https://maplestory.io/api/GMS/latest/character/2010,30000,20000,1052046,1062097,1482006/stand1/0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+          <div class="class-sprite-fb">🏴‍☠️</div>
+        </div>
+        <div class="class-card-name">Pirate</div>
+        <div class="class-card-jobs">Brawler / Gunslinger<br>Buccaneer · Corsair</div>
+        <span class="class-stat cs-str">STR/DEX</span>
+      </div>
+    </div>
+
+    <!-- Class detail panels -->
+    <div id="cd-warrior" class="class-detail">
+      <div class="cd-head">
+        <div class="cd-portrait">
+          <img src="https://maplestory.io/api/GMS/latest/character/2000,30030,20000,1040221,1060221,1302058/stand1/0" onerror="this.style.display='none'" alt="">
+        </div>
+        <div class="cd-meta">
+          <div class="cd-name">Warrior — Brand Strategy</div>
+          <div class="cd-role">Dark Knight · Lv.200 · Bera · Guild: The Wordsmiths</div>
+          <div class="cd-stats-row">
+            <span class="class-stat cs-str">STR MAX</span>
+            <span class="class-stat" style="background:#1a0a3a;color:#cc88ff">HP: S TIER</span>
+            <span class="class-stat" style="background:#1a1a1a;color:#aaa">DEF: High</span>
+          </div>
+        </div>
+      </div>
+      <div class="cd-body">
+        <p>The <span class="highlight">Warrior</span> is the backbone of any party. High HP, incredible defense, and the ability to hold the line no matter what gets thrown at them. This is the <span class="highlight">Brand Strategy</span> class — the one that anchors everything else.</p>
+        <p>Parsa plays this class at Lv.200. Spec'd into <span class="highlight">Content Framework Mastery</span>, <span class="highlight">Editorial Planning</span>, and the passive skill <span class="highlight">Voice Consistency</span>. Current equipment set: Yardi Canada gear (full set bonus active).</p>
+        <p><span class="highlight">Notable clears:</span></p>
+        <ul>
+          <li>Yardi Canada Market Reports — monthly recurring boss, soloed. Full editorial + data pipeline.</li>
+          <li>Jas Takhar Podcast — scripted, produced, and distributed 50+ episodes end-to-end.</li>
+          <li>MySolarGroup.ca — full brand voice + website copy from scratch.</li>
+        </ul>
+        <p class="green">Warrior tip: Always build your HP (=brand foundation) before rushing DPS content. Voice comes before volume.</p>
+      </div>
+    </div>
+
+    <div id="cd-mage" class="class-detail">
+      <div class="cd-head">
+        <div class="cd-portrait">
+          <img src="https://maplestory.io/api/GMS/latest/character/2001,30020,20001,1050147,1060090,1003823,1372000/stand1/0" onerror="this.style.display='none'" alt="">
+        </div>
+        <div class="cd-meta">
+          <div class="cd-name">Magician — Long-form Writing</div>
+          <div class="cd-role">Bishop (Support Spec) · Lv.180 · Bera</div>
+          <div class="cd-stats-row">
+            <span class="class-stat cs-int">INT MAX</span>
+            <span class="class-stat" style="background:#1a0a3a;color:#cc88ff">MP: S TIER</span>
+          </div>
+        </div>
+      </div>
+      <div class="cd-body">
+        <p>The <span class="highlight">Magician</span> class lives in the world of ideas. High INT, deep MP pools, and the ability to cast spells that linger long after the fight is over. This maps directly to <span class="highlight">long-form content writing</span> — articles, features, editorial work.</p>
+        <p>Skills maxed: <span class="highlight">Article Crafting</span>, <span class="highlight">Research Synthesis</span>, <span class="highlight">Heal</span> (the ability to revive dead campaigns with good copy). Currently working on the 4th job skill <span class="highlight">Audience Resonance</span>.</p>
+        <ul>
+          <li><a href="https://blog.shoplazza.com/what-is-buyer-persona" target="_blank">Shoplazza — Buyer Persona Guide</a> (published 2022, still ranking)</li>
+          <li><a href="https://www.yardibreeze.ca/blog/2025/02/women-in-tech-parisa/" target="_blank">Yardi Breeze — Women in Tech Profile</a></li>
+          <li><a href="https://www.yardi.com/blog/yasc-canada-2025/" target="_blank">Yardi — YASC Canada 2025 Conference Recap</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="cd-archer" class="class-detail">
+      <div class="cd-head">
+        <div class="cd-portrait">
+          <img src="https://maplestory.io/api/GMS/latest/character/2002,30040,20002,1060091,1003021,1452002/stand1/0" onerror="this.style.display='none'" alt="">
+        </div>
+        <div class="cd-meta">
+          <div class="cd-name">Bowman — SEO &amp; Analytics</div>
+          <div class="cd-role">Bowmaster · Long-Range Specialist · Bera</div>
+          <div class="cd-stats-row">
+            <span class="class-stat cs-dex">DEX MAX</span>
+            <span class="class-stat" style="background:#1a1a1a;color:#aaa">RANGE: S TIER</span>
+          </div>
+        </div>
+      </div>
+      <div class="cd-body">
+        <p>The <span class="highlight">Bowman</span> attacks from distance. Precise, patient, and consistent. Misses are rare because every shot is calculated. This is the <span class="highlight">SEO &amp; Content Strategy</span> class — research first, write second.</p>
+        <p>Skills maxed: <span class="highlight">Keyword Research</span>, <span class="highlight">Search Intent Mapping</span>, <span class="highlight">Long-form SEO Conversion</span>. The Bowmaster passive <span class="highlight">Evergreen Content</span> means work done today ranks years later.</p>
+        <ul>
+          <li>Plumb Wize — built SEO copy around peak-pain search intent (2am pipe burst queries). <a href="https://www.plumbwize.ca/drain-services/drain-repair/" target="_blank">↗ View</a></li>
+          <li>REC Canada — editorial feature targeting real estate investor audience. <a href="https://www.reccanada.com/blog/28doors" target="_blank">↗ View</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="cd-thief" class="class-detail">
+      <div class="cd-head">
+        <div class="cd-portrait">
+          <img src="https://maplestory.io/api/GMS/latest/character/2003,30050,20003,1070114,1060163,1332025/stand1/0" onerror="this.style.display='none'" alt="">
+        </div>
+        <div class="cd-meta">
+          <div class="cd-name">Thief — Copywriting</div>
+          <div class="cd-role">Shadower · Critical Hit Specialist · Bera</div>
+          <div class="cd-stats-row">
+            <span class="class-stat cs-luk">LUK MAX</span>
+            <span class="class-stat" style="background:#3a1100;color:#ffaa44">CRIT: 95%</span>
+          </div>
+        </div>
+      </div>
+      <div class="cd-body">
+        <p>Fast. Punchy. Every word pulls its weight. The <span class="highlight">Thief</span> doesn't waste MP on flashy spells — it dashes in, crits, and disappears. This is pure <span class="highlight">Copywriting</span>: conversion-focused, reader-aware, high crit rate.</p>
+        <p>Key skills: <span class="highlight">Hook Craft</span>, <span class="highlight">CTA Optimization</span>, <span class="highlight">Pain-Point Strike</span>. The Shadower's <span class="highlight">Smoke Screen</span> ability = writing that sells without feeling like a sales pitch.</p>
+        <ul>
+          <li>Plumb Wize — conversion copy written for people in genuine plumbing emergencies.</li>
+          <li>MySolarGroup.ca — made solar energy exciting and accessible. No jargon, just clear benefits.</li>
+          <li>Brand Voice work across multiple verticals (real estate, tech, trades, podcasting).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="cd-pirate" class="class-detail">
+      <div class="cd-head">
+        <div class="cd-portrait">
+          <img src="https://maplestory.io/api/GMS/latest/character/2010,30000,20000,1052046,1062097,1482006/stand1/0" onerror="this.style.display='none'" alt="">
+        </div>
+        <div class="cd-meta">
+          <div class="cd-name">Pirate — Multimedia &amp; Podcasting</div>
+          <div class="cd-role">Buccaneer · Explosive DPS · Bera</div>
+          <div class="cd-stats-row">
+            <span class="class-stat cs-str">STR HIGH</span>
+            <span class="class-stat cs-dex">DEX HIGH</span>
+          </div>
+        </div>
+      </div>
+      <div class="cd-body">
+        <p>The <span class="highlight">Pirate</span> is the wildcard class. Brawler path or Gunslinger path — both hit hard in completely different ways. Dynamic, energetic, and impossible to ignore. This is <span class="highlight">Multimedia &amp; Podcast Production</span>.</p>
+        <p>Skills maxed: <span class="highlight">Audio Scripting</span>, <span class="highlight">Guest Coordination</span>, <span class="highlight">Show Note Mastery</span>, <span class="highlight">Social Amplification</span>. The Buccaneer ultimate <span class="highlight">End-to-End Pipeline</span> handles everything from recording to distribution.</p>
+        <ul>
+          <li>Jas Takhar Podcast — ran the full production pipeline for 50+ episodes. Scripts, show notes, scheduling, social. <a href="https://meetjastakhar.com/" target="_blank">↗ Listen</a></li>
+          <li>Yardi Canada Reel Maker — social video scripts and editorial direction.</li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- page-characters -->
+
+  <!-- ═══ ITEM DATABASE PAGE ═══ -->
+  <div id="page-itemdb" class="mp-page hidden">
+    <div class="page-sec-head"><h2>📦 Item Database — GMS v83</h2><p>Weapons · Equipment · Consumables · Scrolls · Boss Drops</p></div>
+
+    <div class="idb-section">
+      <div class="idb-title">⚔️ Maple Weapons (Lv.43 — Class Exclusives)</div>
+      <div class="item-grid">
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1302020/icon" onerror="this.outerHTML='<span class=ic-emoji>🗡️</span>'" alt=""></div>
+          <div class="ic-name">Maple Sword</div><div class="ic-rare ir-rare">RARE · Lv.43</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1382020/icon" onerror="this.outerHTML='<span class=ic-emoji>🪄</span>'" alt=""></div>
+          <div class="ic-name">Maple Lama Staff</div><div class="ic-rare ir-rare">RARE · Lv.43</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1452020/icon" onerror="this.outerHTML='<span class=ic-emoji>🏹</span>'" alt=""></div>
+          <div class="ic-name">Maple Bow</div><div class="ic-rare ir-rare">RARE · Lv.43</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1472020/icon" onerror="this.outerHTML='<span class=ic-emoji>⚰️</span>'" alt=""></div>
+          <div class="ic-name">Maple Claw</div><div class="ic-rare ir-rare">RARE · Lv.43</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1482020/icon" onerror="this.outerHTML='<span class=ic-emoji>👊</span>'" alt=""></div>
+          <div class="ic-name">Maple Knuckle</div><div class="ic-rare ir-rare">RARE · Lv.43</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1372048/icon" onerror="this.outerHTML='<span class=ic-emoji>🔮</span>'" alt=""></div>
+          <div class="ic-name">Maple Staff</div><div class="ic-rare ir-rare">RARE · Lv.43</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idb-section">
+      <div class="idb-title">🏆 Boss Drops (Endgame)</div>
+      <div class="item-grid">
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1002357/icon" onerror="this.outerHTML='<span class=ic-emoji>⛑️</span>'" alt=""></div>
+          <div class="ic-name">Zakum Helmet</div><div class="ic-rare ir-epic">EPIC · Boss Drop</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1122000/icon" onerror="this.outerHTML='<span class=ic-emoji>📿</span>'" alt=""></div>
+          <div class="ic-name">HT Necklace</div><div class="ic-rare ir-unique">UNIQUE · Horntail</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/4001039/icon" onerror="this.outerHTML='<span class=ic-emoji>💎</span>'" alt=""></div>
+          <div class="ic-name">Dragon Stone</div><div class="ic-rare ir-epic">EPIC · Boss Mat</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/1003021/icon" onerror="this.outerHTML='<span class=ic-emoji>🎀</span>'" alt=""></div>
+          <div class="ic-name">Maple Bandana</div><div class="ic-rare ir-rare">RARE · Event</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idb-section">
+      <div class="idb-title">📜 Scrolls &amp; Enhancement</div>
+      <div class="item-grid">
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2340000/icon" onerror="this.outerHTML='<span class=ic-emoji>📜</span>'" alt=""></div>
+          <div class="ic-name">White Scroll</div><div class="ic-rare ir-unique">UNIQUE · Protect Slot</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2049100/icon" onerror="this.outerHTML='<span class=ic-emoji>🌀</span>'" alt=""></div>
+          <div class="ic-name">Chaos Scroll</div><div class="ic-rare ir-epic">EPIC · Random Stats</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2040000/icon" onerror="this.outerHTML='<span class=ic-emoji>📑</span>'" alt=""></div>
+          <div class="ic-name">Helmet DEF 100%</div><div class="ic-rare ir-common">COMMON · Safe</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2040001/icon" onerror="this.outerHTML='<span class=ic-emoji>📋</span>'" alt=""></div>
+          <div class="ic-name">Helmet DEF 60%</div><div class="ic-rare ir-common">COMMON</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idb-section">
+      <div class="idb-title">🧪 Potions &amp; Consumables</div>
+      <div class="item-grid">
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2000002/icon" onerror="this.outerHTML='<span class=ic-emoji>🧴</span>'" alt=""></div>
+          <div class="ic-name">Red Potion</div><div class="ic-rare ir-common">COMMON · +50 HP</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2000003/icon" onerror="this.outerHTML='<span class=ic-emoji>🫙</span>'" alt=""></div>
+          <div class="ic-name">Orange Potion</div><div class="ic-rare ir-common">COMMON · +150 HP</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2000004/icon" onerror="this.outerHTML='<span class=ic-emoji>⚗️</span>'" alt=""></div>
+          <div class="ic-name">Elixir</div><div class="ic-rare ir-rare">RARE · Full HP+MP</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2000005/icon" onerror="this.outerHTML='<span class=ic-emoji>✨</span>'" alt=""></div>
+          <div class="ic-name">Power Elixir</div><div class="ic-rare ir-epic">EPIC · Full restore</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2022024/icon" onerror="this.outerHTML='<span class=ic-emoji>🧊</span>'" alt=""></div>
+          <div class="ic-name">Icicle</div><div class="ic-rare ir-rare">RARE · Event</div>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon"><img src="https://maplestory.io/api/GMS/latest/item/2022000/icon" onerror="this.outerHTML='<span class=ic-emoji>🌅</span>'" alt=""></div>
+          <div class="ic-name">Sunrise Dew</div><div class="ic-rare ir-rare">RARE · Full HP</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- page-itemdb -->
+
+  <!-- ═══ MARKET PAGE ═══ -->
+  <div id="page-market" class="mp-page hidden">
+    <div class="mkt-header">
+      <div class="mkt-title">🏪 Free Market — Channel 1, Shop 7</div>
+      <div class="mkt-sub">Bera · All prices in Mesos · Last updated: Today · <span style="color:#44cc44">● OPEN</span></div>
+    </div>
+    <div class="mkt-notice">
+      <strong>📢 SHOP NOTICE:</strong> Hi!! This is ParsaNavidi's shop. All items priced to sell. Send me a DM for bulk orders or collab inquiries. <a href="mailto:hello@parsanavidi.com" style="color:#88aaff">hello@parsanavidi.com</a> 🍁
+    </div>
+    <div class="mkt-listings">
+      <div class="mkt-row">
+        <div class="mkt-ico"><img src="https://maplestory.io/api/GMS/latest/item/1302058/icon" onerror="this.outerHTML='🗡️'" alt=""></div>
+        <div class="mkt-name">BRAND VOICE SWORD (Lv.200 WARRIOR)</div>
+        <div class="mkt-qty">1x</div>
+        <div class="mkt-seller">ParsaNavidi</div>
+        <div class="mkt-price">💰 MAKE OFFER<div class="mkt-mesos">HMU in DM</div></div>
+      </div>
+      <div class="mkt-row">
+        <div class="mkt-ico"><img src="https://maplestory.io/api/GMS/latest/item/2000004/icon" onerror="this.outerHTML='⚗️'" alt=""></div>
+        <div class="mkt-name">YARDI MARKET REPORT (Monthly Drop)</div>
+        <div class="mkt-qty">12x/yr</div>
+        <div class="mkt-seller">ParsaNavidi</div>
+        <div class="mkt-price">💰 CHECK LINK<div class="mkt-mesos"><a href="https://info.yardi.com/multifamily-market-reports-for-canada" target="_blank" style="color:#88aaff">↗ View Reports</a></div></div>
+      </div>
+      <div class="mkt-row">
+        <div class="mkt-ico"><img src="https://maplestory.io/api/GMS/latest/item/1372048/icon" onerror="this.outerHTML='🔮'" alt=""></div>
+        <div class="mkt-name">SEO ARTICLE (Evergreen +ATK)</div>
+        <div class="mkt-qty">WTS</div>
+        <div class="mkt-seller">ParsaNavidi</div>
+        <div class="mkt-price">💰 500k~1M mesos<div class="mkt-mesos">Depends on length</div></div>
+      </div>
+      <div class="mkt-row">
+        <div class="mkt-ico"><img src="https://maplestory.io/api/GMS/latest/item/2340000/icon" onerror="this.outerHTML='📜'" alt=""></div>
+        <div class="mkt-name">WHITE SCROLL (Podcast Episode Script)</div>
+        <div class="mkt-qty">WTS BULK</div>
+        <div class="mkt-seller">ParsaNavidi</div>
+        <div class="mkt-price">💰 250k per scroll<div class="mkt-mesos">50+ ep available</div></div>
+      </div>
+      <div class="mkt-row">
+        <div class="mkt-ico">🔥</div>
+        <div class="mkt-name">CONVERSION COPY SET (Full Website)</div>
+        <div class="mkt-qty">1x</div>
+        <div class="mkt-seller">ParsaNavidi</div>
+        <div class="mkt-price">💰 CUSTOM QUOTE<div class="mkt-mesos"><a href="mailto:hello@parsanavidi.com" style="color:#88aaff">Email me</a></div></div>
+      </div>
+      <div class="mkt-row">
+        <div class="mkt-ico"><img src="https://maplestory.io/api/GMS/latest/item/1452020/icon" onerror="this.outerHTML='🏹'" alt=""></div>
+        <div class="mkt-name">MAPLE BOW (Editorial Feature, Lv.43)</div>
+        <div class="mkt-qty">WTB</div>
+        <div class="mkt-seller">Jr_Necki_Bera</div>
+        <div class="mkt-price">💰 B&gt; 2M mesos<div class="mkt-mesos">PST offers</div></div>
+      </div>
+      <div class="mkt-row">
+        <div class="mkt-ico"><img src="https://maplestory.io/api/GMS/latest/item/2049100/icon" onerror="this.outerHTML='🌀'" alt=""></div>
+        <div class="mkt-name">CHAOS SCROLL (Rebrand Campaign)</div>
+        <div class="mkt-qty">WTS</div>
+        <div class="mkt-seller">Grendel_theReally</div>
+        <div class="mkt-price">💰 5M or BO<div class="mkt-mesos">No lowballs</div></div>
+      </div>
+      <div class="mkt-row">
+        <div class="mkt-ico"><img src="https://maplestory.io/api/GMS/latest/item/1002357/icon" onerror="this.outerHTML='⛑️'" alt=""></div>
+        <div class="mkt-name">ZAKUM HELMET (LinkedIn Profile Revamp)</div>
+        <div class="mkt-qty">1x</div>
+        <div class="mkt-seller">xXWordsmithXx</div>
+        <div class="mkt-price">💰 Trade only<div class="mkt-mesos">PST what u have</div></div>
+      </div>
+    </div>
+  </div><!-- page-market -->
+
+  <!-- ═══ GUILD WARS PAGE ═══ -->
+  <div id="page-guildwars" class="mp-page hidden">
+    <div class="page-sec-head"><h2>🏆 Guild Wars — Season 8 Results</h2><p>Bera World · Top 16 Guilds · Weekly Tournament</p></div>
+    <div class="gw-bracket">
+      <div class="gw-match">
+        <div class="gw-match-lbl">🏆 Grand Final</div>
+        <div class="gw-team win"><span>The Wordsmiths</span><span class="gw-score" style="color:#44ff44">W</span></div>
+        <div class="gw-vs">VS</div>
+        <div class="gw-team lose"><span>Ossyria Elite</span><span class="gw-score">L</span></div>
+      </div>
+      <div class="gw-match">
+        <div class="gw-match-lbl">Semi-Final A</div>
+        <div class="gw-team win"><span>The Wordsmiths</span><span class="gw-score" style="color:#44ff44">W</span></div>
+        <div class="gw-vs">VS</div>
+        <div class="gw-team lose"><span>Dark Syndicate</span><span class="gw-score">L</span></div>
+      </div>
+      <div class="gw-match">
+        <div class="gw-match-lbl">Semi-Final B</div>
+        <div class="gw-team win"><span>Ossyria Elite</span><span class="gw-score" style="color:#44ff44">W</span></div>
+        <div class="gw-vs">VS</div>
+        <div class="gw-team lose"><span>BeraBossKillers</span><span class="gw-score">L</span></div>
+      </div>
+      <div class="gw-match">
+        <div class="gw-match-lbl">Quarter-Final</div>
+        <div class="gw-team win"><span>The Wordsmiths</span><span class="gw-score" style="color:#44ff44">W</span></div>
+        <div class="gw-vs">VS</div>
+        <div class="gw-team lose"><span>NightLordGuild</span><span class="gw-score">L</span></div>
+      </div>
+    </div>
+    <div style="margin-top:10px;padding:8px 12px;background:#0d0d22;border:1px solid #2a1a5a;font-size:10px;color:#8877aa">
+      🏆 <strong style="color:#ffcc44">Season 8 Champions: The Wordsmiths</strong> · 14 members · Guild Master: ParsaNavidi · Guild Level: 25<br>
+      <span style="color:#665577">Next season starts next week. Recruitment: DM ParsaNavidi for trials.</span>
+    </div>
+  </div><!-- page-guildwars -->
+
+  <!-- ═══ COMMUNITY PAGE ═══ -->
+  <div id="page-community" class="mp-page hidden">
+    <div class="page-sec-head"><h2>🌟 Community Hub — Bera World</h2><p>Events · Nostalgia · Screenshots · Fan Art · Real connections</p></div>
+    <div class="community-grid">
+      <div class="community-card">
+        <div class="comm-title">📸 Henesys Hunting Grounds — RIP</div>
+        <div class="comm-body">
+          <p>Pour one out for the <strong style="color:#ffcc44">Henesys Hunting Ground</strong>. You know what I mean. The lag. The seven people fighting over the same Slime spawn. Someone always had Meso Guard on.</p>
+          <p>If you know, you know. 2005-2011 will never come back and somehow that's exactly why it was perfect.</p>
+          <div class="ss-gallery">
+            <div class="ss-thumb">🍄</div><div class="ss-thumb">🐌</div><div class="ss-thumb">🐷</div>
+            <div class="ss-thumb">🐔</div><div class="ss-thumb">🌿</div><div class="ss-thumb">🗺️</div>
+          </div>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="comm-title">📬 Connect IRL</div>
+        <div class="comm-body">
+          <p>The person behind <strong style="color:#ffcc44">ParsaNavidi</strong> is Parsa Navidi — content strategist and copywriter based in Toronto 🍁</p>
+          <p>If you want to collab, hire, or just talk shop about writing and strategy:</p>
+          <p>🔗 <a href="https://www.linkedin.com/in/parsanavidi/" target="_blank">LinkedIn — parsanavidi</a><br>
+          📧 <a href="mailto:hello@parsanavidi.com">hello@parsanavidi.com</a><br>
+          💼 <a href="index.html">← Back to Portfolio Desktop</a></p>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="comm-title">🎮 Current Active Projects</div>
+        <div class="comm-body">
+          <ul style="margin:0 0 0 14px">
+            <li><a href="https://info.yardi.com/multifamily-market-reports-for-canada" target="_blank">Yardi Canada Market Reports</a></li>
+            <li><a href="https://meetjastakhar.com/" target="_blank">Jas Takhar Podcast</a></li>
+            <li><a href="https://www.plumbwize.ca" target="_blank">Plumb Wize (SEO Copy)</a></li>
+            <li><a href="https://www.mysolargroup.ca" target="_blank">MySolarGroup (Brand Voice)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="comm-title">💬 Nostalgia Corner</div>
+        <div class="comm-body">
+          <p style="color:#665577;font-style:italic">"can anyone else not forget the sound the mesos made when they dropped?? like the little ping. i still hear it in dreams."</p>
+          <p style="color:#665577;font-style:italic">"typing in all caps in FM because everyone was. THE ECONOMICS OF IT. WTB CHAOS 5M PST"</p>
+          <p style="color:#665577;font-style:italic">"server lag so bad you'd cast a spell and die before the animation played 😭"</p>
+        </div>
+      </div>
+    </div>
+  </div><!-- page-community -->
+
+  </div><!-- main-col -->
+</div><!-- page-wrap -->
+
+<div class="site-footer">
+  MapleStory Forums — Bera World &nbsp;·&nbsp; All times are GMT-5 &nbsp;·&nbsp;
+  Powered by <strong style="color:#cc88ff">vBulletin</strong> 3.8.7 &nbsp;·&nbsp;
+  Copyright ©2000-2024, MapleStory Community &nbsp;·&nbsp;
+  <a href="index.html" style="color:#88aaff;text-decoration:none">← Back to Desktop</a>
 </div>
 
 <script>
-const classes = [
-  {
-    name: 'The\nWordsmith',
-    icon: '🖊️',
-    emoji: '⚔️',
-    tagline: '"Lead with the hook, finish with the heart."',
-    color: '#cc3300',
-    body: `The Wordsmith is the backbone of any creative team. Grounded, dependable, hits hard. Every piece starts with a brief and ends with something that actually works. No gimmicks — just craft honed through hundreds of rewrites at 2am.
-
-Parsa runs Wordsmith energy daily: structured thinking, clean sentences, and the discipline to kill darlings when needed.`,
-    stats: [
-      { name: 'Copywriting', val: 97, color: '#cc3300' },
-      { name: 'Storytelling', val: 90, color: '#884400' },
-      { name: 'Editing', val: 88, color: '#660000' },
-    ]
-  },
-  {
-    name: 'The\nStrategist',
-    icon: '🧙',
-    emoji: '🔮',
-    tagline: '"Why before how. Always."',
-    color: '#5533cc',
-    body: `The Strategist sees three moves ahead. While others are writing, they're asking: who is this for, why do they care, and what do we want them to do next? Content is never just content — it's architecture.
-
-This is Parsa in content strategy mode: market reports, editorial calendars, audience frameworks. The words come after the thinking.`,
-    stats: [
-      { name: 'Strategy', val: 93, color: '#5533cc' },
-      { name: 'Research', val: 89, color: '#3311aa' },
-      { name: 'Systems', val: 85, color: '#221188' },
-    ]
-  },
-  {
-    name: 'The\nStoryteller',
-    icon: '🏹',
-    emoji: '🎯',
-    tagline: '"Make them feel it before they think it."',
-    color: '#228800',
-    body: `The Storyteller hits from range. Emotional resonance, brand narrative, the long-form piece that actually gets read. They pull readers in with a scene, hold them with stakes, and close with something that sticks.
-
-Parsa goes full Storyteller on editorial features, podcast scripts, and anything that needs more than facts to land.`,
-    stats: [
-      { name: 'Narrative', val: 91, color: '#228800' },
-      { name: 'Voice', val: 94, color: '#116600' },
-      { name: 'Hooks', val: 92, color: '#004400' },
-    ]
-  },
-  {
-    name: 'The\nOptimizer',
-    icon: '🗡️',
-    emoji: '⚡',
-    tagline: '"If it can\'t be found, it doesn\'t exist."',
-    color: '#bb7700',
-    body: `The Optimizer moves fast and leaves a trail of rankings. Technical SEO meets persuasive copy — the rare combo where the algorithm and the human both nod along. Every word earns its place in the title tag and in the reader's brain.
-
-Parsa channeled this on Plumb Wize and My Solar Group: conversion-focused, search-native, no fluff.`,
-    stats: [
-      { name: 'SEO', val: 86, color: '#bb7700' },
-      { name: 'CRO', val: 83, color: '#885500' },
-      { name: 'Analytics', val: 80, color: '#663300' },
-    ]
-  },
-  {
-    name: 'The\nProducer',
-    icon: '🏴‍☠️',
-    emoji: '🎬',
-    tagline: '"Everything on time. Nothing left on the table."',
-    color: '#007788',
-    body: `The Producer doesn't just write — they ship. Podcast production, content pipelines, editorial systems that actually scale. The Producer is the one in the room who gets things across the finish line when everyone else is still revising.
-
-Parsa went full Producer mode on the Jas Takhar Podcast: scripts, show notes, scheduling, and amplification — end to end.`,
-    stats: [
-      { name: 'Production', val: 88, color: '#007788' },
-      { name: 'Delivery', val: 95, color: '#005566' },
-      { name: 'Collaboration', val: 90, color: '#003344' },
-    ]
-  }
-];
-
-function renderGrid() {
-  const grid = document.getElementById('classGrid');
-  grid.innerHTML = classes.map((c,i) => `
-    <div class="class-card" id="cc-${i}" onclick="pick(${i})">
-      <div style="font-size:28px;margin-bottom:4px">${c.icon}</div>
-      <div class="class-name">${c.name}</div>
-    </div>
-  `).join('');
+function toggleBoard(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+function toggleThread(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+function showReply(id) {
+  document.getElementById(id).classList.toggle('visible');
 }
 
-function pick(i) {
-  document.querySelectorAll('.class-card').forEach(el=>el.classList.remove('selected'));
-  document.getElementById('cc-'+i).classList.add('selected');
-  const c = classes[i];
-
-  document.getElementById('choosePrompt').style.display = 'none';
-  const panel = document.getElementById('detailPanel');
-  panel.classList.add('visible');
-
-  document.getElementById('dIcon').textContent = c.icon;
-  document.getElementById('dClass').textContent = c.name.replace('\n', ' ');
-  document.getElementById('dTag').textContent = c.tagline;
-  document.getElementById('dBody').textContent = c.body;
-
-  document.getElementById('dStats').innerHTML = c.stats.map(s => `
-    <div class="stat-bar">
-      <div class="stat-label">${s.name} (${s.val}/99)</div>
-      <div class="stat-track">
-        <div class="stat-fill" style="width:${s.val}%;background:${s.color}"></div>
-      </div>
-    </div>
-  `).join('');
-
-  document.getElementById('msg').textContent = `${c.name.replace('\n',' ')} selected · ${c.tagline}`;
+// ─── PAGE SWITCHER ───
+function showPage(name) {
+  document.querySelectorAll('.mp-page').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-' + name);
+  if (page) page.classList.remove('hidden');
+  const navEl = document.querySelector('.nav-item[data-page="' + name + '"]');
+  if (navEl) navEl.classList.add('active');
 }
 
-renderGrid();
+// ─── CLASS BROWSER ───
+function selectClass(cls) {
+  document.querySelectorAll('.class-card').forEach(c => c.classList.remove('sel'));
+  document.querySelectorAll('.class-detail').forEach(d => d.classList.remove('open'));
+  const map = {warrior:'cc-warrior',mage:'cc-mage',archer:'cc-archer',thief:'cc-thief',pirate:'cc-pirate'};
+  if (map[cls]) document.getElementById(map[cls]).classList.add('sel');
+  const detail = document.getElementById('cd-' + cls);
+  if (detail) detail.classList.add('open');
+  detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// Open all boards by default for first visit feel
+window.addEventListener('load', () => {
+  ['board-announce','board-proj','board-ot'].forEach(id => {
+    document.getElementById(id).style.display = 'block';
+  });
+});
 </script>
 </body>
 </html>
