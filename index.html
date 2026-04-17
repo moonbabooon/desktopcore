@@ -985,14 +985,13 @@
         /* ─── PRE-BOOT INTRO ─── */
         #pre-boot {
             position: fixed; inset: 0; z-index: 10000;
-            /* Spotlight from lamp above: brightest at center, fades to near-black */
             background:
-                radial-gradient(ellipse 46% 42% at 50% 48%,
-                    rgba(255,205,70,0.11) 0%,
-                    rgba(255,190,50,0.06) 35%,
-                    rgba(255,175,40,0.02) 58%,
-                    transparent 75%),
-                #070705;
+                radial-gradient(ellipse 90% 60% at 50% 0%,
+                    rgba(255,220,100,0.55) 0%,
+                    rgba(255,195,65,0.32) 20%,
+                    rgba(255,170,40,0.14) 42%,
+                    transparent 68%),
+                linear-gradient(180deg, #1c2236 0%, #141828 55%, #0e1220 100%);
             display: flex; align-items: center; justify-content: center;
             cursor: default;
         }
@@ -1002,29 +1001,85 @@
             display: flex; flex-direction: column; align-items: center;
         }
         .pb-desk {
-            width: 500px; height: 6px;
-            background: linear-gradient(90deg, #111110 0%, #1e1e1a 30%, #161614 70%, #0e0e0c 100%);
-            border-top: 1px solid #2a2a22;
-            margin-top: 4px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            width: 560px; height: 58px;
+            background: linear-gradient(180deg, #4a3820 0%, #382c18 40%, #2a2010 100%);
+            border-top: 2px solid #6a5030;
+            margin-top: 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,210,120,0.12);
+            position: relative;
         }
+        /* Keyboard on desk */
+        .pb-keyboard {
+            position: absolute;
+            top: -22px; left: 50%; transform: translateX(calc(-50% + 12px));
+            width: 175px; height: 26px;
+            background: linear-gradient(180deg, #2e2c28 0%, #222018 100%);
+            border-radius: 3px 3px 5px 5px;
+            border: 1px solid #3e3c34;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.6), 0 1px 0 rgba(255,220,120,0.06);
+        }
+        .pb-keyboard::before {
+            content: '';
+            position: absolute;
+            inset: 5px 8px 5px 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #3a3830 0px, #3a3830 5px, #2a2820 5px, #2a2820 7px
+            );
+            border-radius: 1px;
+            opacity: 0.8;
+        }
+        /* Coffee mug on desk */
+        .pb-mug {
+            position: absolute;
+            top: 8px; right: 40px;
+            width: 22px; height: 28px;
+            background: linear-gradient(180deg, #3a3020 0%, #2a2416 100%);
+            border-radius: 1px 1px 4px 4px;
+            border: 1px solid #52422a;
+            box-shadow: 1px 2px 6px rgba(0,0,0,0.5);
+        }
+        .pb-mug::before {
+            content: '';
+            position: absolute;
+            right: -8px; top: 6px;
+            width: 8px; height: 11px;
+            border: 1.5px solid #52422a;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+        .pb-mug::after {
+            content: '';
+            position: absolute;
+            top: -8px; left: 6px;
+            width: 2px; height: 7px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 2px;
+            animation: pbSteam 2.2s ease-in-out infinite;
+        }
+        @keyframes pbSteam { 0%,100%{opacity:0.1;transform:translateY(0)} 50%{opacity:0.35;transform:translateY(-3px)} }
+        /* Small book stack on desk */
+        .pb-books {
+            position: absolute;
+            top: 10px; left: 36px;
+            display: flex; flex-direction: column; gap: 2px;
+        }
+        .pb-book { height: 7px; border-radius: 1px; }
         .pb-monitor {
             position: relative;
-            background: #141412;
-            border: 3px solid #0d0d0b;
+            background: #222220;
+            border: 3px solid #181816;
             border-radius: 6px 6px 3px 3px;
             padding: 10px;
             box-shadow:
-                0 0 60px rgba(0,0,0,0.95),
-                inset 0 0 10px rgba(0,0,0,0.6),
-                0 0 120px rgba(0,0,0,0.8),
-                0 -8px 40px rgba(255,195,60,0.08),
-                0 0 60px rgba(255,185,50,0.04);
+                0 0 40px rgba(0,0,0,0.8),
+                inset 0 0 8px rgba(0,0,0,0.5),
+                0 -6px 30px rgba(255,200,70,0.12);
         }
         .pb-screen {
             width: 300px; height: 210px;
             background: #04060a;
-            border: 2px solid #060606;
+            border: 2px solid #0a0a0a;
             border-radius: 2px;
             position: relative; overflow: hidden;
         }
@@ -1052,43 +1107,52 @@
         }
         @keyframes pbGhost { 0%,100%{opacity:0.08} 50%{opacity:0.22} }
         .pb-front {
-            background: #121210; height: 26px; margin-top: 6px;
+            background: #1c1c1a; height: 28px; margin-top: 6px;
             border-radius: 0 0 3px 3px;
             display: flex; align-items: center; padding: 0 10px; gap: 8px;
         }
         .pb-led {
-            width: 7px; height: 7px; border-radius: 50%;
+            width: 8px; height: 8px; border-radius: 50%;
             background: #5a2800;
-            box-shadow: 0 0 3px #5a2800;
+            box-shadow: 0 0 4px #5a2800;
             animation: pbLed 3.5s ease-in-out infinite;
             flex-shrink: 0;
         }
         @keyframes pbLed {
             0%,100%{ background:#3a1800; box-shadow:0 0 3px #3a1800; }
-            50%{ background:#cc6600; box-shadow:0 0 8px #cc6600, 0 0 16px #ff880033; }
+            50%{ background:#ee7700; box-shadow:0 0 10px #ee7700, 0 0 20px #ff880044; }
         }
         .pb-deco { display:flex; gap:5px; margin-left:auto; }
-        .pb-btn-deco { width:18px;height:5px;background:#1e1e1c;border-radius:1px; }
+        .pb-btn-deco { width:18px;height:5px;background:#262624;border-radius:1px; }
         .pb-power-btn {
             position: absolute;
-            bottom: -2px; left: 10px;
-            width: 20px; height: 20px; border-radius: 50%;
-            background: #181816;
-            border: 1.5px solid #2a2a26;
+            bottom: -4px; left: 12px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: radial-gradient(circle at 40% 35%, #2e1a00, #1a1008);
+            border: 2px solid #885500;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 12px rgba(220,130,0,0.4), 0 0 24px rgba(200,100,0,0.2);
+            animation: pbPowerPulse 2.8s ease-in-out infinite;
+            transition: box-shadow 0.2s, border-color 0.2s;
         }
-        .pb-power-btn:hover { border-color: #cc6600; box-shadow: 0 0 10px #cc660044; }
+        @keyframes pbPowerPulse {
+            0%,100%{ box-shadow: 0 0 10px rgba(200,110,0,0.35), 0 0 22px rgba(180,90,0,0.18); }
+            50%{ box-shadow: 0 0 18px rgba(255,160,0,0.65), 0 0 38px rgba(230,120,0,0.35); border-color: #cc8800; }
+        }
+        .pb-power-btn:hover {
+            border-color: #ffaa00;
+            box-shadow: 0 0 22px rgba(255,170,0,0.75), 0 0 44px rgba(240,140,0,0.4);
+        }
         .pb-power-btn svg { pointer-events: none; }
-        .pb-neck { width: 36px; height: 22px; background: #111110; margin: 0 auto; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); }
-        .pb-base { width: 110px; height: 10px; background: #111110; border-radius: 3px; margin: 0 auto; }
+        .pb-neck { width: 36px; height: 22px; background: #1a1a18; margin: 0 auto; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); }
+        .pb-base { width: 110px; height: 10px; background: #1a1a18; border-radius: 3px; margin: 0 auto; }
         .pb-hint {
-            margin-top: 28px; font-family: 'Courier New', monospace;
-            font-size: 10px; letter-spacing: 3px; color: #1a1a16;
-            animation: pbHint 5s ease-in-out infinite;
+            margin-top: 22px; font-family: 'Courier New', monospace;
+            font-size: 10px; letter-spacing: 3px; color: #c8b87a;
+            animation: pbHint 3s ease-in-out infinite;
         }
-        @keyframes pbHint { 0%,100%{opacity:0.04} 60%{opacity:0.18} }
+        @keyframes pbHint { 0%,100%{opacity:0.35} 60%{opacity:0.85} }
         .pb-flash {
             position: fixed; inset: 0; background: #fff;
             opacity: 0; pointer-events: none; z-index: 10001;
@@ -1102,19 +1166,19 @@
             pointer-events: none; z-index: 2;
         }
         .pb-lamp-cord {
-            width: 1px; height: 90px;
-            background: linear-gradient(180deg, #1a1a18 0%, #2e2e28 100%);
+            width: 2px; height: 90px;
+            background: linear-gradient(180deg, #2a2820 0%, #3e3c34 100%);
         }
         .pb-lamp-shade {
-            width: 38px; height: 22px;
-            background: linear-gradient(180deg, #1a1a18, #242420);
-            clip-path: polygon(16% 0%, 84% 0%, 100% 100%, 0% 100%);
-            border-bottom: 1px solid #383830;
+            width: 44px; height: 26px;
+            background: linear-gradient(180deg, #2a2820, #3a3628);
+            clip-path: polygon(14% 0%, 86% 0%, 100% 100%, 0% 100%);
+            border-bottom: 1px solid #504e40;
         }
         .pb-lamp-bulb {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: #ffe898;
-            box-shadow: 0 0 6px 3px rgba(255,215,80,0.65), 0 0 18px 10px rgba(255,190,40,0.22);
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #fff6c8;
+            box-shadow: 0 0 10px 5px rgba(255,225,100,0.8), 0 0 30px 16px rgba(255,195,50,0.35), 0 0 60px 30px rgba(255,175,30,0.15);
             margin-top: 1px;
         }
 
@@ -3487,15 +3551,23 @@
             <div class="pb-deco"><div class="pb-btn-deco"></div><div class="pb-btn-deco"></div><div class="pb-btn-deco"></div></div>
           </div>
           <div class="pb-power-btn" id="pbPowerBtn" onclick="pbPowerOn()">
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.5 1 L5.5 5.5" stroke="#7a3800" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M3 2.8 A3.5 3.5 0 1 0 8 2.8" stroke="#7a3800" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 2 L8 7.5" stroke="#ffaa00" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M4.8 4.2 A5 5 0 1 0 11.2 4.2" stroke="#ffaa00" stroke-width="2.2" fill="none" stroke-linecap="round"/>
             </svg>
           </div>
         </div>
         <div class="pb-neck"></div>
         <div class="pb-base"></div>
-        <div class="pb-desk"></div>
+        <div class="pb-desk">
+          <div class="pb-keyboard"></div>
+          <div class="pb-mug"></div>
+          <div class="pb-books">
+            <div class="pb-book" style="width:34px;background:#3a5080;"></div>
+            <div class="pb-book" style="width:28px;background:#5a3040;"></div>
+            <div class="pb-book" style="width:32px;background:#304a30;"></div>
+          </div>
+        </div>
         <div class="pb-hint">PRESS POWER TO INITIALIZE</div>
       </div>
       <div class="pb-flash" id="pbFlash"></div>
