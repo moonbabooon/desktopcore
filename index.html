@@ -986,26 +986,69 @@
         #pre-boot {
             position: fixed; inset: 0; z-index: 10000;
             background:
-                radial-gradient(ellipse 90% 60% at 50% 0%,
-                    rgba(255,220,100,0.55) 0%,
-                    rgba(255,195,65,0.32) 20%,
-                    rgba(255,170,40,0.14) 42%,
+                /* Cool blue city-light spill from right window */
+                radial-gradient(ellipse 45% 55% at 78% 42%,
+                    rgba(90,150,255,0.22) 0%,
+                    rgba(60,120,230,0.10) 40%,
+                    transparent 70%),
+                /* Warm lamp glow from top center */
+                radial-gradient(ellipse 75% 50% at 50% 0%,
+                    rgba(255,215,90,0.48) 0%,
+                    rgba(255,185,55,0.24) 24%,
+                    rgba(255,160,30,0.08) 48%,
                     transparent 68%),
-                linear-gradient(180deg, #1c2236 0%, #141828 55%, #0e1220 100%);
+                /* Night room wall */
+                linear-gradient(180deg, #161a2c 0%, #0f1420 55%, #090d18 100%);
             display: flex; align-items: center; justify-content: center;
             cursor: default;
         }
+
+        /* ─── Night city window ─── */
+        .pb-window {
+            position: absolute;
+            left: calc(50% + 195px);
+            top: 13%;
+            width: 155px; height: 205px;
+            border: 9px solid #1e1c1a;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow:
+                inset 0 0 14px rgba(0,0,0,0.9),
+                0 0 35px rgba(80,145,255,0.28),
+                0 0 70px rgba(55,115,230,0.14),
+                -40px 0 90px rgba(70,130,240,0.10);
+            z-index: 1;
+        }
+        /* Window cross-bars */
+        .pb-window::before {
+            content: '';
+            position: absolute; inset: 0; z-index: 3; pointer-events: none;
+            background:
+                linear-gradient(90deg, transparent calc(50% - 2px), #1e1c1a calc(50% - 2px), #1e1c1a calc(50% + 2px), transparent calc(50% + 2px)),
+                linear-gradient(0deg,  transparent calc(50% - 2px), #1e1c1a calc(50% - 2px), #1e1c1a calc(50% + 2px), transparent calc(50% + 2px));
+        }
+        /* Window sill */
+        .pb-window::after {
+            content: '';
+            position: absolute; bottom: -14px; left: -14px; right: -14px;
+            height: 10px;
+            background: linear-gradient(180deg, #2a2620 0%, #1a1610 100%);
+            border-top: 1px solid #3a3428;
+        }
+        @media (max-width: 860px) { .pb-window { display: none; } }
         #pre-boot.off { display: none; }
         .pb-room {
             position: relative;
             display: flex; flex-direction: column; align-items: center;
+            width: 100%;
         }
         .pb-desk {
-            width: 560px; height: 58px;
-            background: linear-gradient(180deg, #4a3820 0%, #382c18 40%, #2a2010 100%);
-            border-top: 2px solid #6a5030;
+            width: 100%;
+            height: 72px;
+            background: linear-gradient(180deg, #5c4428 0%, #402e18 38%, #241c0e 100%);
+            border-top: 3px solid #7a5838;
             margin-top: 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,210,120,0.12);
+            box-shadow: 0 -2px 22px rgba(255,190,80,0.07), 0 8px 40px rgba(0,0,0,0.92), inset 0 1px 0 rgba(255,210,120,0.10);
             position: relative;
         }
         /* Keyboard on desk */
@@ -1032,7 +1075,7 @@
         /* Coffee mug on desk */
         .pb-mug {
             position: absolute;
-            top: 8px; right: 40px;
+            top: 8px; left: calc(50% + 148px);
             width: 22px; height: 28px;
             background: linear-gradient(180deg, #3a3020 0%, #2a2416 100%);
             border-radius: 1px 1px 4px 4px;
@@ -1061,7 +1104,7 @@
         /* Small book stack on desk */
         .pb-books {
             position: absolute;
-            top: 10px; left: 36px;
+            top: 10px; left: calc(50% - 172px);
             display: flex; flex-direction: column; gap: 2px;
         }
         .pb-book { height: 7px; border-radius: 1px; }
@@ -3569,6 +3612,113 @@
           </div>
         </div>
         <div class="pb-hint">PRESS POWER TO INITIALIZE</div>
+      </div>
+      <!-- Night city window on the wall -->
+      <div class="pb-window" aria-hidden="true">
+        <svg width="100%" height="100%" viewBox="0 0 137 187" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pbSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#060c1e"/>
+              <stop offset="75%" stop-color="#0d1c3a"/>
+              <stop offset="100%" stop-color="#0f2248"/>
+            </linearGradient>
+            <radialGradient id="pbCityGlow" cx="50%" cy="100%" r="70%">
+              <stop offset="0%" stop-color="#1a3a70" stop-opacity="0.8"/>
+              <stop offset="60%" stop-color="#0a1e48" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="pbMoonGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#d8e4f8"/>
+              <stop offset="100%" stop-color="#9ab0d0"/>
+            </radialGradient>
+          </defs>
+          <!-- Sky -->
+          <rect width="137" height="187" fill="url(#pbSky)"/>
+          <!-- City ambient glow -->
+          <ellipse cx="68" cy="187" rx="80" ry="55" fill="url(#pbCityGlow)"/>
+          <!-- Moon -->
+          <circle cx="108" cy="24" r="12" fill="url(#pbMoonGlow)" opacity="0.92"/>
+          <!-- Moon shadow for crescent -->
+          <circle cx="113" cy="21" r="10" fill="#060c1e" opacity="0.55"/>
+          <!-- Stars -->
+          <circle cx="12" cy="10" r="0.9" fill="#fff" opacity="0.85"/>
+          <circle cx="28" cy="6"  r="0.7" fill="#fff" opacity="0.70"/>
+          <circle cx="44" cy="16" r="0.8" fill="#fff" opacity="0.65"/>
+          <circle cx="58" cy="5"  r="0.6" fill="#fff" opacity="0.80"/>
+          <circle cx="72" cy="14" r="0.7" fill="#fff" opacity="0.55"/>
+          <circle cx="86" cy="8"  r="0.5" fill="#fff" opacity="0.70"/>
+          <circle cx="18" cy="26" r="0.6" fill="#fff" opacity="0.60"/>
+          <circle cx="50" cy="30" r="0.7" fill="#fff" opacity="0.65"/>
+          <circle cx="33" cy="20" r="0.5" fill="#fff" opacity="0.50"/>
+          <!-- Far buildings (darker, shorter) -->
+          <rect x="0"   y="105" width="18" height="82" fill="#071020"/>
+          <rect x="14"  y="95"  width="14" height="92" fill="#090e1c"/>
+          <rect x="24"  y="110" width="16" height="77" fill="#071020"/>
+          <rect x="36"  y="100" width="12" height="87" fill="#08111e"/>
+          <rect x="44"  y="112" width="15" height="75" fill="#071020"/>
+          <rect x="55"  y="92"  width="13" height="95" fill="#090e1c"/>
+          <rect x="64"  y="108" width="16" height="79" fill="#071020"/>
+          <rect x="76"  y="96"  width="14" height="91" fill="#08111e"/>
+          <rect x="86"  y="105" width="16" height="82" fill="#071020"/>
+          <rect x="98"  y="90"  width="12" height="97" fill="#090e1c"/>
+          <rect x="106" y="102" width="15" height="85" fill="#071020"/>
+          <rect x="117" y="95"  width="20" height="92" fill="#08111e"/>
+          <!-- Foreground buildings (bolder, taller) -->
+          <rect x="0"   y="75"  width="20" height="112" fill="#0a1428"/>
+          <rect x="16"  y="60"  width="22" height="127" fill="#0c1830"/>
+          <rect x="34"  y="80"  width="19" height="107" fill="#091226"/>
+          <rect x="49"  y="55"  width="24" height="132" fill="#0c1830"/>
+          <rect x="68"  y="70"  width="20" height="117" fill="#0a1428"/>
+          <rect x="84"  y="50"  width="26" height="137" fill="#0c1a32"/>
+          <rect x="106" y="68"  width="18" height="119" fill="#0a1428"/>
+          <rect x="119" y="58"  width="18" height="129" fill="#0c1830"/>
+          <!-- Lit windows – warm yellow/orange -->
+          <rect x="2"   y="80"  width="3" height="2" fill="#ffd044" opacity="0.90"/>
+          <rect x="7"   y="87"  width="3" height="2" fill="#ffb030" opacity="0.75"/>
+          <rect x="2"   y="96"  width="3" height="2" fill="#ffd044" opacity="0.65"/>
+          <rect x="7"   y="104" width="3" height="2" fill="#ffd044" opacity="0.80"/>
+          <rect x="18"  y="65"  width="3" height="2" fill="#ffd044" opacity="0.85"/>
+          <rect x="24"  y="73"  width="3" height="2" fill="#ffb030" opacity="0.70"/>
+          <rect x="18"  y="82"  width="3" height="2" fill="#ffd044" opacity="0.75"/>
+          <rect x="24"  y="90"  width="3" height="2" fill="#ffd044" opacity="0.65"/>
+          <rect x="36"  y="84"  width="3" height="2" fill="#ffb030" opacity="0.80"/>
+          <rect x="41"  y="93"  width="3" height="2" fill="#ffd044" opacity="0.70"/>
+          <rect x="36"  y="102" width="3" height="2" fill="#ffd044" opacity="0.85"/>
+          <rect x="51"  y="60"  width="3" height="2" fill="#ffd044" opacity="0.90"/>
+          <rect x="57"  y="68"  width="3" height="2" fill="#ffb030" opacity="0.75"/>
+          <rect x="51"  y="77"  width="3" height="2" fill="#ffd044" opacity="0.65"/>
+          <rect x="57"  y="85"  width="3" height="2" fill="#ffd044" opacity="0.80"/>
+          <rect x="63"  y="93"  width="3" height="2" fill="#ffb030" opacity="0.70"/>
+          <rect x="70"  y="75"  width="3" height="2" fill="#ffd044" opacity="0.85"/>
+          <rect x="76"  y="82"  width="3" height="2" fill="#ffd044" opacity="0.75"/>
+          <rect x="70"  y="91"  width="3" height="2" fill="#ffb030" opacity="0.65"/>
+          <rect x="76"  y="99"  width="3" height="2" fill="#ffd044" opacity="0.80"/>
+          <rect x="86"  y="55"  width="3" height="2" fill="#ffd044" opacity="0.90"/>
+          <rect x="92"  y="63"  width="3" height="2" fill="#ffb030" opacity="0.75"/>
+          <rect x="86"  y="72"  width="3" height="2" fill="#ffd044" opacity="0.70"/>
+          <rect x="92"  y="80"  width="3" height="2" fill="#ffd044" opacity="0.85"/>
+          <rect x="98"  y="88"  width="3" height="2" fill="#ffb030" opacity="0.65"/>
+          <rect x="108" y="73"  width="3" height="2" fill="#ffd044" opacity="0.80"/>
+          <rect x="114" y="80"  width="3" height="2" fill="#ffd044" opacity="0.85"/>
+          <rect x="108" y="90"  width="3" height="2" fill="#ffb030" opacity="0.70"/>
+          <!-- Lit windows – cool blue/white (offices) -->
+          <rect x="2"   y="112" width="3" height="2" fill="#aaccff" opacity="0.65"/>
+          <rect x="12"  y="70"  width="3" height="2" fill="#b8d4ff" opacity="0.55"/>
+          <rect x="28"  y="78"  width="3" height="2" fill="#aaccff" opacity="0.60"/>
+          <rect x="42"  y="65"  width="3" height="2" fill="#b8d4ff" opacity="0.55"/>
+          <rect x="57"  y="96"  width="3" height="2" fill="#aaccff" opacity="0.65"/>
+          <rect x="73"  y="107" width="3" height="2" fill="#aaccff" opacity="0.60"/>
+          <rect x="88"  y="97"  width="3" height="2" fill="#b8d4ff" opacity="0.55"/>
+          <rect x="100" y="60"  width="3" height="2" fill="#aaccff" opacity="0.65"/>
+          <rect x="120" y="63"  width="3" height="2" fill="#b8d4ff" opacity="0.60"/>
+          <rect x="127" y="75"  width="3" height="2" fill="#aaccff" opacity="0.55"/>
+          <!-- Street / ground -->
+          <rect x="0" y="162" width="137" height="25" fill="#05090f"/>
+          <!-- Wet street light reflections -->
+          <rect x="30" y="163" width="2" height="10" fill="#ffd044" opacity="0.18"/>
+          <rect x="60" y="165" width="2" height="8"  fill="#ffd044" opacity="0.13"/>
+          <rect x="95" y="164" width="2" height="9"  fill="#aaccff" opacity="0.15"/>
+        </svg>
       </div>
       <div class="pb-flash" id="pbFlash"></div>
     </div>
